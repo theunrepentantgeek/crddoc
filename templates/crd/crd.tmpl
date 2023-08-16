@@ -1,0 +1,19 @@
+{{ define "crd" }}
+
+# {{ .Name }}
+
+{{ range .Objects "alphabetical" }}
+
+## {{ .Name }}
+
+{{ .Description | unwrap }}
+
+| Name |  Description | Type |
+| -- | -- | -- |
+{{ range .Properties -}}
+| {{ .Name }} | {{ .Description | unwrap }} | {{ .Type | renderType }}{{if .Required }}<br/>{{ .Required }}{{ end }} |
+{{ end }}
+
+{{ end }}
+
+{{ end }}
