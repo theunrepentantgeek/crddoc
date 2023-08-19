@@ -16,6 +16,7 @@ import (
 
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
+	name    string
 	objects map[string]*Object // Dictionary of all the objects in the package, keyed by name
 	log     logr.Logger
 	lock    sync.Mutex
@@ -35,7 +36,7 @@ func NewPackage(log logr.Logger) *Package {
 }
 
 func (p *Package) Name() string {
-	return "demo"
+	return p.name
 }
 
 // LoadDirectory scans a directory for Go files and loads them into the Package
@@ -46,6 +47,8 @@ func (p *Package) LoadDirectory(folder string) error {
 		"Loading package",
 		"name", pkg,
 		"folder", fdr)
+
+	p.name = pkg
 
 	files, err := os.ReadDir(folder)
 	if err != nil {
@@ -60,7 +63,7 @@ func (p *Package) LoadDirectory(folder string) error {
 			continue
 		}
 
-		if filepath.Ext(file.Name()) != ".go" {
+		if filepath.Ext(f.Name()) != ".go" {
 			continue
 		}
 
