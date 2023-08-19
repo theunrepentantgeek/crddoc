@@ -28,6 +28,9 @@ func New(log logr.Logger) *Generator {
 }
 
 func (g *Generator) LoadTemplates(folder string) error {
+	g.log.Info(
+		"Loading templates",
+		"templateFolder", folder)
 	glob := filepath.Join(folder, "*.tmpl")
 	_, err := g.template.ParseGlob(glob)
 	if err != nil {
@@ -38,6 +41,11 @@ func (g *Generator) LoadTemplates(folder string) error {
 }
 
 func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
+	g.log.Info(
+		"Rendering template",
+		"package", pkg.Name(),
+	)
+
 	g.fns.SetPackage(pkg)
 
 	err := g.template.ExecuteTemplate(
@@ -45,5 +53,11 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 		"crd",
 		pkg)
 
-	return errors.Wrap(err, "failed to execute template")
+	if err != nil {
+		g.log.Error(err, "failed to execute template")
+		return errors.Wrap(err, "failed to execute template")
+	}
+
+	g.log.Info("Template rendered successfully")
+	return nil
 }

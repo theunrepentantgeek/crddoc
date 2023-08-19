@@ -16,6 +16,7 @@ import (
 
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
+	name    string
 	objects map[string]*Object // Dictionary of all the objects in the package, keyed by name
 	log     logr.Logger
 	lock    sync.Mutex
@@ -35,36 +36,45 @@ func NewPackage(log logr.Logger) *Package {
 }
 
 func (p *Package) Name() string {
-	return "demo"
+	return p.name
 }
 
 // LoadDirectory scans a directory for Go files and loads them into the Package
-func (p *Package) LoadDirectory(directory string) error {
-	files, err := os.ReadDir(directory)
+func (p *Package) LoadDirectory(folder string) error {
+	fdr, pkg := filepath.Split(folder)
+
+	p.log.Info(
+		"Loading package",
+		"name", pkg,
+		"folder", fdr)
+
+	p.name = pkg
+
+	files, err := os.ReadDir(folder)
 	if err != nil {
-		return errors.Wrapf(err, "failed to read directory %s", directory)
+		return errors.Wrapf(err, "failed to read directory %s", folder)
 	}
 
 	var eg errgroup.Group
-	for _, file := range files {
-		file := file
+	for _, f := range files {
+		f := f
 
-		if file.IsDir() {
+		if f.IsDir() {
 			continue
 		}
 
-		if filepath.Ext(file.Name()) != ".go" {
+		if filepath.Ext(f.Name()) != ".go" {
 			continue
 		}
 
 		eg.Go(func() error {
-			var path = filepath.Join(directory, file.Name())
+			var path = filepath.Join(folder, f.Name())
 			return p.LoadFile(path)
 		})
 	}
 
 	if err := eg.Wait(); err != nil {
-		return errors.Wrapf(err, "failed to load directory %s", directory)
+		return errors.Wrapf(err, "failed to load directory %s", folder)
 	}
 
 	p.catalogCrossReferences()
@@ -78,6 +88,11 @@ func (p *Package) LoadFile(path string) (failure error) {
 			failure = errors.Errorf("panic reading %s: %v", path, err)
 		}
 	}()
+
+	_, f := filepath.Split(path)
+	p.log.V(1).Info(
+		"Loading source file",
+		"file", f)
 
 	// Create a reader for the file
 	reader, err := os.Open(path)
