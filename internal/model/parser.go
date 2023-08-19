@@ -2,7 +2,7 @@ package model
 
 import "strings"
 
-// parseComments iterates over the comments and returns the description and any comments that are
+// parseComments iterates over the comments and returns the description and any commands that are
 // not part of the description
 func parseComments(comments []string) ([]string, *Markers) {
 	description := make([]string, 0, len(comments))
