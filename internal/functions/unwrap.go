@@ -2,7 +2,7 @@ package functions
 
 import "strings"
 
-func unwrap(content []string) string {
+func (*Functions) unwrap(content []string) string {
 	var result strings.Builder
 
 	// Initial conditions chosen so we don't add a leading space every time
