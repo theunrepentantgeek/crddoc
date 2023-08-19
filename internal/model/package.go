@@ -16,7 +16,7 @@ import (
 
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
-	objects map[string]*Object
+	objects map[string]*Object // Dictionary of all the objects in the package, keyed by name
 	log     logr.Logger
 	lock    sync.Mutex
 }
