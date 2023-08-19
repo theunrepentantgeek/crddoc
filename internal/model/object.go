@@ -14,6 +14,7 @@ type Object struct {
 	structType  *dst.StructType
 	properties  map[string]*Property
 	description []string
+	uses        []*Object
 }
 
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
@@ -77,6 +78,10 @@ func (o *Object) Property(name string) (*Property, bool) {
 
 func (o *Object) Description() []string {
 	return o.description
+}
+
+func (o *Object) Uses() []*Object {
+	return o.uses
 }
 
 func (o *Object) findProperties() []*Property {

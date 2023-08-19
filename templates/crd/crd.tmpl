@@ -8,6 +8,19 @@
 
 {{ .Description | unwrap }}
 
+{{ if .Uses -}}
+    {{- if .Uses | len | eq 1 -}}
+        {{- with index .Uses 0 }}
+Used by [{{ .Name }}](#{{ .Name }})
+        {{- end -}}
+    {{- else }}
+Used by:
+        {{- range .Uses }}
+* [{{ .Name }}](#{{ .Name }})
+        {{- end -}}
+    {{- end -}}
+{{ end }}
+
 | Name |  Description | Type |
 | -- | -- | -- |
 {{ range .Properties -}}

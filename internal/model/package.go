@@ -16,7 +16,7 @@ import (
 
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
-	objects map[string]*Object
+	objects map[string]*Object // Dictionary of all the objects in the package, keyed by name
 	log     logr.Logger
 	lock    sync.Mutex
 }
@@ -66,6 +66,8 @@ func (p *Package) LoadDirectory(directory string) error {
 	if err := eg.Wait(); err != nil {
 		return errors.Wrapf(err, "failed to load directory %s", directory)
 	}
+
+	p.catalogCrossReferences()
 
 	return nil
 }
@@ -162,8 +164,48 @@ func (p *Package) addObjects(objects []*Object) {
 	}
 }
 
-func (p *Package) renderType(expr dst.Expr) string {
-	return "<type>"
+func (p *Package) catalogCrossReferences() {
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	// Index all usage
+	uses := make(map[string][]*Object)
+	for _, obj := range p.objects {
+		for _, prop := range obj.properties {
+			if t := p.CreateIdFor(prop.Type()); t != "" {
+				uses[t] = append(uses[t], obj)
+			}
+		}
+	}
+
+	// Update all objects
+	for name, use := range uses {
+		if obj, ok := p.objects[name]; ok {
+			obj.uses = use
+		}
+	}
+}
+
+// asId renders an ID from a type expression, for linking within the documentation.
+// Returns an empty string if the object does not exist in the package.
+func (p *Package) CreateIdFor(expr dst.Expr) string {
+	switch t := expr.(type) {
+	case *dst.Ident:
+		if _, ok := p.objects[t.Name]; !ok {
+			return ""
+		}
+
+		return t.Name
+	case *dst.StarExpr:
+		return p.CreateIdFor(t.X)
+	case *dst.ArrayType:
+		return p.CreateIdFor(t.Elt)
+	case *dst.MapType:
+		// TODO: What should we do if both Key and Value are custom types?
+		return p.CreateIdFor(t.Key) + p.CreateIdFor(t.Value)
+	default:
+		return ""
+	}
 }
 
 func alphabeticalObjectComparison(left *Object, right *Object) int {
