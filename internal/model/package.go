@@ -166,6 +166,28 @@ func (p *Package) renderType(expr dst.Expr) string {
 	return "<type>"
 }
 
+// asId renders an ID from a type expression, for linking within the documentation.
+// Returns an empty string if the object does not exist in the package.
+func (p *Package) CreateIdFor(expr dst.Expr) string {
+	switch t := expr.(type) {
+	case *dst.Ident:
+		if _, ok := p.objects[t.Name]; !ok {
+			return ""
+		}
+
+		return t.Name
+	case *dst.StarExpr:
+		return p.CreateIdFor(t.X)
+	case *dst.ArrayType:
+		return p.CreateIdFor(t.Elt)
+	case *dst.MapType:
+		// TODO: What should we do if both Key and Value are custom types?
+		return p.CreateIdFor(t.Key) + p.CreateIdFor(t.Value)
+	default:
+		return ""
+	}
+}
+
 func alphabeticalObjectComparison(left *Object, right *Object) int {
 	if left.name < right.name {
 		return -1
