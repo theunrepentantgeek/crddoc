@@ -67,6 +67,8 @@ func (p *Package) LoadDirectory(directory string) error {
 		return errors.Wrapf(err, "failed to load directory %s", directory)
 	}
 
+	p.catalogCrossReferences()
+
 	return nil
 }
 
@@ -162,8 +164,26 @@ func (p *Package) addObjects(objects []*Object) {
 	}
 }
 
-func (p *Package) renderType(expr dst.Expr) string {
-	return "<type>"
+func (p *Package) catalogCrossReferences() {
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	// Index all usage
+	uses := make(map[string][]*Object)
+	for _, obj := range p.objects {
+		for _, prop := range obj.properties {
+			if t := p.CreateIdFor(prop.Type()); t != "" {
+				uses[t] = append(uses[t], obj)
+			}
+		}
+	}
+
+	// Update all objects
+	for name, use := range uses {
+		if obj, ok := p.objects[name]; ok {
+			obj.uses = use
+		}
+	}
 }
 
 // asId renders an ID from a type expression, for linking within the documentation.
