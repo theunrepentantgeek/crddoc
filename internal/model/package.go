@@ -10,28 +10,29 @@ import (
 	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/errgroup"
 )
 
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
-	name    string
-	objects map[string]*Object // Dictionary of all the objects in the package, keyed by name
-	log     logr.Logger
-	lock    sync.Mutex
+	name         string
+	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
+	log          logr.Logger
+	lock         sync.Mutex
 }
 
-type ObjectOrder string
+type Order string
 
 const (
-	ObjectOrderAlphabetical = "alphabetical"
+	OrderAlphabetical = "alphabetical"
 )
 
 func NewPackage(log logr.Logger) *Package {
 	return &Package{
-		objects: make(map[string]*Object),
-		log:     log,
+		declarations: make(map[string]Declaration),
+		log:          log,
 	}
 }
 
@@ -109,23 +110,20 @@ func (p *Package) LoadFile(path string) (failure error) {
 
 	// Iterate over the file's declarations and add them to this package
 	objects := p.findObjects(file.Decls)
-	p.addObjects(objects)
+	p.addDeclarations(objects)
 
 	return nil
 }
 
-func (p *Package) Objects(order ObjectOrder) []*Object {
+func (p *Package) Declarations(order Order) []Declaration {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
-	var result []*Object
-	for _, obj := range p.objects {
-		result = append(result, obj)
-	}
+	result := maps.Values(p.declarations)
 
-	// Sort the objects as specified
+	// Sort the declarations as specified
 	switch order {
-	case ObjectOrderAlphabetical:
+	case OrderAlphabetical:
 		// Sort the objects alphabetically
 		slices.SortFunc(result, alphabeticalObjectComparison)
 	}
@@ -138,13 +136,18 @@ func (p *Package) Object(name string) (*Object, bool) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
-	obj, ok := p.objects[name]
+	dec, ok := p.declarations[name]
+	if !ok {
+		return nil, false
+	}
+
+	obj, ok := dec.(*Object)
 	return obj, ok
 }
 
 // findObjects scans the declarations in a file and returns a slice of objects
-func (p *Package) findObjects(decls []dst.Decl) []*Object {
-	var result []*Object
+func (p *Package) findObjects(decls []dst.Decl) []Declaration {
+	var result []Declaration
 
 	for _, decl := range decls {
 		// Check for a GenDecl containing a TYPE
@@ -172,10 +175,10 @@ func (p *Package) addObjects(objects []*Object) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
-	for _, obj := range objects {
+	for _, dec := range declarations {
 		//TODO: Check for name collisions
 		// (Should never happen - BUT if it does, we need to know)
-		p.objects[obj.name] = obj
+		p.declarations[dec.Name()] = dec
 	}
 }
 
@@ -184,19 +187,24 @@ func (p *Package) catalogCrossReferences() {
 	defer p.lock.Unlock()
 
 	// Index all usage
-	uses := make(map[string][]*Object)
-	for _, obj := range p.objects {
+	usages := make(map[string][]Declaration)
+	for _, dec := range p.declarations {
+		obj, ok := dec.(*Object)
+		if !ok {
+			continue
+		}
+
 		for _, prop := range obj.properties {
 			if t := p.CreateIdFor(prop.Type()); t != "" {
-				uses[t] = append(uses[t], obj)
+				usages[t] = append(usages[t], obj)
 			}
 		}
 	}
 
 	// Update all objects
-	for name, use := range uses {
-		if obj, ok := p.objects[name]; ok {
-			obj.uses = use
+	for name, usage := range usages {
+		if obj, ok := p.declarations[name]; ok {
+			obj.SetUsage(usage)
 		}
 	}
 }
@@ -206,7 +214,7 @@ func (p *Package) catalogCrossReferences() {
 func (p *Package) CreateIdFor(expr dst.Expr) string {
 	switch t := expr.(type) {
 	case *dst.Ident:
-		if _, ok := p.objects[t.Name]; !ok {
+		if _, ok := p.declarations[t.Name]; !ok {
 			return ""
 		}
 
@@ -223,12 +231,12 @@ func (p *Package) CreateIdFor(expr dst.Expr) string {
 	}
 }
 
-func alphabeticalObjectComparison(left *Object, right *Object) int {
-	if left.name < right.name {
+func alphabeticalObjectComparison(left Declaration, right Declaration) int {
+	if left.Name() < right.Name() {
 		return -1
 	}
 
-	if left.name > right.name {
+	if left.Name() > right.Name() {
 		return 1
 	}
 
