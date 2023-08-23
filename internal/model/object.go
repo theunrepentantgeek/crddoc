@@ -14,7 +14,7 @@ type Object struct {
 	structType  *dst.StructType
 	properties  map[string]*Property
 	description []string
-	uses        []*Object
+	usage       []Declaration
 }
 
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
@@ -64,6 +64,18 @@ func (o *Object) Name() string {
 	return o.name
 }
 
+func (o *Object) Kind() DeclarationType {
+	return ObjectDeclaration
+}
+
+func (o *Object) Usage() []Declaration {
+	return o.usage
+}
+
+func (o *Object) SetUsage(uses []Declaration) {
+	o.usage = uses
+}
+
 // Properties returns all the properties of the object, in alphabetical order
 func (o *Object) Properties() []*Property {
 	result := maps.Values(o.properties)
@@ -78,10 +90,6 @@ func (o *Object) Property(name string) (*Property, bool) {
 
 func (o *Object) Description() []string {
 	return o.description
-}
-
-func (o *Object) Uses() []*Object {
-	return o.uses
 }
 
 func (o *Object) findProperties() []*Property {
