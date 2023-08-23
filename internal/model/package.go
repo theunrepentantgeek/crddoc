@@ -110,7 +110,10 @@ func (p *Package) LoadFile(path string) (failure error) {
 
 	// Iterate over the file's declarations and add them to this package
 	objects := p.findObjects(file.Decls)
+	enums := p.findEnums(file.Decls)
+
 	p.addDeclarations(objects)
+	p.addDeclarations(enums)
 
 	return nil
 }
@@ -170,8 +173,57 @@ func (p *Package) findObjects(decls []dst.Decl) []Declaration {
 	return result
 }
 
-// addObjects into the package
-func (p *Package) addObjects(objects []*Object) {
+// findEnums scans the declarations in a file and returns a slice of enumerations
+func (p *Package) findEnums(decls []dst.Decl) []Declaration {
+
+	// Collect Enum Types
+	enums := make(map[string]*Enum)
+	for _, decl := range decls {
+		// Check for a GenDecl containing a TYPE
+		gd, ok := decl.(*dst.GenDecl)
+		if !ok || gd.Tok != token.TYPE {
+			continue
+		}
+
+		comments := gd.Decs.Start.All()
+
+		// Iterate over the specs in the GenDecl and try to create an enum from each
+		for _, spec := range gd.Specs {
+			if enum, ok := TryNewEnum(spec, comments); ok {
+				enums[enum.Name()] = enum
+			}
+		}
+	}
+
+	// Now that we have all the enums, we can scan the declarations again and add the
+	// enum values to the appropriate enum
+	for _, decl := range decls {
+		// Check for a GenDecl containing a CONST
+		gd, ok := decl.(*dst.GenDecl)
+		if !ok || gd.Tok != token.CONST {
+			continue
+		}
+
+		// Iterate over the specs in the GenDecl and try to create an enum value
+		for _, spec := range gd.Specs {
+			if enumValue, ok := TryNewEnumValue(spec); ok {
+				if enum, ok := enums[enumValue.Kind()]; ok {
+					enum.AddValue(enumValue)
+				}
+			}
+		}
+	}
+
+	var result []Declaration
+	for _, enum := range enums {
+		result = append(result, enum)
+	}
+
+	return result
+}
+
+// addDeclarations adds more declarations to the package
+func (p *Package) addDeclarations(declarations []Declaration) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
