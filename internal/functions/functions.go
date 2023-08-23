@@ -17,9 +17,11 @@ func New() *Functions {
 
 func (f *Functions) CreateFuncMap() template.FuncMap {
 	return template.FuncMap{
-		"asId":   f.asId,
-		"asText": f.asText,
-		"unwrap": f.unwrap,
+		"asEnum":   f.asEnum,
+		"asId":     f.asId,
+		"asObject": f.asObject,
+		"asText":   f.asText,
+		"unwrap":   f.unwrap,
 	}
 }
 
