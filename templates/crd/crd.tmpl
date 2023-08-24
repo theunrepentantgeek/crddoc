@@ -2,25 +2,12 @@
 
 # {{ .Name }}
 
-{{ range .Objects "alphabetical" }}
+{{ range .Declarations "alphabetical" }}
 
-## <a id="{{ .Name }}">{{ .Name }}</a>
+## <a id="{{ .Name }}"></a>{{ .Name }}
+{{ .Description | unwrap -}}
 
-{{ .Description | unwrap }}
-
-{{ if .Uses -}}
-    {{- if .Uses | len | eq 1 -}}
-        {{- with index .Uses 0 }}
-Used by [{{ .Name }}](#{{ .Name }})
-        {{- end -}}
-    {{- else }}
-Used by:
-        {{- range .Uses }}
-* [{{ .Name }}](#{{ .Name }})
-        {{- end -}}
-    {{- end -}}
-{{ end }}
-
+{{ with . | asObject }}
 | Name |  Description | Type |
 | -- | -- | -- |
 {{ range .Properties -}}
@@ -36,8 +23,32 @@ Used by:
   {{ if .Required -}}
     <br/>{{ .Required -}}
   {{ end -}} |
-{{ end }}
+{{ end -}}
+{{ end -}}
 
+{{- with . | asEnum }}
+{{ if .Values }}
+| Enum Values |
+|------------ |
+{{ range .Values -}}
+| {{ .Value }} |
 {{ end }}
+{{ end -}}
+{{ end -}}
+
+{{ if .Usage -}}
+  {{ if .Usage | len | eq 1 -}}
+        {{- with index .Usage 0 }}
+Used by [{{ .Name }}](#{{ .Name }})
+        {{- end -}}
+    {{- else }}
+Used by:
+        {{- range .Usage }}
+* [{{ .Name }}](#{{ .Name }})
+        {{- end -}}
+    {{ end }}
+{{ end -}}
+
+{{ end -}}
 
 {{ end }}

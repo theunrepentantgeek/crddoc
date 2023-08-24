@@ -20,7 +20,7 @@ func TestPackage_LoadFile_LoadsExpectedContent(t *testing.T) {
 		t.Fatalf("Failed to load file: %v", err)
 	}
 
-	g.Expect(len(pkg.objects)).To(Equal(4))
+	g.Expect(len(pkg.declarations)).To(Equal(4))
 }
 
 func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
@@ -34,13 +34,13 @@ func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
 		t.Fatalf("Failed to load file: %v", err)
 	}
 
-	objects := pkg.Objects(ObjectOrderAlphabetical)
-	g.Expect(len(objects)).To(Equal(4))
+	declarations := pkg.Declarations(OrderAlphabetical)
+	g.Expect(len(declarations)).To(Equal(4))
 
-	g.Expect(objects[0].Name()).To(Equal("PersonReference"))
-	g.Expect(objects[1].Name()).To(Equal("PersonResource"))
-	g.Expect(objects[2].Name()).To(Equal("PersonResourceSpec"))
-	g.Expect(objects[3].Name()).To(Equal("PersonResourceStatus"))
+	g.Expect(declarations[0].Name()).To(Equal("PersonReference"))
+	g.Expect(declarations[1].Name()).To(Equal("PersonResource"))
+	g.Expect(declarations[2].Name()).To(Equal("PersonResourceSpec"))
+	g.Expect(declarations[3].Name()).To(Equal("PersonResourceStatus"))
 }
 
 func TestPackage_Object_ReturnsExpectedObjects(t *testing.T) {
