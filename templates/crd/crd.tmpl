@@ -5,50 +5,18 @@
 {{ range .Declarations "alphabetical" }}
 
 ## <a id="{{ .Name }}"></a>{{ .Name }}
+
 {{ .Description | unwrap -}}
 
 {{ with . | asObject }}
-| Name |  Description | Type |
-| -- | -- | -- |
-{{ range .Properties -}}
-| {{ .Name -}} 
-| {{ .Description | unwrap -}} 
-| {{ if .Type | asId -}}
-    [
-  {{- end -}}
-  {{- .Type | asText -}}
-  {{- if .Type | asId -}}
-    ](#{{ .Type | asId }})
-  {{- end -}}
-  {{ if .Required -}}
-    <br/>{{ .Required -}}
-  {{ end -}} |
-{{ end -}}
-{{ end -}}
+{{ template "usage" . }}
+{{ template "properties" . }}
+{{ end }}
 
 {{- with . | asEnum }}
-{{ if .Values }}
-| Enum Values |
-|------------ |
-{{ range .Values -}}
-| {{ .Value }} |
-{{ end }}
-{{ end -}}
-{{ end -}}
-
-{{ if .Usage -}}
-  {{ if .Usage | len | eq 1 -}}
-        {{- with index .Usage 0 }}
-Used by [{{ .Name }}](#{{ .Name }})
-        {{- end -}}
-    {{- else }}
-Used by:
-        {{- range .Usage }}
-* [{{ .Name }}](#{{ .Name }})
-        {{- end -}}
-    {{ end }}
+{{ template "usage" . }}
+{{ template "values" . }}
 {{ end -}}
 
 {{ end -}}
-
-{{ end }}
+{{ end -}}

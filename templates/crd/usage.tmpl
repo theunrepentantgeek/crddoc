@@ -1,0 +1,7 @@
+{{ define "usage" }}
+
+{{ if .Usage -}}
+Used by: {{ range .Usage }}[{{ .Name }}](#{{ .Name }}) {{- end -}}
+{{- end -}}
+
+{{ end }}
