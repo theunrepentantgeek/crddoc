@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/go-logr/logr"
+	"github.com/theunrepentantgeek/crddoc/internal/config"
+
 	. "github.com/onsi/gomega"
 )
 
@@ -11,7 +13,8 @@ func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	pkg := NewPackage(logr.Discard())
+	cfg := &config.Config{}
+	pkg := NewPackage(cfg, logr.Discard())
 	err := pkg.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
 		t.Fatalf("Failed to load file: %v", err)

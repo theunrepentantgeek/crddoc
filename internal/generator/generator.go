@@ -7,20 +7,23 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/functions"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 )
 
 type Generator struct {
+	cfg      *config.Config
 	log      logr.Logger
 	template *template.Template
 	fns      *functions.Functions
 }
 
-func New(log logr.Logger) *Generator {
+func New(cfg *config.Config, log logr.Logger) *Generator {
 	fns := functions.New()
 	funcMap := fns.CreateFuncMap()
 	return &Generator{
+		cfg:      cfg,
 		log:      log,
 		fns:      fns,
 		template: template.New("crddoc").Funcs(funcMap),

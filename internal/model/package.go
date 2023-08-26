@@ -10,6 +10,7 @@ import (
 	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/errgroup"
@@ -18,6 +19,7 @@ import (
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
 	name         string
+	cfg          *config.Config
 	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
 	log          logr.Logger
 	lock         sync.Mutex
@@ -29,8 +31,9 @@ const (
 	OrderAlphabetical = "alphabetical"
 )
 
-func NewPackage(log logr.Logger) *Package {
+func NewPackage(cfg *config.Config, log logr.Logger) *Package {
 	return &Package{
+		cfg:          cfg,
 		declarations: make(map[string]Declaration),
 		log:          log,
 	}
@@ -228,6 +231,11 @@ func (p *Package) addDeclarations(declarations []Declaration) {
 	defer p.lock.Unlock()
 
 	for _, dec := range declarations {
+		// Skip excluded declarations
+		if p.cfg.Filter(dec.Name()) == config.FilterResultExclude {
+			continue
+		}
+
 		//TODO: Check for name collisions
 		// (Should never happen - BUT if it does, we need to know)
 		p.declarations[dec.Name()] = dec
