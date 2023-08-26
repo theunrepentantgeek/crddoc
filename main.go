@@ -16,7 +16,7 @@ import (
 func main() {
 	log := CreateLogger()
 	cfg := &config.Config{
-		Filters: []*config.Filter{
+		TypeFilters: []*config.Filter{
 			{
 				Exclude: "*ARM",
 			},

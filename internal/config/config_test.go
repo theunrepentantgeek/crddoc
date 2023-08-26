@@ -26,7 +26,7 @@ func TestConfig_Filter_WhenExcludeFilterMatches_ReturnsExclude(t *testing.T) {
 
 	// Arrange
 	c := &Config{
-		Filters: []*Filter{
+		TypeFilters: []*Filter{
 			{
 				Exclude: "Foo*",
 			},
@@ -46,7 +46,7 @@ func TestConfig_Filter_WhenIncludeFilterMatches_ReturnsInclude(t *testing.T) {
 
 	// Arrange
 	c := &Config{
-		Filters: []*Filter{
+		TypeFilters: []*Filter{
 			{
 				Include: "[0-9]+",
 			},
@@ -66,7 +66,7 @@ func TestConfig_Filter_WhenExcludeMatchesBeforeInclude_ReturnsExclude(t *testing
 
 	// Arrange
 	c := &Config{
-		Filters: []*Filter{
+		TypeFilters: []*Filter{
 			{
 				Exclude: "Foo*",
 			},
@@ -89,7 +89,7 @@ func TestConfig_Filter_WhenIncludeMatchesBeforeExclude_ReturnsInclude(t *testing
 
 	// Arrange
 	c := &Config{
-		Filters: []*Filter{
+		TypeFilters: []*Filter{
 			{
 				Include: "[0-9]+",
 			},
