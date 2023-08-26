@@ -3,6 +3,7 @@ package model
 import (
 	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+	"github.com/theunrepentantgeek/crddoc/internal/config"
 
 	"os"
 	"path/filepath"
@@ -13,7 +14,8 @@ func TestPackage_LoadFile_LoadsExpectedContent(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	pkg := NewPackage(logr.Discard())
+	cfg := &config.Config{}
+	pkg := NewPackage(cfg, logr.Discard())
 
 	err := pkg.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
@@ -27,7 +29,8 @@ func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	pkg := NewPackage(logr.Discard())
+	cfg := &config.Config{}
+	pkg := NewPackage(cfg, logr.Discard())
 
 	err := pkg.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
@@ -47,7 +50,8 @@ func TestPackage_Object_ReturnsExpectedObjects(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	pkg := NewPackage(logr.Discard())
+	cfg := &config.Config{}
+	pkg := NewPackage(cfg, logr.Discard())
 
 	err := pkg.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {

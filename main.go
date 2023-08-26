@@ -8,13 +8,23 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/go-logr/zerologr"
 	"github.com/rs/zerolog"
+	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/generator"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 )
 
 func main() {
 	log := CreateLogger()
-	pkg := model.NewPackage(log)
+	cfg := &config.Config{
+		TypeFilters: []*config.Filter{
+			{
+				Exclude: "*ARM",
+				Because: "ARM types are an internal implementation detail for ASO",
+			},
+		},
+	}
+
+	pkg := model.NewPackage(cfg, log)
 
 	//err := pkg.LoadDirectory("C:\\GitHub\\azure-service-operator\\v2\\api\\network\\v1api20201101")
 	//err := pkg.LoadDirectory("C:\\GitHub\\azure-service-operator\\v2\\api\\compute\\v1api20220301")
@@ -23,7 +33,7 @@ func main() {
 		fmt.Println(err.Error())
 	}
 
-	gen := generator.New(log)
+	gen := generator.New(cfg, log)
 	err = gen.LoadTemplates("C:\\GitHub\\crddoc\\templates\\crd")
 	if err != nil {
 		fmt.Println(err.Error())
