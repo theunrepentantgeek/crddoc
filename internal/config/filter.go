@@ -7,6 +7,7 @@ import (
 )
 
 type Filter struct {
+	Because      string `yaml:"because"`
 	Exclude      string `yaml:"exclude"`
 	excludeRegex *regexp.Regexp
 	Include      string `yaml:"include"`

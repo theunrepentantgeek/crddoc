@@ -19,6 +19,7 @@ func main() {
 		TypeFilters: []*config.Filter{
 			{
 				Exclude: "*ARM",
+				Because: "ARM types are an internal implementation detail for ASO",
 			},
 		},
 	}
