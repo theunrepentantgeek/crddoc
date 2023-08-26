@@ -61,15 +61,5 @@ func (f *Filter) validate() error {
 		return errors.New("must specify either include or exclude filter")
 	}
 
-	// If we have an Exclude filter, compile it
-	if f.Exclude != "" {
-		f.excludeRegex = createGlobber(f.Exclude)
-	}
-
-	// If we have an Include filter, compile it
-	if f.Include != "" {
-		f.includeRegex = createGlobber(f.Include)
-	}
-
 	return nil
 }
