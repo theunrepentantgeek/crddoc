@@ -4,8 +4,8 @@ package model
 type Declaration interface {
 	Kind() DeclarationType
 	Name() string
-	Usage() []Declaration
-	SetUsage([]Declaration)
+	Usage() []PropertyReference
+	SetUsage([]PropertyReference)
 	Description() []string
 }
 

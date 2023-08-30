@@ -5,7 +5,7 @@ import "github.com/dave/dst"
 type Enum struct {
 	name        string
 	base        dst.Expr
-	usage       []Declaration
+	usage       []PropertyReference
 	description []string
 	values      []*EnumValue
 }
@@ -44,11 +44,11 @@ func (e *Enum) Kind() DeclarationType {
 	return EnumDeclaration
 }
 
-func (e *Enum) Usage() []Declaration {
+func (e *Enum) Usage() []PropertyReference {
 	return e.usage
 }
 
-func (e *Enum) SetUsage(usage []Declaration) {
+func (e *Enum) SetUsage(usage []PropertyReference) {
 	e.usage = usage
 }
 
