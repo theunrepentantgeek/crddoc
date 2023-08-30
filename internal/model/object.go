@@ -14,7 +14,10 @@ type Object struct {
 	structType  *dst.StructType
 	properties  map[string]*Property
 	description []string
-	usage       []Declaration
+
+	// List of other objects that use this object as a property type
+	// Using values (not pointers) so we have copies we can configure locally
+	usage []PropertyReference
 }
 
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
@@ -68,11 +71,11 @@ func (o *Object) Kind() DeclarationType {
 	return ObjectDeclaration
 }
 
-func (o *Object) Usage() []Declaration {
+func (o *Object) Usage() []PropertyReference {
 	return o.usage
 }
 
-func (o *Object) SetUsage(uses []Declaration) {
+func (o *Object) SetUsage(uses []PropertyReference) {
 	o.usage = uses
 }
 

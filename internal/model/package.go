@@ -247,7 +247,7 @@ func (p *Package) catalogCrossReferences() {
 	defer p.lock.Unlock()
 
 	// Index all usage
-	usages := make(map[string][]Declaration)
+	usages := make(map[string][]PropertyReference)
 	for _, dec := range p.declarations {
 		obj, ok := dec.(*Object)
 		if !ok {
@@ -256,7 +256,8 @@ func (p *Package) catalogCrossReferences() {
 
 		for _, prop := range obj.properties {
 			if t := p.CreateIdFor(prop.Type()); t != "" {
-				usages[t] = append(usages[t], obj)
+				ref := NewPropertyReference(obj, prop.Name())
+				usages[t] = append(usages[t], ref)
 			}
 		}
 	}
@@ -264,6 +265,7 @@ func (p *Package) catalogCrossReferences() {
 	// Update all objects
 	for name, usage := range usages {
 		if obj, ok := p.declarations[name]; ok {
+			slices.SortFunc(usage, ComparePropertyReferences)
 			obj.SetUsage(usage)
 		}
 	}
