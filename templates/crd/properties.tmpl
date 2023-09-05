@@ -2,21 +2,10 @@
 
 {{ with . | asObject }}
 {{ if .Properties -}}
-| Name |  Description | Type |
-| -- | -- | -- |
+| Name | Description | Type |
+| ---- | ----------- | ---- |
 {{ range .Properties -}}
-| {{ .Name -}} 
-| {{ .Description | unwrap -}} 
-| {{ if .Type | asId -}}
-    [
-  {{- end -}}
-  {{- .Type | asText -}}
-  {{- if .Type | asId -}}
-    ](#{{ .Type | asId }})
-  {{- end -}}
-  {{ if .Required -}}
-    <br/>{{ .Required -}}
-  {{ end -}} |
+{{ template "property" . }}
 {{ end -}}
 
 {{ end -}}

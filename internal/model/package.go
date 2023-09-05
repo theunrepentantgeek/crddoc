@@ -111,12 +111,15 @@ func (p *Package) LoadFile(path string) (failure error) {
 		return errors.Wrapf(err, "failed to parse file %s", path)
 	}
 
-	// Iterate over the file's declarations and add them to this package
+	// Find declarations of interest
 	objects := p.findObjects(file.Decls)
+	resources := p.findResources(objects)
 	enums := p.findEnums(file.Decls)
 
-	p.addDeclarations(objects)
-	p.addDeclarations(enums)
+	// Add them to the package
+	addDeclarations(p, resources)
+	addDeclarations(p, objects)
+	addDeclarations(p, enums)
 
 	return nil
 }
@@ -137,8 +140,8 @@ func (p *Package) Declarations(order Order) []Declaration {
 	return result
 }
 
-// Object returns the object with the given name, if found.
-func (p *Package) Object(name string) (*Object, bool) {
+// Declaration returns the object with the given name, if found.
+func (p *Package) Declaration(name string) (Declaration, bool) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
@@ -147,13 +150,12 @@ func (p *Package) Object(name string) (*Object, bool) {
 		return nil, false
 	}
 
-	obj, ok := dec.(*Object)
-	return obj, ok
+	return dec, ok
 }
 
 // findObjects scans the declarations in a file and returns a slice of objects
-func (p *Package) findObjects(decls []dst.Decl) []Declaration {
-	var result []Declaration
+func (p *Package) findObjects(decls []dst.Decl) map[string]*Object {
+	result := make(map[string]*Object, len(decls))
 
 	for _, decl := range decls {
 		// Check for a GenDecl containing a TYPE
@@ -168,7 +170,7 @@ func (p *Package) findObjects(decls []dst.Decl) []Declaration {
 		for _, spec := range gd.Specs {
 
 			if obj, ok := TryNewObject(spec, comments); ok {
-				result = append(result, obj)
+				result[obj.Name()] = obj
 			}
 		}
 	}
@@ -176,8 +178,26 @@ func (p *Package) findObjects(decls []dst.Decl) []Declaration {
 	return result
 }
 
+func (p *Package) findResources(objects map[string]*Object) map[string]*Resource {
+	result := make(map[string]*Resource)
+
+	// Find all the objects that are actually resources
+	for _, obj := range objects {
+		if resource, ok := TryNewResource(obj); ok {
+			result[resource.Name()] = resource
+		}
+	}
+
+	// Remove those objects so we don't have any name collisions
+	for name := range result {
+		delete(objects, name)
+	}
+
+	return result
+}
+
 // findEnums scans the declarations in a file and returns a slice of enumerations
-func (p *Package) findEnums(decls []dst.Decl) []Declaration {
+func (p *Package) findEnums(decls []dst.Decl) map[string]*Enum {
 
 	// Collect Enum Types
 	enums := make(map[string]*Enum)
@@ -217,58 +237,37 @@ func (p *Package) findEnums(decls []dst.Decl) []Declaration {
 		}
 	}
 
-	var result []Declaration
-	for _, enum := range enums {
-		result = append(result, enum)
-	}
-
-	return result
-}
-
-// addDeclarations adds more declarations to the package
-func (p *Package) addDeclarations(declarations []Declaration) {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
-	for _, dec := range declarations {
-		// Skip excluded declarations
-		if p.cfg.Filter(dec.Name()) == config.FilterResultExclude {
-			continue
-		}
-
-		//TODO: Check for name collisions
-		// (Should never happen - BUT if it does, we need to know)
-		p.declarations[dec.Name()] = dec
-	}
+	return enums
 }
 
 func (p *Package) catalogCrossReferences() {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
-	// Index all usage
-	usages := make(map[string][]PropertyReference)
-	for _, dec := range p.declarations {
-		obj, ok := dec.(*Object)
-		if !ok {
-			continue
-		}
-
-		for _, prop := range obj.properties {
-			if t := p.CreateIdFor(prop.Type()); t != "" {
-				ref := NewPropertyReference(obj, prop.Name())
-				usages[t] = append(usages[t], ref)
-			}
-		}
-	}
-
-	// Update all objects
+	usages := p.indexUsage()
 	for name, usage := range usages {
 		if obj, ok := p.declarations[name]; ok {
 			slices.SortFunc(usage, ComparePropertyReferences)
 			obj.SetUsage(usage)
 		}
 	}
+}
+
+func (p *Package) indexUsage() map[string][]PropertyReference {
+	result := make(map[string][]PropertyReference)
+	for name, dec := range p.declarations {
+		// Index references from an object
+		if host, ok := dec.(PropertyContainer); ok {
+			for _, prop := range host.Properties() {
+				if t := p.CreateIdFor(prop.Type()); t != "" {
+					ref := NewPropertyReference(name, prop.Name())
+					result[t] = append(result[t], ref)
+				}
+			}
+		}
+	}
+
+	return result
 }
 
 // asId renders an ID from a type expression, for linking within the documentation.
@@ -303,4 +302,21 @@ func alphabeticalObjectComparison(left Declaration, right Declaration) int {
 	}
 
 	return 0
+}
+
+// addDeclarations adds more declarations to the package
+func addDeclarations[D Declaration](p *Package, declarations map[string]D) {
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	for name, decl := range declarations {
+		// Skip excluded declarations
+		if p.cfg.Filter(name) == config.FilterResultExclude {
+			continue
+		}
+
+		//TODO: Check for name collisions
+		// (Should never happen - BUT if it does, we need to know)
+		p.declarations[name] = decl
+	}
 }

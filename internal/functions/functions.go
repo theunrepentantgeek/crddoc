@@ -21,16 +21,14 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"asId":                    f.asId,
 		"asObject":                f.asObject,
 		"asPropertyReferenceList": asList[model.PropertyReference],
+		"asPropertyContainer":     f.asPropertyContainer,
+		"asResource":              f.asResource,
 		"asText":                  f.asText,
+		"lookupDeclaration":       f.lookupDeclaration,
 		"unwrap":                  f.unwrap,
 	}
 }
 
 func (f *Functions) SetPackage(pkg *model.Package) {
 	f.pkg = pkg
-}
-
-func (f *Functions) objectExists(name string) bool {
-	_, ok := f.pkg.Object(name)
-	return ok
 }

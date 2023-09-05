@@ -1,0 +1,14 @@
+{{ define "property" -}}
+| {{ .Name -}} 
+| {{ .Description | unwrap -}} 
+| {{ if .Type | asId -}}
+[
+{{- end -}}
+{{- .Type | asText -}}
+{{- if .Type | asId -}}
+](#{{ .Type | asId }})
+{{- end -}}
+{{ if .Required -}}
+<br/>{{ .Required -}}
+{{ end -}} |
+{{- end }}

@@ -15,9 +15,7 @@ type Object struct {
 	properties  map[string]*Property
 	description []string
 
-	// List of other objects that use this object as a property type
-	// Using values (not pointers) so we have copies we can configure locally
-	usage []PropertyReference
+	usage []PropertyReference // List of other properties that reference this object
 }
 
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
@@ -56,9 +54,7 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 		description: description,
 	}
 
-	for _, property := range result.findProperties() {
-		result.properties[property.Name()] = property
-	}
+	result.properties = result.findProperties()
 
 	return result, true
 }
@@ -95,8 +91,8 @@ func (o *Object) Description() []string {
 	return o.description
 }
 
-func (o *Object) findProperties() []*Property {
-	var result []*Property
+func (o *Object) findProperties() map[string]*Property {
+	result := make(map[string]*Property)
 
 	// Iterate over the fields in the struct type and try to create a property for each one
 	for _, field := range o.structType.Fields.List {
@@ -104,7 +100,7 @@ func (o *Object) findProperties() []*Property {
 		// A single field might contain multiple properties
 		for _, name := range field.Names {
 			if property, ok := TryNewProperty(name.Name, field); ok {
-				result = append(result, property)
+				result[property.Name()] = property
 			}
 		}
 	}

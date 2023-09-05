@@ -7,14 +7,24 @@
 ## <a id="{{ .Name }}"></a>{{ .Name }}
 
 {{ .Description | unwrap -}}
-
-{{ with . | asObject }}
 {{ template "usage" . }}
+
+{{ with . | asPropertyContainer }}
 {{ template "properties" . }}
 {{ end }}
 
+{{ with . | asResource }}
+### <a id="{{ .Spec.Type |  asId }}"></a>{{ .Spec.Type |  asId }}
+
+{{ template "properties" ( .Spec.Type |  asId | lookupDeclaration | asPropertyContainer ) }}
+
+### <a id="{{ .Status.Type |  asId }}"></a>{{ .Status.Type |  asId }}
+
+{{ template "properties" ( .Status.Type |  asId | lookupDeclaration | asPropertyContainer ) }}
+
+{{ end }}
+
 {{- with . | asEnum }}
-{{ template "usage" . }}
 {{ template "values" . }}
 {{ end -}}
 
