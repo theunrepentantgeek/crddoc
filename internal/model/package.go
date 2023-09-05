@@ -137,8 +137,8 @@ func (p *Package) Declarations(order Order) []Declaration {
 	return result
 }
 
-// Object returns the object with the given name, if found.
-func (p *Package) Object(name string) (*Object, bool) {
+// Declaration returns the object with the given name, if found.
+func (p *Package) Declaration(name string) (Declaration, bool) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
@@ -147,8 +147,7 @@ func (p *Package) Object(name string) (*Object, bool) {
 		return nil, false
 	}
 
-	obj, ok := dec.(*Object)
-	return obj, ok
+	return dec, ok
 }
 
 // findObjects scans the declarations in a file and returns a slice of objects
