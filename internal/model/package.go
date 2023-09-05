@@ -111,12 +111,13 @@ func (p *Package) LoadFile(path string) (failure error) {
 		return errors.Wrapf(err, "failed to parse file %s", path)
 	}
 
-	// Iterate over the file's declarations and add them to this package
+	// Find declarations of interest
 	objects := p.findObjects(file.Decls)
 	enums := p.findEnums(file.Decls)
 
-	p.addDeclarations(objects)
-	p.addDeclarations(enums)
+	// Add them to the package
+	addDeclarations(p, objects)
+	addDeclarations(p, enums)
 
 	return nil
 }
@@ -151,8 +152,8 @@ func (p *Package) Declaration(name string) (Declaration, bool) {
 }
 
 // findObjects scans the declarations in a file and returns a slice of objects
-func (p *Package) findObjects(decls []dst.Decl) []Declaration {
-	var result []Declaration
+func (p *Package) findObjects(decls []dst.Decl) map[string]*Object {
+	result := make(map[string]*Object, len(decls))
 
 	for _, decl := range decls {
 		// Check for a GenDecl containing a TYPE
@@ -167,7 +168,7 @@ func (p *Package) findObjects(decls []dst.Decl) []Declaration {
 		for _, spec := range gd.Specs {
 
 			if obj, ok := TryNewObject(spec, comments); ok {
-				result = append(result, obj)
+				result[obj.Name()] = obj
 			}
 		}
 	}
@@ -176,7 +177,7 @@ func (p *Package) findObjects(decls []dst.Decl) []Declaration {
 }
 
 // findEnums scans the declarations in a file and returns a slice of enumerations
-func (p *Package) findEnums(decls []dst.Decl) []Declaration {
+func (p *Package) findEnums(decls []dst.Decl) map[string]*Enum {
 
 	// Collect Enum Types
 	enums := make(map[string]*Enum)
@@ -216,12 +217,7 @@ func (p *Package) findEnums(decls []dst.Decl) []Declaration {
 		}
 	}
 
-	var result []Declaration
-	for _, enum := range enums {
-		result = append(result, enum)
-	}
-
-	return result
+	return enums
 }
 
 // addDeclarations adds more declarations to the package
@@ -302,4 +298,21 @@ func alphabeticalObjectComparison(left Declaration, right Declaration) int {
 	}
 
 	return 0
+}
+
+// addDeclarations adds more declarations to the package
+func addDeclarations[D Declaration](p *Package, declarations map[string]D) {
+	p.lock.Lock()
+	defer p.lock.Unlock()
+
+	for name, decl := range declarations {
+		// Skip excluded declarations
+		if p.cfg.Filter(name) == config.FilterResultExclude {
+			continue
+		}
+
+		//TODO: Check for name collisions
+		// (Should never happen - BUT if it does, we need to know)
+		p.declarations[name] = decl
+	}
 }
