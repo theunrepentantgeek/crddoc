@@ -15,9 +15,7 @@ type Object struct {
 	properties  map[string]*Property
 	description []string
 
-	// List of other objects that use this object as a property type
-	// Using values (not pointers) so we have copies we can configure locally
-	usage []PropertyReference
+	usage []PropertyReference // List of other properties that reference this object
 }
 
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
