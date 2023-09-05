@@ -8,5 +8,9 @@ func (f *Functions) asObject(declaration model.Declaration) *model.Object {
 		return obj
 	}
 
+	if res, ok := declaration.(*model.Resource); ok {
+		return &res.Object
+	}
+
 	return nil
 }
