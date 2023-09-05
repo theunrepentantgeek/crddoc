@@ -113,9 +113,11 @@ func (p *Package) LoadFile(path string) (failure error) {
 
 	// Find declarations of interest
 	objects := p.findObjects(file.Decls)
+	resources := p.findResources(objects)
 	enums := p.findEnums(file.Decls)
 
 	// Add them to the package
+	addDeclarations(p, resources)
 	addDeclarations(p, objects)
 	addDeclarations(p, enums)
 
@@ -171,6 +173,24 @@ func (p *Package) findObjects(decls []dst.Decl) map[string]*Object {
 				result[obj.Name()] = obj
 			}
 		}
+	}
+
+	return result
+}
+
+func (p *Package) findResources(objects map[string]*Object) map[string]*Resource {
+	result := make(map[string]*Resource)
+
+	// Find all the objects that are actually resources
+	for _, obj := range objects {
+		if resource, ok := TryNewResource(obj); ok {
+			result[resource.Name()] = resource
+		}
+	}
+
+	// Remove those objects so we don't have any name collisions
+	for name := range result {
+		delete(objects, name)
 	}
 
 	return result
