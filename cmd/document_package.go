@@ -81,6 +81,8 @@ func documentPackage(
 
 	defer f.Close()
 
+	log.Info("Writing to", "outputPath", *options.outputPath)
+
 	w := bufio.NewWriter(f)
 
 	err = gen.Generate(pkg, w)
