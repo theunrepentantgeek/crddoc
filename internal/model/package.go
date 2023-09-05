@@ -240,50 +240,34 @@ func (p *Package) findEnums(decls []dst.Decl) map[string]*Enum {
 	return enums
 }
 
-// addDeclarations adds more declarations to the package
-func (p *Package) addDeclarations(declarations []Declaration) {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
-	for _, dec := range declarations {
-		// Skip excluded declarations
-		if p.cfg.Filter(dec.Name()) == config.FilterResultExclude {
-			continue
-		}
-
-		//TODO: Check for name collisions
-		// (Should never happen - BUT if it does, we need to know)
-		p.declarations[dec.Name()] = dec
-	}
-}
-
 func (p *Package) catalogCrossReferences() {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
-	// Index all usage
-	usages := make(map[string][]PropertyReference)
-	for _, dec := range p.declarations {
-		obj, ok := dec.(*Object)
-		if !ok {
-			continue
-		}
-
-		for _, prop := range obj.properties {
-			if t := p.CreateIdFor(prop.Type()); t != "" {
-				ref := NewPropertyReference(obj, prop.Name())
-				usages[t] = append(usages[t], ref)
-			}
-		}
-	}
-
-	// Update all objects
+	usages := p.indexUsage()
 	for name, usage := range usages {
 		if obj, ok := p.declarations[name]; ok {
 			slices.SortFunc(usage, ComparePropertyReferences)
 			obj.SetUsage(usage)
 		}
 	}
+}
+
+func (p *Package) indexUsage() map[string][]PropertyReference {
+	result := make(map[string][]PropertyReference)
+	for name, dec := range p.declarations {
+		// Index references from an object
+		if host, ok := dec.(PropertyContainer); ok {
+			for _, prop := range host.Properties() {
+				if t := p.CreateIdFor(prop.Type()); t != "" {
+					ref := NewPropertyReference(name, prop.Name())
+					result[t] = append(result[t], ref)
+				}
+			}
+		}
+	}
+
+	return result
 }
 
 // asId renders an ID from a type expression, for linking within the documentation.

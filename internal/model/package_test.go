@@ -58,19 +58,19 @@ func TestPackage_Object_ReturnsExpectedObjects(t *testing.T) {
 		t.Fatalf("Failed to load file: %v", err)
 	}
 
-	resource, ok := pkg.Object("PersonResource")
+	resource, ok := pkg.Declaration("PersonResource")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(resource).NotTo(BeNil())
 
-	spec, ok := pkg.Object("PersonResourceSpec")
+	spec, ok := pkg.Declaration("PersonResourceSpec")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(spec).NotTo(BeNil())
 
-	status, ok := pkg.Object("PersonResourceStatus")
+	status, ok := pkg.Declaration("PersonResourceStatus")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(status).NotTo(BeNil())
 
-	ref, ok := pkg.Object("PersonReference")
+	ref, ok := pkg.Declaration("PersonReference")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(ref).NotTo(BeNil())
 }
