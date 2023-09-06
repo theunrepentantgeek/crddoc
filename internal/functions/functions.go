@@ -22,6 +22,7 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"asPropertyReferenceList": asList[model.PropertyReference],
 		"asPropertyContainer":     f.asPropertyContainer,
 		"asResource":              f.asResource,
+		"createLink":              f.createLink,
 		"lookupDeclaration":       f.lookupDeclaration,
 		"unwrap":                  f.unwrap,
 	}
