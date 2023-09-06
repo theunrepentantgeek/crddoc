@@ -9,13 +9,10 @@ import (
 )
 
 type Object struct {
-	typeSpec    *dst.TypeSpec
-	structType  *dst.StructType
 	TypeReference
 	properties  map[string]*Property
 	description []string
-
-	usage []PropertyReference // List of other properties that reference this object
+	usage       []PropertyReference // List of other properties that reference this object
 }
 
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
@@ -47,13 +44,12 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 	}
 
 	result := &Object{
-		structType:  structType,
-		properties:  make(map[string]*Property),
-		description: description,
 		TypeReference: ref,
+		properties:    make(map[string]*Property),
+		description:   description,
 	}
 
-	result.properties = result.findProperties()
+	result.properties = result.findProperties(structType)
 
 	return result, true
 }
@@ -86,16 +82,16 @@ func (o *Object) Description() []string {
 	return o.description
 }
 
-func (o *Object) findProperties() map[string]*Property {
+func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
 	// Iterate over the fields in the struct type and try to create a property for each one
-	for _, field := range o.structType.Fields.List {
+	for _, field := range structType.Fields.List {
 
 		// A single field might contain multiple properties
 		for _, name := range field.Names {
 			if property, ok := TryNewProperty(name.Name, field); ok {
-				result[property.Name()] = property
+				result[property.Name] = property
 			}
 		}
 	}

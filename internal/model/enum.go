@@ -7,6 +7,7 @@ type Enum struct {
 	usage       []PropertyReference
 	description []string
 	values      []*EnumValue
+	base        TypeReference
 }
 
 func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
