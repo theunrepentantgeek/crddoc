@@ -1,14 +1,13 @@
 {{ define "properties" }}
-
-{{ with . | asObject }}
+{{ if . }}
 {{ if .Properties -}}
-| Name | Description | Type |
-| ---- | ----------- | ---- |
+
+| Property | Description | Type |
+| -------- | ----------- | ---- |
 {{ range .Properties -}}
 {{ template "property" . }}
 {{ end -}}
 
 {{ end -}}
 {{ end }}
-
 {{ end }}

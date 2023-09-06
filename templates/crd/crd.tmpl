@@ -4,7 +4,7 @@
 
 {{ range .Declarations "alphabetical" }}
 
-## <a id="{{ .Name }}"></a>{{ .Name }}
+## <a id="{{ .Id }}"></a>{{ .Name }}
 
 {{ .Description | unwrap -}}
 {{ template "usage" . }}
@@ -14,13 +14,13 @@
 {{ end }}
 
 {{ with . | asResource }}
-### <a id="{{ .Spec.Type |  asId }}"></a>{{ .Spec.Type |  asId }}
+### <a id="{{ .Spec.Type.Id }}"></a>{{ .Spec.Type.Id }}
 
-{{ template "properties" ( .Spec.Type |  asId | lookupDeclaration | asPropertyContainer ) }}
+{{ template "properties" ( .Spec.Type.Id | lookupDeclaration | asPropertyContainer ) }}
 
-### <a id="{{ .Status.Type |  asId }}"></a>{{ .Status.Type |  asId }}
+### <a id="{{ .Status.Type.Id }}"></a>{{ .Status.Type.Id }}
 
-{{ template "properties" ( .Status.Type |  asId | lookupDeclaration | asPropertyContainer ) }}
+{{ template "properties" ( .Status.Type.Id | lookupDeclaration | asPropertyContainer ) }}
 
 {{ end }}
 
