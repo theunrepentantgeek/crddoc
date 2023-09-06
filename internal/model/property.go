@@ -9,9 +9,9 @@ import (
 type Property struct {
 	name         string
 	field        *dst.Field
-	propertyType dst.Expr
 	description  []string
 	required     string
+	Type        TypeReference
 }
 
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
@@ -29,8 +29,8 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	result := &Property{
 		name:         name,
 		field:        field,
-		propertyType: field.Type,
 		description:  description,
+		Type:        NewTypeReference(field.Type),
 	}
 
 	if commands.Count() > 0 {

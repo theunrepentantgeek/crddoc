@@ -9,9 +9,9 @@ import (
 )
 
 type Object struct {
-	name        string
 	typeSpec    *dst.TypeSpec
 	structType  *dst.StructType
+	TypeReference
 	properties  map[string]*Property
 	description []string
 
@@ -36,31 +36,26 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 		return nil, false
 	}
 
-	name := typeSpec.Name.Name
+	ref := NewTypeReference(typeSpec.Name)
 	description, _ := parseComments(comments)
 
-	// If the first line of the description starts with "<type>: ", remove that prefix
+	// If the first line of the description starts with "<name>: ", remove that prefix
 	if len(description) > 0 {
-		if s, ok := strings.CutPrefix(description[0], name+": "); ok {
+		if s, ok := strings.CutPrefix(description[0], ref.Name()+": "); ok {
 			description[0] = strings.TrimLeft(s, " ")
 		}
 	}
 
 	result := &Object{
-		name:        name,
-		typeSpec:    typeSpec,
 		structType:  structType,
 		properties:  make(map[string]*Property),
 		description: description,
+		TypeReference: ref,
 	}
 
 	result.properties = result.findProperties()
 
 	return result, true
-}
-
-func (o *Object) Name() string {
-	return o.name
 }
 
 func (o *Object) Kind() DeclarationType {

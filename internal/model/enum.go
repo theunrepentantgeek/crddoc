@@ -3,8 +3,7 @@ package model
 import "github.com/dave/dst"
 
 type Enum struct {
-	name        string
-	base        dst.Expr
+	TypeReference
 	usage       []PropertyReference
 	description []string
 	values      []*EnumValue
@@ -29,8 +28,8 @@ func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
 	}
 
 	result := &Enum{
-		name: typeSpec.Name.Name,
-		base: ident,
+		TypeReference: NewTypeReference(typeSpec.Name),
+		base:          NewTypeReference(ident),
 	}
 
 	return result, true
