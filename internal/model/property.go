@@ -42,14 +42,6 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	return result, true
 }
 
-func (p *Property) Name() string {
-	return p.name
-}
-
-func (p *Property) Type() dst.Expr {
-	return p.propertyType
-}
-
 func (p *Property) Required() string {
 	return p.required
 }
