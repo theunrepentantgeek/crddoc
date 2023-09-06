@@ -15,6 +15,8 @@ type Object struct {
 	usage       []PropertyReference // List of other properties that reference this object
 }
 
+var _ Declaration = &Object{}
+
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 	// Check for a TypeSpec ...
 	typeSpec, ok := spec.(*dst.TypeSpec)
@@ -100,11 +102,11 @@ func (o *Object) findProperties(structType *dst.StructType) map[string]*Property
 }
 
 func alphabeticalPropertyComparison(left *Property, right *Property) int {
-	if left.name < right.name {
+	if left.Name < right.Name {
 		return -1
 	}
 
-	if left.name > right.name {
+	if left.Name > right.Name {
 		return 1
 	}
 

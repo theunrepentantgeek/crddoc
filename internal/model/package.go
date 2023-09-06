@@ -140,7 +140,7 @@ func (p *Package) Declarations(order Order) []Declaration {
 	return result
 }
 
-// Declaration returns the object with the given name, if found.
+// Declaration returns the declaration with the given name, if found.
 func (p *Package) Declaration(name string) (Declaration, bool) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
@@ -151,6 +151,17 @@ func (p *Package) Declaration(name string) (Declaration, bool) {
 	}
 
 	return dec, ok
+}
+
+// Object returns the object with the given name, if there is one
+func (p *Package) Object(name string) (*Object, bool) {
+	dec, ok := p.Declaration(name)
+	if !ok {
+		return nil, false
+	}
+
+	obj, ok := dec.(*Object)
+	return obj, ok
 }
 
 // findObjects scans the declarations in a file and returns a slice of objects
@@ -170,7 +181,7 @@ func (p *Package) findObjects(decls []dst.Decl) map[string]*Object {
 		for _, spec := range gd.Specs {
 
 			if obj, ok := TryNewObject(spec, comments); ok {
-				result[obj.Name()] = obj
+				result[obj.Id()] = obj
 			}
 		}
 	}
@@ -184,7 +195,7 @@ func (p *Package) findResources(objects map[string]*Object) map[string]*Resource
 	// Find all the objects that are actually resources
 	for _, obj := range objects {
 		if resource, ok := TryNewResource(obj); ok {
-			result[resource.Name()] = resource
+			result[resource.Id()] = resource
 		}
 	}
 
@@ -213,7 +224,7 @@ func (p *Package) findEnums(decls []dst.Decl) map[string]*Enum {
 		// Iterate over the specs in the GenDecl and try to create an enum from each
 		for _, spec := range gd.Specs {
 			if enum, ok := TryNewEnum(spec, comments); ok {
-				enums[enum.Name()] = enum
+				enums[enum.Id()] = enum
 			}
 		}
 	}
@@ -259,37 +270,16 @@ func (p *Package) indexUsage() map[string][]PropertyReference {
 		// Index references from an object
 		if host, ok := dec.(PropertyContainer); ok {
 			for _, prop := range host.Properties() {
-				if t := p.CreateIdFor(prop.Type()); t != "" {
-					ref := NewPropertyReference(name, prop.Name())
-					result[t] = append(result[t], ref)
+				id := prop.Type.Id()
+				if _, ok := p.declarations[id]; ok {
+					ref := NewPropertyReference(name, prop.Name)
+					result[id] = append(result[id], ref)
 				}
 			}
 		}
 	}
 
 	return result
-}
-
-// asId renders an ID from a type expression, for linking within the documentation.
-// Returns an empty string if the object does not exist in the package.
-func (p *Package) CreateIdFor(expr dst.Expr) string {
-	switch t := expr.(type) {
-	case *dst.Ident:
-		if _, ok := p.declarations[t.Name]; !ok {
-			return ""
-		}
-
-		return t.Name
-	case *dst.StarExpr:
-		return p.CreateIdFor(t.X)
-	case *dst.ArrayType:
-		return p.CreateIdFor(t.Elt)
-	case *dst.MapType:
-		// TODO: What should we do if both Key and Value are custom types?
-		return p.CreateIdFor(t.Key) + p.CreateIdFor(t.Value)
-	default:
-		return ""
-	}
 }
 
 func alphabeticalObjectComparison(left Declaration, right Declaration) int {
