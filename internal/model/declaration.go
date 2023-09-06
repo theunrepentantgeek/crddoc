@@ -13,6 +13,7 @@ type Declaration interface {
 type DeclarationType string
 
 const (
-	ObjectDeclaration = DeclarationType("Object")
-	EnumDeclaration   = DeclarationType("Enum")
+	ResourceDeclaration = DeclarationType("Resource")
+	ObjectDeclaration   = DeclarationType("Object")
+	EnumDeclaration     = DeclarationType("Enum")
 )
