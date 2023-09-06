@@ -18,7 +18,6 @@ func New() *Functions {
 func (f *Functions) CreateFuncMap() template.FuncMap {
 	return template.FuncMap{
 		"asEnum":                  f.asEnum,
-		"asId":                    f.asId,
 		"asObject":                f.asObject,
 		"asPropertyReferenceList": asList[model.PropertyReference],
 		"asPropertyContainer":     f.asPropertyContainer,
