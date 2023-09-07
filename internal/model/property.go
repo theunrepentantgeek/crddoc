@@ -7,11 +7,10 @@ import (
 )
 
 type Property struct {
-	name         string
-	field        *dst.Field
-	propertyType dst.Expr
-	description  []string
-	required     string
+	Name        string
+	Type        TypeReference
+	description []string
+	required    string
 }
 
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
@@ -27,10 +26,9 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	}
 
 	result := &Property{
-		name:         name,
-		field:        field,
-		propertyType: field.Type,
-		description:  description,
+		Name:        name,
+		Type:        NewTypeReference(field.Type),
+		description: description,
 	}
 
 	if commands.Count() > 0 {
@@ -42,14 +40,6 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	}
 
 	return result, true
-}
-
-func (p *Property) Name() string {
-	return p.name
-}
-
-func (p *Property) Type() dst.Expr {
-	return p.propertyType
 }
 
 func (p *Property) Required() string {

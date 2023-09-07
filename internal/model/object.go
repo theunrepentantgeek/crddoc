@@ -9,14 +9,13 @@ import (
 )
 
 type Object struct {
-	name        string
-	typeSpec    *dst.TypeSpec
-	structType  *dst.StructType
+	TypeReference
 	properties  map[string]*Property
 	description []string
-
-	usage []PropertyReference // List of other properties that reference this object
+	usage       []PropertyReference // List of other properties that reference this object
 }
+
+var _ Declaration = &Object{}
 
 func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 	// Check for a TypeSpec ...
@@ -36,31 +35,25 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 		return nil, false
 	}
 
-	name := typeSpec.Name.Name
+	ref := NewTypeReference(typeSpec.Name)
 	description, _ := parseComments(comments)
 
-	// If the first line of the description starts with "<type>: ", remove that prefix
+	// If the first line of the description starts with "<name>: ", remove that prefix
 	if len(description) > 0 {
-		if s, ok := strings.CutPrefix(description[0], name+": "); ok {
+		if s, ok := strings.CutPrefix(description[0], ref.Name()+": "); ok {
 			description[0] = strings.TrimLeft(s, " ")
 		}
 	}
 
 	result := &Object{
-		name:        name,
-		typeSpec:    typeSpec,
-		structType:  structType,
-		properties:  make(map[string]*Property),
-		description: description,
+		TypeReference: ref,
+		properties:    make(map[string]*Property),
+		description:   description,
 	}
 
-	result.properties = result.findProperties()
+	result.properties = result.findProperties(structType)
 
 	return result, true
-}
-
-func (o *Object) Name() string {
-	return o.name
 }
 
 func (o *Object) Kind() DeclarationType {
@@ -91,16 +84,16 @@ func (o *Object) Description() []string {
 	return o.description
 }
 
-func (o *Object) findProperties() map[string]*Property {
+func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
 	// Iterate over the fields in the struct type and try to create a property for each one
-	for _, field := range o.structType.Fields.List {
+	for _, field := range structType.Fields.List {
 
 		// A single field might contain multiple properties
 		for _, name := range field.Names {
 			if property, ok := TryNewProperty(name.Name, field); ok {
-				result[property.Name()] = property
+				result[property.Name] = property
 			}
 		}
 	}
@@ -109,11 +102,11 @@ func (o *Object) findProperties() map[string]*Property {
 }
 
 func alphabeticalPropertyComparison(left *Property, right *Property) int {
-	if left.name < right.name {
+	if left.Name < right.Name {
 		return -1
 	}
 
-	if left.name > right.name {
+	if left.Name > right.Name {
 		return 1
 	}
 

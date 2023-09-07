@@ -1,12 +1,12 @@
 {{ define "property" -}}
 | {{ .Name -}} 
 | {{ .Description | unwrap -}} 
-| {{ if .Type | asId -}}
+| {{ if .Type | createLink -}}
 [
 {{- end -}}
-{{- .Type | asText -}}
-{{- if .Type | asId -}}
-](#{{ .Type | asId }})
+{{- .Type.Name -}}
+{{- if .Type | createLink -}}
+]({{ .Type | createLink }})
 {{- end -}}
 {{ if .Required -}}
 <br/>{{ .Required -}}

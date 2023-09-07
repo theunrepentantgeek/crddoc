@@ -2,8 +2,9 @@ package model
 
 // Declaration is a common interface for declarations found in Go files
 type Declaration interface {
-	Kind() DeclarationType
 	Name() string
+	Id() string
+	Kind() DeclarationType
 	Usage() []PropertyReference
 	SetUsage([]PropertyReference)
 	Description() []string
@@ -12,6 +13,7 @@ type Declaration interface {
 type DeclarationType string
 
 const (
-	ObjectDeclaration = DeclarationType("Object")
-	EnumDeclaration   = DeclarationType("Enum")
+	ResourceDeclaration = DeclarationType("Resource")
+	ObjectDeclaration   = DeclarationType("Object")
+	EnumDeclaration     = DeclarationType("Enum")
 )

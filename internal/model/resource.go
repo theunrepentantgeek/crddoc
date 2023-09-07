@@ -24,3 +24,7 @@ func TryNewResource(object *Object) (*Resource, bool) {
 		Status: status,
 	}, true
 }
+
+func (r *Resource) Kind() DeclarationType {
+	return ResourceDeclaration
+}
