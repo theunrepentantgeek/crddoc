@@ -6,7 +6,7 @@
 
 ## <a id="{{ .Id }}"></a>{{ .Name }}
 
-{{ .Description | unwrap -}}
+{{ .Description | unwrap | applyEditors -}}
 {{ template "usage" . }}
 
 {{ with . | asPropertyContainer }}

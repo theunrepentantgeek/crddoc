@@ -50,6 +50,7 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	)
 
 	g.fns.SetPackage(pkg)
+	g.fns.SetConfig(g.cfg)
 
 	err := g.template.ExecuteTemplate(
 		writer,

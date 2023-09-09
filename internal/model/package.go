@@ -4,6 +4,7 @@ import (
 	"go/token"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/dave/dst"
@@ -145,7 +146,7 @@ func (p *Package) Declaration(name string) (Declaration, bool) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
-	dec, ok := p.declarations[name]
+	dec, ok := p.declarations[strings.ToLower(name)]
 	if !ok {
 		return nil, false
 	}

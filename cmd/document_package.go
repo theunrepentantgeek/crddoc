@@ -51,6 +51,13 @@ func documentPackage(
 	}
 
 	cfg := &config.Config{
+		Editors: []config.Editor{
+			{
+				Context:     "(?i)/subscriptions/[\\w{}_\\-/]*",
+				Search:      "/",
+				Replacement: "/&ZeroWidthSpace;",
+			},
+		},
 		TypeFilters: []*config.Filter{
 			{
 				Exclude: "*ARM",
