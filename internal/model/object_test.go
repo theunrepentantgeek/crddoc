@@ -20,17 +20,17 @@ func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 		t.Fatalf("Failed to load file: %v", err)
 	}
 
-	dec, ok := pkg.Declaration("PersonResource")
+	dec, ok := pkg.Declaration("PersonResourceSpec")
 	g.Expect(ok).To(BeTrue())
 
 	obj, ok := dec.(*Object)
 	g.Expect(ok).To(BeTrue())
 
-	spec, ok := obj.Property("Spec")
+	fullName, ok := obj.Property("FullName")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(spec).NotTo(BeNil())
+	g.Expect(fullName).NotTo(BeNil())
 
-	status, ok := obj.Property("Status")
+	children, ok := obj.Property("Children")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(status).NotTo(BeNil())
+	g.Expect(children).NotTo(BeNil())
 }
