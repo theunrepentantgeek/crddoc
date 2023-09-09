@@ -1,6 +1,7 @@
 package config
 
 type Config struct {
+	Editors     []Editor  `yaml:"editors"`
 	TypeFilters []*Filter `yaml:"typefilters"`
 }
 
