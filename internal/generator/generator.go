@@ -1,12 +1,14 @@
 package generator
 
 import (
+	"bytes"
 	"io"
 	"path/filepath"
 	"text/template"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"github.com/shurcooL/markdownfmt/markdown"
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/functions"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
@@ -52,14 +54,31 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	g.fns.SetPackage(pkg)
 	g.fns.SetConfig(g.cfg)
 
+	var raw bytes.Buffer
 	err := g.template.ExecuteTemplate(
-		writer,
+		&raw,
 		"crd",
 		pkg)
 
 	if err != nil {
 		g.log.Error(err, "failed to execute template")
 		return errors.Wrap(err, "failed to execute template")
+	}
+
+	content := raw.Bytes()
+
+	if g.cfg.PrettyPrint {
+		content, err = markdown.Process("", raw.Bytes(), nil)
+		if err != nil {
+			g.log.Error(err, "failed to tidy markdown")
+			return errors.Wrap(err, "failed to tidy markdown")
+		}
+	}
+
+	_, err = writer.Write(content)
+	if err != nil {
+		g.log.Error(err, "failed to write markdown")
+		return errors.Wrap(err, "failed to write markdown")
 	}
 
 	g.log.Info("Template rendered successfully")
