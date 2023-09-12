@@ -2,7 +2,8 @@ package config
 
 type Config struct {
 	Editors     []Editor  `yaml:"editors"`
-	TypeFilters []*Filter `yaml:"typefilters"`
+	TypeFilters []*Filter `yaml:"typeFilters"`
+	PrettyPrint bool      `yaml:"prettyPrint"`
 }
 
 func (c *Config) Validate() error {
