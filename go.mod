@@ -19,6 +19,11 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
+	github.com/mattn/go-runewidth v0.0.15 // indirect
+	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/russross/blackfriday v1.6.0 // indirect
+	github.com/shurcooL/go v0.0.0-20230706063926-5fe729b41b3a // indirect
+	github.com/shurcooL/markdownfmt v0.0.0-20210117162146-75134924a9fd // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.14.0 // indirect

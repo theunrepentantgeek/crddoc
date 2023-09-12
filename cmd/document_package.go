@@ -64,6 +64,7 @@ func documentPackage(
 				Because: "ARM types are an internal implementation detail for ASO",
 			},
 		},
+		PrettyPrint: true,
 	}
 
 	pkg := model.NewPackage(cfg, log)
