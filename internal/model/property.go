@@ -1,6 +1,7 @@
 package model
 
 import (
+	"reflect"
 	"strings"
 
 	"github.com/dave/dst"
@@ -66,6 +67,15 @@ func (p *Property) tryParseName(field *dst.Field) (string, bool) {
 	// Try to find a name configured with a json tag
 	if j, ok := tag.Lookup("json"); ok {
 		parts := strings.Split(j, ",")
+		name := parts[0]
+		if name != "" {
+			return name, true
+		}
+	}
+
+	// Try to find a name configured with a yaml tag
+	if y, ok := tag.Lookup("yaml"); ok {
+		parts := strings.Split(y, ",")
 		name := parts[0]
 		if name != "" {
 			return name, true
