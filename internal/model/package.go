@@ -267,13 +267,13 @@ func (p *Package) catalogCrossReferences() {
 
 func (p *Package) indexUsage() map[string][]PropertyReference {
 	result := make(map[string][]PropertyReference)
-	for name, dec := range p.declarations {
+	for _, dec := range p.declarations {
 		// Index references from an object
 		if host, ok := dec.(PropertyContainer); ok {
 			for _, prop := range host.Properties() {
 				id := prop.Type.Id()
 				if _, ok := p.declarations[id]; ok {
-					ref := NewPropertyReference(name, prop.Name)
+					ref := NewPropertyReference(dec.Name(), dec.Id(), prop.Name)
 					result[id] = append(result[id], ref)
 				}
 			}

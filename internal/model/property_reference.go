@@ -1,16 +1,19 @@
 package model
 
 type PropertyReference struct {
-	Host     string // Name of the container of this property
+	HostName string // Name of the container of this property
+	HostId   string // Id of the container of this property
 	Property string // Name of the property being referenced
 }
 
 func NewPropertyReference(
 	host string,
+	id string,
 	property string,
 ) PropertyReference {
 	return PropertyReference{
-		Host:     host,
+		HostName: host,
+		HostId:   id,
 		Property: property,
 	}
 }
@@ -19,11 +22,11 @@ func ComparePropertyReferences(
 	left PropertyReference,
 	right PropertyReference,
 ) int {
-	if left.Host < right.Host {
+	if left.HostName < right.HostName {
 		return -1
 	}
 
-	if left.Host > right.Host {
+	if left.HostName > right.HostName {
 		return 1
 	}
 
