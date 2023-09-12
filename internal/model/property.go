@@ -1,13 +1,15 @@
 package model
 
 import (
+	"reflect"
 	"strings"
 
 	"github.com/dave/dst"
 )
 
 type Property struct {
-	Name        string
+	Field       string // Name of the field
+	Name        string // Serialized name of the field
 	Type        TypeReference
 	description []string
 	required    string
@@ -26,6 +28,7 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	}
 
 	result := &Property{
+		Field:       name,
 		Name:        name,
 		Type:        NewTypeReference(field.Type),
 		description: description,
@@ -39,6 +42,10 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 		}
 	}
 
+	if name, ok := result.tryParseName(field); ok {
+		result.Name = name
+	}
+
 	return result, true
 }
 
@@ -48,4 +55,32 @@ func (p *Property) Required() string {
 
 func (p *Property) Description() []string {
 	return p.description
+}
+
+func (p *Property) tryParseName(field *dst.Field) (string, bool) {
+	if field.Tag == nil || field.Tag.Value == "" {
+		return "", false
+	}
+
+	tag := reflect.StructTag(strings.Trim(field.Tag.Value, "`"))
+
+	// Try to find a name configured with a json tag
+	if j, ok := tag.Lookup("json"); ok {
+		parts := strings.Split(j, ",")
+		name := parts[0]
+		if name != "" {
+			return name, true
+		}
+	}
+
+	// Try to find a name configured with a yaml tag
+	if y, ok := tag.Lookup("yaml"); ok {
+		parts := strings.Split(y, ",")
+		name := parts[0]
+		if name != "" {
+			return name, true
+		}
+	}
+
+	return "", false
 }
