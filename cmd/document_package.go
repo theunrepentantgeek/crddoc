@@ -27,6 +27,12 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 		},
 	}
 
+	options.configPath = cmd.Flags().StringP(
+		"config",
+		"c",
+		"",
+		"Path to a config file")
+
 	options.outputPath = cmd.Flags().StringP(
 		"output",
 		"o",
@@ -37,6 +43,7 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 }
 
 type packageCommandOptions struct {
+	configPath *string
 	outputPath *string
 }
 
@@ -50,21 +57,18 @@ func documentPackage(
 		return err
 	}
 
-	cfg := &config.Config{
-		Editors: []config.Editor{
-			{
-				Context:     "(?i)/subscriptions/[\\w{}_\\-/]*",
-				Search:      "/",
-				Replacement: "/&ZeroWidthSpace;",
-			},
-		},
-		TypeFilters: []*config.Filter{
-			{
-				Exclude: "*ARM",
-				Because: "ARM types are an internal implementation detail for ASO",
-			},
-		},
-		PrettyPrint: true,
+	// Load the config file
+	cfg := config.Default()
+	if options.configPath != nil || *options.configPath != "" {
+		err := cfg.Load(*options.configPath)
+		if err != nil {
+			return errors.Wrapf(err, "reading config file %q", *options.configPath)
+		}
+
+		err = cfg.Validate()
+		if err != nil {
+			return errors.Wrapf(err, "validating config file %q", *options.configPath)
+		}
 	}
 
 	pkg := model.NewPackage(cfg, log)
