@@ -14,6 +14,12 @@ type Config struct {
 	PrettyPrint bool      `yaml:"prettyPrint"`
 }
 
+func Default() *Config {
+	return &Config{
+		PrettyPrint: true,
+	}
+}
+
 // Load populates this config from the given path
 func (c *Config) Load(path string) error {
 	file, err := os.Open(path)
