@@ -7,6 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Editor represents a point modification to make to exported documentation
 type Editor struct {
 	Context       string `yaml:"context"` // Context is a regex identifying a substring to modify
 	Search        string `yaml:"search"`  // Search is a regex identifying a substring to replace
