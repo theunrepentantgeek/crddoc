@@ -3,7 +3,7 @@ package config
 import (
 	"testing"
 
-	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega"
 )
 
 func TestEditor_Replace_ReturnsExpectedResult(t *testing.T) {
@@ -57,11 +57,81 @@ func TestEditor_Replace_ReturnsExpectedResult(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 
-			g := NewGomegaWithT(t)
-			g.Expect(c.editor.Validate()).To(Succeed())
+			g := gomega.NewWithT(t)
+			g.Expect(c.editor.Validate()).To(gomega.Succeed())
 
 			actual := c.editor.Replace(c.input)
-			g.Expect(actual).To(Equal(c.expected))
+			g.Expect(actual).To(gomega.Equal(c.expected))
 		})
 	}
+}
+
+func TestEditor_Replace_WhenInvalid_Panics(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	// Arrange
+	edit := &Editor{
+		Search: "[A-Z",
+	}
+
+	// Act & Assert
+	g.Expect(
+		func() {
+			edit.Replace("foo")
+		}).To(gomega.Panic())
+}
+
+func TestEditor_Validate_WhenContextIsInvalidRegex_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	// Arrange
+	edit := &Editor{
+		Context: "[A-Z",
+		Search:  "[A-Za-z0-9]+",
+	}
+
+	// Act
+	err := edit.Validate()
+
+	// Assert
+	g.Expect(err).To(gomega.HaveOccurred())
+	g.Expect(err.Error()).To(gomega.ContainSubstring("unable to compile 'context':"))
+}
+
+func TestEditor_WhenSearchIsMissing_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	// Arrange
+	edit := &Editor{}
+
+	// Act
+	err := edit.Validate()
+
+	// Assert
+	g.Expect(err).To(gomega.HaveOccurred())
+	g.Expect(err.Error()).To(gomega.ContainSubstring("editor 'search' may not be empty"))
+}
+
+func TestEditor_Validate_WhenSearchIsInvalidRegex_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	// Arrange
+	edit := &Editor{
+		Search: "[A-Z",
+	}
+
+	// Act
+	err := edit.Validate()
+
+	// Assert
+	g.Expect(err).To(gomega.HaveOccurred())
+	g.Expect(err.Error()).To(gomega.ContainSubstring("unable to compile 'search':"))
 }

@@ -6,12 +6,12 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 
-	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega"
 )
 
 func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
+	g := gomega.NewWithT(t)
 
 	cfg := &config.Config{}
 	pkg := NewPackage(cfg, logr.Discard())
@@ -21,16 +21,16 @@ func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	}
 
 	dec, ok := pkg.Declaration("PersonResourceSpec")
-	g.Expect(ok).To(BeTrue())
+	g.Expect(ok).To(gomega.BeTrue())
 
 	obj, ok := dec.(*Object)
-	g.Expect(ok).To(BeTrue())
+	g.Expect(ok).To(gomega.BeTrue())
 
-	fullName, ok := obj.Property("FullName")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(fullName).NotTo(BeNil())
+	fullName, ok := obj.Property("fullName")
+	g.Expect(ok).To(gomega.BeTrue())
+	g.Expect(fullName).NotTo(gomega.BeNil())
 
-	children, ok := obj.Property("Children")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(children).NotTo(BeNil())
+	children, ok := obj.Property("children")
+	g.Expect(ok).To(gomega.BeTrue())
+	g.Expect(children).NotTo(gomega.BeNil())
 }

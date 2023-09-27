@@ -14,6 +14,8 @@ type Config struct {
 	PrettyPrint bool      `yaml:"prettyPrint"`
 }
 
+// Default returns the default configuration, as a basis for loading
+// or for export.
 func Default() *Config {
 	return &Config{
 		PrettyPrint: true,
