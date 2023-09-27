@@ -26,11 +26,11 @@ func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	obj, ok := dec.(*Object)
 	g.Expect(ok).To(gomega.BeTrue())
 
-	fullName, ok := obj.Property("FullName")
+	fullName, ok := obj.Property("fullName")
 	g.Expect(ok).To(gomega.BeTrue())
 	g.Expect(fullName).NotTo(gomega.BeNil())
 
-	children, ok := obj.Property("Children")
+	children, ok := obj.Property("children")
 	g.Expect(ok).To(gomega.BeTrue())
 	g.Expect(children).NotTo(gomega.BeNil())
 }

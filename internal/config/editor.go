@@ -16,12 +16,12 @@ type Editor struct {
 }
 
 func (edit *Editor) Validate() error {
-	if err := edit.ensureInitialized(); err != nil {
-		return err
-	}
-
 	if edit.Search == "" {
 		return fmt.Errorf("editor 'search' may not be empty")
+	}
+
+	if err := edit.ensureInitialized(); err != nil {
+		return err
 	}
 
 	return nil
