@@ -3,7 +3,7 @@ package config
 import (
 	"testing"
 
-	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega"
 )
 
 func TestEditor_Replace_ReturnsExpectedResult(t *testing.T) {
@@ -57,11 +57,11 @@ func TestEditor_Replace_ReturnsExpectedResult(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 
-			g := NewGomegaWithT(t)
-			g.Expect(c.editor.Validate()).To(Succeed())
+			g := gomega.NewWithT(t)
+			g.Expect(c.editor.Validate()).To(gomega.Succeed())
 
 			actual := c.editor.Replace(c.input)
-			g.Expect(actual).To(Equal(c.expected))
+			g.Expect(actual).To(gomega.Equal(c.expected))
 		})
 	}
 }

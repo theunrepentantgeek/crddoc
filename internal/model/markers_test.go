@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega"
 )
 
 func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
@@ -29,13 +29,13 @@ func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := gomega.NewWithT(t)
 
 			path := strings.Split(c.lookup, ":")
 			actual, ok := markers.Lookup(path...)
 
-			g.Expect(ok).To(Equal(c.expected != ""))
-			g.Expect(actual).To(Equal(c.expected))
+			g.Expect(ok).To(gomega.Equal(c.expected != ""))
+			g.Expect(actual).To(gomega.Equal(c.expected))
 		})
 	}
 }
@@ -73,12 +73,12 @@ func TestMarkers_Exists_ReturnsExpectedValue(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := gomega.NewWithT(t)
 
 			path := strings.Split(c.lookup, ":")
 			found := markers.Exists(path...)
 
-			g.Expect(found).To(Equal(c.expected))
+			g.Expect(found).To(gomega.Equal(c.expected))
 		})
 	}
 }
