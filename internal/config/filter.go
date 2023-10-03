@@ -12,39 +12,8 @@ type Filter struct {
 	excludeRegex *regexp.Regexp
 	Include      string `yaml:"include"`
 	includeRegex *regexp.Regexp
-}
 
-type FilterResult string
 
-const (
-	FilterResultInclude FilterResult = "include"
-	FilterResultExclude FilterResult = "exclude"
-	FilterResultNone    FilterResult = "none"
-)
-
-func NewFilter() *Filter {
-	return &Filter{}
-}
-
-func (f *Filter) Applies(name string) FilterResult {
-	// ensure our include and exclude filters are compiled
-	if f.Include != "" && f.includeRegex == nil {
-		f.includeRegex = createGlobber(f.Include)
-	}
-
-	if f.Exclude != "" && f.excludeRegex == nil {
-		f.excludeRegex = createGlobber(f.Exclude)
-	}
-
-	if f.includeRegex != nil && f.includeRegex.MatchString(name) {
-		return FilterResultInclude
-	}
-
-	if f.excludeRegex != nil && f.excludeRegex.MatchString(name) {
-		return FilterResultExclude
-	}
-
-	return FilterResultNone
 }
 
 func (f *Filter) validate() error {

@@ -53,13 +53,3 @@ func (c *Config) Validate() error {
 
 	return nil
 }
-
-func (c *Config) Filter(name string) FilterResult {
-	for _, f := range c.TypeFilters {
-		if result := f.Applies(name); result != FilterResultNone {
-			return result
-		}
-	}
-
-	return FilterResultInclude
-}
