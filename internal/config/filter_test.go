@@ -26,9 +26,10 @@ func TestFilter_Validate_WhenBothIncludeAndExcludeSpecified_ReturnsError(t *test
 	g := gomega.NewWithT(t)
 
 	// Arrange
-	f := NewFilter()
-	f.Exclude = "foo"
-	f.Include = "bar"
+	f := &Filter{
+		Exclude: "foo",
+		Include: "bar",
+	}
 
 	// Act
 	err := f.validate()

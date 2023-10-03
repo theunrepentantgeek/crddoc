@@ -9,9 +9,16 @@ import (
 
 // Editor represents a point modification to make to exported documentation
 type Editor struct {
-	Context       string `yaml:"context"` // Context is a regex identifying a substring to modify
-	Search        string `yaml:"search"`  // Search is a regex identifying a substring to replace
-	Replacement   string `yaml:"replace"` // Replace is the string to replace the search string with
+	// Context is a regex identifying a substring to modify, limiting the scope of the search and
+	// replace. If omitted, the entire string is eligible for modification.
+	Context string `yaml:"context"`
+
+	// Search is a regex identifying a substring to replace.
+	Search string `yaml:"search"`
+
+	// Replace is the string to substitute for the search regex.
+	Replacement string `yaml:"replace"`
+
 	contextRegexp *regexp.Regexp
 	searchRegexp  *regexp.Regexp
 }

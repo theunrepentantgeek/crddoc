@@ -9,9 +9,14 @@ import (
 )
 
 type Config struct {
-	Editors     []Editor  `yaml:"editors"`
+	// Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.
+	Editors []Editor `yaml:"editors"`
+
+	// TypeFilters allow you to filter out types from the output. Filters are applied in the order specified, with earlier filters taking priority over later ones.
 	TypeFilters []*Filter `yaml:"typeFilters"`
-	PrettyPrint bool      `yaml:"prettyPrint"`
+
+	// PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.
+	PrettyPrint bool `yaml:"prettyPrint"`
 }
 
 // Default returns the default configuration, as a basis for loading

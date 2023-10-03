@@ -1,19 +1,18 @@
 package config
 
 import (
-	"regexp"
-
 	"github.com/pkg/errors"
 )
 
 type Filter struct {
-	Because      string `yaml:"because"`
-	Exclude      string `yaml:"exclude"`
-	excludeRegex *regexp.Regexp
-	Include      string `yaml:"include"`
-	includeRegex *regexp.Regexp
+	// Because is an explanation of why this filter is being applied and what it does.
+	Because string `yaml:"because"`
 
+	// Exclude is a glob identifying types to exclude from the output.
+	Exclude string `yaml:"exclude"`
 
+	// Include is a glob identifying types to include in the output.
+	Include string `yaml:"include"`
 }
 
 func (f *Filter) validate() error {
