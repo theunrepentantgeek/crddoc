@@ -59,7 +59,7 @@ func documentPackage(
 
 	// Load the config file
 	cfg := config.Default()
-	if options.configPath != nil || *options.configPath != "" {
+	if options.configPath != nil && *options.configPath != "" {
 		err := cfg.Load(*options.configPath)
 		if err != nil {
 			return errors.Wrapf(err, "reading config file %q", *options.configPath)
