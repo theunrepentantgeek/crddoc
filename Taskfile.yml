@@ -1,0 +1,22 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+
+  build:
+    cmds:
+      - go build
+
+  test:
+    deps:
+      - build
+    cmds:
+      - go test ./...
+
+  ci:
+    deps:
+      - test
