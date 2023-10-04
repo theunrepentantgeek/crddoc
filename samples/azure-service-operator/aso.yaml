@@ -5,7 +5,7 @@ editors:
     # Allow ARM URLs to line break at slashes
   - context: "(?i)/subscriptions/[\\w{}_\\-/]*"
     search: "/"
-    replacement: "/&ZeroWidthSpace;"
+    replace: "/&ZeroWidthSpace;"
 prettyPrint: true
 typeFilters:
     # Exclude ARM types as they're an implementation detail
