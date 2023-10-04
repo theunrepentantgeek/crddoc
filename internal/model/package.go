@@ -7,11 +7,13 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/theunrepentantgeek/crddoc/internal/config"
+	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
+
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/errgroup"
@@ -21,6 +23,7 @@ import (
 type Package struct {
 	name         string
 	cfg          *config.Config
+	typeFilters  *typefilter.TypeFilterList
 	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
 	log          logr.Logger
 	lock         sync.Mutex
@@ -35,6 +38,7 @@ const (
 func NewPackage(cfg *config.Config, log logr.Logger) *Package {
 	return &Package{
 		cfg:          cfg,
+		typeFilters:  typefilter.New(cfg),
 		declarations: make(map[string]Declaration),
 		log:          log,
 	}
@@ -302,7 +306,7 @@ func addDeclarations[D Declaration](p *Package, declarations map[string]D) {
 
 	for name, decl := range declarations {
 		// Skip excluded declarations
-		if p.cfg.Filter(name) == config.FilterResultExclude {
+		if p.typeFilters.Filter(name) == typefilter.Excluded {
 			continue
 		}
 

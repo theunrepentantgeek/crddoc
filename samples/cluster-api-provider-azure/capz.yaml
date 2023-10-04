@@ -1,0 +1,4 @@
+#
+# Configuration for Cluster API Provider Azure
+#
+prettyPrint: true

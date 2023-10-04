@@ -1,7 +1,6 @@
 package config
 
 import (
-	"io"
 	"os"
 
 	"github.com/pkg/errors"
@@ -9,9 +8,14 @@ import (
 )
 
 type Config struct {
-	Editors     []Editor  `yaml:"editors"`
+	// Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.
+	Editors []Editor `yaml:"editors"`
+
+	// TypeFilters allow you to filter out types from the output. Filters are applied in the order specified, with earlier filters taking priority over later ones.
 	TypeFilters []*Filter `yaml:"typeFilters"`
-	PrettyPrint bool      `yaml:"prettyPrint"`
+
+	// PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.
+	PrettyPrint bool `yaml:"prettyPrint"`
 }
 
 // Default returns the default configuration, as a basis for loading
@@ -31,12 +35,10 @@ func (c *Config) Load(path string) error {
 
 	defer file.Close()
 
-	data, err := io.ReadAll(file)
-	if err != nil {
-		return errors.Wrapf(err, "reading config file %q", path)
-	}
+	decoder := yaml.NewDecoder(file)
+	decoder.KnownFields(true)
 
-	err = yaml.Unmarshal(data, c)
+	err = decoder.Decode(c)
 	if err != nil {
 		return errors.Wrapf(err, "parsing config file %q", path)
 	}
@@ -52,14 +54,4 @@ func (c *Config) Validate() error {
 	}
 
 	return nil
-}
-
-func (c *Config) Filter(name string) FilterResult {
-	for _, f := range c.TypeFilters {
-		if result := f.Applies(name); result != FilterResultNone {
-			return result
-		}
-	}
-
-	return FilterResultInclude
 }

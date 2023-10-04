@@ -1,50 +1,18 @@
 package config
 
 import (
-	"regexp"
-
 	"github.com/pkg/errors"
 )
 
 type Filter struct {
-	Because      string `yaml:"because"`
-	Exclude      string `yaml:"exclude"`
-	excludeRegex *regexp.Regexp
-	Include      string `yaml:"include"`
-	includeRegex *regexp.Regexp
-}
+	// Because is an explanation of why this filter is being applied and what it does.
+	Because string `yaml:"because"`
 
-type FilterResult string
+	// Exclude is a glob identifying types to exclude from the output.
+	Exclude string `yaml:"exclude"`
 
-const (
-	FilterResultInclude FilterResult = "include"
-	FilterResultExclude FilterResult = "exclude"
-	FilterResultNone    FilterResult = "none"
-)
-
-func NewFilter() *Filter {
-	return &Filter{}
-}
-
-func (f *Filter) Applies(name string) FilterResult {
-	// ensure our include and exclude filters are compiled
-	if f.Include != "" && f.includeRegex == nil {
-		f.includeRegex = createGlobber(f.Include)
-	}
-
-	if f.Exclude != "" && f.excludeRegex == nil {
-		f.excludeRegex = createGlobber(f.Exclude)
-	}
-
-	if f.includeRegex != nil && f.includeRegex.MatchString(name) {
-		return FilterResultInclude
-	}
-
-	if f.excludeRegex != nil && f.excludeRegex.MatchString(name) {
-		return FilterResultExclude
-	}
-
-	return FilterResultNone
+	// Include is a glob identifying types to include in the output.
+	Include string `yaml:"include"`
 }
 
 func (f *Filter) validate() error {

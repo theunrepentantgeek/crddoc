@@ -1,0 +1,45 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  SAMPLES_DIR: "{{ list .ROOT_DIR \"samples\" | join \"/\" | osClean }}"
+
+tasks:
+
+  build:
+    cmds:
+      - go build
+
+  test:
+    deps:
+      - build
+    cmds:
+      - go test ./...
+
+  ci:
+    deps:
+      - test
+
+  example:aso:
+    deps: 
+      - build
+    cmds:
+      - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+    vars:
+      DST_DIR: '{{joinPath .SAMPLES_DIR "azure-service-operator"}}'
+      PACKAGE: '{{joinPath .ROOT_DIR "../azure-service-operator/v2/api/containerservice/v1api20210501" | shellQuote}}'
+      OUTPUT: '{{joinPath .DST_DIR "containerservice.md" | shellQuote}}'
+      CONFIG: '{{joinPath .DST_DIR "aso.yaml" | shellQuote}}'
+
+  example:capz:
+    deps: 
+      - build
+    cmds:
+      - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+    vars:
+      CRD: "containerservice"
+      DST_DIR: '{{joinPath .SAMPLES_DIR "cluster-api-provider-azure"}}'
+      PACKAGE: '{{joinPath .ROOT_DIR "../cluster-api-provider-azure/api/v1beta1" | shellQuote}}'
+      OUTPUT: '{{joinPath .DST_DIR "capz.md" | shellQuote}}'
+      CONFIG: '{{joinPath .DST_DIR "capz.yaml" | shellQuote}}'
