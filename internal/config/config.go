@@ -1,7 +1,6 @@
 package config
 
 import (
-	"io"
 	"os"
 
 	"github.com/pkg/errors"
@@ -36,12 +35,10 @@ func (c *Config) Load(path string) error {
 
 	defer file.Close()
 
-	data, err := io.ReadAll(file)
-	if err != nil {
-		return errors.Wrapf(err, "reading config file %q", path)
-	}
+	decoder := yaml.NewDecoder(file)
+	decoder.KnownFields(true)
 
-	err = yaml.Unmarshal(data, c)
+	err = decoder.Decode(c)
 	if err != nil {
 		return errors.Wrapf(err, "parsing config file %q", path)
 	}
