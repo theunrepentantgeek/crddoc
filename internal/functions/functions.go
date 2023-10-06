@@ -5,12 +5,14 @@ import (
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
+	"github.com/theunrepentantgeek/crddoc/internal/texteditor"
 )
 
 // Functions is a carrier type for all the Functions we provide to templates
 type Functions struct {
-	pkg *model.Package // Current Package used by the functions
-	cfg *config.Config // Config used by the functions
+	pkg     *model.Package // Current Package used by the functions
+	cfg     *config.Config // Config used by the functions
+	editors *texteditor.TextEditorList
 }
 
 func New() *Functions {
@@ -35,6 +37,10 @@ func (f *Functions) SetPackage(pkg *model.Package) {
 	f.pkg = pkg
 }
 
-func (f *Functions) SetConfig(cfg *config.Config) {
+func (f *Functions) SetConfig(cfg *config.Config) error {
 	f.cfg = cfg
+
+	var err error
+	f.editors, err = texteditor.New(cfg)
+	return err
 }
