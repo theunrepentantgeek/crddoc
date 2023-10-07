@@ -19,13 +19,11 @@ Editor represents a point modification to make to exported documentation
 
 Used by: [Config](#config).
 
-| Property      | Description                                                                                                                                                     | Type          |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| context       | Context is a regex identifying a substring to modify, limiting the scope of the search and replace. If omitted, the entire string is eligible for modification. | string        |
-| contextRegexp |                                                                                                                                                                 | regexp.Regexp |
-| replace       | Replace is the string to substitute for the search regex.                                                                                                       | string        |
-| search        | Search is a regex identifying a substring to replace.                                                                                                           | string        |
-| searchRegexp  |                                                                                                                                                                 | regexp.Regexp |
+| Property | Description                                                                                                                                                     | Type   |
+|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| context  | Context is a regex identifying a substring to modify, limiting the scope of the search and replace. If omitted, the entire string is eligible for modification. | string |
+| replace  | Replace is the string to substitute for the search regex.                                                                                                       | string |
+| search   | Search is a regex identifying a substring to replace.                                                                                                           | string |
 
 <a id="filter"></a>Filter
 -------------------------
