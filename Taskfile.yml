@@ -5,6 +5,8 @@ version: '3'
 vars:
   SAMPLES_DIR: "{{ list .ROOT_DIR \"samples\" | join \"/\" | osClean }}"
 
+run: once
+
 tasks:
 
   build:
@@ -12,16 +14,39 @@ tasks:
       - go build
 
   test:
+    summary: Run unit tests
     deps:
       - build
     cmds:
       - go test ./...
 
   ci:
+    summary: Run continuous integration tasks
     deps:
       - test
 
-  example:aso:
+  docs:
+    summary: Build documentation 
+    deps:
+      - docs.config
+      - docs.aso
+      - docs.capz
+
+  docs.config:
+    summary: Build documentation of config options
+    deps: 
+      - build
+    cmds:
+      - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+    vars:
+      DST_DIR: '{{joinPath .ROOT_DIR "docs" "config"}}'
+      PACKAGE: '{{joinPath .ROOT_DIR "internal" "config" | shellQuote}}'
+      OUTPUT: '{{joinPath .DST_DIR "config.md" | shellQuote}}'
+      CONFIG: '{{joinPath .DST_DIR "crddoc-config.yaml" | shellQuote}}'
+    
+
+  docs.aso:
+    summary: Build example showing documentation for Azure Service Operator
     deps: 
       - build
     cmds:
@@ -32,7 +57,8 @@ tasks:
       OUTPUT: '{{joinPath .DST_DIR "containerservice.md" | shellQuote}}'
       CONFIG: '{{joinPath .DST_DIR "aso.yaml" | shellQuote}}'
 
-  example:capz:
+  docs.capz:
+    summary: Build example showing documentation for Cluster API Provider Azure
     deps: 
       - build
     cmds:
