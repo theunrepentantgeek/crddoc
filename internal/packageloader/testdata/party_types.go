@@ -1,5 +1,8 @@
+// +groupName=colourmodel
+// +versionName=v1beta3
 package v1
 
+// PartyResource represents a person, company or organization
 type PartyResource struct {
 	Spec   PartyResourceSpec   `json:"spec"`
 	Status PartyResourceStatus `json:"status"`

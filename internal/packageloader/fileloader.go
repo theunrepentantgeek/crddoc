@@ -20,6 +20,8 @@ type FileLoader struct {
 	objects   map[string]*model.Object
 	enums     map[string]*model.Enum
 	values    map[string][]*model.EnumValue
+	group     *string
+	version   *string
 	log       logr.Logger
 }
 
@@ -45,7 +47,14 @@ func (loader *FileLoader) Load() error {
 		return err
 	}
 
+	loader.parseMetadata(file.Decs.Start)
+	loader.parseMetadata(file.Decs.End)
+
 	for _, decl := range file.Decls {
+
+		loader.parseMetadata(decl.Decorations().Start)
+		loader.parseMetadata(decl.Decorations().End)
+
 		if gd, ok := decl.(*dst.GenDecl); ok {
 			if gd.Tok == token.TYPE {
 
@@ -137,4 +146,39 @@ func (loader *FileLoader) Declarations() []model.Declaration {
 	}
 
 	return result
+}
+
+// Group returns the group of the file, if known.
+func (loader *FileLoader) Group() (string, bool) {
+	if loader.group == nil {
+		return "", false
+	}
+
+	return *loader.group, true
+}
+
+// Version returns the version of the file, if known.
+func (loader *FileLoader) Version() (string, bool) {
+	if loader.version == nil {
+		return "", false
+	}
+
+	return *loader.version, true
+}
+
+func (loader *FileLoader) parseMetadata(lines []string) {
+	if len(lines) == 0 {
+		// Nothing to do
+		return
+
+	}
+
+	_, markers := model.ParseComments(lines)
+	if grp, ok := markers.Lookup("groupName"); ok {
+		loader.group = &grp
+	}
+
+	if ver, ok := markers.Lookup("versionName"); ok {
+		loader.version = &ver
+	}
 }
