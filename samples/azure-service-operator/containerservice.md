@@ -9,8 +9,6 @@ v1api20210501
 <a id="apiversion"></a>APIVersion
 ---------------------------------
 
-.
-
 <a id="agentpoolmode"></a>AgentPoolMode
 ---------------------------------------
 
@@ -643,8 +641,6 @@ Used by: [ManagedClusterIdentity_STATUS](#managedclusteridentity_status).
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2021-05-01/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}
 
-.
-
 | Property        | Description | Type                                |
 |-----------------|-------------|-------------------------------------|
 | metav1.TypeMeta |             |                                     |
@@ -1160,8 +1156,6 @@ Used by: [ManagedClustersAgentPoolList](#managedclustersagentpoollist).
 ---------------------------------------------------------------------
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2021-05-01/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
-
-.
 
 | Property        | Description | Type                                                    |
 |-----------------|-------------|---------------------------------------------------------|

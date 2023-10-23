@@ -9,8 +9,6 @@ config
 <a id="config"></a>Config
 -------------------------
 
-.
-
 | Property    | Description                                                                                                                                                  | Type                |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
 | editors     | Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.                                         | [Editor[]](#editor) |

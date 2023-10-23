@@ -72,8 +72,6 @@ Used by: [AzureManagedControlPlaneSpec](#azuremanagedcontrolplanespec).
 
 AddressRecord specifies a DNS record mapping a hostname to an IPV4 or IPv6 address.
 
-.
-
 | Property | Description | Type   |
 |----------|-------------|--------|
 | Hostname |             | string |
@@ -163,8 +161,6 @@ Used by: [AzureClusterList](#azureclusterlist).
 
 AzureClusterClassSpec defines the AzureCluster properties that may be shared across several Azure clusters.
 
-.
-
 | Property                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Type                                                          |
 |------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
 | additionalTags               | AdditionalTags is an optional set of tags to add to Azure resources managed by the Azure provider, in addition to the ones added by default.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Tags                                                          |
@@ -193,8 +189,6 @@ Used by: [AzureClusterIdentityList](#azureclusteridentitylist).
 -------------------------------------------------------------
 
 AzureClusterIdentityList contains a list of AzureClusterIdentity.
-
-.
 
 | Property        | Description | Type                                            |
 |-----------------|-------------|-------------------------------------------------|
@@ -233,8 +227,6 @@ Used by: [AzureClusterIdentity](#azureclusteridentity).
 ---------------------------------------------
 
 AzureClusterList contains a list of AzureClusters.
-
-.
 
 | Property        | Description | Type                            |
 |-----------------|-------------|---------------------------------|
@@ -288,8 +280,6 @@ Used by: [AzureClusterTemplateList](#azureclustertemplatelist).
 -------------------------------------------------------------
 
 AzureClusterTemplateList contains a list of AzureClusterTemplate.
-
-.
 
 | Property        | Description | Type                                            |
 |-----------------|-------------|-------------------------------------------------|
@@ -367,8 +357,6 @@ Used by: [AzureMachineList](#azuremachinelist).
 
 AzureMachineList contains a list of AzureMachine.
 
-.
-
 | Property        | Description | Type                            |
 |-----------------|-------------|---------------------------------|
 | metav1.TypeMeta |             |                                 |
@@ -443,8 +431,6 @@ Used by: [AzureMachineTemplateList](#azuremachinetemplatelist).
 
 AzureMachineTemplateList contains a list of AzureMachineTemplates.
 
-.
-
 | Property        | Description | Type                                            |
 |-----------------|-------------|-------------------------------------------------|
 | metav1.TypeMeta |             |                                                 |
@@ -493,8 +479,6 @@ Used by: [AzureManagedClusterList](#azuremanagedclusterlist).
 
 AzureManagedClusterList contains a list of AzureManagedClusters.
 
-.
-
 | Property        | Description | Type                                          |
 |-----------------|-------------|-----------------------------------------------|
 | metav1.TypeMeta |             |                                               |
@@ -541,8 +525,6 @@ Used by: [AzureManagedControlPlaneList](#azuremanagedcontrolplanelist).
 ---------------------------------------------------------------------
 
 AzureManagedControlPlaneList contains a list of AzureManagedControlPlane.
-
-.
 
 | Property        | Description | Type                                                    |
 |-----------------|-------------|---------------------------------------------------------|
@@ -625,8 +607,6 @@ Used by: [AzureManagedMachinePoolList](#azuremanagedmachinepoollist).
 -------------------------------------------------------------------
 
 AzureManagedMachinePoolList contains a list of AzureManagedMachinePools.
-
-.
 
 | Property        | Description | Type                                                  |
 |-----------------|-------------|-------------------------------------------------------|
@@ -795,8 +775,6 @@ Used by: [BootDiagnostics](#bootdiagnostics).
 
 BuildParams is used to build tags around an azure resource.
 
-.
-
 | Property    | Description                                                                | Type                                    |
 |-------------|----------------------------------------------------------------------------|-----------------------------------------|
 | Additional  | Any additional tags to be added to the resource.                           | Tags                                    |
@@ -906,8 +884,6 @@ Used by: [LoadBalancerSpec](#loadbalancerspec).
 
 FrontendIPClass defines the FrontendIP properties that may be shared across several Azure clusters.
 
-.
-
 | Property  | Description | Type   |
 |-----------|-------------|--------|
 | privateIP |             | string |
@@ -916,8 +892,6 @@ FrontendIPClass defines the FrontendIP properties that may be shared across seve
 -------------------------
 
 Future contains the data needed for an Azure long-running operation to continue across reconcile loops.
-
-.
 
 | Property      | Description                                                                                                                            | Type   |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -1178,8 +1152,6 @@ Used by: [SubnetTemplateSpec](#subnettemplatespec).
 
 NetworkClassSpec defines the NetworkSpec properties that may be shared across several Azure clusters.
 
-.
-
 | Property           | Description                                                         | Type   |
 |--------------------|---------------------------------------------------------------------|--------|
 | privateDNSZoneName | PrivateDNSZoneName defines the zone name for the Azure Private DNS. | string |
@@ -1237,8 +1209,6 @@ Used by: [AzureClusterTemplateResourceSpec](#azureclustertemplateresourcespec).
 <a id="nodepoolmode"></a>NodePoolMode
 -------------------------------------
 
-.
-
 <a id="oidcissuerprofile"></a>OIDCIssuerProfile
 -----------------------------------------------
 
@@ -1279,14 +1249,10 @@ Used by: [AzureMachineSpec](#azuremachinespec), and [osDiskTestInput](#osdisktes
 <a id="orchestrationmodetype"></a>OrchestrationModeType
 -------------------------------------------------------
 
-.
-
 <a id="privateendpointspec"></a>PrivateEndpointSpec
 ---------------------------------------------------
 
 PrivateEndpointSpec configures an Azure Private Endpoint.
-
-.
 
 | Property                      | Description                                                                                                                                                                                                     | Type                                                            |
 |-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
@@ -1432,8 +1398,6 @@ Used by: [AzureMachineSpec](#azuremachinespec).
 
 SecurityRule defines an Azure security rule for security groups.
 
-.
-
 | Property         | Description                                                                                                                                                                                                                                                                  | Type                                            |
 |------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
 | action           | Action specifies whether network traffic is allowed or denied. Can either be "Allow" or "Deny". Defaults to "Allow".                                                                                                                                                         | [SecurityRuleAccess](#securityruleaccess)       |
@@ -1466,8 +1430,6 @@ Used by: [SecurityProfile](#securityprofile).
 ---------------------------------------------------
 
 ServiceEndpointSpec configures an Azure Service Endpoint.
-
-.
 
 | Property  | Description | Type     |
 |-----------|-------------|----------|
@@ -1505,8 +1467,6 @@ Used by: [AzureMachineSpec](#azuremachinespec).
 -------------------------------------------
 
 SubnetClassSpec defines the SubnetSpec properties that may be shared across several Azure clusters.
-
-.
 
 | Property         | Description                                                                                                | Type                      |
 |------------------|------------------------------------------------------------------------------------------------------------|---------------------------|
@@ -1605,8 +1565,6 @@ Used by: [AzureMachineSpec](#azuremachinespec).
 
 Taint represents a Kubernetes taint.
 
-.
-
 | Property | Description                               | Type                        |
 |----------|-------------------------------------------|-----------------------------|
 | effect   | Effect specifies the effect for the taint | [TaintEffect](#tainteffect) |
@@ -1697,14 +1655,10 @@ Used by: [AzureMachineSpec](#azuremachinespec).
 <a id="vmstate"></a>VMState
 ---------------------------
 
-.
-
 <a id="vnetclassspec"></a>VnetClassSpec
 ---------------------------------------
 
 VnetClassSpec defines the VnetSpec properties that may be shared across several Azure clusters.
-
-.
 
 | Property   | Description                                                                                                         | Type     |
 |------------|---------------------------------------------------------------------------------------------------------------------|----------|
@@ -1715,8 +1669,6 @@ VnetClassSpec defines the VnetSpec properties that may be shared across several 
 -----------------------------------------------------
 
 VnetPeeringClassSpec specifies a virtual network peering class.
-
-.
 
 | Property                 | Description                                                                                                                            | Type                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
@@ -1743,8 +1695,6 @@ Used by: [VnetPeeringClassSpec](#vnetpeeringclassspec), and [VnetPeeringClassSpe
 -------------------------------------------
 
 VnetPeeringSpec specifies an existing remote virtual network to peer with the AzureCluster's virtual network.
-
-.
 
 <a id="vnetspec"></a>VnetSpec
 -----------------------------
@@ -1778,8 +1728,6 @@ Used by: [NetworkTemplateSpec](#networktemplatespec).
 
 azureMachineWebhook implements a validating and defaulting webhook for AzureMachines.
 
-.
-
 | Property | Description | Type          |
 |----------|-------------|---------------|
 | Client   |             | client.Client |
@@ -1788,8 +1736,6 @@ azureMachineWebhook implements a validating and defaulting webhook for AzureMach
 ---------------------------------------------------------------------------
 
 azureManagedControlPlaneWebhook implements a validating and defaulting webhook for AzureManagedControlPlane.
-
-.
 
 | Property | Description | Type          |
 |----------|-------------|---------------|
@@ -1800,16 +1746,12 @@ azureManagedControlPlaneWebhook implements a validating and defaulting webhook f
 
 azureManagedMachinePoolWebhook implements a validating and defaulting webhook for AzureManagedMachinePool.
 
-.
-
 | Property | Description | Type          |
 |----------|-------------|---------------|
 | Client   |             | client.Client |
 
 <a id="mockclient"></a>mockClient
 ---------------------------------
-
-.
 
 | Property      | Description | Type |
 |---------------|-------------|------|
@@ -1819,8 +1761,6 @@ azureManagedMachinePoolWebhook implements a validating and defaulting webhook fo
 <a id="mockdefaultclient"></a>mockDefaultClient
 -----------------------------------------------
 
-.
-
 | Property       | Description | Type   |
 |----------------|-------------|--------|
 | client.Client  |             |        |
@@ -1828,8 +1768,6 @@ azureManagedMachinePoolWebhook implements a validating and defaulting webhook fo
 
 <a id="osdisktestinput"></a>osDiskTestInput
 -------------------------------------------
-
-.
 
 | Property | Description | Type              |
 |----------|-------------|-------------------|
