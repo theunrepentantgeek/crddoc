@@ -1,6 +1,11 @@
 v1api20210501
 =============
 
+| Metadata | Value            |
+|----------|------------------|
+| Group    | containerservice |
+| Version  | v1api20210501    |
+
 <a id="apiversion"></a>APIVersion
 ---------------------------------
 

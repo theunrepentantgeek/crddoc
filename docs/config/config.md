@@ -1,6 +1,11 @@
 config
 ======
 
+| Metadata | Value    |
+|----------|----------|
+| Group    | internal |
+| Version  | config   |
+
 <a id="config"></a>Config
 -------------------------
 

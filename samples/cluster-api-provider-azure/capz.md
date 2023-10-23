@@ -1,6 +1,11 @@
 v1beta1
 =======
 
+| Metadata | Value   |
+|----------|---------|
+| Group    | api     |
+| Version  | v1beta1 |
+
 <a id="aadprofile"></a>AADProfile
 ---------------------------------
 

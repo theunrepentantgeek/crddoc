@@ -11,10 +11,10 @@ import (
 
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
-	name         string
 	cfg          *config.Config
 	typeFilters  *typefilter.TypeFilterList
 	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
+	metadata     PackageMetadata
 	log          logr.Logger
 }
 
@@ -65,10 +65,7 @@ func (p *Package) Declarations(order Order) []Declaration {
 
 // Declaration returns the declaration with the given name, if found.
 func (p *Package) Declaration(name string) (Declaration, bool) {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
-	dec, ok := p.declarations[strings.ToLower(name)]
+	dec, ok := p.declarations[name]
 	if !ok {
 		return nil, false
 	}
