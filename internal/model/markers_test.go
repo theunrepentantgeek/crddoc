@@ -18,8 +18,8 @@ func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
 	}{
 		{
 			"Required",
-			"kubebuilder:validation",
-			"Max=100",
+			"kubebuilder:validation:Max",
+			"100",
 		},
 	}
 

@@ -34,7 +34,7 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 		description: description,
 	}
 
-	if commands.Count() > 0 {
+	if commands.Any() {
 		if commands.Exists("kubebuilder", "validation", "Optional") {
 			result.required = "Optional"
 		} else if commands.Exists("kubebuilder", "validation", "Required") {

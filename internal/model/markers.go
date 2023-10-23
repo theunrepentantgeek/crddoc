@@ -3,73 +3,68 @@ package model
 import "strings"
 
 type Markers struct {
-	markers [][]string
+	name     string
+	value    string
+	children map[string]*Markers
 }
 
 func NewMarkers() *Markers {
-	return &Markers{}
+	return &Markers{
+		children: make(map[string]*Markers),
+	}
 }
 
 // Add a marker to the list
 func (m *Markers) Add(marker string) {
-	// Split the marker into a path
-	path := strings.Split(
-		strings.TrimPrefix(marker, "+"),
-		":")
+	marker = strings.TrimPrefix(marker, "+")
+	if n, rest, ok := strings.Cut(marker, ":"); ok {
+		child := m.requireChild(n)
+		if rest != "" {
+			child.Add(rest)
+		}
 
-	// Trim the path
-	for i, p := range path {
-		path[i] = strings.Trim(p, " ")
+		return
 	}
 
-	// Add to our list
-	m.markers = append(m.markers, path)
+	if n, v, ok := strings.Cut(marker, "="); ok {
+		child := m.requireChild(n)
+		child.value = v
+	} else {
+		m.requireChild(marker)
+	}
 }
 
-func (m *Markers) Count() int {
-	return len(m.markers)
+func (m *Markers) Any() bool {
+	return len(m.children) > 0
 }
 
 // Lookup a marker value by path, returning the final value
 func (m *Markers) Lookup(path ...string) (string, bool) {
-	// Iterate over the markers
-	for _, marker := range m.markers {
-		// If the marker path matches the lookup path, return the value
-		if len(marker) == len(path)+1 {
-			returnValue, shouldReturn := checkMarker(marker, path)
-			if shouldReturn {
-				return returnValue, true
-			}
-		}
+	if len(path) == 0 {
+		return m.value, true
 	}
 
-	// No match
-	return "", false
+	child, ok := m.children[path[0]]
+	if !ok {
+		return "", false
+	}
+
+	return child.Lookup(path[1:]...)
 }
 
 // Exists returns true if the marker exists
 func (m *Markers) Exists(path ...string) bool {
-	// Iterate over the markers
-	for _, marker := range m.markers {
-		// If the marker path matches the lookup path, return the value
-		if len(marker) == len(path) {
-			_, shouldReturn := checkMarker(marker, path)
-			if shouldReturn {
-				return true
-			}
-		}
-	}
-
-	// No match
-	return false
+	_, ok := m.Lookup(path...)
+	return ok
 }
 
-func checkMarker(marker []string, path []string) (string, bool) {
-	for i, p := range path {
-		if marker[i] != p {
-			return "", false
-		}
+func (m *Markers) requireChild(name string) *Markers {
+	result, ok := m.children[name]
+	if !ok {
+		result = NewMarkers()
+		result.name = name
+		m.children[name] = result
 	}
 
-	return marker[len(marker)-1], true
+	return result
 }
