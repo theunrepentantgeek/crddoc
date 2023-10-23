@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/generator"
-	"github.com/theunrepentantgeek/crddoc/internal/model"
+	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
 func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
@@ -71,9 +71,9 @@ func documentPackage(
 		}
 	}
 
-	pkg := model.NewPackage(cfg, log)
 	packageFolder := args[0]
-	err := pkg.LoadDirectory(packageFolder)
+	loader := packageloader.New(cfg, log)
+	pkg, err := loader.LoadDirectory(packageFolder)
 	if err != nil {
 		return errors.Wrapf(err, "loading package from %q", packageFolder)
 	}

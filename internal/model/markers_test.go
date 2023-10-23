@@ -1,10 +1,11 @@
-package model
+package model_test
 
 import (
 	"strings"
 	"testing"
 
 	"github.com/onsi/gomega"
+	"github.com/theunrepentantgeek/crddoc/internal/model"
 )
 
 func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
@@ -22,7 +23,7 @@ func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
 		},
 	}
 
-	markers := NewMarkers()
+	markers := model.NewMarkers()
 	markers.Add("+kubebuilder:validation:Max=100")
 
 	for _, c := range cases {
@@ -65,7 +66,7 @@ func TestMarkers_Exists_ReturnsExpectedValue(t *testing.T) {
 		},
 	}
 
-	markers := NewMarkers()
+	markers := model.NewMarkers()
 	markers.Add("+kubebuilder:validation:Required")
 	markers.Add("+kubebuilder:validation:Optional")
 

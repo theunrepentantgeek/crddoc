@@ -1,22 +1,12 @@
 package model
 
 import (
-	"go/token"
-	"os"
-	"path/filepath"
-	"strings"
-	"sync"
-
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 
-	"github.com/dave/dst"
-	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
-	"golang.org/x/sync/errgroup"
 )
 
 // Package is a struct containing all of the declarations found in a package directory
@@ -26,7 +16,6 @@ type Package struct {
 	typeFilters  *typefilter.TypeFilterList
 	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
 	log          logr.Logger
-	lock         sync.Mutex
 }
 
 type Order string
@@ -35,104 +24,33 @@ const (
 	OrderAlphabetical = "alphabetical"
 )
 
-func NewPackage(cfg *config.Config, log logr.Logger) *Package {
-	return &Package{
+func NewPackage(
+	decl []Declaration,
+	metadata PackageMetadata,
+	cfg *config.Config,
+	log logr.Logger,
+) *Package {
+	result := &Package{
 		cfg:          cfg,
 		typeFilters:  typefilter.New(cfg),
-		declarations: make(map[string]Declaration),
+		declarations: make(map[string]Declaration, len(decl)),
+		metadata:     metadata,
 		log:          log,
 	}
+
+	for _, d := range decl {
+		result.declarations[d.Name()] = d
+	}
+
+	result.catalogCrossReferences()
+	return result
 }
 
 func (p *Package) Name() string {
-	return p.name
-}
-
-// LoadDirectory scans a directory for Go files and loads them into the Package
-func (p *Package) LoadDirectory(folder string) error {
-	fdr, pkg := filepath.Split(folder)
-
-	p.log.Info(
-		"Loading package",
-		"name", pkg,
-		"folder", fdr)
-
-	p.name = pkg
-
-	files, err := os.ReadDir(folder)
-	if err != nil {
-		return errors.Wrapf(err, "failed to read directory %s", folder)
-	}
-
-	var eg errgroup.Group
-	for _, f := range files {
-		f := f
-
-		if f.IsDir() {
-			continue
-		}
-
-		if filepath.Ext(f.Name()) != ".go" {
-			continue
-		}
-
-		eg.Go(func() error {
-			var path = filepath.Join(folder, f.Name())
-			return p.LoadFile(path)
-		})
-	}
-
-	if err := eg.Wait(); err != nil {
-		return errors.Wrapf(err, "failed to load directory %s", folder)
-	}
-
-	p.catalogCrossReferences()
-
-	return nil
-}
-
-func (p *Package) LoadFile(path string) (failure error) {
-	defer func() {
-		if err := recover(); err != nil {
-			failure = errors.Errorf("panic reading %s: %v", path, err)
-		}
-	}()
-
-	_, f := filepath.Split(path)
-	p.log.V(1).Info(
-		"Loading source file",
-		"file", f)
-
-	// Create a reader for the file
-	reader, err := os.Open(path)
-	if err != nil {
-		return errors.Wrapf(err, "failed to open file %s", path)
-	}
-
-	defer reader.Close()
-
-	file, err := decorator.Parse(reader)
-	if err != nil {
-		return errors.Wrapf(err, "failed to parse file %s", path)
-	}
-
-	// Find declarations of interest
-	objects := p.findObjects(file.Decls)
-	resources := p.findResources(objects)
-	enums := p.findEnums(file.Decls)
-
-	// Add them to the package
-	addDeclarations(p, resources)
-	addDeclarations(p, objects)
-	addDeclarations(p, enums)
-
-	return nil
+	return p.metadata.Name
 }
 
 func (p *Package) Declarations(order Order) []Declaration {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
 	result := maps.Values(p.declarations)
 
 	// Sort the declarations as specified
