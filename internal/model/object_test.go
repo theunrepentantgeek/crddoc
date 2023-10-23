@@ -1,36 +1,39 @@
-package model
+package model_test
 
 import (
 	"testing"
 
-	"github.com/go-logr/logr"
-	"github.com/theunrepentantgeek/crddoc/internal/config"
+	. "github.com/onsi/gomega"
 
-	"github.com/onsi/gomega"
+	"github.com/go-logr/logr"
+
+	"github.com/theunrepentantgeek/crddoc/internal/config"
+	"github.com/theunrepentantgeek/crddoc/internal/model"
+	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
 func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	cfg := &config.Config{}
-	pkg := NewPackage(cfg, logr.Discard())
-	err := pkg.LoadFile(testdataPath(t, "person_types.go"))
+	loader := packageloader.New(cfg, logr.Discard())
+	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
 		t.Fatalf("Failed to load file: %v", err)
 	}
 
 	dec, ok := pkg.Declaration("PersonResourceSpec")
-	g.Expect(ok).To(gomega.BeTrue())
+	g.Expect(ok).To(BeTrue())
 
-	obj, ok := dec.(*Object)
-	g.Expect(ok).To(gomega.BeTrue())
+	obj, ok := dec.(*model.Object)
+	g.Expect(ok).To(BeTrue())
 
 	fullName, ok := obj.Property("fullName")
-	g.Expect(ok).To(gomega.BeTrue())
-	g.Expect(fullName).NotTo(gomega.BeNil())
+	g.Expect(ok).To(BeTrue())
+	g.Expect(fullName).NotTo(BeNil())
 
 	children, ok := obj.Property("children")
-	g.Expect(ok).To(gomega.BeTrue())
-	g.Expect(children).NotTo(gomega.BeNil())
+	g.Expect(ok).To(BeTrue())
+	g.Expect(children).NotTo(BeNil())
 }

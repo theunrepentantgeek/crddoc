@@ -37,7 +37,7 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 	}
 
 	ref := NewTypeReference(typeSpec.Name)
-	description, _ := parseComments(comments)
+	description, _ := ParseComments(comments)
 
 	// If the first line of the description starts with "<name>: ", remove that prefix
 	if len(description) > 0 {

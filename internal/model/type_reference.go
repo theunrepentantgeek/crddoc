@@ -1,8 +1,6 @@
 package model
 
 import (
-	"strings"
-
 	"github.com/dave/dst"
 )
 
@@ -27,11 +25,12 @@ func (ref *TypeReference) Id() string {
 }
 
 // createIdFor renders an ID from a type expression, for linking within the documentation.
-// Details such as as
+// We used to create exclusively lowercase IDs, but some resources have related types
+// that differ only in case, so we now preserve case.
 func createId(expr dst.Expr) string {
 	switch t := expr.(type) {
 	case *dst.Ident:
-		return strings.ToLower(t.Name)
+		return t.Name
 	case *dst.StarExpr:
 		return createId(t.X)
 	case *dst.ArrayType:

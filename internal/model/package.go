@@ -1,32 +1,21 @@
 package model
 
 import (
-	"go/token"
-	"os"
-	"path/filepath"
-	"strings"
-	"sync"
-
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 
-	"github.com/dave/dst"
-	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
-	"golang.org/x/sync/errgroup"
 )
 
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
-	name         string
 	cfg          *config.Config
 	typeFilters  *typefilter.TypeFilterList
 	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
+	metadata     PackageMetadata
 	log          logr.Logger
-	lock         sync.Mutex
 }
 
 type Order string
@@ -35,104 +24,33 @@ const (
 	OrderAlphabetical = "alphabetical"
 )
 
-func NewPackage(cfg *config.Config, log logr.Logger) *Package {
-	return &Package{
+func NewPackage(
+	decl []Declaration,
+	metadata PackageMetadata,
+	cfg *config.Config,
+	log logr.Logger,
+) *Package {
+	result := &Package{
 		cfg:          cfg,
 		typeFilters:  typefilter.New(cfg),
-		declarations: make(map[string]Declaration),
+		declarations: make(map[string]Declaration, len(decl)),
+		metadata:     metadata,
 		log:          log,
 	}
+
+	for _, d := range decl {
+		result.declarations[d.Name()] = d
+	}
+
+	result.catalogCrossReferences()
+	return result
 }
 
 func (p *Package) Name() string {
-	return p.name
-}
-
-// LoadDirectory scans a directory for Go files and loads them into the Package
-func (p *Package) LoadDirectory(folder string) error {
-	fdr, pkg := filepath.Split(folder)
-
-	p.log.Info(
-		"Loading package",
-		"name", pkg,
-		"folder", fdr)
-
-	p.name = pkg
-
-	files, err := os.ReadDir(folder)
-	if err != nil {
-		return errors.Wrapf(err, "failed to read directory %s", folder)
-	}
-
-	var eg errgroup.Group
-	for _, f := range files {
-		f := f
-
-		if f.IsDir() {
-			continue
-		}
-
-		if filepath.Ext(f.Name()) != ".go" {
-			continue
-		}
-
-		eg.Go(func() error {
-			var path = filepath.Join(folder, f.Name())
-			return p.LoadFile(path)
-		})
-	}
-
-	if err := eg.Wait(); err != nil {
-		return errors.Wrapf(err, "failed to load directory %s", folder)
-	}
-
-	p.catalogCrossReferences()
-
-	return nil
-}
-
-func (p *Package) LoadFile(path string) (failure error) {
-	defer func() {
-		if err := recover(); err != nil {
-			failure = errors.Errorf("panic reading %s: %v", path, err)
-		}
-	}()
-
-	_, f := filepath.Split(path)
-	p.log.V(1).Info(
-		"Loading source file",
-		"file", f)
-
-	// Create a reader for the file
-	reader, err := os.Open(path)
-	if err != nil {
-		return errors.Wrapf(err, "failed to open file %s", path)
-	}
-
-	defer reader.Close()
-
-	file, err := decorator.Parse(reader)
-	if err != nil {
-		return errors.Wrapf(err, "failed to parse file %s", path)
-	}
-
-	// Find declarations of interest
-	objects := p.findObjects(file.Decls)
-	resources := p.findResources(objects)
-	enums := p.findEnums(file.Decls)
-
-	// Add them to the package
-	addDeclarations(p, resources)
-	addDeclarations(p, objects)
-	addDeclarations(p, enums)
-
-	return nil
+	return p.metadata.Name
 }
 
 func (p *Package) Declarations(order Order) []Declaration {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
 	result := maps.Values(p.declarations)
 
 	// Sort the declarations as specified
@@ -147,10 +65,7 @@ func (p *Package) Declarations(order Order) []Declaration {
 
 // Declaration returns the declaration with the given name, if found.
 func (p *Package) Declaration(name string) (Declaration, bool) {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
-	dec, ok := p.declarations[strings.ToLower(name)]
+	dec, ok := p.declarations[name]
 	if !ok {
 		return nil, false
 	}
@@ -169,97 +84,17 @@ func (p *Package) Object(name string) (*Object, bool) {
 	return obj, ok
 }
 
-// findObjects scans the declarations in a file and returns a slice of objects
-func (p *Package) findObjects(decls []dst.Decl) map[string]*Object {
-	result := make(map[string]*Object, len(decls))
-
-	for _, decl := range decls {
-		// Check for a GenDecl containing a TYPE
-		gd, ok := decl.(*dst.GenDecl)
-		if !ok || gd.Tok != token.TYPE {
-			continue
-		}
-
-		comments := gd.Decs.Start.All()
-
-		// Iterate over the specs in the GenDecl and try to create an object from each
-		for _, spec := range gd.Specs {
-
-			if obj, ok := TryNewObject(spec, comments); ok {
-				result[obj.Id()] = obj
-			}
-		}
-	}
-
-	return result
+// Group returns the group of the package
+func (p *Package) Group() string {
+	return p.metadata.Group
 }
 
-func (p *Package) findResources(objects map[string]*Object) map[string]*Resource {
-	result := make(map[string]*Resource)
-
-	// Find all the objects that are actually resources
-	for _, obj := range objects {
-		if resource, ok := TryNewResource(obj); ok {
-			result[resource.Id()] = resource
-		}
-	}
-
-	// Remove those objects so we don't have any name collisions
-	for name := range result {
-		delete(objects, name)
-	}
-
-	return result
-}
-
-// findEnums scans the declarations in a file and returns a slice of enumerations
-func (p *Package) findEnums(decls []dst.Decl) map[string]*Enum {
-
-	// Collect Enum Types
-	enums := make(map[string]*Enum)
-	for _, decl := range decls {
-		// Check for a GenDecl containing a TYPE
-		gd, ok := decl.(*dst.GenDecl)
-		if !ok || gd.Tok != token.TYPE {
-			continue
-		}
-
-		comments := gd.Decs.Start.All()
-
-		// Iterate over the specs in the GenDecl and try to create an enum from each
-		for _, spec := range gd.Specs {
-			if enum, ok := TryNewEnum(spec, comments); ok {
-				enums[enum.Id()] = enum
-			}
-		}
-	}
-
-	// Now that we have all the enums, we can scan the declarations again and add the
-	// enum values to the appropriate enum
-	for _, decl := range decls {
-		// Check for a GenDecl containing a CONST
-		gd, ok := decl.(*dst.GenDecl)
-		if !ok || gd.Tok != token.CONST {
-			continue
-		}
-
-		// Iterate over the specs in the GenDecl and try to create an enum value
-		for _, spec := range gd.Specs {
-			if enumValue, ok := TryNewEnumValue(spec); ok {
-				if enum, ok := enums[enumValue.Kind()]; ok {
-					enum.AddValue(enumValue)
-				}
-			}
-		}
-	}
-
-	return enums
+// Version returns the version of the package
+func (p *Package) Version() string {
+	return p.metadata.Version
 }
 
 func (p *Package) catalogCrossReferences() {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
 	usages := p.indexUsage()
 	for name, usage := range usages {
 		if obj, ok := p.declarations[name]; ok {
@@ -297,21 +132,4 @@ func alphabeticalObjectComparison(left Declaration, right Declaration) int {
 	}
 
 	return 0
-}
-
-// addDeclarations adds more declarations to the package
-func addDeclarations[D Declaration](p *Package, declarations map[string]D) {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
-	for name, decl := range declarations {
-		// Skip excluded declarations
-		if p.typeFilters.Filter(name) == typefilter.Excluded {
-			continue
-		}
-
-		//TODO: Check for name collisions
-		// (Should never happen - BUT if it does, we need to know)
-		p.declarations[name] = decl
-	}
 }

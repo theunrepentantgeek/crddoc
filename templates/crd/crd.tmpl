@@ -2,6 +2,11 @@
 
 # {{ .Name }}
 
+| Metadata | Value          |
+| -------- | -------------- |
+| Group    | {{ .Group }}   |
+| Version  | {{ .Version }} |
+
 {{ range .Declarations "alphabetical" }}
 
 ## <a id="{{ .Id }}"></a>{{ .Name }}

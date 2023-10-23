@@ -18,7 +18,7 @@ type Property struct {
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	//TODO: Parse tags
 
-	description, commands := parseComments(field.Decs.Start.All())
+	description, commands := ParseComments(field.Decs.Start.All())
 
 	// If the first line of the description starts with "<property>: ", remove that prefix
 	if len(description) > 0 {
@@ -34,7 +34,7 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 		description: description,
 	}
 
-	if commands.Count() > 0 {
+	if commands.Any() {
 		if commands.Exists("kubebuilder", "validation", "Optional") {
 			result.required = "Optional"
 		} else if commands.Exists("kubebuilder", "validation", "Required") {

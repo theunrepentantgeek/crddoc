@@ -2,9 +2,9 @@ package model
 
 import "strings"
 
-// parseComments iterates over the comments and returns the description and any commands that are
+// ParseComments iterates over the comments and returns the description and any commands that are
 // not part of the description
-func parseComments(comments []string) ([]string, *Markers) {
+func ParseComments(comments []string) ([]string, *Markers) {
 	description := make([]string, 0, len(comments))
 	commands := NewMarkers()
 
@@ -20,6 +20,3 @@ func parseComments(comments []string) ([]string, *Markers) {
 
 	return description, commands
 }
-
-// "+kubebuilder:validation:Required"
-//func parseMarker(commands []string)
