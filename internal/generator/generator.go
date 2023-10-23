@@ -49,6 +49,8 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	g.log.Info(
 		"Rendering template",
 		"package", pkg.Name(),
+		"group", pkg.Group(),
+		"version", pkg.Version(),
 	)
 
 	g.fns.SetPackage(pkg)

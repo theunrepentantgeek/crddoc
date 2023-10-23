@@ -6,21 +6,21 @@ config
 | Group    | internal |
 | Version  | config   |
 
-<a id="config"></a>Config
+<a id="Config"></a>Config
 -------------------------
 
 | Property    | Description                                                                                                                                                  | Type                |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| editors     | Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.                                         | [Editor[]](#editor) |
+| editors     | Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.                                         | [Editor[]](#Editor) |
 | prettyPrint | PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.                                                                 | bool                |
-| typeFilters | TypeFilters allow you to filter out types from the output. Filters are applied in the order specified, with earlier filters taking priority over later ones. | [Filter[]](#filter) |
+| typeFilters | TypeFilters allow you to filter out types from the output. Filters are applied in the order specified, with earlier filters taking priority over later ones. | [Filter[]](#Filter) |
 
-<a id="editor"></a>Editor
+<a id="Editor"></a>Editor
 -------------------------
 
 Editor represents a point modification to make to exported documentation
 
-Used by: [Config](#config).
+Used by: [Config](#Config).
 
 | Property | Description                                                                                                                                                     | Type   |
 |----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -28,10 +28,10 @@ Used by: [Config](#config).
 | replace  | Replace is the string to substitute for the search regex.                                                                                                       | string |
 | search   | Search is a regex identifying a substring to replace.                                                                                                           | string |
 
-<a id="filter"></a>Filter
+<a id="Filter"></a>Filter
 -------------------------
 
-Used by: [Config](#config).
+Used by: [Config](#Config).
 
 | Property | Description                                                                     | Type   |
 |----------|---------------------------------------------------------------------------------|--------|

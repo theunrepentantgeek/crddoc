@@ -13,13 +13,8 @@ import (
 )
 
 type PackageLoader struct {
-	cfg     *config.Config
-	log     logr.Logger
-	name    string // Name of this package
-	ref     string // Reference to use when importing this package
-	group   string // Group of this package
-	version string // Version of this package
-
+	cfg *config.Config
+	log logr.Logger
 }
 
 func New(
@@ -56,17 +51,16 @@ func (loader *PackageLoader) load(folder string, glob string) (*model.Package, e
 
 	var lock sync.Mutex
 
-	loader.name = name
-	loader.group = group
-	loader.version = name
-
 	files, err := os.ReadDir(folder)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to read directory %s", folder)
 	}
 
 	var declarations []model.Declaration
-	var metadata model.PackageMetadata
+	metadata := model.PackageMetadata{
+		Name: name,
+	}
+
 	var eg errgroup.Group
 	for _, f := range files {
 		f := f
@@ -122,6 +116,15 @@ func (loader *PackageLoader) load(folder string, glob string) (*model.Package, e
 
 	if err := eg.Wait(); err != nil {
 		return nil, errors.Wrapf(err, "failed to load directory %s", folder)
+	}
+
+	// Update Metadata with defaults if nothing specific found
+	if metadata.Group == "" {
+		metadata.Group = group
+	}
+
+	if metadata.Version == "" {
+		metadata.Version = name
 	}
 
 	pkg := model.NewPackage(declarations, metadata, loader.cfg, loader.log)
