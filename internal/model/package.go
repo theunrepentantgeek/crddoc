@@ -169,97 +169,17 @@ func (p *Package) Object(name string) (*Object, bool) {
 	return obj, ok
 }
 
-// findObjects scans the declarations in a file and returns a slice of objects
-func (p *Package) findObjects(decls []dst.Decl) map[string]*Object {
-	result := make(map[string]*Object, len(decls))
-
-	for _, decl := range decls {
-		// Check for a GenDecl containing a TYPE
-		gd, ok := decl.(*dst.GenDecl)
-		if !ok || gd.Tok != token.TYPE {
-			continue
-		}
-
-		comments := gd.Decs.Start.All()
-
-		// Iterate over the specs in the GenDecl and try to create an object from each
-		for _, spec := range gd.Specs {
-
-			if obj, ok := TryNewObject(spec, comments); ok {
-				result[obj.Id()] = obj
-			}
-		}
-	}
-
-	return result
+// Group returns the group of the package
+func (p *Package) Group() string {
+	return p.metadata.Group
 }
 
-func (p *Package) findResources(objects map[string]*Object) map[string]*Resource {
-	result := make(map[string]*Resource)
-
-	// Find all the objects that are actually resources
-	for _, obj := range objects {
-		if resource, ok := TryNewResource(obj); ok {
-			result[resource.Id()] = resource
-		}
-	}
-
-	// Remove those objects so we don't have any name collisions
-	for name := range result {
-		delete(objects, name)
-	}
-
-	return result
-}
-
-// findEnums scans the declarations in a file and returns a slice of enumerations
-func (p *Package) findEnums(decls []dst.Decl) map[string]*Enum {
-
-	// Collect Enum Types
-	enums := make(map[string]*Enum)
-	for _, decl := range decls {
-		// Check for a GenDecl containing a TYPE
-		gd, ok := decl.(*dst.GenDecl)
-		if !ok || gd.Tok != token.TYPE {
-			continue
-		}
-
-		comments := gd.Decs.Start.All()
-
-		// Iterate over the specs in the GenDecl and try to create an enum from each
-		for _, spec := range gd.Specs {
-			if enum, ok := TryNewEnum(spec, comments); ok {
-				enums[enum.Id()] = enum
-			}
-		}
-	}
-
-	// Now that we have all the enums, we can scan the declarations again and add the
-	// enum values to the appropriate enum
-	for _, decl := range decls {
-		// Check for a GenDecl containing a CONST
-		gd, ok := decl.(*dst.GenDecl)
-		if !ok || gd.Tok != token.CONST {
-			continue
-		}
-
-		// Iterate over the specs in the GenDecl and try to create an enum value
-		for _, spec := range gd.Specs {
-			if enumValue, ok := TryNewEnumValue(spec); ok {
-				if enum, ok := enums[enumValue.Kind()]; ok {
-					enum.AddValue(enumValue)
-				}
-			}
-		}
-	}
-
-	return enums
+// Version returns the version of the package
+func (p *Package) Version() string {
+	return p.metadata.Version
 }
 
 func (p *Package) catalogCrossReferences() {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
 	usages := p.indexUsage()
 	for name, usage := range usages {
 		if obj, ok := p.declarations[name]; ok {
@@ -297,21 +217,4 @@ func alphabeticalObjectComparison(left Declaration, right Declaration) int {
 	}
 
 	return 0
-}
-
-// addDeclarations adds more declarations to the package
-func addDeclarations[D Declaration](p *Package, declarations map[string]D) {
-	p.lock.Lock()
-	defer p.lock.Unlock()
-
-	for name, decl := range declarations {
-		// Skip excluded declarations
-		if p.typeFilters.Filter(name) == typefilter.Excluded {
-			continue
-		}
-
-		//TODO: Check for name collisions
-		// (Should never happen - BUT if it does, we need to know)
-		p.declarations[name] = decl
-	}
 }
