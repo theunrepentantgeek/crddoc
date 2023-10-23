@@ -96,6 +96,26 @@ func (loader *PackageLoader) load(folder string, glob string) (*model.Package, e
 			defer lock.Unlock()
 
 			declarations = append(declarations, decls...)
+			if grp, ok := fl.Group(); ok {
+				if !metadata.TrySetGroup(grp) {
+					loader.log.Info(
+						"Multiple values for 'group' found in package",
+						"file", path,
+						"existing", metadata.Group,
+						"new", grp)
+				}
+			}
+
+			if ver, ok := fl.Version(); ok {
+				if !metadata.TrySetVersion(ver) {
+					loader.log.Info(
+						"Multiple values for 'version' found in package",
+						"file", path,
+						"existing", metadata.Version,
+						"new", ver)
+				}
+			}
+
 			return nil
 		})
 	}
