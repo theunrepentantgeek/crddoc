@@ -7,14 +7,17 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/sync/errgroup"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
-	"golang.org/x/sync/errgroup"
+	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 )
 
 type PackageLoader struct {
-	cfg *config.Config
-	log logr.Logger
+	cfg         *config.Config
+	log         logr.Logger
+	typeFilters *typefilter.TypeFilterList
 }
 
 func New(
@@ -22,8 +25,9 @@ func New(
 	log logr.Logger,
 ) *PackageLoader {
 	return &PackageLoader{
-		cfg: cfg,
-		log: log,
+		cfg:         cfg,
+		log:         log,
+		typeFilters: typefilter.New(cfg),
 	}
 }
 
@@ -79,7 +83,7 @@ func (loader *PackageLoader) load(folder string, glob string) (*model.Package, e
 
 		eg.Go(func() error {
 			var path = filepath.Join(folder, f.Name())
-			fl := NewFileLoader(path, loader.log)
+			fl := NewFileLoader(path, loader.log, loader.typeFilters)
 			err := fl.Load()
 			if err != nil {
 				return err
