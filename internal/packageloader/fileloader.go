@@ -10,30 +10,37 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
+	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 	"golang.org/x/exp/maps"
 )
 
 type FileLoader struct {
-	path      string
-	name      string
-	resources map[string]*model.Resource
-	objects   map[string]*model.Object
-	enums     map[string]*model.Enum
-	values    map[string][]*model.EnumValue
-	group     *string
-	version   *string
-	log       logr.Logger
+	path        string
+	name        string
+	typeFilters *typefilter.TypeFilterList
+	resources   map[string]*model.Resource
+	objects     map[string]*model.Object
+	enums       map[string]*model.Enum
+	values      map[string][]*model.EnumValue
+	group       *string
+	version     *string
+	log         logr.Logger
 }
 
-func NewFileLoader(path string, log logr.Logger) *FileLoader {
+func NewFileLoader(
+	path string,
+	log logr.Logger,
+	typeFilters *typefilter.TypeFilterList,
+) *FileLoader {
 	return &FileLoader{
-		name:      filepath.Base(path),
-		path:      path,
-		resources: make(map[string]*model.Resource),
-		objects:   make(map[string]*model.Object),
-		enums:     make(map[string]*model.Enum),
-		values:    make(map[string][]*model.EnumValue),
-		log:       log,
+		name:        filepath.Base(path),
+		path:        path,
+		typeFilters: typeFilters,
+		resources:   make(map[string]*model.Resource),
+		objects:     make(map[string]*model.Object),
+		enums:       make(map[string]*model.Enum),
+		values:      make(map[string][]*model.EnumValue),
+		log:         log,
 	}
 }
 
@@ -134,15 +141,21 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 func (loader *FileLoader) Declarations() []model.Declaration {
 	result := make([]model.Declaration, 0, len(loader.resources)+len(loader.objects)+len(loader.enums))
 	for _, r := range loader.resources {
-		result = append(result, r)
+		if loader.typeFilters.Filter(r.Name()) == typefilter.Included {
+			result = append(result, r)
+		}
 	}
 
 	for _, o := range loader.objects {
-		result = append(result, o)
+		if loader.typeFilters.Filter(o.Name()) == typefilter.Included {
+			result = append(result, o)
+		}
 	}
 
 	for _, e := range loader.enums {
-		result = append(result, e)
+		if loader.typeFilters.Filter(e.Name()) == typefilter.Included {
+			result = append(result, e)
+		}
 	}
 
 	return result
