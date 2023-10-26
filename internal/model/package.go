@@ -2,7 +2,6 @@ package model
 
 import (
 	"github.com/theunrepentantgeek/crddoc/internal/config"
-	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 
 	"github.com/go-logr/logr"
 	"golang.org/x/exp/maps"
@@ -12,7 +11,6 @@ import (
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
 	cfg          *config.Config
-	typeFilters  *typefilter.TypeFilterList
 	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
 	metadata     PackageMetadata
 	log          logr.Logger
@@ -32,7 +30,6 @@ func NewPackage(
 ) *Package {
 	result := &Package{
 		cfg:          cfg,
-		typeFilters:  typefilter.New(cfg),
 		declarations: make(map[string]Declaration, len(decl)),
 		metadata:     metadata,
 		log:          log,

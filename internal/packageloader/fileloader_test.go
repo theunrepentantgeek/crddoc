@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"github.com/theunrepentantgeek/crddoc/internal/config"
+	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 
 	"github.com/go-logr/logr"
 )
@@ -14,7 +16,10 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedResourceCount(t *testing.
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard())
+	cfg := &config.Config{}
+	filter := typefilter.New(cfg)
+
+	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
 	g.Expect(fl.resources).To(HaveLen(1))
@@ -24,7 +29,10 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedObjectCount(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard())
+	cfg := &config.Config{}
+	filter := typefilter.New(cfg)
+
+	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
 	g.Expect(fl.objects).To(HaveLen(3))
@@ -34,7 +42,10 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedEnumCount(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard())
+	cfg := &config.Config{}
+	filter := typefilter.New(cfg)
+
+	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
 	g.Expect(fl.enums).To(HaveLen(1))
@@ -44,7 +55,10 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedGroup(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard())
+	cfg := &config.Config{}
+	filter := typefilter.New(cfg)
+
+	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
 	grp, ok := fl.Group()
@@ -56,7 +70,10 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedVersion(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard())
+	cfg := &config.Config{}
+	filter := typefilter.New(cfg)
+
+	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
 	ver, ok := fl.Version()
