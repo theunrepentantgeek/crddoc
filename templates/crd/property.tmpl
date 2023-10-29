@@ -1,6 +1,6 @@
 {{ define "property" -}}
 | {{ .Name -}} 
-| {{ .Description | unwrap | applyEdits -}} 
+| {{ .Description | inlineLinks | unwrap | applyEdits -}} 
 | {{ if .Type | createLink -}}
 [
 {{- end -}}
