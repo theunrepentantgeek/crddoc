@@ -9,7 +9,7 @@ v1beta1
 <a id="AADProfile"></a>AADProfile
 ---------------------------------
 
-AADProfile - AAD integration managed by AKS. See also [AKS doc]. <br/>[AKS doc]: https://learn.microsoft.com/azure/aks/managed-aad
+AADProfile - AAD integration managed by AKS. See also [AKS doc](https://learn.microsoft.com/azure/aks/managed-aad). <br/>
 
 Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 
@@ -32,7 +32,7 @@ Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 <a id="APIServerAccessProfile"></a>APIServerAccessProfile
 ---------------------------------------------------------
 
-APIServerAccessProfile tunes the accessibility of the cluster's control plane. See also [AKS doc]. <br/>[AKS doc]: https://learn.microsoft.com/azure/aks/api-server-authorized-ip-ranges
+APIServerAccessProfile tunes the accessibility of the cluster's control plane. See also [AKS doc](https://learn.microsoft.com/azure/aks/api-server-authorized-ip-ranges). <br/>
 
 Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 
@@ -92,7 +92,7 @@ Used by: [AzureClusterIdentitySpec](#AzureClusterIdentitySpec).
 <a id="AutoScalerProfile"></a>AutoScalerProfile
 -----------------------------------------------
 
-AutoScalerProfile parameters to be applied to the cluster-autoscaler. See also [AKS doc], [K8s doc]. <br/>[AKS doc]: https://learn.microsoft.com/azure/aks/cluster-autoscaler#use-the-cluster-autoscaler-profile [K8s doc]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca
+AutoScalerProfile parameters to be applied to the cluster-autoscaler. See also [AKS doc](https://learn.microsoft.com/azure/aks/cluster-autoscaler#use-the-cluster-autoscaler-profile), [K8s doc](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca). <br/>
 
 Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 
@@ -1100,7 +1100,7 @@ Used by: [PublicIPSpec](#PublicIPSpec).
 <a id="Identity"></a>Identity
 -----------------------------
 
-Identity represents the Identity configuration for an AKS control plane. See also [AKS doc]. <br/>[AKS doc]: https://learn.microsoft.com/en-us/azure/aks/use-managed-identity
+Identity represents the Identity configuration for an AKS control plane. See also [AKS doc](https://learn.microsoft.com/en-us/azure/aks/use-managed-identity). <br/>
 
 Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 
@@ -1144,7 +1144,7 @@ Used by: [AzureComputeGalleryImage](#AzureComputeGalleryImage).
 <a id="KubeletConfig"></a>KubeletConfig
 ---------------------------------------
 
-KubeletConfig defines the supported subset of kubelet configurations for nodes in pools. See also [AKS doc], [K8s doc]. <br/>[AKS doc]: https://learn.microsoft.com/azure/aks/custom-node-configuration [K8s doc]: https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/
+KubeletConfig defines the supported subset of kubelet configurations for nodes in pools. See also [AKS doc](https://learn.microsoft.com/azure/aks/custom-node-configuration), [K8s doc](https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/). <br/>
 
 Used by: [AzureManagedMachinePoolSpec](#AzureManagedMachinePoolSpec).
 
@@ -1180,7 +1180,7 @@ Used by: [LoadBalancerClassSpec](#LoadBalancerClassSpec).
 <a id="LinuxOSConfig"></a>LinuxOSConfig
 ---------------------------------------
 
-LinuxOSConfig specifies the custom Linux OS settings and configurations. See also [AKS doc]. <br/>[AKS doc]: https://learn.microsoft.com/azure/aks/custom-node-configuration#linux-os-custom-configuration
+LinuxOSConfig specifies the custom Linux OS settings and configurations. See also [AKS doc](https://learn.microsoft.com/azure/aks/custom-node-configuration#linux-os-custom-configuration). <br/>
 
 Used by: [AzureManagedMachinePoolSpec](#AzureManagedMachinePoolSpec).
 
@@ -1207,7 +1207,7 @@ Used by: [NetworkTemplateSpec](#NetworkTemplateSpec), [NetworkTemplateSpec](#Net
 <a id="LoadBalancerProfile"></a>LoadBalancerProfile
 ---------------------------------------------------
 
-LoadBalancerProfile - Profile of the cluster load balancer. At most one of `managedOutboundIPs`, `outboundIPPrefixes`, or `outboundIPs` may be specified. See also [AKS doc]. <br/>[AKS doc]: https://learn.microsoft.com/azure/aks/load-balancer-standard
+LoadBalancerProfile - Profile of the cluster load balancer. At most one of `managedOutboundIPs`, `outboundIPPrefixes`, or `outboundIPs` may be specified. See also [AKS doc](https://learn.microsoft.com/azure/aks/load-balancer-standard). <br/>
 
 Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 
@@ -1387,7 +1387,7 @@ Used by: [AzureClusterTemplateResourceSpec](#AzureClusterTemplateResourceSpec).
 <a id="OIDCIssuerProfile"></a>OIDCIssuerProfile
 -----------------------------------------------
 
-OIDCIssuerProfile is the OIDC issuer profile of the Managed Cluster. See also [AKS doc]. <br/>[AKS doc]: https://learn.microsoft.com/en-us/azure/aks/use-oidc-issuer
+OIDCIssuerProfile is the OIDC issuer profile of the Managed Cluster. See also [AKS doc](https://learn.microsoft.com/en-us/azure/aks/use-oidc-issuer). <br/>
 
 Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 
