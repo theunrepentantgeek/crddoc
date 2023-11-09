@@ -1,10 +1,11 @@
 v1beta1
 =======
 
-| Metadata | Value                           |
-|----------|---------------------------------|
-| Group    | infrastructure.cluster.x-k8s.io |
-| Version  | v1beta1                         |
+| Metadata | Value                                              |
+|----------|----------------------------------------------------|
+| Group    | infrastructure.cluster.x-k8s.io                    |
+| Version  | v1beta1                                            |
+| Module   | sigs.k8s.io/cluster-api-provider-azure/api/v1beta1 |
 
 <a id="AADProfile"></a>AADProfile
 ---------------------------------
