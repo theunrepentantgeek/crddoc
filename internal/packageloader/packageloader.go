@@ -1,8 +1,11 @@
 package packageloader
 
 import (
+	"bufio"
 	"os"
+	"path"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/go-logr/logr"
@@ -61,8 +64,9 @@ func (loader *PackageLoader) load(folder string, glob string) (*model.Package, e
 	}
 
 	var declarations []model.Declaration
-	metadata := model.PackageMetadata{
-		Name: name,
+	metadata, err := loader.readMetadata(folder)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to read metadata for directory %s", folder)
 	}
 
 	var eg errgroup.Group
@@ -134,4 +138,54 @@ func (loader *PackageLoader) load(folder string, glob string) (*model.Package, e
 	pkg := model.NewPackage(declarations, metadata, loader.cfg, loader.log)
 
 	return pkg, nil
+}
+
+func (loader *PackageLoader) readMetadata(folder string) (model.PackageMetadata, error) {
+	parent, ver := filepath.Split(folder)
+	_, grp := filepath.Split(parent)
+
+	result := model.PackageMetadata{
+		Name:    ver,
+		Group:   grp,
+		Version: ver,
+	}
+
+	if mod, ok := loader.tryReadMetadata(folder); ok {
+		result.Module = mod
+	}
+
+	return result, nil
+}
+
+func (loader *PackageLoader) tryReadMetadata(folder string) (string, bool) {
+	// If go.mod exists, read the package path from there
+	f, err := filepath.Abs(folder)
+	if err != nil {
+		return "", false
+	}
+
+	modFilename := filepath.Join(f, "go.mod")
+	if mod, err := os.OpenFile(modFilename, os.O_RDONLY, 0); err == nil {
+		defer mod.Close()
+
+		scanner := bufio.NewScanner(mod)
+		for scanner.Scan() {
+			line := scanner.Text()
+
+			// If line starts with 'package', return the mod of the line
+			if mod, ok := strings.CutPrefix(line, "module "); ok {
+				return strings.TrimSpace(mod), true
+			}
+		}
+	}
+
+	// Didn't find it, look in a parent folder instead
+	parent, name := filepath.Split(f)
+	if parent != folder {
+		if pkg, ok := loader.tryReadMetadata(parent); ok {
+			return path.Join(pkg, name), true
+		}
+	}
+
+	return "", false
 }

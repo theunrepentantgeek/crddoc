@@ -1,18 +1,10 @@
 package model
 
 type PackageMetadata struct {
-	Name            string // Name of this package
-	ImportReference string // Reference to use when importing this package
-	Group           string // Controller-Gen Group of this package
-	Version         string // Controller-Gen Version of this package
-}
-
-// NewPackageMetadata creates a new PackageMetadata
-func NewPackageMetadata(name string, importReference string) *PackageMetadata {
-	return &PackageMetadata{
-		Name:            name,
-		ImportReference: importReference,
-	}
+	Name    string // Name of this package
+	Module  string // Reference to use when importing this package
+	Group   string // Controller-Gen Group of this package
+	Version string // Controller-Gen Version of this package
 }
 
 // TrySetGroup will set the group if it is not already set,
