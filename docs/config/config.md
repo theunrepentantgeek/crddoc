@@ -1,10 +1,11 @@
 config
 ======
 
-| Metadata | Value    |
-|----------|----------|
-| Group    | internal |
-| Version  | config   |
+| Metadata | Value                                                |
+|----------|------------------------------------------------------|
+| Group    | internal                                             |
+| Version  | config                                               |
+| Module   | github.com/theunrepentantgeek/crddoc/internal/config |
 
 <a id="Config"></a>Config
 -------------------------
