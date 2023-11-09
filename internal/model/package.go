@@ -91,6 +91,11 @@ func (p *Package) Version() string {
 	return p.metadata.Version
 }
 
+// Module returns the module of the package
+func (p *Package) Module() string {
+	return p.metadata.Module
+}
+
 func (p *Package) catalogCrossReferences() {
 	usages := p.indexUsage()
 	for name, usage := range usages {

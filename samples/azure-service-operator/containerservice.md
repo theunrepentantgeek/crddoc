@@ -1,10 +1,11 @@
 v1api20210501
 =============
 
-| Metadata | Value                      |
-|----------|----------------------------|
-| Group    | containerservice.azure.com |
-| Version  | v1api20210501              |
+| Metadata | Value                                                                         |
+|----------|-------------------------------------------------------------------------------|
+| Group    | containerservice.azure.com                                                    |
+| Version  | v1api20210501                                                                 |
+| Module   | github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501 |
 
 <a id="APIVersion"></a>APIVersion
 ---------------------------------
