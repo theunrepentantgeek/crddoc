@@ -79,7 +79,7 @@ func documentPackage(
 	}
 
 	gen := generator.New(cfg, log)
-	templateFolder := "C:\\GitHub\\crddoc\\templates\\crd"
+	templateFolder := os.DirFS("C:\\GitHub\\crddoc\\templates\\crd")
 	err = gen.LoadTemplates(templateFolder)
 	if err != nil {
 		return errors.Wrapf(err, "loading templates from %q", templateFolder)
