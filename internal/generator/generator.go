@@ -33,9 +33,6 @@ func New(cfg *config.Config, log logr.Logger) *Generator {
 }
 
 func (g *Generator) LoadTemplates(folder fs.FS) error {
-	g.log.Info(
-		"Loading templates",
-		"templateFolder", folder)
 	_, err := g.template.ParseFS(folder, "*.tmpl")
 	if err != nil {
 		return err
