@@ -1,0 +1,38 @@
+{{ define "crd" }}
+
+# {{ .Name }}
+
+| Metadata | Value          |
+| -------- | -------------- |
+| Group    | {{ .Group }}   |
+| Version  | {{ .Version }} |
+| Module   | {{ .Module }}  |
+
+{{ range .Declarations "alphabetical" }}
+
+## <a id="{{ .Id }}"></a>{{ .Name }}
+
+{{ .Description | inlineLinks | unwrap | applyEdits -}}
+{{ template "usage" . }}
+
+{{ with . | asPropertyContainer }}
+{{ template "properties" . }}
+{{ end }}
+
+{{ with . | asResource }}
+### <a id="{{ .Spec.Type.Id }}"></a>{{ .Spec.Type.Id }}
+
+{{ template "properties" ( .Spec.Type.Id | lookupDeclaration | asPropertyContainer ) }}
+
+### <a id="{{ .Status.Type.Id }}"></a>{{ .Status.Type.Id }}
+
+{{ template "properties" ( .Status.Type.Id | lookupDeclaration | asPropertyContainer ) }}
+
+{{ end }}
+
+{{- with . | asEnum }}
+{{ template "values" . }}
+{{ end -}}
+
+{{ end -}}
+{{ end -}}
