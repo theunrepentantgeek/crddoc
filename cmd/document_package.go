@@ -12,6 +12,7 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/generator"
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
+	"github.com/theunrepentantgeek/crddoc/templates"
 )
 
 func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
@@ -39,12 +40,19 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 		"",
 		"Write ARM resource CRDs to a single file")
 
+	options.templatePath = cmd.Flags().StringP(
+		"template",
+		"t",
+		"",
+		"Path to a folder containing templates to use for rendering the documentation")
+
 	return cmd, nil
 }
 
 type packageCommandOptions struct {
-	configPath *string
-	outputPath *string
+	configPath   *string
+	outputPath   *string
+	templatePath *string
 }
 
 func documentPackage(
@@ -64,11 +72,15 @@ func documentPackage(
 		if err != nil {
 			return errors.Wrapf(err, "reading config file %q", *options.configPath)
 		}
+	}
 
-		err = cfg.Validate()
-		if err != nil {
-			return errors.Wrapf(err, "validating config file %q", *options.configPath)
-		}
+	// Apply overrides from the command line (if any)
+	options.applyToConfig(cfg)
+
+	// Check that our configuration is still valid
+	err := cfg.Validate()
+	if err != nil {
+		return errors.Wrap(err, "validating configuration")
 	}
 
 	packageFolder := args[0]
@@ -79,10 +91,24 @@ func documentPackage(
 	}
 
 	gen := generator.New(cfg, log)
-	templateFolder := "C:\\GitHub\\crddoc\\templates\\crd"
-	err = gen.LoadTemplates(templateFolder)
-	if err != nil {
-		return errors.Wrapf(err, "loading templates from %q", templateFolder)
+
+	if cfg.TemplatePath != "" {
+		// Load templates from the specified file
+		dir := os.DirFS(cfg.TemplatePath)
+		log.Info(
+			"Loading templates",
+			"path", cfg.TemplatePath)
+		err := gen.LoadTemplates(dir)
+		if err != nil {
+			return errors.Wrapf(err, "loading templates from folder %s", cfg.TemplatePath)
+		}
+	} else {
+		// Use internal templates
+		log.Info("Loading internal templates")
+		err = gen.LoadTemplates(templates.CRD)
+		if err != nil {
+			return errors.Wrap(err, "loading internal templates")
+		}
 	}
 
 	// Render the template and write to output
@@ -136,4 +162,9 @@ func validateDocumentPackage(
 	}
 
 	return nil
+}
+
+// applyToConfig applies options we've received on the command line to the config
+func (options *packageCommandOptions) applyToConfig(cfg *config.Config) {
+	cfg.OverrideTemplatePath(options.templatePath)
 }

@@ -11,11 +11,15 @@ type Config struct {
 	// Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.
 	Editors []Editor `yaml:"editors"`
 
-	// TypeFilters allow you to filter out types from the output. Filters are applied in the order specified, with earlier filters taking priority over later ones.
+	// TypeFilters allow you to filter out types from the output.
+	// Filters are applied in the order specified, with earlier filters taking priority over later ones.
 	TypeFilters []*Filter `yaml:"typeFilters"`
 
 	// PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.
 	PrettyPrint bool `yaml:"prettyPrint"`
+
+	// TemplatePath is the path to folder containing templates to use for rendering the documentation.
+	TemplatePath string `yaml:"templatePath"`
 }
 
 // Default returns the default configuration, as a basis for loading
@@ -44,6 +48,12 @@ func (c *Config) Load(path string) error {
 	}
 
 	return nil
+}
+
+func (c *Config) OverrideTemplatePath(path *string) {
+	if path != nil && *path != "" {
+		c.TemplatePath = *path
+	}
 }
 
 func (c *Config) Validate() error {
