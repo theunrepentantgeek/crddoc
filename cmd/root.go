@@ -40,6 +40,7 @@ func newRootCommand(log logr.Logger) (*cobra.Command, error) {
 
 	cmds := []func(logr.Logger) (*cobra.Command, error){
 		newDocumentPackageCommand,
+		newExportCommand,
 	}
 
 	for _, f := range cmds {
