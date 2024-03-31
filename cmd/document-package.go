@@ -16,7 +16,7 @@ import (
 )
 
 func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
-	options := &packageCommandOptions{}
+	options := &documentPackageOptions{}
 
 	cmd := &cobra.Command{
 		Use:   "document-package",
@@ -49,7 +49,7 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 	return cmd, nil
 }
 
-type packageCommandOptions struct {
+type documentPackageOptions struct {
 	configPath   *string
 	outputPath   *string
 	templatePath *string
@@ -58,10 +58,10 @@ type packageCommandOptions struct {
 func documentPackage(
 	ctx context.Context,
 	args []string,
-	options *packageCommandOptions,
+	options *documentPackageOptions,
 	log logr.Logger,
 ) error {
-	if err := validateDocumentPackage(args, options); err != nil {
+	if err := options.validate(args); err != nil {
 		return err
 	}
 
@@ -93,7 +93,7 @@ func documentPackage(
 	gen := generator.New(cfg, log)
 
 	if cfg.TemplatePath != "" {
-		// Load templates from the specified file
+		// Load templates from the specified folder
 		dir := os.DirFS(cfg.TemplatePath)
 		log.Info(
 			"Loading templates",
@@ -132,9 +132,8 @@ func documentPackage(
 	return nil
 }
 
-func validateDocumentPackage(
+func (options *documentPackageOptions) validate(
 	args []string,
-	options *packageCommandOptions,
 ) error {
 	// Error if package directory missing
 	if len(args) == 0 {
@@ -165,6 +164,6 @@ func validateDocumentPackage(
 }
 
 // applyToConfig applies options we've received on the command line to the config
-func (options *packageCommandOptions) applyToConfig(cfg *config.Config) {
+func (options *documentPackageOptions) applyToConfig(cfg *config.Config) {
 	cfg.OverrideTemplatePath(options.templatePath)
 }
