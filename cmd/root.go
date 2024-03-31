@@ -21,9 +21,7 @@ func Execute() {
 	}
 }
 
-var (
-	verbose bool
-)
+var verbose bool
 
 func newRootCommand(log logr.Logger) (*cobra.Command, error) {
 	rootCmd := &cobra.Command{

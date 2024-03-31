@@ -183,7 +183,6 @@ func (loader *FileLoader) parseMetadata(lines []string) {
 	if len(lines) == 0 {
 		// Nothing to do
 		return
-
 	}
 
 	_, markers := model.ParseComments(lines)

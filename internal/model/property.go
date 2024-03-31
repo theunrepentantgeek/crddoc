@@ -16,7 +16,7 @@ type Property struct {
 }
 
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
-	//TODO: Parse tags
+	// TODO: Parse tags
 
 	description, commands := ParseComments(field.Decs.Start.All())
 

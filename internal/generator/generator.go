@@ -57,7 +57,6 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 		&raw,
 		"crd",
 		pkg)
-
 	if err != nil {
 		g.log.Error(err, "failed to execute template")
 		return errors.Wrap(err, "failed to execute template")

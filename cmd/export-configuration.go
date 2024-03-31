@@ -23,8 +23,7 @@ func newExportConfigurationCommand(
 	return cmd, nil
 }
 
-type exportConfigurationOptions struct {
-}
+type exportConfigurationOptions struct{}
 
 func exportConfiguration(
 	args []string,
