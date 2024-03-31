@@ -9,19 +9,26 @@ run: once
 
 tasks:
 
+  default:
+    desc: Run all tasks
+    deps:
+      - ci
+      - docs
+
   build:
+    desc: Build the crddoc binary
     cmds:
       - go build
 
   test:
-    summary: Run unit tests
+    desc: Run unit tests
     deps:
       - build
     cmds:
       - go test ./...
 
   ci:
-    summary: Run continuous integration tasks
+    desc: Run continuous integration tasks
     deps:
       - test
 

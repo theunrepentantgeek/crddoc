@@ -3,7 +3,7 @@ package generator
 import (
 	"bytes"
 	"io"
-	"path/filepath"
+	"io/fs"
 	"text/template"
 
 	"github.com/go-logr/logr"
@@ -32,12 +32,8 @@ func New(cfg *config.Config, log logr.Logger) *Generator {
 	}
 }
 
-func (g *Generator) LoadTemplates(folder string) error {
-	g.log.Info(
-		"Loading templates",
-		"templateFolder", folder)
-	glob := filepath.Join(folder, "*.tmpl")
-	_, err := g.template.ParseGlob(glob)
+func (g *Generator) LoadTemplates(folder fs.FS) error {
+	_, err := g.template.ParseFS(folder, "*.tmpl")
 	if err != nil {
 		return err
 	}
