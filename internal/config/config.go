@@ -1,6 +1,7 @@
 package config
 
 import (
+	"io"
 	"os"
 
 	"github.com/pkg/errors"
@@ -48,6 +49,31 @@ func (c *Config) Load(path string) error {
 	}
 
 	return nil
+}
+
+// WriteTo writes the current config as YAML to the provided writer.
+func (c *Config) WriteTo(writer io.Writer) error {
+	encoder := yaml.NewEncoder(writer)
+	encoder.SetIndent(2)
+
+	err := encoder.Encode(c)
+	if err != nil {
+		return errors.Wrap(err, "writing config")
+	}
+
+	return nil
+}
+
+// Save writes the current config to the provided path.
+func (c *Config) Save(path string) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return errors.Wrapf(err, "creating config file %q", path)
+	}
+
+	defer file.Close()
+
+	return c.WriteTo(file)
 }
 
 func (c *Config) OverrideTemplatePath(path *string) {

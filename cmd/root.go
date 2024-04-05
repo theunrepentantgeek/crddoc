@@ -21,9 +21,7 @@ func Execute() {
 	}
 }
 
-var (
-	verbose bool
-)
+var verbose bool
 
 func newRootCommand(log logr.Logger) (*cobra.Command, error) {
 	rootCmd := &cobra.Command{
@@ -40,6 +38,7 @@ func newRootCommand(log logr.Logger) (*cobra.Command, error) {
 
 	cmds := []func(logr.Logger) (*cobra.Command, error){
 		newDocumentPackageCommand,
+		newExportCommand,
 	}
 
 	for _, f := range cmds {

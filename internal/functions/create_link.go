@@ -10,7 +10,7 @@ func (f *Functions) createLink(ref *model.TypeReference) string {
 		return "#" + ref.Id()
 	}
 
-	//TODO: External links
+	// TODO: External links
 
 	return ""
 }

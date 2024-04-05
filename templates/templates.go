@@ -2,8 +2,6 @@ package templates
 
 import "embed"
 
-var (
-    // Default CRD template
-    //go:embed *.tmpl
-    CRD embed.FS
-)
+// Default CRD template
+//go:embed *.tmpl
+var CRD embed.FS

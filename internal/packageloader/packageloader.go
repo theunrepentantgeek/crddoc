@@ -86,7 +86,7 @@ func (loader *PackageLoader) load(folder string, glob string) (*model.Package, e
 		}
 
 		eg.Go(func() error {
-			var path = filepath.Join(folder, f.Name())
+			path := filepath.Join(folder, f.Name())
 			fl := NewFileLoader(path, loader.log, loader.typeFilters)
 			err := fl.Load()
 			if err != nil {
