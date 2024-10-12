@@ -1,0 +1,54 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/go
+{
+	"name": "crddoc",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined",
+		"--init" // runs an init process: https://docs.docker.com/engine/reference/run/#specify-an-init-process
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.go",
+				"redhat.vscode-yaml",
+				"task.vscode-task",
+				"github.vscode-pull-request-github"
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "bash",
+						"icon": "terminal-bash"
+					}
+				},
+				"editor.formatOnSave": true,
+				"go.gopath": "/go",
+				"go.useLanguageServer": true,
+				"go.lintTool": "golangci-lint",
+				"[go]": {
+					"editor.snippetSuggestions": "none",
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": true
+					}
+				}
+			}
+		}
+	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [9000],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "go version",
+	"remoteUser": "vscode",
+	// to allow docker use from inside container: https://github.com/microsoft/vscode-dev-containers/tree/main/containers/docker-from-docker
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
+	"overrideCommand": false
+}
