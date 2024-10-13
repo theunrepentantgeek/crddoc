@@ -1,14 +1,13 @@
 # https://taskfile.dev
 
-version: '3'
+version: "3"
 
 vars:
-  SAMPLES_DIR: "{{ list .ROOT_DIR \"samples\" | join \"/\" | osClean }}"
+  SAMPLES_DIR: '{{ list .ROOT_DIR "samples" | join "/" | osClean }}'
 
 run: once
 
 tasks:
-
   default:
     desc: Run all tasks
     deps:
@@ -21,11 +20,22 @@ tasks:
       - go build
 
   test:
+    desc: Run tests and checks
+    deps:
+      - test.unit
+      - test.lint
+
+  test.unit:
     desc: Run unit tests
     deps:
       - build
     cmds:
       - go test ./...
+
+  test.lint:
+    desc: Run golangci-lint to check for linting issues
+    cmds:
+      - golangci-lint run
 
   ci:
     desc: Run continuous integration tasks
@@ -33,7 +43,7 @@ tasks:
       - test
 
   docs:
-    summary: Build documentation 
+    summary: Build documentation
     deps:
       - docs.config
       - docs.aso
@@ -41,7 +51,7 @@ tasks:
 
   docs.config:
     summary: Build documentation of config options
-    deps: 
+    deps:
       - build
     cmds:
       - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
@@ -50,12 +60,14 @@ tasks:
       PACKAGE: '{{joinPath .ROOT_DIR "internal" "config" | shellQuote}}'
       OUTPUT: '{{joinPath .DST_DIR "config.md" | shellQuote}}'
       CONFIG: '{{joinPath .DST_DIR "crddoc-config.yaml" | shellQuote}}'
-    
 
   docs.aso:
     summary: Build example showing documentation for Azure Service Operator
-    deps: 
+    deps:
       - build
+    status:
+      # Skip if the package isn't available
+      - test ! -d {{.PACKAGE}}
     cmds:
       - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
     vars:
@@ -66,8 +78,11 @@ tasks:
 
   docs.capz:
     summary: Build example showing documentation for Cluster API Provider Azure
-    deps: 
+    deps:
       - build
+    status:
+      # Skip if the package isn't available
+      - test ! -d {{.PACKAGE}}
     cmds:
       - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
     vars:
@@ -76,3 +91,16 @@ tasks:
       PACKAGE: '{{joinPath .ROOT_DIR "../cluster-api-provider-azure/api/v1beta1" | shellQuote}}'
       OUTPUT: '{{joinPath .DST_DIR "capz.md" | shellQuote}}'
       CONFIG: '{{joinPath .DST_DIR "capz.yaml" | shellQuote}}'
+
+  tidy:
+    summary: "Tidy up source"
+
+  tidy.gofumpt:
+    summary: "Run gofumpt"
+    cmds:
+      - gofumpt -l -w .
+
+  tidy.mod:
+    summary: "Run go mod tidy"
+    cmds:
+      - go mod tidy
