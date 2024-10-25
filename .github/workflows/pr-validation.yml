@@ -14,9 +14,9 @@ on:
 
 jobs:
   test:
-    runs-on: [github]
+    runs-on: ubuntu-latest
     permissions:
-      packages: read
+      packages: write
 
     steps:
       - name: Checkout code
