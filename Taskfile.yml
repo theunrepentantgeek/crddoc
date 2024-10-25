@@ -22,17 +22,17 @@ tasks:
   test:
     desc: Run tests and checks
     deps:
-      - test.unit
-      - test.lint
+      - unit-test
+      - lint
 
-  test.unit:
+  unit-test:
     desc: Run unit tests
     deps:
       - build
     cmds:
       - go test ./...
 
-  test.lint:
+  lint:
     desc: Run golangci-lint to check for linting issues
     cmds:
       - golangci-lint run
