@@ -4,6 +4,7 @@ import "strings"
 
 // ParseComments iterates over the comments and returns the description and any commands that are
 // not part of the description
+// TODO: Add optional varidic "cleanup" functions to allow for more complex comment parsing and cleanup.
 func ParseComments(comments []string) ([]string, *Markers) {
 	description := make([]string, 0, len(comments))
 	commands := NewMarkers()

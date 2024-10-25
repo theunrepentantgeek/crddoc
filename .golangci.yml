@@ -1,0 +1,42 @@
+run:
+  deadline: 5m
+  allow-parallel-runners: true
+
+linters:
+  enable:
+    - gofmt
+    - gosimple
+    - paralleltest
+    - prealloc
+    - staticcheck
+    - tparallel
+    - unparam
+    - unused
+  presets:
+    - bugs
+    - unused
+  disable:
+    - musttag # Extremely slow, at least on CI machines
+linters-settings:
+  cyclop:
+    max-complexity: 10
+    skip-tests: true
+  exhaustive:
+    default-signifies-exhaustive: true
+  gosimple:
+    # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
+    checks:
+      - "all"
+      - "-S1002" # Comparison to bool explicitly can sometimes add clarity
+      - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate
+  govet:
+    shadow: true
+  nolintlint:
+    allow-unused: false
+    require-explanation: true
+    require-specific: true
+  prealloc:
+    simple: false
+    for-loops: true
+  unused:
+    generated-is-used: true

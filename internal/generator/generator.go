@@ -50,7 +50,10 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	)
 
 	g.fns.SetPackage(pkg)
-	g.fns.SetConfig(g.cfg)
+	if err := g.fns.SetConfig(g.cfg); err != nil {
+		g.log.Error(err, "failed to set function config")
+		return errors.Wrap(err, "failed to set")
+	}
 
 	var raw bytes.Buffer
 	err := g.template.ExecuteTemplate(

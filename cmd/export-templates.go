@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"context"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -18,8 +16,7 @@ func newExportTemplatesCommand(
 		Short: "Export standard templates to a folder",
 		Long:  "Export the templates contained within crddoc to a folder for customization.",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			ctx := cmd.Context()
-			return exportTemplates(ctx, args, options, log)
+			return exportTemplates(args, options, log)
 		},
 	}
 
@@ -37,10 +34,9 @@ type exportTemplateOptions struct {
 }
 
 func exportTemplates(
-	ctx context.Context,
-	args []string,
+	_ []string,
 	options *exportTemplateOptions,
-	log logr.Logger,
+	_ logr.Logger,
 ) error {
 	if err := options.validate(); err != nil {
 		return err

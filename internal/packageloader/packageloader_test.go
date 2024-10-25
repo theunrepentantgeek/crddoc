@@ -8,6 +8,7 @@ import (
 )
 
 func Test_TryReadMetadata_WhenModFileMissing_ReturnsFalse(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	loader := PackageLoader{}
@@ -16,6 +17,7 @@ func Test_TryReadMetadata_WhenModFileMissing_ReturnsFalse(t *testing.T) {
 }
 
 func Test_TryReadMetadata_WhenModFilePresent_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	loader := PackageLoader{}
