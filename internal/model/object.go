@@ -1,8 +1,6 @@
 package model
 
 import (
-	"strings"
-
 	"github.com/dave/dst"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
@@ -37,14 +35,9 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 	}
 
 	ref := NewTypeReference(typeSpec.Name)
+	// Clean up the comments
 	description, _ := ParseComments(comments)
-
-	// If the first line of the description starts with "<name>: ", remove that prefix
-	if len(description) > 0 {
-		if s, ok := strings.CutPrefix(description[0], ref.Name()+": "); ok {
-			description[0] = strings.TrimLeft(s, " ")
-		}
-	}
+	description = formatComments(description, ref.Name())
 
 	result := &Object{
 		TypeReference: ref,

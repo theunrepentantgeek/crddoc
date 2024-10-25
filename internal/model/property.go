@@ -19,13 +19,7 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	// TODO: Parse tags
 
 	description, commands := ParseComments(field.Decs.Start.All())
-
-	// If the first line of the description starts with "<property>: ", remove that prefix
-	if len(description) > 0 {
-		if s, ok := strings.CutPrefix(description[0], name+": "); ok {
-			description[0] = strings.TrimLeft(s, " ")
-		}
-	}
+	description = formatComments(description, name)
 
 	result := &Property{
 		Field:       name,

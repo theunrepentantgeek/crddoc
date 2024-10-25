@@ -93,14 +93,14 @@ tasks:
       CONFIG: '{{joinPath .DST_DIR "capz.yaml" | shellQuote}}'
 
   tidy:
-    summary: "Tidy up source"
+    desc: "Tidy up source"
 
   tidy.gofumpt:
-    summary: "Run gofumpt"
+    desc: "Run gofumpt"
     cmds:
       - gofumpt -l -w .
 
   tidy.mod:
-    summary: "Run go mod tidy"
+    desc: "Run go mod tidy"
     cmds:
       - go mod tidy

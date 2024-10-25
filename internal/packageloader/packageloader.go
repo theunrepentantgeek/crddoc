@@ -61,14 +61,14 @@ func (loader *PackageLoader) load(
 	loadedFiles := make(chan *FileLoader) // files after parsing
 	var wg sync.WaitGroup
 	const numWorkers = 4
-	for _ = range numWorkers {
+	for range numWorkers {
 		wg.Add(1)
 		go loader.parseFiles(filesToLoad, loadedFiles, errs, &wg)
 	}
 
 	// Collect all the parse results together
 	packages := make(chan *model.Package) // the final package
-	go loader.collectDeclarations(folder, loadedFiles, packages, errs)
+	go loader.collectDeclarations(folder, loadedFiles, packages)
 
 	// Accumulate errors
 	finalerror := make(chan error) // the final error (if any)
@@ -161,14 +161,8 @@ func (loader *PackageLoader) collectDeclarations(
 	folder string,
 	loadedFiles <-chan *FileLoader,
 	packages chan<- *model.Package,
-	errs chan<- error,
 ) {
-	metadata, err := loader.readMetadata(folder)
-	if err != nil {
-		errs <- errors.Wrapf(err, "failed to read metadata for directory %s", folder)
-		packages <- nil
-		return
-	}
+	metadata := loader.readMetadata(folder)
 
 	var declarations []model.Declaration
 	for fl := range loadedFiles {
@@ -206,6 +200,7 @@ func (loader *PackageLoader) collectErrors(
 	errs <-chan error,
 	finalerror chan<- error,
 ) {
+	//nolint:prealloc // usual case will be zero errors
 	var allErrors []error
 	for err := range errs {
 		allErrors = append(allErrors, err)
@@ -214,7 +209,7 @@ func (loader *PackageLoader) collectErrors(
 	finalerror <- kerrors.NewAggregate(allErrors)
 }
 
-func (loader *PackageLoader) readMetadata(folder string) (model.PackageMetadata, error) {
+func (loader *PackageLoader) readMetadata(folder string) model.PackageMetadata {
 	parent, ver := filepath.Split(folder)
 	_, grp := filepath.Split(parent)
 
@@ -228,7 +223,7 @@ func (loader *PackageLoader) readMetadata(folder string) (model.PackageMetadata,
 		result.Module = mod
 	}
 
-	return result, nil
+	return result
 }
 
 func (loader *PackageLoader) tryReadMetadata(folder string) (string, bool) {

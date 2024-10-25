@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"bufio"
-	"context"
 	"os"
 
 	"github.com/pkg/errors"
@@ -23,8 +22,7 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 		Short: "Generate documentation for a package",
 		Long:  "Generate documentation for a package.",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			ctx := cmd.Context()
-			return documentPackage(ctx, args, options, log)
+			return documentPackage(args, options, log)
 		},
 	}
 
@@ -56,7 +54,6 @@ type documentPackageOptions struct {
 }
 
 func documentPackage(
-	ctx context.Context,
 	args []string,
 	options *documentPackageOptions,
 	log logr.Logger,
