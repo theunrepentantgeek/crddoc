@@ -8,9 +8,10 @@ import (
 	"strings"
 	"sync"
 
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"golang.org/x/sync/errgroup"
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
@@ -47,97 +48,170 @@ func (loader *PackageLoader) LoadFile(file string) (*model.Package, error) {
 	return loader.load(dir, name)
 }
 
-func (loader *PackageLoader) load(folder string, glob string) (*model.Package, error) {
+func (loader *PackageLoader) load(
+	folder string,
+	glob string,
+) (*model.Package, error) {
+	// Start our scan for files to load
+	filesToLoad := make(chan string) // fully qualified file paths to load
+	errs := make(chan error)         // all errors encountered during loading
+	go loader.findFiles(folder, glob, filesToLoad, errs)
+
+	// Start workers to parse the files
+	loadedFiles := make(chan *FileLoader) // files after parsing
+	var wg sync.WaitGroup
+	const numWorkers = 4
+	for _ = range numWorkers {
+		wg.Add(1)
+		go loader.parseFiles(filesToLoad, loadedFiles, errs, &wg)
+	}
+
+	// Collect all the parse results together
+	packages := make(chan *model.Package) // the final package
+	go loader.collectDeclarations(folder, loadedFiles, packages, errs)
+
+	// Accumulate errors
+	finalerror := make(chan error) // the final error (if any)
+	go loader.collectErrors(errs, finalerror)
+
+	// Wait for all workers to finish
+	wg.Wait()
+
+	// Shut down the pipeline
+	close(loadedFiles)
+	close(errs)
+
+	// Check for any errors
+	if err := <-finalerror; err != nil {
+		return nil, err
+	}
+
+	// Wait for the package to be collected
+	pkg := <-packages
+
+	return pkg, nil
+}
+
+// findFiles scans for files to load and sends them to the channel.
+// Once all files have been found, the channel is closed to signal completion.
+func (loader *PackageLoader) findFiles(
+	folder string,
+	glob string,
+	filesToLoad chan<- string,
+	errs chan<- error,
+) {
+	defer close(filesToLoad)
+
 	fdr, name := filepath.Split(folder)
-	group := filepath.Base(fdr)
 
 	loader.log.Info(
 		"Loading package",
 		"name", name,
 		"folder", fdr)
 
-	var lock sync.Mutex
-
 	files, err := os.ReadDir(folder)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to read directory %s", folder)
+		errs <- errors.Wrapf(err, "failed to read directory %s", folder)
+		return
 	}
 
-	var declarations []model.Declaration
-	metadata, err := loader.readMetadata(folder)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to read metadata for directory %s", folder)
-	}
-
-	var eg errgroup.Group
 	for _, f := range files {
-		f := f
-
 		if f.IsDir() {
 			continue
 		}
 
 		match, err := filepath.Match(glob, f.Name())
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to match file %s with pattern %s", f.Name(), glob)
+			errs <- errors.Wrapf(err, "failed to match file %s with pattern %s", f.Name(), glob)
+			continue
 		}
+
 		if !match {
 			continue
 		}
 
-		eg.Go(func() error {
-			path := filepath.Join(folder, f.Name())
-			fl := NewFileLoader(path, loader.log, loader.typeFilters)
-			err := fl.Load()
-			if err != nil {
-				return err
-			}
+		fqfn := filepath.Join(folder, f.Name())
+		loader.log.V(3).Info("Found file", "file", fqfn)
+		filesToLoad <- fqfn
+	}
+}
 
-			decls := fl.Declarations()
-			lock.Lock()
-			defer lock.Unlock()
+func (loader *PackageLoader) parseFiles(
+	filesToLoad <-chan string,
+	fileLoaders chan<- *FileLoader,
+	errs chan<- error,
+	wg *sync.WaitGroup,
+) {
+	defer wg.Done()
 
-			declarations = append(declarations, decls...)
-			if grp, ok := fl.Group(); ok {
-				if !metadata.TrySetGroup(grp) {
-					loader.log.Info(
-						"Multiple values for 'group' found in package",
-						"file", path,
-						"existing", metadata.Group,
-						"new", grp)
-				}
-			}
+	for file := range filesToLoad {
+		loader.log.V(2).Info("Parsing file", "file", file)
+		fl := NewFileLoader(file, loader.log, loader.typeFilters)
+		err := fl.Load()
+		if err != nil {
+			errs <- errors.Wrapf(err, "failed to load file %s", file)
+			continue
+		}
 
-			if ver, ok := fl.Version(); ok {
-				if !metadata.TrySetVersion(ver) {
-					loader.log.Info(
-						"Multiple values for 'version' found in package",
-						"file", path,
-						"existing", metadata.Version,
-						"new", ver)
-				}
-			}
+		fileLoaders <- fl
+	}
+}
 
-			return nil
-		})
+func (loader *PackageLoader) collectDeclarations(
+	folder string,
+	loadedFiles <-chan *FileLoader,
+	packages chan<- *model.Package,
+	errs chan<- error,
+) {
+	metadata, err := loader.readMetadata(folder)
+	if err != nil {
+		errs <- errors.Wrapf(err, "failed to read metadata for directory %s", folder)
+		packages <- nil
+		return
 	}
 
-	if err := eg.Wait(); err != nil {
-		return nil, errors.Wrapf(err, "failed to load directory %s", folder)
-	}
+	var declarations []model.Declaration
+	for fl := range loadedFiles {
+		loader.log.V(3).Info("Collecting declarations", "file", fl.name)
 
-	// Update Metadata with defaults if nothing specific found
-	if metadata.Group == "" {
-		metadata.Group = group
-	}
+		decls := fl.Declarations()
+		declarations = append(declarations, decls...)
 
-	if metadata.Version == "" {
-		metadata.Version = name
+		if grp, ok := fl.Group(); ok {
+			if !metadata.TrySetGroup(grp) {
+				loader.log.Info(
+					"Multiple values for 'group' found in package",
+					"file", fl.name,
+					"existing", metadata.Group,
+					"new", grp)
+			}
+		}
+
+		if ver, ok := fl.Version(); ok {
+			if !metadata.TrySetVersion(ver) {
+				loader.log.Info(
+					"Multiple values for 'version' found in package",
+					"file", fl.name,
+					"existing", metadata.Version,
+					"new", ver)
+			}
+		}
 	}
 
 	pkg := model.NewPackage(declarations, metadata, loader.cfg, loader.log)
+	packages <- pkg
+}
 
-	return pkg, nil
+func (loader *PackageLoader) collectErrors(
+	errs <-chan error,
+	finalerror chan<- error,
+) {
+	var allErrors []error
+	for err := range errs {
+		allErrors = append(allErrors, err)
+	}
+
+	finalerror <- kerrors.NewAggregate(allErrors)
 }
 
 func (loader *PackageLoader) readMetadata(folder string) (model.PackageMetadata, error) {
