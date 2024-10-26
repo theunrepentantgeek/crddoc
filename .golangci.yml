@@ -39,5 +39,14 @@ linters-settings:
   prealloc:
     simple: false
     for-loops: true
+  revive:
+    rules:
+      - name: dot-imports
+        arguments:
+          [
+            "allowedPackages":
+              ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
+          ]
+
   unused:
     generated-is-used: true
