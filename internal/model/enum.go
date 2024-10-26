@@ -17,7 +17,7 @@ func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
 		return nil, false
 	}
 
-	// TEmp - skip structs
+	// ... (skipping structs) ...
 	if _, ok := typeSpec.Type.(*dst.StructType); ok {
 		return nil, false
 	}
@@ -31,6 +31,7 @@ func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
 	result := &Enum{
 		TypeReference: NewTypeReference(typeSpec.Name),
 		base:          NewTypeReference(ident),
+		description:   comments,
 	}
 
 	return result, true

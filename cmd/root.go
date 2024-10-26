@@ -50,7 +50,10 @@ func newRootCommand(log logr.Logger) (*cobra.Command, error) {
 		rootCmd.AddCommand(cmd)
 	}
 
-	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+	rootCmd.PersistentPreRun = func(
+		_ *cobra.Command,
+		_ []string,
+	) {
 		if verbose {
 			verboseLogging()
 		}
