@@ -11,7 +11,7 @@ import (
 // Package is a struct containing all of the declarations found in a package directory
 type Package struct {
 	cfg          *config.Config
-	declarations map[string]Declaration // Dictionary of all the objects in the package, keyed by name
+	declarations map[string]Declaration // Dictionary of all objects in package, keyed by name
 	metadata     PackageMetadata
 	log          logr.Logger
 }

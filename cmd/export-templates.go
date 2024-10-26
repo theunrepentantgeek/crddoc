@@ -15,7 +15,7 @@ func newExportTemplatesCommand(
 		Use:   "templates",
 		Short: "Export standard templates to a folder",
 		Long:  "Export the templates contained within crddoc to a folder for customization.",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			return exportTemplates(args, options, log)
 		},
 	}

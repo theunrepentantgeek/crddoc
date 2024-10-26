@@ -58,13 +58,12 @@ func (loader *FileLoader) Load() error {
 	loader.parseMetadata(file.Decs.End)
 
 	for _, decl := range file.Decls {
-
 		loader.parseMetadata(decl.Decorations().Start)
 		loader.parseMetadata(decl.Decorations().End)
 
 		if gd, ok := decl.(*dst.GenDecl); ok {
 			if gd.Tok == token.TYPE {
-
+				// Parse type declarations for objects and enums
 				comments := gd.Decs.Start.All()
 				for _, spec := range gd.Specs {
 					// Try to create an object from this declaration
@@ -81,9 +80,10 @@ func (loader *FileLoader) Load() error {
 
 			if gd.Tok == token.CONST {
 				for _, spec := range gd.Specs {
-					// Try to create a value from this declaration
+					// Parse constant declarations for enums
 					if enumValue, ok := model.TryNewEnumValue(spec); ok {
-						loader.values[enumValue.Kind()] = append(loader.values[enumValue.Kind()], enumValue)
+						kind := enumValue.Kind()
+						loader.values[kind] = append(loader.values[kind], enumValue)
 					}
 				}
 			}
@@ -139,7 +139,8 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 }
 
 func (loader *FileLoader) Declarations() []model.Declaration {
-	result := make([]model.Declaration, 0, len(loader.resources)+len(loader.objects)+len(loader.enums))
+	expectedDeclarations := len(loader.resources) + len(loader.objects) + len(loader.enums)
+	result := make([]model.Declaration, 0, expectedDeclarations)
 	for _, r := range loader.resources {
 		if loader.typeFilters.Filter(r.Name()) == typefilter.Included {
 			result = append(result, r)

@@ -3,6 +3,8 @@ package config
 import (
 	"fmt"
 	"regexp"
+
+	"github.com/pkg/errors"
 )
 
 // Editor represents a point modification to make to exported documentation
@@ -22,17 +24,17 @@ func (edit *Editor) Validate() error {
 	if edit.Context != "" {
 		_, err := regexp.Compile(edit.Context)
 		if err != nil {
-			return fmt.Errorf("unable to compile 'context': %w", err)
+			return errors.Wrap(err, "compiling editor context expression")
 		}
 	}
 
 	if edit.Search == "" {
-		return fmt.Errorf("editor 'search' may not be empty")
-	} else {
-		_, err := regexp.Compile(edit.Search)
-		if err != nil {
-			return fmt.Errorf("unable to compile 'search': %w", err)
-		}
+		return fmt.Errorf("editor search expression may not be empty")
+	}
+
+	_, err := regexp.Compile(edit.Search)
+	if err != nil {
+		return errors.Wrap(err, "compiling editor search expression")
 	}
 
 	return nil

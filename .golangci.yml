@@ -8,6 +8,7 @@ linters:
     - gosimple
     - paralleltest
     - prealloc
+    - revive
     - staticcheck
     - tparallel
     - unparam
@@ -38,5 +39,23 @@ linters-settings:
   prealloc:
     simple: false
     for-loops: true
+  revive:
+    rules:
+      - name: dot-imports
+        arguments:
+          [
+            "allowedPackages":
+              ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
+          ]
+      - name: empty-lines
+        disabled: false
+      - name: import-shadowing
+        disabled: false
+      - name: indent-error-flow
+        disabled: false
+      - name: line-length-limit
+        disabled: false
+        arguments: [100]
+
   unused:
     generated-is-used: true

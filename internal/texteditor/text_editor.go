@@ -23,7 +23,7 @@ func NewEditor(cfg config.Editor) (*Editor, error) {
 	if cfg.Context != "" {
 		rx, err := regexp.Compile(cfg.Context)
 		if err != nil {
-			return nil, errors.Wrap(err, "editor unable to compile 'context':")
+			return nil, errors.Wrap(err, "compiling editor context")
 		}
 
 		result.contextRegexp = rx
@@ -32,7 +32,7 @@ func NewEditor(cfg config.Editor) (*Editor, error) {
 	if cfg.Search != "" {
 		rx, err := regexp.Compile(cfg.Search)
 		if err != nil {
-			return nil, errors.Wrap(err, "editor unable to compile 'search':")
+			return nil, errors.Wrap(err, "compiling editor search")
 		}
 
 		result.searchRegexp = rx

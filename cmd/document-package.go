@@ -21,7 +21,7 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 		Use:   "document-package",
 		Short: "Generate documentation for a package",
 		Long:  "Generate documentation for a package.",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			return documentPackage(args, options, log)
 		},
 	}

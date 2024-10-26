@@ -9,17 +9,21 @@ import (
 )
 
 type Config struct {
-	// Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.
+	// Editors allow you to make precision changes to the documentation output.
+	// Editors are applied in the order specified.
 	Editors []Editor `yaml:"editors"`
 
 	// TypeFilters allow you to filter out types from the output.
-	// Filters are applied in the order specified, with earlier filters taking priority over later ones.
+	// Filters are applied in the order specified,
+	// with earlier filters taking priority over later ones.
 	TypeFilters []*Filter `yaml:"typeFilters"`
 
-	// PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.
+	// PrettyPrint controls whether the Markdown output is pretty-printed or not.
+	// Defaults to true.
 	PrettyPrint bool `yaml:"prettyPrint"`
 
-	// TemplatePath is the path to folder containing templates to use for rendering the documentation.
+	// TemplatePath is the path to a folder containing templates to use for
+	// rendering the documentation.
 	TemplatePath string `yaml:"templatePath"`
 }
 

@@ -88,6 +88,6 @@ func testdataPath(
 		t.Fatalf("Failed to get working directory: %v", err)
 	}
 
-	filepath := filepath.Join(wd, "testdata", filename)
-	return filepath
+	result := filepath.Join(wd, "testdata", filename)
+	return result
 }
