@@ -26,15 +26,21 @@ jobs:
           submodules: "true"
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2 
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pre-build devcontainer image and run task ci
+      - name: Nuild devcontainer image and push
         uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/theunrepentantgeek/crddoc-devcontainer
           push: always
+
+      - name: Pre-build devcontainer image and run task ci
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/theunrepentantgeek/crddoc-devcontainer
+          push: never
           runCmd: task ci
