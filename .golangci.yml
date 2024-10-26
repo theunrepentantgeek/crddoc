@@ -51,6 +51,8 @@ linters-settings:
         disabled: false
       - name: import-shadowing
         disabled: false
+      - name: indent-error-flow
+        disabled: false
       - name: line-length-limit
         disabled: false
         arguments: [100]
