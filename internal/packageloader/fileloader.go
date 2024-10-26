@@ -58,13 +58,12 @@ func (loader *FileLoader) Load() error {
 	loader.parseMetadata(file.Decs.End)
 
 	for _, decl := range file.Decls {
-
 		loader.parseMetadata(decl.Decorations().Start)
 		loader.parseMetadata(decl.Decorations().End)
 
 		if gd, ok := decl.(*dst.GenDecl); ok {
 			if gd.Tok == token.TYPE {
-
+				// Parse type declarations for objects and enums
 				comments := gd.Decs.Start.All()
 				for _, spec := range gd.Specs {
 					// Try to create an object from this declaration
@@ -81,7 +80,7 @@ func (loader *FileLoader) Load() error {
 
 			if gd.Tok == token.CONST {
 				for _, spec := range gd.Specs {
-					// Try to create a value from this declaration
+					// Parse constant declarations for enums
 					if enumValue, ok := model.TryNewEnumValue(spec); ok {
 						kind := enumValue.Kind()
 						loader.values[kind] = append(loader.values[kind], enumValue)

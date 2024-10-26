@@ -47,6 +47,8 @@ linters-settings:
             "allowedPackages":
               ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
           ]
+      - name: empty-lines
+        disabled: false
       - name: import-shadowing
         disabled: false
       - name: line-length-limit
