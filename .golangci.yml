@@ -8,6 +8,7 @@ linters:
     - gosimple
     - paralleltest
     - prealloc
+    - revive
     - staticcheck
     - tparallel
     - unparam
