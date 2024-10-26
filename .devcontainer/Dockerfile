@@ -18,5 +18,3 @@ RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
 RUN curl -sL "https://raw.githubusercontent.com/go-task/task/refs/tags/v3.39.2/completion/bash/task.bash" > "/etc/.task.completion.sh" \
     && echo 'source /etc/.task.completion.sh' >> "/etc/bash.bashrc"
 
-ENTRYPOINT ["/usr/local/share/docker-init.sh"]
-CMD ["sleep", "infinity"]
