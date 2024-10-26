@@ -47,6 +47,9 @@ linters-settings:
             "allowedPackages":
               ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
           ]
+      - name: line-length-limit
+        disabled: false
+        arguments: [100]
 
   unused:
     generated-is-used: true

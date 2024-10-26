@@ -83,7 +83,8 @@ func (loader *FileLoader) Load() error {
 				for _, spec := range gd.Specs {
 					// Try to create a value from this declaration
 					if enumValue, ok := model.TryNewEnumValue(spec); ok {
-						loader.values[enumValue.Kind()] = append(loader.values[enumValue.Kind()], enumValue)
+						kind := enumValue.Kind()
+						loader.values[kind] = append(loader.values[kind], enumValue)
 					}
 				}
 			}
@@ -139,7 +140,8 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 }
 
 func (loader *FileLoader) Declarations() []model.Declaration {
-	result := make([]model.Declaration, 0, len(loader.resources)+len(loader.objects)+len(loader.enums))
+	expectedDeclarations := len(loader.resources) + len(loader.objects) + len(loader.enums)
+	result := make([]model.Declaration, 0, expectedDeclarations)
 	for _, r := range loader.resources {
 		if loader.typeFilters.Filter(r.Name()) == typefilter.Included {
 			result = append(result, r)
