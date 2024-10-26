@@ -22,7 +22,7 @@ func TestEditor_Validate_WhenContextIsInvalidRegex_ReturnsExpectedError(t *testi
 
 	// Assert
 	g.Expect(err).To(gomega.HaveOccurred())
-	g.Expect(err.Error()).To(gomega.ContainSubstring("unable to compile 'context':"))
+	g.Expect(err.Error()).To(gomega.ContainSubstring("compiling editor context expression"))
 }
 
 func TestEditor_WhenSearchIsMissing_ReturnsExpectedError(t *testing.T) {
@@ -38,7 +38,7 @@ func TestEditor_WhenSearchIsMissing_ReturnsExpectedError(t *testing.T) {
 
 	// Assert
 	g.Expect(err).To(gomega.HaveOccurred())
-	g.Expect(err.Error()).To(gomega.ContainSubstring("editor 'search' may not be empty"))
+	g.Expect(err.Error()).To(gomega.ContainSubstring("editor search expression may not be empty"))
 }
 
 func TestEditor_Validate_WhenSearchIsInvalidRegex_ReturnsExpectedError(t *testing.T) {
@@ -56,5 +56,5 @@ func TestEditor_Validate_WhenSearchIsInvalidRegex_ReturnsExpectedError(t *testin
 
 	// Assert
 	g.Expect(err).To(gomega.HaveOccurred())
-	g.Expect(err.Error()).To(gomega.ContainSubstring("unable to compile 'search':"))
+	g.Expect(err.Error()).To(gomega.ContainSubstring("compiling editor search expression"))
 }
