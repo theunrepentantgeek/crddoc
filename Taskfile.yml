@@ -30,7 +30,9 @@ tasks:
     deps:
       - build
     cmds:
-      - go test ./...
+      - go test ./... -json | go-testreport {{.REPORT}}
+    vars:
+      REPORT: '{{.GITHUB_STEP_SUMMARY | default "test-report.md" }}'
 
   lint:
     desc: Run golangci-lint to check for linting issues
