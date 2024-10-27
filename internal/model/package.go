@@ -1,6 +1,8 @@
 package model
 
 import (
+	"strings"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 
 	"github.com/go-logr/logr"
@@ -21,6 +23,7 @@ type Order string
 
 const (
 	OrderAlphabetical = "alphabetical"
+	OrderRanked       = "ranked"
 )
 
 func NewPackage(
@@ -57,7 +60,10 @@ func (p *Package) Declarations(order Order) []Declaration {
 	switch order {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically
-		slices.SortFunc(result, alphabeticalObjectComparison)
+		slices.SortFunc(result, p.alphabeticalObjectComparison)
+	case OrderRanked:
+		// Sort the objects by rank, then alphabetical
+		slices.SortFunc(result, p.rankedObjectComparison)
 	}
 
 	return result
@@ -165,14 +171,25 @@ func (p *Package) calculateRanksFromRoot(
 	}
 }
 
-func alphabeticalObjectComparison(left Declaration, right Declaration) int {
-	if left.Name() < right.Name() {
+func (*Package) alphabeticalObjectComparison(left Declaration, right Declaration) int {
+	leftName := strings.ToLower(left.Name())
+	rightName := strings.ToLower(right.Name())
+	return strings.Compare(leftName, rightName)
+}
+
+func (p *Package) rankedObjectComparison(left Declaration, right Declaration) int {
+	leftRank := p.ranks[left.Id()]
+	rightRank := p.ranks[right.Id()]
+
+	if leftRank < rightRank {
 		return -1
 	}
 
-	if left.Name() > right.Name() {
+	if leftRank > rightRank {
 		return 1
 	}
 
-	return 0
+	leftName := strings.ToLower(left.Name())
+	rightName := strings.ToLower(right.Name())
+	return strings.Compare(leftName, rightName)
 }
