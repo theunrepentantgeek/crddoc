@@ -12,6 +12,7 @@ import (
 type Package struct {
 	cfg          *config.Config
 	declarations map[string]Declaration // Dictionary of all objects in package, keyed by name
+	ranks        map[string]int         // Dictionary of ranks (depth from root), keyed by name
 	metadata     PackageMetadata
 	log          logr.Logger
 }
@@ -31,6 +32,7 @@ func NewPackage(
 	result := &Package{
 		cfg:          cfg,
 		declarations: make(map[string]Declaration, len(decl)),
+		ranks:        make(map[string]int, len(decl)),
 		metadata:     metadata,
 		log:          log,
 	}
@@ -40,6 +42,7 @@ func NewPackage(
 	}
 
 	result.catalogCrossReferences()
+	result.calculateRanks()
 	return result
 }
 
@@ -96,6 +99,11 @@ func (p *Package) Module() string {
 	return p.metadata.Module
 }
 
+// Rank returns the usage rank (depth from the root resource) of the given declaration
+func (p *Package) Rank(name string) int {
+	return p.ranks[name]
+}
+
 func (p *Package) catalogCrossReferences() {
 	usages := p.indexUsage()
 	for name, usage := range usages {
@@ -122,6 +130,39 @@ func (p *Package) indexUsage() map[string][]PropertyReference {
 	}
 
 	return result
+}
+
+func (p *Package) calculateRanks() {
+	for name, decl := range p.declarations {
+		if decl.Kind() != ResourceDeclaration {
+			continue
+		}
+
+		p.calculateRanksFromRoot(name, 0)
+	}
+}
+
+func (p *Package) calculateRanksFromRoot(
+	name string,
+	rank int,
+) {
+	if r, ok := p.ranks[name]; ok && r <= rank {
+		// We've already walked this declaration and it has a lower rank than we'd give it
+		return
+	}
+
+	p.ranks[name] = rank
+	decl, ok := p.declarations[name]
+	if !ok {
+		// Shouldn't happen, but just in case
+		return
+	}
+
+	if host, ok := decl.(PropertyContainer); ok {
+		for _, prop := range host.Properties() {
+			p.calculateRanksFromRoot(prop.Type.Id(), rank+1)
+		}
+	}
 }
 
 func alphabeticalObjectComparison(left Declaration, right Declaration) int {

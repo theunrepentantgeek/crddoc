@@ -48,9 +48,25 @@ func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
 	g.Expect(declarations[3].Name()).To(Equal("PersonResourceStatus"))
 }
 
-func TestPackage_Object_ReturnsExpectedObjects(t *testing.T) {
+func TestPackage_Declaration_ReturnsExpectedObjects(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
+
+	cases := map[string]struct {
+		expected bool
+	}{
+		"PersonResource": {
+			expected: true,
+		},
+		"PersonResourceSpec": {
+			expected: true,
+		},
+		"PersonResourceStatus": {
+			expected: true,
+		},
+		"PersonReference": {
+			expected: true,
+		},
+	}
 
 	cfg := &config.Config{}
 	loader := packageloader.New(cfg, logr.Discard())
@@ -59,21 +75,21 @@ func TestPackage_Object_ReturnsExpectedObjects(t *testing.T) {
 		t.Fatalf("Failed to load file: %v", err)
 	}
 
-	resource, ok := pkg.Declaration("PersonResource")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(resource).NotTo(BeNil())
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
 
-	spec, ok := pkg.Declaration("PersonResourceSpec")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(spec).NotTo(BeNil())
-
-	status, ok := pkg.Declaration("PersonResourceStatus")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(status).NotTo(BeNil())
-
-	ref, ok := pkg.Declaration("PersonReference")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(ref).NotTo(BeNil())
+			decl, ok := pkg.Declaration(name)
+			if c.expected {
+				g.Expect(ok).To(BeTrue())
+				g.Expect(decl).NotTo(BeNil())
+			} else {
+				g.Expect(ok).To(BeFalse())
+				g.Expect(decl).To(BeNil())
+			}
+		})
+	}
 }
 
 // loadTestData is a helper used to load a testdata source file
@@ -90,4 +106,42 @@ func testdataPath(
 
 	result := filepath.Join(wd, "testdata", filename)
 	return result
+}
+
+func TestPackage_Rank_ReturnesExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		expectedRank int
+	}{
+		"PersonResource": {
+			expectedRank: 0,
+		},
+		"PersonResourceSpec": {
+			expectedRank: 1,
+		},
+		"PersonResourceStatus": {
+			expectedRank: 1,
+		},
+		"PersonReference": {
+			expectedRank: 2,
+		},
+	}
+
+	cfg := &config.Config{}
+	loader := packageloader.New(cfg, logr.Discard())
+	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
+	if err != nil {
+		t.Fatalf("Failed to load file: %v", err)
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			rank := pkg.Rank(name)
+			g.Expect(rank).To(Equal(c.expectedRank))
+		})
+	}
 }
