@@ -1,6 +1,8 @@
 package model
 
 import (
+	"strings"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 
 	"github.com/go-logr/logr"
@@ -12,6 +14,7 @@ import (
 type Package struct {
 	cfg          *config.Config
 	declarations map[string]Declaration // Dictionary of all objects in package, keyed by name
+	ranks        map[string]int         // Dictionary of ranks (depth from root), keyed by name
 	metadata     PackageMetadata
 	log          logr.Logger
 }
@@ -20,6 +23,7 @@ type Order string
 
 const (
 	OrderAlphabetical = "alphabetical"
+	OrderRanked       = "ranked"
 )
 
 func NewPackage(
@@ -31,6 +35,7 @@ func NewPackage(
 	result := &Package{
 		cfg:          cfg,
 		declarations: make(map[string]Declaration, len(decl)),
+		ranks:        make(map[string]int, len(decl)),
 		metadata:     metadata,
 		log:          log,
 	}
@@ -40,6 +45,7 @@ func NewPackage(
 	}
 
 	result.catalogCrossReferences()
+	result.calculateRanks()
 	return result
 }
 
@@ -54,7 +60,10 @@ func (p *Package) Declarations(order Order) []Declaration {
 	switch order {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically
-		slices.SortFunc(result, alphabeticalObjectComparison)
+		slices.SortFunc(result, p.alphabeticalObjectComparison)
+	case OrderRanked:
+		// Sort the objects by rank, then alphabetical
+		slices.SortFunc(result, p.rankedObjectComparison)
 	}
 
 	return result
@@ -96,6 +105,11 @@ func (p *Package) Module() string {
 	return p.metadata.Module
 }
 
+// Rank returns the usage rank (depth from the root resource) of the given declaration
+func (p *Package) Rank(name string) int {
+	return p.ranks[name]
+}
+
 func (p *Package) catalogCrossReferences() {
 	usages := p.indexUsage()
 	for name, usage := range usages {
@@ -124,14 +138,58 @@ func (p *Package) indexUsage() map[string][]PropertyReference {
 	return result
 }
 
-func alphabeticalObjectComparison(left Declaration, right Declaration) int {
-	if left.Name() < right.Name() {
+func (p *Package) calculateRanks() {
+	for name, decl := range p.declarations {
+		if decl.Kind() != ResourceDeclaration {
+			continue
+		}
+
+		p.calculateRanksFromRoot(name, 0)
+	}
+}
+
+func (p *Package) calculateRanksFromRoot(
+	name string,
+	rank int,
+) {
+	if r, ok := p.ranks[name]; ok && r <= rank {
+		// We've already walked this declaration and it has a lower rank than we'd give it
+		return
+	}
+
+	p.ranks[name] = rank
+	decl, ok := p.declarations[name]
+	if !ok {
+		// Shouldn't happen, but just in case
+		return
+	}
+
+	if host, ok := decl.(PropertyContainer); ok {
+		for _, prop := range host.Properties() {
+			p.calculateRanksFromRoot(prop.Type.Id(), rank+1)
+		}
+	}
+}
+
+func (*Package) alphabeticalObjectComparison(left Declaration, right Declaration) int {
+	leftName := strings.ToLower(left.Name())
+	rightName := strings.ToLower(right.Name())
+	return strings.Compare(leftName, rightName)
+}
+
+func (p *Package) rankedObjectComparison(left Declaration, right Declaration) int {
+	leftRank := p.ranks[left.Id()]
+	rightRank := p.ranks[right.Id()]
+
+	if leftRank < rightRank {
 		return -1
 	}
 
-	if left.Name() > right.Name() {
+	if leftRank > rightRank {
 		return 1
 	}
 
-	return 0
+	leftName := strings.ToLower(left.Name())
+	rightName := strings.ToLower(right.Name())
+	return strings.Compare(leftName, rightName)
 }
