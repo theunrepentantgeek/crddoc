@@ -159,6 +159,9 @@ go-install() {
 # Stricter GO formatting
 go-install gofumpt mvdan.cc/gofumpt@latest
 
+# Nicer reporting of test results
+go-install go-testreport github.com/becheran/go-testreport@latest
+
 # Install golangci-lint
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
