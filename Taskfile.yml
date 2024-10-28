@@ -106,3 +106,8 @@ tasks:
     desc: "Run go mod tidy"
     cmds:
       - go mod tidy
+
+  gremlins:
+    desc: "Use gremlins to check the quality of our tests"
+    cmds:
+      - gremlins unleash ./internal
