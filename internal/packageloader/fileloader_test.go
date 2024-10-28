@@ -6,10 +6,11 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/theunrepentantgeek/crddoc/internal/config"
-	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 
 	"github.com/go-logr/logr"
+
+	"github.com/theunrepentantgeek/crddoc/internal/config"
+	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 )
 
 func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedResourceCount(t *testing.T) {
