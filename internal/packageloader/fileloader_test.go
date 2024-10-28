@@ -48,7 +48,11 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedEnumCount(t *testing.T) {
 	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
+	g.Expect(fl.enums).To(HaveKey("PartyKind"))
 	g.Expect(fl.enums).To(HaveLen(1))
+
+	e := fl.enums["PartyKind"]
+	g.Expect(e.Values()).To(HaveLen(3))
 }
 
 func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedGroup(t *testing.T) {

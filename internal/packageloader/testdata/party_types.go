@@ -24,7 +24,7 @@ type PartyReference struct {
 type PartyKind string
 
 const (
-	PartyKindPerson       = "Person"
-	PartyKindCompany      = "Company"
-	PartyKindOrganization = "Organization"
+	PartyKindPerson       = PartyKind("Person")
+	PartyKindCompany      = PartyKind("Company")
+	PartyKindOrganization = PartyKind("Organization")
 )
