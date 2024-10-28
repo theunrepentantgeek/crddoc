@@ -6,10 +6,11 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/theunrepentantgeek/crddoc/internal/config"
-	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 
 	"github.com/go-logr/logr"
+
+	"github.com/theunrepentantgeek/crddoc/internal/config"
+	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 )
 
 func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedResourceCount(t *testing.T) {
@@ -48,7 +49,11 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedEnumCount(t *testing.T) {
 	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
+	g.Expect(fl.enums).To(HaveKey("PartyKind"))
 	g.Expect(fl.enums).To(HaveLen(1))
+
+	e := fl.enums["PartyKind"]
+	g.Expect(e.Values()).To(HaveLen(3))
 }
 
 func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedGroup(t *testing.T) {
