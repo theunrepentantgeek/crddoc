@@ -1,6 +1,8 @@
 package model
 
 import (
+	"strings"
+
 	"github.com/dave/dst"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
@@ -134,14 +136,11 @@ func (o *Object) findEmbeddedStructs(structType *dst.StructType) []*Property {
 	return result
 }
 
+// alphabeticalPropertyComparison does a case insensitive comparison of the names of the
+// two properties, allowing them to be sorted.
 func alphabeticalPropertyComparison(left *Property, right *Property) int {
-	if left.Name < right.Name {
-		return -1
-	}
+	leftName := strings.ToLower(left.Name)
+	rightName := strings.ToLower(right.Name)
 
-	if left.Name > right.Name {
-		return 1
-	}
-
-	return 0
+	return strings.Compare(leftName, rightName)
 }
