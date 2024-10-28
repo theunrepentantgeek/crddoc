@@ -162,6 +162,9 @@ go-install gofumpt mvdan.cc/gofumpt@latest
 # Nicer reporting of test results
 go-install go-testreport github.com/becheran/go-testreport@latest
 
+# Mutation testing
+go-install gremlins github.com/go-gremlins/gremlins/cmd/gremlins@v0.5.0
+
 # Install golangci-lint
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
