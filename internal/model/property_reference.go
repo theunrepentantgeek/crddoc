@@ -1,5 +1,7 @@
 package model
 
+import "strings"
+
 type PropertyReference struct {
 	HostName string // Name of the container of this property
 	HostId   string // Id of the container of this property
@@ -22,21 +24,15 @@ func ComparePropertyReferences(
 	left PropertyReference,
 	right PropertyReference,
 ) int {
-	if left.HostName < right.HostName {
-		return -1
+	leftHostName := strings.ToLower(left.HostName)
+	rightHostName := strings.ToLower(right.HostName)
+
+	result := strings.Compare(leftHostName, rightHostName)
+	if result != 0 {
+		return result
 	}
 
-	if left.HostName > right.HostName {
-		return 1
-	}
-
-	if left.Property < right.Property {
-		return -1
-	}
-
-	if left.Property > right.Property {
-		return 1
-	}
-
-	return 0
+	leftProperty := strings.ToLower(left.Property)
+	rightProperty := strings.ToLower(right.Property)
+	return strings.Compare(leftProperty, rightProperty)
 }
