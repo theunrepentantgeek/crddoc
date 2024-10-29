@@ -8,6 +8,7 @@ linters:
     - cyclop
     - dupl
     - dupword
+    - errname
     - exhaustive
     - gofmt
     - gosimple
