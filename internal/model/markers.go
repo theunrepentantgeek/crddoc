@@ -14,7 +14,7 @@ func NewMarkers() *Markers {
 	}
 }
 
-// Add a marker to the list
+// Add a marker to the list.
 func (m *Markers) Add(marker string) {
 	marker = strings.TrimPrefix(marker, "+")
 	if n, rest, ok := strings.Cut(marker, ":"); ok {
@@ -38,7 +38,7 @@ func (m *Markers) Any() bool {
 	return len(m.children) > 0
 }
 
-// Lookup a marker value by path, returning the final value
+// Lookup a marker value by path, returning the final value.
 func (m *Markers) Lookup(path ...string) (string, bool) {
 	if len(path) == 0 {
 		return m.value, true
@@ -52,7 +52,7 @@ func (m *Markers) Lookup(path ...string) (string, bool) {
 	return child.Lookup(path[1:]...)
 }
 
-// Exists returns true if the marker exists
+// Exists returns true if the marker exists.
 func (m *Markers) Exists(path ...string) bool {
 	_, ok := m.Lookup(path...)
 	return ok

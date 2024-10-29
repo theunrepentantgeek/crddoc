@@ -2,6 +2,9 @@ run:
   deadline: 5m
   allow-parallel-runners: true
 
+issues:
+  max-issues-per-linter: 10
+
 linters:
   enable:
     - copyloopvar
@@ -12,6 +15,7 @@ linters:
     - errorlint
     - exhaustive
     - funlen
+    - godot
     - gofmt
     - gosimple
     - govet

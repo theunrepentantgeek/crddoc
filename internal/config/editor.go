@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Editor represents a point modification to make to exported documentation
+// Editor represents a point modification to make to exported documentation.
 type Editor struct {
 	// Context is a regex identifying a substring to modify, limiting the scope of the search and
 	// replace. If omitted, the entire string is eligible for modification.

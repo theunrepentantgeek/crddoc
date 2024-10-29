@@ -86,10 +86,10 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedVersion(t *testing.T) {
 	g.Expect(ver).To(Equal("v1beta3"))
 }
 
-// loadTestData is a helper used to load a testdata source file
+// loadTestData is a helper used to load a testdata source file.
 func testdataPath(
 	t *testing.T,
-	filename string, //nolint:unparam // other file names will be used as testing improves
+	filename string, //nolint:unparam // other file names will be used as testing improves.
 ) string {
 	t.Helper()
 

@@ -45,7 +45,7 @@ func createId(expr dst.Expr) string {
 	}
 }
 
-// createName renders a type expression as a string
+// createName renders a type expression as a string.
 func createName(expr dst.Expr) string {
 	switch t := expr.(type) {
 	case *dst.Ident:

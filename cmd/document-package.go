@@ -144,7 +144,7 @@ func (options *documentPackageOptions) validate(
 	return nil
 }
 
-// applyToConfig applies options we've received on the command line to the config
+// applyToConfig applies options we've received on the command line to the config.
 func (options *documentPackageOptions) applyToConfig(cfg *config.Config) {
 	cfg.OverrideTemplatePath(options.templatePath)
 }

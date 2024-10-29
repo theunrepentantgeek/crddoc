@@ -8,10 +8,10 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/texteditor"
 )
 
-// Functions is a carrier type for all the Functions we provide to templates
+// Functions is a carrier type for all the Functions we provide to templates.
 type Functions struct {
-	pkg     *model.Package // Current Package used by the functions
-	cfg     *config.Config // Config used by the functions
+	pkg     *model.Package // Current Package used by the functions.
+	cfg     *config.Config // Config used by the functions.
 	editors *texteditor.TextEditorList
 }
 
