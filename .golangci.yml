@@ -9,6 +9,7 @@ linters:
     - dupl
     - dupword
     - errname
+    - errorlint
     - exhaustive
     - gofmt
     - gosimple
