@@ -11,6 +11,7 @@ linters:
     - errname
     - errorlint
     - exhaustive
+    - funlen
     - gofmt
     - gosimple
     - govet
@@ -33,6 +34,9 @@ linters-settings:
     skip-tests: true
   exhaustive:
     default-signifies-exhaustive: true
+  funlen:
+    lines: 60
+    ignore-comments: true
   gosimple:
     # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
     checks:

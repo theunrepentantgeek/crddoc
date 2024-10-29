@@ -6,6 +6,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+//nolint:funlen // allow long test function
 func TestInlineLinks_GivenLines_ReturnsExpectedLines(t *testing.T) {
 	t.Parallel()
 
