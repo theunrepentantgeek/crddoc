@@ -63,33 +63,57 @@ func (loader *FileLoader) Load() error {
 
 		if gd, ok := decl.(*dst.GenDecl); ok {
 			if gd.Tok == token.TYPE {
-				// Parse type declarations for objects and enums
 				comments := gd.Decs.Start.All()
-				for _, spec := range gd.Specs {
-					// Try to create an object from this declaration
-					if obj, ok := model.TryNewObject(spec, comments); ok {
-						loader.objects[obj.Id()] = obj
-					}
-
-					// Try to create an enum from this declaration
-					if enum, ok := model.TryNewEnum(spec, comments); ok {
-						loader.enums[enum.Id()] = enum
-					}
-				}
+				loader.parseTypes(gd.Specs, comments)
 			}
 
 			if gd.Tok == token.CONST {
-				for _, spec := range gd.Specs {
-					// Parse constant declarations for enums
-					if enumValue, ok := model.TryNewEnumValue(spec); ok {
-						kind := enumValue.Kind()
-						loader.values[kind] = append(loader.values[kind], enumValue)
-					}
-				}
+				loader.parseConstants(gd.Specs)
 			}
 		}
 	}
 
+	loader.discoverResources()
+	loader.assembleEnumerations()
+
+	return nil
+}
+
+// parseTypes iterates through a sequence of dst.Spec declarations trying to parse
+// objects and enums.
+func (loader *FileLoader) parseTypes(
+	specs []dst.Spec,
+	comments []string,
+) {
+	// Parse type declarations for objects and enums
+	for _, spec := range specs {
+		// Try to create an object from this declaration
+		if obj, ok := model.TryNewObject(spec, comments); ok {
+			loader.objects[obj.Id()] = obj
+		}
+
+		// Try to create an enum from this declaration
+		if enum, ok := model.TryNewEnum(spec, comments); ok {
+			loader.enums[enum.Id()] = enum
+		}
+	}
+}
+
+func (loader *FileLoader) parseConstants(
+	specs []dst.Spec,
+) {
+	for _, spec := range specs {
+		// Parse constant declarations for enums
+		if enumValue, ok := model.TryNewEnumValue(spec); ok {
+			kind := enumValue.Kind()
+			loader.values[kind] = append(loader.values[kind], enumValue)
+		}
+	}
+}
+
+// discoverResources iterates through the objects we've already loaded and identifies any
+// that represent resources.
+func (loader *FileLoader) discoverResources() {
 	// Find all the objects that are actually resources
 	for _, obj := range maps.Values(loader.objects) {
 		// Try to create a resource from this object
@@ -98,7 +122,11 @@ func (loader *FileLoader) Load() error {
 			delete(loader.objects, resource.Id())
 		}
 	}
+}
 
+// assembleEnumerations iterates through all the enums we've found and adds any constant values
+// of that type.
+func (loader *FileLoader) assembleEnumerations() {
 	// Add the values to each enum
 	for n, e := range loader.enums {
 		if values, ok := loader.values[n]; ok {
@@ -107,8 +135,6 @@ func (loader *FileLoader) Load() error {
 			}
 		}
 	}
-
-	return nil
 }
 
 func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
