@@ -6,6 +6,7 @@ linters:
   enable:
     - gofmt
     - gosimple
+    - govet
     - paralleltest
     - prealloc
     - revive
