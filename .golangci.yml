@@ -4,6 +4,7 @@ run:
 
 linters:
   enable:
+    - exhaustive
     - gofmt
     - gosimple
     - govet
