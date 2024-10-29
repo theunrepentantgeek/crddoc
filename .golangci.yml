@@ -6,6 +6,7 @@ linters:
   enable:
     - copyloopvar
     - cyclop
+    - dupl
     - exhaustive
     - gofmt
     - gosimple
