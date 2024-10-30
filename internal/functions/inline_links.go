@@ -12,7 +12,7 @@ var referenceDefinitionRegex = regexp.MustCompile(`^\s*\[(?P<name>[^\]]+)\]:\s*(
 
 // linkReferenceRegex is a regular expression that matches use of a reference link.
 // It captures the name.
-// No match is returned for inline markdown links
+// No match is returned for inline markdown links.
 var linkReferenceRegex = regexp.MustCompile(`\[(?P<name>[^\]]+)\]`)
 
 // inline links converts reference style links into inline ones.
@@ -34,7 +34,7 @@ func (f *Functions) inlineLinks(lines []string) []string {
 		}
 
 		// This is a reference definition, so add it to the map if we don't already
-		// have a definition with this name
+		// have a definition with this name.
 		linkText := matches[1]
 		destination := matches[2]
 		key := strings.ToLower(linkText)
@@ -44,18 +44,18 @@ func (f *Functions) inlineLinks(lines []string) []string {
 		}
 	}
 
-	// Iterate through lines, replacing any reference links with inline links
+	// Iterate through lines, replacing any reference links with inline links.
 	for i, line := range result {
 		result[i] = linkReferenceRegex.ReplaceAllStringFunc(line, func(match string) string {
 			// Extract the name of the link
 			name := linkReferenceRegex.FindStringSubmatch(match)[1]
 			key := strings.ToLower(name)
 			if destination, ok := defs[key]; ok {
-				// This is a reference link, so replace it with an inline link
+				// This is a reference link, so replace it with an inline link.
 				return fmt.Sprintf("[%s](%s)", name, destination)
 			}
 
-			// This is not a reference link, so leave it alone
+			// This is not a reference link, so leave it alone.
 			return match
 		})
 	}

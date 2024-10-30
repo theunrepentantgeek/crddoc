@@ -35,7 +35,7 @@ func Default() *Config {
 	}
 }
 
-// Load populates this config from the given path
+// Load populates this config from the given path.
 func (c *Config) Load(path string) error {
 	file, err := os.Open(path)
 	if err != nil {

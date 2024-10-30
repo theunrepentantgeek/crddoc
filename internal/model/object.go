@@ -65,7 +65,7 @@ func (o *Object) SetUsage(uses []PropertyReference) {
 	o.usage = uses
 }
 
-// Properties returns all the properties of the object, in alphabetical order
+// Properties returns all the properties of the object, in alphabetical order.
 func (o *Object) Properties() []*Property {
 	result := maps.Values(o.properties)
 	slices.SortFunc(result, alphabeticalPropertyComparison)
@@ -73,13 +73,13 @@ func (o *Object) Properties() []*Property {
 }
 
 // Property returns the property with the given name and true,
-// or nil and false if not found
+// or nil and false if not found.
 func (o *Object) Property(name string) (*Property, bool) {
 	prop, ok := o.properties[name]
 	return prop, ok
 }
 
-// Embeds returns all of the embeds of the object, in alphabetical order
+// Embeds returns all of the embeds of the object, in alphabetical order.
 func (o *Object) Embeds() []*Property {
 	result := slices.Clone(o.embeds)
 	slices.SortFunc(result, alphabeticalPropertyComparison)
@@ -87,7 +87,7 @@ func (o *Object) Embeds() []*Property {
 }
 
 // Embed returns the embed with the given name and true,
-// or nil and false if not found
+// or nil and false if not found.
 func (o *Object) Embed(name string) (*Property, bool) {
 	for _, embed := range o.embeds {
 		if embed.Name == name {
@@ -105,9 +105,9 @@ func (o *Object) Description() []string {
 func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
-	// Iterate over the fields in the struct type and try to create a property for each one
+	// Iterate over the fields in the struct type and try to create a property for each one.
 	for _, field := range structType.Fields.List {
-		// A single field might contain multiple properties
+		// A single field might contain multiple properties.
 		for _, name := range field.Names {
 			if property, ok := TryNewProperty(name.Name, field); ok {
 				result[property.Name] = property
@@ -121,7 +121,7 @@ func (o *Object) findProperties(structType *dst.StructType) map[string]*Property
 func (o *Object) findEmbeddedStructs(structType *dst.StructType) []*Property {
 	var result []*Property
 
-	// Iterate over the fields in the struct type and try to create a property for each one
+	// Iterate over the fields in the struct type and try to create a property for each one.
 	for _, field := range structType.Fields.List {
 		if field.Names != nil {
 			continue

@@ -11,7 +11,6 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/generator"
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
-	"github.com/theunrepentantgeek/crddoc/templates"
 )
 
 func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
@@ -88,24 +87,9 @@ func documentPackage(
 	}
 
 	gen := generator.New(cfg, log)
-
-	if cfg.TemplatePath != "" {
-		// Load templates from the specified folder
-		dir := os.DirFS(cfg.TemplatePath)
-		log.Info(
-			"Loading templates",
-			"path", cfg.TemplatePath)
-		err := gen.LoadTemplates(dir)
-		if err != nil {
-			return errors.Wrapf(err, "loading templates from folder %s", cfg.TemplatePath)
-		}
-	} else {
-		// Use internal templates
-		log.Info("Loading internal templates")
-		err = gen.LoadTemplates(templates.CRD)
-		if err != nil {
-			return errors.Wrap(err, "loading internal templates")
-		}
+	err = gen.LoadTemplates()
+	if err != nil {
+		return errors.Wrap(err, "loading templates")
 	}
 
 	// Render the template and write to output
@@ -160,7 +144,7 @@ func (options *documentPackageOptions) validate(
 	return nil
 }
 
-// applyToConfig applies options we've received on the command line to the config
+// applyToConfig applies options we've received on the command line to the config.
 func (options *documentPackageOptions) applyToConfig(cfg *config.Config) {
 	cfg.OverrideTemplatePath(options.templatePath)
 }

@@ -27,7 +27,6 @@ func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
 	markers.Add("+kubebuilder:validation:Max=100")
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := gomega.NewWithT(t)
@@ -71,7 +70,6 @@ func TestMarkers_Exists_ReturnsExpectedValue(t *testing.T) {
 	markers.Add("+kubebuilder:validation:Optional")
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := gomega.NewWithT(t)

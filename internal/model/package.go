@@ -10,11 +10,11 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-// Package is a struct containing all of the declarations found in a package directory
+// Package is a struct containing all of the declarations found in a package directory.
 type Package struct {
 	cfg          *config.Config
-	declarations map[string]Declaration // Dictionary of all objects in package, keyed by name
-	ranks        map[string]int         // Dictionary of ranks (depth from root), keyed by name
+	declarations map[string]Declaration // Dictionary of all objects in package, keyed by name.
+	ranks        map[string]int         // Dictionary of ranks (depth from root), keyed by name.
 	metadata     PackageMetadata
 	log          logr.Logger
 }
@@ -79,7 +79,7 @@ func (p *Package) Declaration(name string) (Declaration, bool) {
 	return dec, ok
 }
 
-// Object returns the object with the given name, if there is one
+// Object returns the object with the given name, if there is one.
 func (p *Package) Object(name string) (*Object, bool) {
 	dec, ok := p.Declaration(name)
 	if !ok {
@@ -90,22 +90,22 @@ func (p *Package) Object(name string) (*Object, bool) {
 	return obj, ok
 }
 
-// Group returns the group of the package
+// Group returns the group of the package.
 func (p *Package) Group() string {
 	return p.metadata.Group
 }
 
-// Version returns the version of the package
+// Version returns the version of the package.
 func (p *Package) Version() string {
 	return p.metadata.Version
 }
 
-// Module returns the module of the package
+// Module returns the module of the package.
 func (p *Package) Module() string {
 	return p.metadata.Module
 }
 
-// Rank returns the usage rank (depth from the root resource) of the given declaration
+// Rank returns the usage rank (depth from the root resource) of the given declaration.
 func (p *Package) Rank(name string) int {
 	return p.ranks[name]
 }
@@ -153,14 +153,14 @@ func (p *Package) calculateRanksFromRoot(
 	rank int,
 ) {
 	if r, ok := p.ranks[name]; ok && r <= rank {
-		// We've already walked this declaration and it has a lower rank than we'd give it
+		// We've already walked this declaration and it has a lower rank than we'd give it.
 		return
 	}
 
 	p.ranks[name] = rank
 	decl, ok := p.declarations[name]
 	if !ok {
-		// Shouldn't happen, but just in case
+		// Shouldn't happen, but just in case.
 		return
 	}
 

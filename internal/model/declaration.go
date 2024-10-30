@@ -1,6 +1,6 @@
 package model
 
-// Declaration is a common interface for declarations found in Go files
+// Declaration is a common interface for declarations found in Go files.
 type Declaration interface {
 	Name() string
 	Id() string

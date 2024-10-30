@@ -7,7 +7,7 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
 
-// Editor represents a point modification to make to exported documentation
+// Editor represents a point modification to make to exported documentation.
 type Editor struct {
 	cfg config.Editor
 

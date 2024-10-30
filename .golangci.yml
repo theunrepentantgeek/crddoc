@@ -2,10 +2,24 @@ run:
   deadline: 5m
   allow-parallel-runners: true
 
+issues:
+  max-issues-per-linter: 10
+
 linters:
   enable:
+    - copyloopvar
+    - cyclop
+    - dupl
+    - dupword
+    - errname
+    - errorlint
+    - exhaustive
+    - funlen
+    - godot
     - gofmt
     - gosimple
+    - govet
+    - nolintlint
     - paralleltest
     - prealloc
     - revive
@@ -24,6 +38,9 @@ linters-settings:
     skip-tests: true
   exhaustive:
     default-signifies-exhaustive: true
+  funlen:
+    lines: 60
+    ignore-comments: true
   gosimple:
     # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
     checks:

@@ -1,7 +1,7 @@
 package functions
 
 // asList is a function that wraps an existing slice with metadata to make it
-// easier to iterate over in templates
+// easier to iterate over in templates.
 func asList[I any](slice []I) []ListItem[I] {
 	result := make([]ListItem[I], len(slice))
 	for i, item := range slice {
@@ -16,12 +16,12 @@ func asList[I any](slice []I) []ListItem[I] {
 }
 
 type ListItem[I any] struct {
-	// Item is the item in the list
+	// Item is the item in the list.
 	Item I
 
-	// First indicates whether this is the first item in the list
+	// First indicates whether this is the first item in the list.
 	First bool
 
-	// Last indicates whether this is the last item in the list
+	// Last indicates whether this is the last item in the list.
 	Last bool
 }

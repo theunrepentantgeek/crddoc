@@ -2,8 +2,10 @@ package generator
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"io/fs"
+	"os"
 	"text/template"
 
 	"github.com/go-logr/logr"
@@ -12,6 +14,7 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/functions"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
+	"github.com/theunrepentantgeek/crddoc/templates"
 )
 
 type Generator struct {
@@ -32,10 +35,27 @@ func New(cfg *config.Config, log logr.Logger) *Generator {
 	}
 }
 
-func (g *Generator) LoadTemplates(folder fs.FS) error {
-	_, err := g.template.ParseFS(folder, "*.tmpl")
+func (g *Generator) LoadTemplates() error {
+	var sourceFS fs.FS
+	var sourceDescription string
+
+	if g.cfg.TemplatePath != "" {
+		// Load templates from the specified folder
+		g.log.Info(
+			"Loading templates",
+			"path", g.cfg.TemplatePath)
+		sourceFS = os.DirFS(g.cfg.TemplatePath)
+		sourceDescription = fmt.Sprintf("loading templates from folder %s", g.cfg.TemplatePath)
+	} else {
+		// Use internal templates
+		g.log.Info("Loading internal templates")
+		sourceFS = templates.CRD
+		sourceDescription = "loading internal templates"
+	}
+
+	_, err := g.template.ParseFS(sourceFS, "*.tmpl")
 	if err != nil {
-		return err
+		return errors.Wrap(err, sourceDescription)
 	}
 
 	return nil
