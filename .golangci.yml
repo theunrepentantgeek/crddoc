@@ -28,6 +28,7 @@ linters:
     - prealloc
     - revive
     - staticcheck
+    - thelper
     - tparallel
     - unparam
     - unused
