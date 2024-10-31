@@ -20,6 +20,7 @@ linters:
     - gofmt
     - gosimple
     - govet
+    - intrange
     - nolintlint
     - paralleltest
     - prealloc
