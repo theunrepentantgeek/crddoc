@@ -21,6 +21,7 @@ linters:
     - gosimple
     - govet
     - intrange
+    - misspell
     - nolintlint
     - paralleltest
     - prealloc
