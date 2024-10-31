@@ -34,6 +34,7 @@ linters:
     - unparam
     - unused
     - wastedassign
+    - whitespace
     - wrapcheck
   presets:
     - bugs
