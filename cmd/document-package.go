@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"os"
 
-	"github.com/pkg/errors"
-
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/generator"
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"

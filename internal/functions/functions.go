@@ -4,6 +4,7 @@ import (
 	"text/template"
 
 	"github.com/pkg/errors"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 	"github.com/theunrepentantgeek/crddoc/internal/texteditor"

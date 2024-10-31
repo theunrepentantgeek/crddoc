@@ -9,9 +9,10 @@ import (
 	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/maps"
+
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
-	"golang.org/x/exp/maps"
 )
 
 type FileLoader struct {

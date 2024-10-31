@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/onsi/gomega"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
 

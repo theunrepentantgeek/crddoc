@@ -15,6 +15,7 @@ linters:
     - errorlint
     - exhaustive
     - funlen
+    - gci
     - godot
     - gofmt
     - gosimple
@@ -37,6 +38,14 @@ linters-settings:
   cyclop:
     max-complexity: 10
     skip-tests: true
+  gci:
+    sections:
+      - standard
+      - dot
+      - alias
+      - default
+      - localmodule
+    custom-order: true
   exhaustive:
     default-signifies-exhaustive: true
   funlen:

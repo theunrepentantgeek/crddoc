@@ -4,6 +4,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
 

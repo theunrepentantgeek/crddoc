@@ -5,8 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
