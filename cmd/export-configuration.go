@@ -4,6 +4,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
 
@@ -44,6 +45,11 @@ func exportConfiguration(
 	cfg := config.Default()
 
 	// Save the configuration to a file as yaml
-	log.Info("Saving default configuration to file", "file", args[0])
-	return cfg.Save(args[0])
+	file := args[0]
+	log.Info("Exporting default configuration", "file", file)
+	if err := cfg.Save(file); err != nil {
+		return errors.Wrapf(err, "exporting configuration to %s", file)
+	}
+
+	return nil
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/shurcooL/markdownfmt/markdown"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/functions"
 	"github.com/theunrepentantgeek/crddoc/internal/model"

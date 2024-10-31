@@ -3,11 +3,11 @@ package model
 import (
 	"strings"
 
-	"github.com/theunrepentantgeek/crddoc/internal/config"
-
 	"github.com/go-logr/logr"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
+
+	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
 
 // Package is a struct containing all of the declarations found in a package directory.

@@ -15,18 +15,27 @@ linters:
     - errorlint
     - exhaustive
     - funlen
+    - gci
     - godot
     - gofmt
     - gosimple
     - govet
+    - intrange
+    - misspell
+    - nilerr
     - nolintlint
     - paralleltest
     - prealloc
     - revive
     - staticcheck
+    - thelper
     - tparallel
+    - unconvert
     - unparam
     - unused
+    - wastedassign
+    - whitespace
+    - wrapcheck
   presets:
     - bugs
     - unused
@@ -36,6 +45,14 @@ linters-settings:
   cyclop:
     max-complexity: 10
     skip-tests: true
+  gci:
+    sections:
+      - standard
+      - dot
+      - alias
+      - default
+      - localmodule
+    custom-order: true
   exhaustive:
     default-signifies-exhaustive: true
   funlen:
