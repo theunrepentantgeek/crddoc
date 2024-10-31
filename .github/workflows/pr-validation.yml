@@ -32,13 +32,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Nuild devcontainer image and push
+      - name: Build devcontainer image and push
         uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/theunrepentantgeek/crddoc-devcontainer
           push: always
 
-      - name: Pre-build devcontainer image and run task ci
+      - name: Run task ci in devcontainer
         uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/theunrepentantgeek/crddoc-devcontainer
