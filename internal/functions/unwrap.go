@@ -6,7 +6,7 @@ func (*Functions) unwrap(content []string) string {
 	var result strings.Builder
 
 	// Initial conditions chosen so we don't add a leading space every time
-	leadingSpace := false
+	var leadingSpace bool
 	trailingSpace := true
 	for _, line := range content {
 		leadingSpace = strings.HasPrefix(line, " ")

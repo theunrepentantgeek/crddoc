@@ -33,6 +33,7 @@ linters:
     - unconvert
     - unparam
     - unused
+    - wastedassign
     - wrapcheck
   presets:
     - bugs
