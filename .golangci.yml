@@ -27,6 +27,7 @@ linters:
     - tparallel
     - unparam
     - unused
+    - wrapcheck
   presets:
     - bugs
     - unused

@@ -3,6 +3,7 @@ package functions
 import (
 	"text/template"
 
+	"github.com/pkg/errors"
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 	"github.com/theunrepentantgeek/crddoc/internal/texteditor"
@@ -43,5 +44,10 @@ func (f *Functions) SetConfig(cfg *config.Config) error {
 
 	var err error
 	f.editors, err = texteditor.New(cfg)
-	return err
+
+	if err != nil {
+		return errors.Wrap(err, "configuring functions")
+	}
+
+	return nil
 }
