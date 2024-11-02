@@ -18,7 +18,7 @@ func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
 	}
 
 	// ... (skipping structs) ...
-	if _, ok := typeSpec.Type.(*dst.StructType); ok {
+	if _, isStruct := typeSpec.Type.(*dst.StructType); isStruct {
 		return nil, false
 	}
 
