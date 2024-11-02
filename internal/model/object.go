@@ -69,6 +69,7 @@ func (o *Object) SetUsage(uses []PropertyReference) {
 func (o *Object) Properties() []*Property {
 	result := maps.Values(o.properties)
 	slices.SortFunc(result, alphabeticalPropertyComparison)
+
 	return result
 }
 
@@ -76,6 +77,7 @@ func (o *Object) Properties() []*Property {
 // or nil and false if not found.
 func (o *Object) Property(name string) (*Property, bool) {
 	prop, ok := o.properties[name]
+
 	return prop, ok
 }
 
@@ -83,6 +85,7 @@ func (o *Object) Property(name string) (*Property, bool) {
 func (o *Object) Embeds() []*Property {
 	result := slices.Clone(o.embeds)
 	slices.SortFunc(result, alphabeticalPropertyComparison)
+
 	return result
 }
 

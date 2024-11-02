@@ -34,5 +34,6 @@ func ComparePropertyReferences(
 
 	leftProperty := strings.ToLower(left.Property)
 	rightProperty := strings.ToLower(right.Property)
+
 	return strings.Compare(leftProperty, rightProperty)
 }

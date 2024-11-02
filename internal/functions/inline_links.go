@@ -30,6 +30,7 @@ func (f *Functions) inlineLinks(lines []string) []string {
 		if matches == nil {
 			// This is not a reference definition, so add it to the result
 			result = append(result, line)
+
 			continue
 		}
 

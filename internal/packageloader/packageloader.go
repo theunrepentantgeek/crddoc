@@ -45,6 +45,7 @@ func (loader *PackageLoader) LoadDirectory(folder string) (*model.Package, error
 // file is the full path to the file to load.
 func (loader *PackageLoader) LoadFile(file string) (*model.Package, error) {
 	dir, name := filepath.Split(file)
+
 	return loader.load(dir, name)
 }
 
@@ -112,6 +113,7 @@ func (loader *PackageLoader) findFiles(
 	files, err := os.ReadDir(folder)
 	if err != nil {
 		errs <- errors.Wrapf(err, "failed to read directory %s", folder)
+
 		return
 	}
 
@@ -123,6 +125,7 @@ func (loader *PackageLoader) findFiles(
 		match, err := filepath.Match(glob, f.Name())
 		if err != nil {
 			errs <- errors.Wrapf(err, "failed to match file %s with pattern %s", f.Name(), glob)
+
 			continue
 		}
 
@@ -150,6 +153,7 @@ func (loader *PackageLoader) parseFiles(
 		err := fl.Load()
 		if err != nil {
 			errs <- errors.Wrapf(err, "failed to load file %s", file)
+
 			continue
 		}
 

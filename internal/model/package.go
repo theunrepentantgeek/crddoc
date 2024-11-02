@@ -46,6 +46,7 @@ func NewPackage(
 
 	result.catalogCrossReferences()
 	result.calculateRanks()
+
 	return result
 }
 
@@ -87,6 +88,7 @@ func (p *Package) Object(name string) (*Object, bool) {
 	}
 
 	obj, ok := dec.(*Object)
+
 	return obj, ok
 }
 
@@ -174,6 +176,7 @@ func (p *Package) calculateRanksFromRoot(
 func (*Package) alphabeticalObjectComparison(left Declaration, right Declaration) int {
 	leftName := strings.ToLower(left.Name())
 	rightName := strings.ToLower(right.Name())
+
 	return strings.Compare(leftName, rightName)
 }
 
@@ -191,5 +194,6 @@ func (p *Package) rankedObjectComparison(left Declaration, right Declaration) in
 
 	leftName := strings.ToLower(left.Name())
 	rightName := strings.ToLower(right.Name())
+
 	return strings.Compare(leftName, rightName)
 }

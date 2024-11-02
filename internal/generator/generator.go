@@ -28,6 +28,7 @@ type Generator struct {
 func New(cfg *config.Config, log logr.Logger) *Generator {
 	fns := functions.New()
 	funcMap := fns.CreateFuncMap()
+
 	return &Generator{
 		cfg:      cfg,
 		log:      log,
@@ -73,6 +74,7 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	g.fns.SetPackage(pkg)
 	if err := g.fns.SetConfig(g.cfg); err != nil {
 		g.log.Error(err, "failed to set function config")
+
 		return errors.Wrap(err, "failed to set")
 	}
 
@@ -83,6 +85,7 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 		pkg)
 	if err != nil {
 		g.log.Error(err, "failed to execute template")
+
 		return errors.Wrap(err, "failed to execute template")
 	}
 
@@ -92,6 +95,7 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 		content, err = markdown.Process("", raw.Bytes(), nil)
 		if err != nil {
 			g.log.Error(err, "failed to tidy markdown")
+
 			return errors.Wrap(err, "failed to tidy markdown")
 		}
 	}
@@ -99,9 +103,11 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	_, err = writer.Write(content)
 	if err != nil {
 		g.log.Error(err, "failed to write markdown")
+
 		return errors.Wrap(err, "failed to write markdown")
 	}
 
 	g.log.Info("Template rendered successfully")
+
 	return nil
 }

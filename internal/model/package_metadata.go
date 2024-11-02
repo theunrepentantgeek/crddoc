@@ -12,6 +12,7 @@ type PackageMetadata struct {
 func (m *PackageMetadata) TrySetGroup(group string) bool {
 	if m.Group == "" || m.Group == group {
 		m.Group = group
+
 		return true
 	}
 
@@ -23,6 +24,7 @@ func (m *PackageMetadata) TrySetGroup(group string) bool {
 func (m *PackageMetadata) TrySetVersion(version string) bool {
 	if m.Version == "" || m.Version == version {
 		m.Version = version
+
 		return true
 	}
 

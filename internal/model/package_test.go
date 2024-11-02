@@ -106,6 +106,7 @@ func testdataPath(
 	}
 
 	result := filepath.Join(wd, "testdata", filename)
+
 	return result
 }
 

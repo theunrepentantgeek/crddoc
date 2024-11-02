@@ -23,6 +23,7 @@ linters:
     - intrange
     - misspell
     - nilerr
+    - nlreturn
     - nolintlint
     - paralleltest
     - prealloc

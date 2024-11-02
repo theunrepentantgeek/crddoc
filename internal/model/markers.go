@@ -55,6 +55,7 @@ func (m *Markers) Lookup(path ...string) (string, bool) {
 // Exists returns true if the marker exists.
 func (m *Markers) Exists(path ...string) bool {
 	_, ok := m.Lookup(path...)
+
 	return ok
 }
 
