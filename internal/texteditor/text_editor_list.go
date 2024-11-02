@@ -8,6 +8,7 @@ type TextEditorList struct {
 
 func New(cfg *config.Config) (*TextEditorList, error) {
 	editors := make([]*Editor, 0, len(cfg.Editors))
+
 	for _, f := range cfg.Editors {
 		editor, err := NewEditor(f)
 		if err != nil {

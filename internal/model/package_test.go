@@ -21,6 +21,7 @@ func TestPackage_LoadFile_LoadsExpectedContent(t *testing.T) {
 	cfg := &config.Config{}
 
 	loader := packageloader.New(cfg, logr.Discard())
+
 	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
 		t.Fatalf("Failed to load file: %v", err)
@@ -35,6 +36,7 @@ func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
 
 	cfg := &config.Config{}
 	loader := packageloader.New(cfg, logr.Discard())
+
 	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
 		t.Fatalf("Failed to load file: %v", err)
@@ -71,6 +73,7 @@ func TestPackage_Declaration_ReturnsExpectedObjects(t *testing.T) {
 
 	cfg := &config.Config{}
 	loader := packageloader.New(cfg, logr.Discard())
+
 	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
 		t.Fatalf("Failed to load file: %v", err)
@@ -132,6 +135,7 @@ func TestPackage_Rank_ReturnesExpectedResults(t *testing.T) {
 
 	cfg := &config.Config{}
 	loader := packageloader.New(cfg, logr.Discard())
+
 	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
 	if err != nil {
 		t.Fatalf("Failed to load file: %v", err)

@@ -81,12 +81,14 @@ func documentPackage(
 
 	packageFolder := args[0]
 	loader := packageloader.New(cfg, log)
+
 	pkg, err := loader.LoadDirectory(packageFolder)
 	if err != nil {
 		return errors.Wrapf(err, "loading package from %q", packageFolder)
 	}
 
 	gen := generator.New(cfg, log)
+
 	err = gen.LoadTemplates()
 	if err != nil {
 		return errors.Wrap(err, "loading templates")
@@ -110,6 +112,7 @@ func documentPackage(
 	}
 
 	w.Flush()
+
 	return nil
 }
 

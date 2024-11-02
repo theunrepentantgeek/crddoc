@@ -16,9 +16,11 @@ func (*Functions) unwrap(content []string) string {
 
 		if len(strings.TrimSpace(line)) == 0 {
 			result.WriteString("<br/>")
+
 			trailingSpace = true
 		} else {
 			result.WriteString(line)
+
 			trailingSpace = strings.HasSuffix(line, " ")
 		}
 	}

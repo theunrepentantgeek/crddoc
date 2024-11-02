@@ -168,6 +168,7 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 func (loader *FileLoader) Declarations() []model.Declaration {
 	expectedDeclarations := len(loader.resources) + len(loader.objects) + len(loader.enums)
 	result := make([]model.Declaration, 0, expectedDeclarations)
+
 	for _, r := range loader.resources {
 		if loader.typeFilters.Filter(r.Name()) == typefilter.Included {
 			result = append(result, r)

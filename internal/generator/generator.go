@@ -46,11 +46,13 @@ func (g *Generator) LoadTemplates() error {
 		g.log.Info(
 			"Loading templates",
 			"path", g.cfg.TemplatePath)
+
 		sourceFS = os.DirFS(g.cfg.TemplatePath)
 		sourceDescription = fmt.Sprintf("loading templates from folder %s", g.cfg.TemplatePath)
 	} else {
 		// Use internal templates
 		g.log.Info("Loading internal templates")
+
 		sourceFS = templates.CRD
 		sourceDescription = "loading internal templates"
 	}
@@ -72,6 +74,7 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	)
 
 	g.fns.SetPackage(pkg)
+
 	if err := g.fns.SetConfig(g.cfg); err != nil {
 		g.log.Error(err, "failed to set function config")
 
@@ -79,6 +82,7 @@ func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
 	}
 
 	var raw bytes.Buffer
+
 	err := g.template.ExecuteTemplate(
 		&raw,
 		"crd",

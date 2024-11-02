@@ -124,6 +124,7 @@ func (p *Package) catalogCrossReferences() {
 
 func (p *Package) indexUsage() map[string][]PropertyReference {
 	result := make(map[string][]PropertyReference)
+
 	for _, dec := range p.declarations {
 		// Index references from an object
 		if host, ok := dec.(PropertyContainer); ok {
@@ -160,6 +161,7 @@ func (p *Package) calculateRanksFromRoot(
 	}
 
 	p.ranks[name] = rank
+
 	decl, ok := p.declarations[name]
 	if !ok {
 		// Shouldn't happen, but just in case.

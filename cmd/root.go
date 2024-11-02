@@ -9,6 +9,7 @@ import (
 
 func Execute() {
 	log := CreateLogger()
+
 	root, err := newRootCommand(log)
 	if err != nil {
 		log.Error(err, "failed to create root command")

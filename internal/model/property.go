@@ -16,8 +16,7 @@ type Property struct {
 }
 
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
-	// TODO: Parse tags
-
+	// TODO: Parse tags as well
 	description, commands := ParseComments(field.Decs.Start.All())
 	description = formatComments(description, name)
 
@@ -61,6 +60,7 @@ func (p *Property) tryParseName(field *dst.Field) (string, bool) {
 	// Try to find a name configured with a json tag
 	if j, ok := tag.Lookup("json"); ok {
 		parts := strings.Split(j, ",")
+
 		name := parts[0]
 		if name != "" {
 			return name, true
@@ -70,6 +70,7 @@ func (p *Property) tryParseName(field *dst.Field) (string, bool) {
 	// Try to find a name configured with a yaml tag
 	if y, ok := tag.Lookup("yaml"); ok {
 		parts := strings.Split(y, ",")
+
 		name := parts[0]
 		if name != "" {
 			return name, true

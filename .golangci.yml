@@ -37,6 +37,7 @@ linters:
     - wastedassign
     - whitespace
     - wrapcheck
+    - wsl
   presets:
     - bugs
     - unused
@@ -94,3 +95,6 @@ linters-settings:
 
   unused:
     generated-is-used: true
+
+  wsl:
+    allow-cuddle-declarations: true

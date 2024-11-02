@@ -51,6 +51,7 @@ func (f *Functions) inlineLinks(lines []string) []string {
 			// Extract the name of the link
 			name := linkReferenceRegex.FindStringSubmatch(match)[1]
 			key := strings.ToLower(name)
+
 			if destination, ok := defs[key]; ok {
 				// This is a reference link, so replace it with an inline link.
 				return fmt.Sprintf("[%s](%s)", name, destination)
