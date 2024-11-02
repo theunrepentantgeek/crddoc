@@ -129,9 +129,9 @@ func (p *Package) indexUsage() map[string][]PropertyReference {
 		// Index references from an object
 		if host, ok := dec.(PropertyContainer); ok {
 			for _, prop := range host.Properties() {
-				id := prop.Type.Id()
+				id := prop.Type.ID()
 				if _, ok := p.declarations[id]; ok {
-					ref := NewPropertyReference(dec.Name(), dec.Id(), prop.Name)
+					ref := NewPropertyReference(dec.Name(), dec.ID(), prop.Name)
 					result[id] = append(result[id], ref)
 				}
 			}
@@ -170,7 +170,7 @@ func (p *Package) calculateRanksFromRoot(
 
 	if host, ok := decl.(PropertyContainer); ok {
 		for _, prop := range host.Properties() {
-			p.calculateRanksFromRoot(prop.Type.Id(), rank+1)
+			p.calculateRanksFromRoot(prop.Type.ID(), rank+1)
 		}
 	}
 }
@@ -183,8 +183,8 @@ func (*Package) alphabeticalObjectComparison(left Declaration, right Declaration
 }
 
 func (p *Package) rankedObjectComparison(left Declaration, right Declaration) int {
-	leftRank := p.ranks[left.Id()]
-	rightRank := p.ranks[right.Id()]
+	leftRank := p.ranks[left.ID()]
+	rightRank := p.ranks[right.ID()]
 
 	if leftRank < rightRank {
 		return -1

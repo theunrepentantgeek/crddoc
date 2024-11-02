@@ -29,6 +29,7 @@ linters:
     - prealloc
     - revive
     - staticcheck
+    - stylecheck
     - thelper
     - tparallel
     - unconvert

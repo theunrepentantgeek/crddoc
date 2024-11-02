@@ -90,12 +90,12 @@ func (loader *FileLoader) parseTypes(
 	for _, spec := range specs {
 		// Try to create an object from this declaration
 		if obj, ok := model.TryNewObject(spec, comments); ok {
-			loader.objects[obj.Id()] = obj
+			loader.objects[obj.ID()] = obj
 		}
 
 		// Try to create an enum from this declaration
 		if enum, ok := model.TryNewEnum(spec, comments); ok {
-			loader.enums[enum.Id()] = enum
+			loader.enums[enum.ID()] = enum
 		}
 	}
 }
@@ -119,8 +119,8 @@ func (loader *FileLoader) discoverResources() {
 	for _, obj := range maps.Values(loader.objects) {
 		// Try to create a resource from this object
 		if resource, ok := model.TryNewResource(obj); ok {
-			loader.resources[resource.Id()] = resource
-			delete(loader.objects, resource.Id())
+			loader.resources[resource.ID()] = resource
+			delete(loader.objects, resource.ID())
 		}
 	}
 }
