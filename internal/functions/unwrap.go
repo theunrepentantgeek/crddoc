@@ -8,6 +8,7 @@ func (*Functions) unwrap(content []string) string {
 	// Initial conditions chosen so we don't add a leading space every time
 	var leadingSpace bool
 	trailingSpace := true
+
 	for _, line := range content {
 		leadingSpace = strings.HasPrefix(line, " ")
 		if !leadingSpace && !trailingSpace {
