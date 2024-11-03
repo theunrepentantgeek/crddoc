@@ -47,6 +47,7 @@ func exportConfiguration(
 	// Save the configuration to a file as yaml
 	file := args[0]
 	log.Info("Exporting default configuration", "file", file)
+
 	if err := cfg.Save(file); err != nil {
 		return errors.Wrapf(err, "exporting configuration to %s", file)
 	}

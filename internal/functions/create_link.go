@@ -6,8 +6,8 @@ import "github.com/theunrepentantgeek/crddoc/internal/model"
 // if no link is required.
 func (f *Functions) createLink(ref *model.TypeReference) string {
 	// Types in this package get anchors
-	if _, ok := f.pkg.Declaration(ref.Id()); ok {
-		return "#" + ref.Id()
+	if _, ok := f.pkg.Declaration(ref.ID()); ok {
+		return "#" + ref.ID()
 	}
 
 	// TODO: External links

@@ -39,7 +39,7 @@ func exportTemplates(
 	_ logr.Logger,
 ) error {
 	if err := options.validate(); err != nil {
-		return err
+		return errors.Wrapf(err, "invalid options")
 	}
 
 	return nil

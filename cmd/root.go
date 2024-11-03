@@ -1,24 +1,22 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
-func Execute() {
-	log := CreateLogger()
+func Execute(log logr.Logger) error {
 	root, err := newRootCommand(log)
 	if err != nil {
-		log.Error(err, "failed to create root command")
-		os.Exit(1)
+		return errors.Wrapf(err, "failed to create root command")
 	}
 
 	if err := root.Execute(); err != nil {
-		log.Error(err, "failed to execute command")
-		os.Exit(1)
+		return errors.Wrapf(err, "failed to execute command")
 	}
+
+	return nil
 }
 
 var verbose bool

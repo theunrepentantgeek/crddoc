@@ -21,7 +21,7 @@ import (
 type PackageLoader struct {
 	cfg         *config.Config
 	log         logr.Logger
-	typeFilters *typefilter.TypeFilterList
+	typeFilters *typefilter.List
 }
 
 func New(
@@ -45,6 +45,7 @@ func (loader *PackageLoader) LoadDirectory(folder string) (*model.Package, error
 // file is the full path to the file to load.
 func (loader *PackageLoader) LoadFile(file string) (*model.Package, error) {
 	dir, name := filepath.Split(file)
+
 	return loader.load(dir, name)
 }
 
@@ -55,14 +56,18 @@ func (loader *PackageLoader) load(
 	// Start our scan for files to load
 	filesToLoad := make(chan string) // fully qualified file paths to load
 	errs := make(chan error)         // all errors encountered during loading
+
 	go loader.findFiles(folder, glob, filesToLoad, errs)
 
 	// Start workers to parse the files
 	loadedFiles := make(chan *FileLoader) // files after parsing
+
 	var wg sync.WaitGroup
+
 	const numWorkers = 4
 	for range numWorkers {
 		wg.Add(1)
+
 		go loader.parseFiles(filesToLoad, loadedFiles, errs, &wg)
 	}
 
@@ -112,6 +117,7 @@ func (loader *PackageLoader) findFiles(
 	files, err := os.ReadDir(folder)
 	if err != nil {
 		errs <- errors.Wrapf(err, "failed to read directory %s", folder)
+
 		return
 	}
 
@@ -123,6 +129,7 @@ func (loader *PackageLoader) findFiles(
 		match, err := filepath.Match(glob, f.Name())
 		if err != nil {
 			errs <- errors.Wrapf(err, "failed to match file %s with pattern %s", f.Name(), glob)
+
 			continue
 		}
 
@@ -147,9 +154,11 @@ func (loader *PackageLoader) parseFiles(
 	for file := range filesToLoad {
 		loader.log.V(2).Info("Parsing file", "file", file)
 		fl := NewFileLoader(file, loader.log, loader.typeFilters)
+
 		err := fl.Load()
 		if err != nil {
 			errs <- errors.Wrapf(err, "failed to load file %s", file)
+
 			continue
 		}
 
@@ -165,6 +174,7 @@ func (loader *PackageLoader) collectDeclarations(
 	metadata := loader.readMetadata(folder)
 
 	var declarations []model.Declaration
+
 	for fl := range loadedFiles {
 		loader.log.V(3).Info("Collecting declarations", "file", fl.name)
 
@@ -196,7 +206,7 @@ func (loader *PackageLoader) collectDeclarations(
 	packages <- pkg
 }
 
-func (loader *PackageLoader) collectErrors(
+func (*PackageLoader) collectErrors(
 	errs <-chan error,
 	finalerror chan<- error,
 ) {

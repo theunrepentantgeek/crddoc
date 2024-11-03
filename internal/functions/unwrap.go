@@ -8,6 +8,7 @@ func (*Functions) unwrap(content []string) string {
 	// Initial conditions chosen so we don't add a leading space every time
 	var leadingSpace bool
 	trailingSpace := true
+
 	for _, line := range content {
 		leadingSpace = strings.HasPrefix(line, " ")
 		if !leadingSpace && !trailingSpace {
@@ -16,9 +17,11 @@ func (*Functions) unwrap(content []string) string {
 
 		if len(strings.TrimSpace(line)) == 0 {
 			result.WriteString("<br/>")
+
 			trailingSpace = true
 		} else {
 			result.WriteString(line)
+
 			trailingSpace = strings.HasSuffix(line, " ")
 		}
 	}

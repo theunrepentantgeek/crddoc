@@ -53,7 +53,7 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 	return result, true
 }
 
-func (o *Object) Kind() DeclarationType {
+func (*Object) Kind() DeclarationType {
 	return ObjectDeclaration
 }
 
@@ -69,6 +69,7 @@ func (o *Object) SetUsage(uses []PropertyReference) {
 func (o *Object) Properties() []*Property {
 	result := maps.Values(o.properties)
 	slices.SortFunc(result, alphabeticalPropertyComparison)
+
 	return result
 }
 
@@ -76,6 +77,7 @@ func (o *Object) Properties() []*Property {
 // or nil and false if not found.
 func (o *Object) Property(name string) (*Property, bool) {
 	prop, ok := o.properties[name]
+
 	return prop, ok
 }
 
@@ -83,6 +85,7 @@ func (o *Object) Property(name string) (*Property, bool) {
 func (o *Object) Embeds() []*Property {
 	result := slices.Clone(o.embeds)
 	slices.SortFunc(result, alphabeticalPropertyComparison)
+
 	return result
 }
 
@@ -102,7 +105,7 @@ func (o *Object) Description() []string {
 	return o.description
 }
 
-func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
+func (*Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
 	// Iterate over the fields in the struct type and try to create a property for each one.
@@ -118,7 +121,7 @@ func (o *Object) findProperties(structType *dst.StructType) map[string]*Property
 	return result
 }
 
-func (o *Object) findEmbeddedStructs(structType *dst.StructType) []*Property {
+func (*Object) findEmbeddedStructs(structType *dst.StructType) []*Property {
 	var result []*Property
 
 	// Iterate over the fields in the struct type and try to create a property for each one.

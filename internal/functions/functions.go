@@ -14,7 +14,7 @@ import (
 type Functions struct {
 	pkg     *model.Package // Current Package used by the functions.
 	cfg     *config.Config // Config used by the functions.
-	editors *texteditor.TextEditorList
+	editors *texteditor.List
 }
 
 func New() *Functions {

@@ -22,12 +22,15 @@ linters:
     - govet
     - intrange
     - misspell
+    - nestif
     - nilerr
+    - nlreturn
     - nolintlint
     - paralleltest
     - prealloc
     - revive
     - staticcheck
+    - stylecheck
     - thelper
     - tparallel
     - unconvert
@@ -36,6 +39,7 @@ linters:
     - wastedassign
     - whitespace
     - wrapcheck
+    - wsl
   presets:
     - bugs
     - unused
@@ -45,6 +49,11 @@ linters-settings:
   cyclop:
     max-complexity: 10
     skip-tests: true
+  exhaustive:
+    default-signifies-exhaustive: true
+  funlen:
+    lines: 60
+    ignore-comments: true
   gci:
     sections:
       - standard
@@ -53,11 +62,6 @@ linters-settings:
       - default
       - localmodule
     custom-order: true
-  exhaustive:
-    default-signifies-exhaustive: true
-  funlen:
-    lines: 60
-    ignore-comments: true
   gosimple:
     # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
     checks:
@@ -65,7 +69,9 @@ linters-settings:
       - "-S1002" # Comparison to bool explicitly can sometimes add clarity
       - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate
   govet:
-    shadow: true
+    enable-all: true
+    disable:
+      - fieldalignment
   nolintlint:
     allow-unused: false
     require-explanation: true
@@ -74,22 +80,30 @@ linters-settings:
     simple: false
     for-loops: true
   revive:
+    enable-all-rules: true
     rules:
+      - name: add-constant
+        disabled: true
+      - name: cognitive-complexity
+        disabled: true
+      - name: cyclomatic
+        disabled: true
       - name: dot-imports
         arguments:
           [
             "allowedPackages":
               ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
           ]
-      - name: empty-lines
-        disabled: false
-      - name: import-shadowing
-        disabled: false
-      - name: indent-error-flow
-        disabled: false
+      - name: function-length
+        disabled: true
       - name: line-length-limit
         disabled: false
         arguments: [100]
+      - name: unhandled-error
+        disabled: true
 
   unused:
     generated-is-used: true
+
+  wsl:
+    allow-cuddle-declarations: true

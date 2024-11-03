@@ -12,6 +12,7 @@ func ParseComments(comments []string) ([]string, *Markers) {
 	for _, c := range comments {
 		c = strings.TrimPrefix(c, "//")
 		c = strings.TrimPrefix(c, " ")
+
 		if strings.HasPrefix(c, "+") {
 			commands.Add(c)
 		} else {

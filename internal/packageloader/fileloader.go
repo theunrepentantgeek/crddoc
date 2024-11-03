@@ -18,7 +18,7 @@ import (
 type FileLoader struct {
 	path        string
 	name        string
-	typeFilters *typefilter.TypeFilterList
+	typeFilters *typefilter.List
 	resources   map[string]*model.Resource
 	objects     map[string]*model.Object
 	enums       map[string]*model.Enum
@@ -31,7 +31,7 @@ type FileLoader struct {
 func NewFileLoader(
 	path string,
 	log logr.Logger,
-	typeFilters *typefilter.TypeFilterList,
+	typeFilters *typefilter.List,
 ) *FileLoader {
 	return &FileLoader{
 		name:        filepath.Base(path),
@@ -90,12 +90,12 @@ func (loader *FileLoader) parseTypes(
 	for _, spec := range specs {
 		// Try to create an object from this declaration
 		if obj, ok := model.TryNewObject(spec, comments); ok {
-			loader.objects[obj.Id()] = obj
+			loader.objects[obj.ID()] = obj
 		}
 
 		// Try to create an enum from this declaration
 		if enum, ok := model.TryNewEnum(spec, comments); ok {
-			loader.enums[enum.Id()] = enum
+			loader.enums[enum.ID()] = enum
 		}
 	}
 }
@@ -119,8 +119,8 @@ func (loader *FileLoader) discoverResources() {
 	for _, obj := range maps.Values(loader.objects) {
 		// Try to create a resource from this object
 		if resource, ok := model.TryNewResource(obj); ok {
-			loader.resources[resource.Id()] = resource
-			delete(loader.objects, resource.Id())
+			loader.resources[resource.ID()] = resource
+			delete(loader.objects, resource.ID())
 		}
 	}
 }
@@ -168,6 +168,7 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 func (loader *FileLoader) Declarations() []model.Declaration {
 	expectedDeclarations := len(loader.resources) + len(loader.objects) + len(loader.enums)
 	result := make([]model.Declaration, 0, expectedDeclarations)
+
 	for _, r := range loader.resources {
 		if loader.typeFilters.Filter(r.Name()) == typefilter.Included {
 			result = append(result, r)

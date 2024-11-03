@@ -32,6 +32,6 @@ func TryNewResource(object *Object) (*Resource, bool) {
 	}, true
 }
 
-func (r *Resource) Kind() DeclarationType {
+func (*Resource) Kind() DeclarationType {
 	return ResourceDeclaration
 }

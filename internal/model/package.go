@@ -46,6 +46,7 @@ func NewPackage(
 
 	result.catalogCrossReferences()
 	result.calculateRanks()
+
 	return result
 }
 
@@ -87,6 +88,7 @@ func (p *Package) Object(name string) (*Object, bool) {
 	}
 
 	obj, ok := dec.(*Object)
+
 	return obj, ok
 }
 
@@ -122,13 +124,14 @@ func (p *Package) catalogCrossReferences() {
 
 func (p *Package) indexUsage() map[string][]PropertyReference {
 	result := make(map[string][]PropertyReference)
+
 	for _, dec := range p.declarations {
 		// Index references from an object
 		if host, ok := dec.(PropertyContainer); ok {
 			for _, prop := range host.Properties() {
-				id := prop.Type.Id()
+				id := prop.Type.ID()
 				if _, ok := p.declarations[id]; ok {
-					ref := NewPropertyReference(dec.Name(), dec.Id(), prop.Name)
+					ref := NewPropertyReference(dec.Name(), dec.ID(), prop.Name)
 					result[id] = append(result[id], ref)
 				}
 			}
@@ -158,6 +161,7 @@ func (p *Package) calculateRanksFromRoot(
 	}
 
 	p.ranks[name] = rank
+
 	decl, ok := p.declarations[name]
 	if !ok {
 		// Shouldn't happen, but just in case.
@@ -166,7 +170,7 @@ func (p *Package) calculateRanksFromRoot(
 
 	if host, ok := decl.(PropertyContainer); ok {
 		for _, prop := range host.Properties() {
-			p.calculateRanksFromRoot(prop.Type.Id(), rank+1)
+			p.calculateRanksFromRoot(prop.Type.ID(), rank+1)
 		}
 	}
 }
@@ -174,12 +178,13 @@ func (p *Package) calculateRanksFromRoot(
 func (*Package) alphabeticalObjectComparison(left Declaration, right Declaration) int {
 	leftName := strings.ToLower(left.Name())
 	rightName := strings.ToLower(right.Name())
+
 	return strings.Compare(leftName, rightName)
 }
 
 func (p *Package) rankedObjectComparison(left Declaration, right Declaration) int {
-	leftRank := p.ranks[left.Id()]
-	rightRank := p.ranks[right.Id()]
+	leftRank := p.ranks[left.ID()]
+	rightRank := p.ranks[right.ID()]
 
 	if leftRank < rightRank {
 		return -1
@@ -191,5 +196,6 @@ func (p *Package) rankedObjectComparison(left Declaration, right Declaration) in
 
 	leftName := strings.ToLower(left.Name())
 	rightName := strings.ToLower(right.Name())
+
 	return strings.Compare(leftName, rightName)
 }
