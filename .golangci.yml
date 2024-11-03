@@ -81,13 +81,35 @@ linters-settings:
     for-loops: true
   revive:
     rules:
+      - name: bool-literal-in-expr
+        disabled: false
+      - name: confusing-naming
+        disabled: false
+      - name: confusing-results
+        disabled: false
+      - name: constant-logical-expr
+        disabled: false
+      - name: cyclomatic
+        disabled: false
+      - name: defer
+        disabled: false
       - name: dot-imports
         arguments:
           [
             "allowedPackages":
               ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
           ]
+      - name: duplicated-imports
+        disabled: false
+      - name: early-return
+        disabled: false
       - name: empty-lines
+        disabled: false
+      - name: error-return
+        disabled: false
+      - name: error-strings
+        disabled: false
+      - name: errorf
         disabled: false
       - name: import-shadowing
         disabled: false
