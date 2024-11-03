@@ -83,6 +83,8 @@ linters-settings:
     rules:
       - name: bool-literal-in-expr
         disabled: false
+      - name: cognitive-complexity
+        disabled: true
       - name: confusing-naming
         disabled: false
       - name: confusing-results
@@ -112,6 +114,10 @@ linters-settings:
       - name: errorf
         disabled: false
       - name: exported
+        disabled: false
+      - name: flag-parameter
+        disabled: false
+      - name: identical-branches
         disabled: false
       - name: import-shadowing
         disabled: false
