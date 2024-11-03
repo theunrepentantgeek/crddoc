@@ -206,7 +206,7 @@ func (loader *PackageLoader) collectDeclarations(
 	packages <- pkg
 }
 
-func (loader *PackageLoader) collectErrors(
+func (*PackageLoader) collectErrors(
 	errs <-chan error,
 	finalerror chan<- error,
 ) {

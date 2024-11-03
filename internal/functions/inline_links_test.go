@@ -21,12 +21,12 @@ func TestInlineLinks_GivenLines_ReturnsExpectedLines(t *testing.T) {
 				"KubeletConfig defines the supported subset of kubelet configurations",
 				"for nodes in pools. See also [AKS doc], [K8s doc].",
 				"[AKS doc]: https://learn.microsoft.com/azure/aks/custom-node-configuration",
-				//nolint:revive // disable long-line-length because test cases are long
+				//nolint:revive // tests sometimes need long lines
 				"[K8s doc]: https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/",
 			},
 			expected: []string{
 				"KubeletConfig defines the supported subset of kubelet configurations",
-				//nolint:revive // disable long-line-length because test cases are long
+				//nolint:revive // tests sometimes need long lines
 				"for nodes in pools. See also [AKS doc](https://learn.microsoft.com/azure/aks/custom-node-configuration), [K8s doc](https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/).",
 			},
 		},

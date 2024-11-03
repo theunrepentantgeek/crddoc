@@ -52,6 +52,7 @@ type documentPackageOptions struct {
 	templatePath *string
 }
 
+//nolint:cyclop // TODO: Refactor this function to reduce complexity
 func documentPackage(
 	args []string,
 	options *documentPackageOptions,
@@ -111,7 +112,10 @@ func documentPackage(
 		return errors.Wrapf(err, "generating output to %q", *options.outputPath)
 	}
 
-	w.Flush()
+	err = w.Flush()
+	if err != nil {
+		return errors.Wrapf(err, "flushing output to %q", *options.outputPath)
+	}
 
 	return nil
 }

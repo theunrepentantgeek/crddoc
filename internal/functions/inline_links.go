@@ -19,7 +19,7 @@ var linkReferenceRegex = regexp.MustCompile(`\[(?P<name>[^\]]+)\]`)
 // Reference style links don't work well within markdown tables, and there's a risk of
 // naming conflicts given we generate all content into a single file. Inlining links
 // avoids problems.
-func (f *Functions) inlineLinks(lines []string) []string {
+func (*Functions) inlineLinks(lines []string) []string {
 	defs := make(map[string]string)
 	result := make([]string, 0, len(lines))
 

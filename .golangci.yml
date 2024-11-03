@@ -80,54 +80,27 @@ linters-settings:
     simple: false
     for-loops: true
   revive:
+    enable-all-rules: true
     rules:
-      - name: bool-literal-in-expr
-        disabled: false
+      - name: add-constant
+        disabled: true
       - name: cognitive-complexity
         disabled: true
-      - name: confusing-naming
-        disabled: false
-      - name: confusing-results
-        disabled: false
-      - name: constant-logical-expr
-        disabled: false
       - name: cyclomatic
-        disabled: false
-      - name: defer
-        disabled: false
+        disabled: true
       - name: dot-imports
         arguments:
           [
             "allowedPackages":
               ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
           ]
-      - name: duplicated-imports
-        disabled: false
-      - name: early-return
-        disabled: false
-      - name: empty-lines
-        disabled: false
-      - name: error-return
-        disabled: false
-      - name: error-strings
-        disabled: false
-      - name: errorf
-        disabled: false
-      - name: exported
-        disabled: false
-      - name: flag-parameter
-        disabled: false
-      - name: identical-branches
-        disabled: false
-      - name: if-return
-        disabled: false
-      - name: import-shadowing
-        disabled: false
-      - name: indent-error-flow
-        disabled: false
+      - name: function-length
+        disabled: true
       - name: line-length-limit
         disabled: false
         arguments: [100]
+      - name: unhandled-error
+        disabled: true
 
   unused:
     generated-is-used: true

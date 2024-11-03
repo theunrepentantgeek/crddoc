@@ -50,7 +50,7 @@ func (p *Property) Description() []string {
 	return p.description
 }
 
-func (p *Property) tryParseName(field *dst.Field) (string, bool) {
+func (*Property) tryParseName(field *dst.Field) (string, bool) {
 	if field.Tag == nil || field.Tag.Value == "" {
 		return "", false
 	}

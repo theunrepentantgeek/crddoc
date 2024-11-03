@@ -41,7 +41,7 @@ func (e *Enum) Name() string {
 	return e.name
 }
 
-func (e *Enum) Kind() DeclarationType {
+func (*Enum) Kind() DeclarationType {
 	return EnumDeclaration
 }
 
