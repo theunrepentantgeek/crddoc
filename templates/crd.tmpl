@@ -10,7 +10,7 @@
 
 {{ range .Declarations "ranked" }}
 
-## <a id="{{ .Id }}"></a>{{ .Name }}
+## <a id="{{ .ID }}"></a>{{ .Name }}
 
 {{ .Description | inlineLinks | unwrap | applyEdits -}}
 {{ template "usage" . }}

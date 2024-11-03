@@ -1,5 +1,9 @@
 # crddoc
 
+[![Validate Pull Request](https://github.com/theunrepentantgeek/crddoc/actions/workflows/pr-validation.yml/badge.svg)](https://github.com/theunrepentantgeek/crddoc/actions/workflows/pr-validation.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/theunrepentantgeek/crddoc)](https://goreportcard.com/report/github.com/theunrepentantgeek/crddoc)
+
+
 Inspired by the [gen-crd-api-reference-docs](https://github.com/ahmetb/gen-crd-api-reference-docs) project, this tool generates documentation for Kubernetes Custom Resource Definitions (CRDs) by parsing comments from the source code.
 
 ## Project Status
