@@ -21,7 +21,7 @@ import (
 type PackageLoader struct {
 	cfg         *config.Config
 	log         logr.Logger
-	typeFilters *typefilter.TypeFilterList
+	typeFilters *typefilter.List
 }
 
 func New(

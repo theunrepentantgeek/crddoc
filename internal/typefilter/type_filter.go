@@ -13,12 +13,12 @@ type TypeFilter struct {
 	includeRegex *regexp.Regexp
 }
 
-type TypeFilterResult string
+type Result string
 
 const (
-	Included TypeFilterResult = "include" // Type Filter includes the type
-	Excluded TypeFilterResult = "exclude" // Type Filter excludes the type
-	Skipped  TypeFilterResult = "none"    // Type Filter does not apply to the type
+	Included Result = "include" // Type Filter includes the type
+	Excluded Result = "exclude" // Type Filter excludes the type
+	Skipped  Result = "none"    // Type Filter does not apply to the type
 )
 
 func NewTypeFilter(cfg *config.Filter) *TypeFilter {
@@ -27,7 +27,7 @@ func NewTypeFilter(cfg *config.Filter) *TypeFilter {
 	}
 }
 
-func (f *TypeFilter) Applies(name string) TypeFilterResult {
+func (f *TypeFilter) Applies(name string) Result {
 	// ensure our include and exclude filters are compiled
 	if f.cfg.Include != "" && f.includeRegex == nil {
 		f.includeRegex = createGlobber(f.cfg.Include)

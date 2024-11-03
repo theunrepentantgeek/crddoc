@@ -18,7 +18,7 @@ import (
 type FileLoader struct {
 	path        string
 	name        string
-	typeFilters *typefilter.TypeFilterList
+	typeFilters *typefilter.List
 	resources   map[string]*model.Resource
 	objects     map[string]*model.Object
 	enums       map[string]*model.Enum
@@ -31,7 +31,7 @@ type FileLoader struct {
 func NewFileLoader(
 	path string,
 	log logr.Logger,
-	typeFilters *typefilter.TypeFilterList,
+	typeFilters *typefilter.List,
 ) *FileLoader {
 	return &FileLoader{
 		name:        filepath.Base(path),
