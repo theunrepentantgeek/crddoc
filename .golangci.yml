@@ -85,7 +85,7 @@ linters-settings:
       - name: add-constant
         disabled: true
       - name: cognitive-complexity
-        disabled: true
+        disabled: false
       - name: cyclomatic
         disabled: true
       - name: dot-imports
