@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"bufio"
 	"os"
 
 	"github.com/go-logr/logr"
@@ -52,7 +51,6 @@ type documentPackageOptions struct {
 	templatePath *string
 }
 
-//nolint:cyclop // TODO: Refactor this function to reduce complexity
 func documentPackage(
 	args []string,
 	options *documentPackageOptions,
@@ -62,22 +60,9 @@ func documentPackage(
 		return err
 	}
 
-	// Load the config file
-	cfg := config.Default()
-	if options.configPath != nil && *options.configPath != "" {
-		err := cfg.Load(*options.configPath)
-		if err != nil {
-			return errors.Wrapf(err, "reading config file %q", *options.configPath)
-		}
-	}
-
-	// Apply overrides from the command line (if any)
-	options.applyToConfig(cfg)
-
-	// Check that our configuration is still valid
-	err := cfg.Validate()
+	cfg, err := loadConfig(options)
 	if err != nil {
-		return errors.Wrap(err, "validating configuration")
+		return errors.Wrap(err, "loading configuration")
 	}
 
 	packageFolder := args[0]
@@ -95,29 +80,37 @@ func documentPackage(
 		return errors.Wrap(err, "loading templates")
 	}
 
-	// Render the template and write to output
-	f, err := os.Create(*options.outputPath)
-	if err != nil {
-		return errors.Wrapf(err, "creating output file %q", *options.outputPath)
-	}
-
-	defer f.Close()
-
-	log.Info("Writing to", "outputPath", *options.outputPath)
-
-	w := bufio.NewWriter(f)
-
-	err = gen.Generate(pkg, w)
+	err = gen.GenerateToFile(pkg, *options.outputPath, log)
 	if err != nil {
 		return errors.Wrapf(err, "generating output to %q", *options.outputPath)
 	}
 
-	err = w.Flush()
-	if err != nil {
-		return errors.Wrapf(err, "flushing output to %q", *options.outputPath)
+	return nil
+}
+
+func loadConfig(
+	options *documentPackageOptions,
+) (*config.Config, error) {
+	cfg := config.Default()
+
+	// If we have a config file specified, load it
+	if options.configPath != nil && *options.configPath != "" {
+		err := cfg.Load(*options.configPath)
+		if err != nil {
+			return nil, errors.Wrapf(err, "reading config file %q", *options.configPath)
+		}
 	}
 
-	return nil
+	// Apply overrides from the command line (if any)
+	options.applyToConfig(cfg)
+
+	// Check that our configuration is still valid
+	err := cfg.Validate()
+	if err != nil {
+		return nil, errors.Wrap(err, "validating configuration")
+	}
+
+	return cfg, nil
 }
 
 func (options *documentPackageOptions) validate(
