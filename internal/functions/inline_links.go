@@ -19,7 +19,32 @@ var linkReferenceRegex = regexp.MustCompile(`\[(?P<name>[^\]]+)\]`)
 // Reference style links don't work well within markdown tables, and there's a risk of
 // naming conflicts given we generate all content into a single file. Inlining links
 // avoids problems.
-func (*Functions) inlineLinks(lines []string) []string {
+func (f *Functions) inlineLinks(lines []string) []string {
+	defs, lines := f.extractLinkDefinitions(lines)
+
+	// Iterate through lines, replacing any reference links with inline links.
+	for i, line := range lines {
+		lines[i] = linkReferenceRegex.ReplaceAllStringFunc(line, func(match string) string {
+			// Extract the name of the link
+			name := linkReferenceRegex.FindStringSubmatch(match)[1]
+			key := strings.ToLower(name)
+
+			if destination, ok := defs[key]; ok {
+				// This is a reference link, so replace it with an inline link.
+				return fmt.Sprintf("[%s](%s)", name, destination)
+			}
+
+			// This is not a reference link, so leave it alone.
+			return match
+		})
+	}
+
+	return lines
+}
+
+func (*Functions) extractLinkDefinitions(
+	lines []string,
+) (map[string]string, []string) {
 	defs := make(map[string]string)
 	result := make([]string, 0, len(lines))
 
@@ -45,22 +70,5 @@ func (*Functions) inlineLinks(lines []string) []string {
 		}
 	}
 
-	// Iterate through lines, replacing any reference links with inline links.
-	for i, line := range result {
-		result[i] = linkReferenceRegex.ReplaceAllStringFunc(line, func(match string) string {
-			// Extract the name of the link
-			name := linkReferenceRegex.FindStringSubmatch(match)[1]
-			key := strings.ToLower(name)
-
-			if destination, ok := defs[key]; ok {
-				// This is a reference link, so replace it with an inline link.
-				return fmt.Sprintf("[%s](%s)", name, destination)
-			}
-
-			// This is not a reference link, so leave it alone.
-			return match
-		})
-	}
-
-	return result
+	return defs, result
 }
