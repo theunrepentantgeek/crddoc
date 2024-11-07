@@ -63,13 +63,13 @@ func (loader *FileLoader) Load() error {
 		loader.parseMetadata(decl.Decorations().End)
 
 		if gd, ok := decl.(*dst.GenDecl); ok {
-			if gd.Tok == token.TYPE {
+			switch gd.Tok {
+			case token.TYPE:
 				comments := gd.Decs.Start.All()
 				loader.parseTypes(gd.Specs, comments)
-			}
-
-			if gd.Tok == token.CONST {
+			case token.CONST:
 				loader.parseConstants(gd.Specs)
+			default: // Nothing
 			}
 		}
 	}
@@ -169,21 +169,22 @@ func (loader *FileLoader) Declarations() []model.Declaration {
 	expectedDeclarations := len(loader.resources) + len(loader.objects) + len(loader.enums)
 	result := make([]model.Declaration, 0, expectedDeclarations)
 
-	for _, r := range loader.resources {
-		if loader.typeFilters.Filter(r.Name()) == typefilter.Included {
-			result = append(result, r)
-		}
-	}
+	result = append(result, filterDeclarations(loader.resources, loader.typeFilters)...)
+	result = append(result, filterDeclarations(loader.objects, loader.typeFilters)...)
+	result = append(result, filterDeclarations(loader.enums, loader.typeFilters)...)
 
-	for _, o := range loader.objects {
-		if loader.typeFilters.Filter(o.Name()) == typefilter.Included {
-			result = append(result, o)
-		}
-	}
+	return result
+}
 
-	for _, e := range loader.enums {
-		if loader.typeFilters.Filter(e.Name()) == typefilter.Included {
-			result = append(result, e)
+func filterDeclarations[D model.Declaration](
+	decls map[string]D,
+	typeFilters *typefilter.List,
+) []model.Declaration {
+	result := make([]model.Declaration, 0, len(decls))
+
+	for n, d := range decls {
+		if typeFilters.Filter(n) == typefilter.Included {
+			result = append(result, d)
 		}
 	}
 
