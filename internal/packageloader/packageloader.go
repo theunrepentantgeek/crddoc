@@ -188,6 +188,31 @@ func (loader *PackageLoader) collectDeclarations(
 	packages <- pkg
 }
 
+func (loader *PackageLoader) updateMetadata(
+	metadata *model.PackageMetadata,
+	fileLoader *FileLoader,
+) {
+	if grp, ok := fileLoader.Group(); ok {
+		if !metadata.TrySetGroup(grp) {
+			loader.log.Info(
+				"Multiple values for 'group' found in package",
+				"file", fileLoader.name,
+				"existing", metadata.Group,
+				"new", grp)
+		}
+	}
+
+	if ver, ok := fileLoader.Version(); ok {
+		if !metadata.TrySetVersion(ver) {
+			loader.log.Info(
+				"Multiple values for 'version' found in package",
+				"file", fileLoader.name,
+				"existing", metadata.Version,
+				"new", ver)
+		}
+	}
+}
+
 func (*PackageLoader) collectErrors(
 	errs <-chan error,
 	finalerror chan<- error,
@@ -225,19 +250,8 @@ func (loader *PackageLoader) tryReadMetadata(folder string) (string, bool) {
 		return "", false
 	}
 
-	modFilename := filepath.Join(f, "go.mod")
-	if mod, err := os.OpenFile(modFilename, os.O_RDONLY, 0); err == nil {
-		defer mod.Close()
-
-		scanner := bufio.NewScanner(mod)
-		for scanner.Scan() {
-			line := scanner.Text()
-
-			// If line starts with 'package', return the mod of the line
-			if mod, ok := strings.CutPrefix(line, "module "); ok {
-				return strings.TrimSpace(mod), true
-			}
-		}
+	if pkg, ok := tryReadMetadataFromFolder(f); ok {
+		return pkg, true
 	}
 
 	// Didn't find it, look in a parent folder instead
@@ -245,6 +259,27 @@ func (loader *PackageLoader) tryReadMetadata(folder string) (string, bool) {
 	if parent != folder {
 		if pkg, ok := loader.tryReadMetadata(parent); ok {
 			return path.Join(pkg, name), true
+		}
+	}
+
+	return "", false
+}
+
+func tryReadMetadataFromFolder(
+	folder string,
+) (string, bool) {
+	modFilename := filepath.Join(folder, "go.mod")
+	if mod, err := os.OpenFile(modFilename, os.O_RDONLY, 0); err == nil {
+		defer mod.Close()
+
+		scanner := bufio.NewScanner(mod)
+		for scanner.Scan() {
+			line := scanner.Text()
+
+			// If line starts with 'module ', return the mod of the line
+			if mod, ok := strings.CutPrefix(line, "module "); ok {
+				return strings.TrimSpace(mod), true
+			}
 		}
 	}
 
