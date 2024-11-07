@@ -128,17 +128,26 @@ func (p *Package) indexUsage() map[string][]PropertyReference {
 	for _, dec := range p.declarations {
 		// Index references from an object
 		if host, ok := dec.(PropertyContainer); ok {
-			for _, prop := range host.Properties() {
-				id := prop.Type.ID()
-				if _, ok := p.declarations[id]; ok {
-					ref := NewPropertyReference(dec.Name(), dec.ID(), prop.Name)
-					result[id] = append(result[id], ref)
-				}
-			}
+			p.addPropertyReferences(dec.ID(), dec.Name(), host, result)
 		}
 	}
 
 	return result
+}
+
+func (p *Package) addPropertyReferences(
+	hostID string,
+	name string,
+	container PropertyContainer,
+	refs map[string][]PropertyReference,
+) {
+	for _, prop := range container.Properties() {
+		id := prop.Type.ID()
+		if _, ok := p.declarations[id]; ok {
+			ref := NewPropertyReference(name, hostID, prop.Name)
+			refs[id] = append(refs[id], ref)
+		}
+	}
 }
 
 func (p *Package) calculateRanks() {

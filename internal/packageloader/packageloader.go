@@ -99,6 +99,8 @@ func (loader *PackageLoader) load(
 
 // findFiles scans for files to load and sends them to the channel.
 // Once all files have been found, the channel is closed to signal completion.
+//
+//nolint:revive // Inherent complexity gives this a score of 8
 func (loader *PackageLoader) findFiles(
 	folder string,
 	glob string,
@@ -133,13 +135,11 @@ func (loader *PackageLoader) findFiles(
 			continue
 		}
 
-		if !match {
-			continue
+		if match {
+			fqfn := filepath.Join(folder, f.Name())
+			loader.log.V(3).Info("Found file", "file", fqfn)
+			filesToLoad <- fqfn
 		}
-
-		fqfn := filepath.Join(folder, f.Name())
-		loader.log.V(3).Info("Found file", "file", fqfn)
-		filesToLoad <- fqfn
 	}
 }
 
@@ -181,29 +181,36 @@ func (loader *PackageLoader) collectDeclarations(
 		decls := fl.Declarations()
 		declarations = append(declarations, decls...)
 
-		if grp, ok := fl.Group(); ok {
-			if !metadata.TrySetGroup(grp) {
-				loader.log.Info(
-					"Multiple values for 'group' found in package",
-					"file", fl.name,
-					"existing", metadata.Group,
-					"new", grp)
-			}
-		}
-
-		if ver, ok := fl.Version(); ok {
-			if !metadata.TrySetVersion(ver) {
-				loader.log.Info(
-					"Multiple values for 'version' found in package",
-					"file", fl.name,
-					"existing", metadata.Version,
-					"new", ver)
-			}
-		}
+		loader.updateMetadata(&metadata, fl)
 	}
 
 	pkg := model.NewPackage(declarations, metadata, loader.cfg, loader.log)
 	packages <- pkg
+}
+
+func (loader *PackageLoader) updateMetadata(
+	metadata *model.PackageMetadata,
+	fileLoader *FileLoader,
+) {
+	if grp, ok := fileLoader.Group(); ok {
+		if !metadata.TrySetGroup(grp) {
+			loader.log.Info(
+				"Multiple values for 'group' found in package",
+				"file", fileLoader.name,
+				"existing", metadata.Group,
+				"new", grp)
+		}
+	}
+
+	if ver, ok := fileLoader.Version(); ok {
+		if !metadata.TrySetVersion(ver) {
+			loader.log.Info(
+				"Multiple values for 'version' found in package",
+				"file", fileLoader.name,
+				"existing", metadata.Version,
+				"new", ver)
+		}
+	}
 }
 
 func (*PackageLoader) collectErrors(
@@ -243,19 +250,8 @@ func (loader *PackageLoader) tryReadMetadata(folder string) (string, bool) {
 		return "", false
 	}
 
-	modFilename := filepath.Join(f, "go.mod")
-	if mod, err := os.OpenFile(modFilename, os.O_RDONLY, 0); err == nil {
-		defer mod.Close()
-
-		scanner := bufio.NewScanner(mod)
-		for scanner.Scan() {
-			line := scanner.Text()
-
-			// If line starts with 'package', return the mod of the line
-			if mod, ok := strings.CutPrefix(line, "module "); ok {
-				return strings.TrimSpace(mod), true
-			}
-		}
+	if pkg, ok := tryReadMetadataFromFolder(f); ok {
+		return pkg, true
 	}
 
 	// Didn't find it, look in a parent folder instead
@@ -263,6 +259,27 @@ func (loader *PackageLoader) tryReadMetadata(folder string) (string, bool) {
 	if parent != folder {
 		if pkg, ok := loader.tryReadMetadata(parent); ok {
 			return path.Join(pkg, name), true
+		}
+	}
+
+	return "", false
+}
+
+func tryReadMetadataFromFolder(
+	folder string,
+) (string, bool) {
+	modFilename := filepath.Join(folder, "go.mod")
+	if mod, err := os.OpenFile(modFilename, os.O_RDONLY, 0); err == nil {
+		defer mod.Close()
+
+		scanner := bufio.NewScanner(mod)
+		for scanner.Scan() {
+			line := scanner.Text()
+
+			// If line starts with 'module ', return the mod of the line
+			if mod, ok := strings.CutPrefix(line, "module "); ok {
+				return strings.TrimSpace(mod), true
+			}
 		}
 	}
 

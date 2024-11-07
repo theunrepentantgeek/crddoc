@@ -50,7 +50,7 @@ func (p *Property) Description() []string {
 	return p.description
 }
 
-func (*Property) tryParseName(field *dst.Field) (string, bool) {
+func (p *Property) tryParseName(field *dst.Field) (string, bool) {
 	if field.Tag == nil || field.Tag.Value == "" {
 		return "", false
 	}
@@ -58,17 +58,23 @@ func (*Property) tryParseName(field *dst.Field) (string, bool) {
 	tag := reflect.StructTag(strings.Trim(field.Tag.Value, "`"))
 
 	// Try to find a name configured with a json tag
-	if j, ok := tag.Lookup("json"); ok {
-		parts := strings.Split(j, ",")
-
-		name := parts[0]
-		if name != "" {
-			return name, true
-		}
+	if name, ok := p.tryParseNameFromTag("json", tag); ok {
+		return name, true
 	}
 
 	// Try to find a name configured with a yaml tag
-	if y, ok := tag.Lookup("yaml"); ok {
+	if name, ok := p.tryParseNameFromTag("yaml", tag); ok {
+		return name, true
+	}
+
+	return "", false
+}
+
+func (*Property) tryParseNameFromTag(
+	tag string,
+	tagStruct reflect.StructTag,
+) (string, bool) {
+	if y, ok := tagStruct.Lookup(tag); ok {
 		parts := strings.Split(y, ",")
 
 		name := parts[0]

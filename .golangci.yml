@@ -21,6 +21,7 @@ linters:
     - gosimple
     - govet
     - intrange
+    - maintidx
     - misspell
     - nestif
     - nilerr
@@ -72,6 +73,8 @@ linters-settings:
     enable-all: true
     disable:
       - fieldalignment
+  maintidx:
+    under: 30
   nolintlint:
     allow-unused: false
     require-explanation: true
@@ -85,9 +88,9 @@ linters-settings:
       - name: add-constant
         disabled: true
       - name: cognitive-complexity
-        disabled: true
+        disabled: false
       - name: cyclomatic
-        disabled: true
+        disabled: false
       - name: dot-imports
         arguments:
           [

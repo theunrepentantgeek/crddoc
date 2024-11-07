@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"io"
@@ -65,7 +66,40 @@ func (g *Generator) LoadTemplates() error {
 	return nil
 }
 
-func (g *Generator) Generate(pkg *model.Package, writer io.Writer) error {
+func (g *Generator) GenerateToFile(
+	pkg *model.Package,
+	outputPath string,
+	log logr.Logger,
+) error {
+	// Render the template and write to output
+	f, err := os.Create(outputPath)
+	if err != nil {
+		return errors.Wrapf(err, "creating output file %q", outputPath)
+	}
+
+	defer f.Close()
+
+	log.Info("Writing to", "outputPath", outputPath)
+
+	w := bufio.NewWriter(f)
+
+	err = g.GenerateToWriter(pkg, w)
+	if err != nil {
+		return errors.Wrapf(err, "generating output to %q", outputPath)
+	}
+
+	err = w.Flush()
+	if err != nil {
+		return errors.Wrapf(err, "flushing output to %q", outputPath)
+	}
+
+	return nil
+}
+
+func (g *Generator) GenerateToWriter(
+	pkg *model.Package,
+	writer io.Writer,
+) error {
 	g.log.Info(
 		"Rendering template",
 		"package", pkg.Name(),

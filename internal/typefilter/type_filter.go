@@ -28,14 +28,7 @@ func NewTypeFilter(cfg *config.Filter) *TypeFilter {
 }
 
 func (f *TypeFilter) Applies(name string) Result {
-	// ensure our include and exclude filters are compiled
-	if f.cfg.Include != "" && f.includeRegex == nil {
-		f.includeRegex = createGlobber(f.cfg.Include)
-	}
-
-	if f.cfg.Exclude != "" && f.excludeRegex == nil {
-		f.excludeRegex = createGlobber(f.cfg.Exclude)
-	}
+	f.ensureCompiled()
 
 	if f.includeRegex != nil && f.includeRegex.MatchString(name) {
 		return Included
@@ -46,4 +39,14 @@ func (f *TypeFilter) Applies(name string) Result {
 	}
 
 	return Skipped
+}
+
+func (f *TypeFilter) ensureCompiled() {
+	if f.cfg.Include != "" && f.includeRegex == nil {
+		f.includeRegex = createGlobber(f.cfg.Include)
+	}
+
+	if f.cfg.Exclude != "" && f.excludeRegex == nil {
+		f.excludeRegex = createGlobber(f.cfg.Exclude)
+	}
 }
