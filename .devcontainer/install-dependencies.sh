@@ -181,6 +181,13 @@ if should-install "$TOOL_DEST/task"; then
     curl -sL "https://github.com/go-task/task/releases/download/v3.39.2/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
+# Install oh-my-posh
+if should-install "$TOOL_DEST/oh-my-posh"; then
+    write-info "Installing oh-my-posh"
+    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$TOOL_DEST"   
+    cp oh-my-posh.json "$TOOL_DEST/"
+fi
+
 if [ "$VERBOSE" == true ]; then 
     echo "Installed tools: $(ls "$TOOL_DEST")"
 fi
@@ -190,3 +197,6 @@ if [ "$DEVCONTAINER" == true ]; then
     # Workaround for issue where /workspace has different owner because checkout happens outside the container
     git config --global --add safe.directory /workspace
 fi
+
+# Configure oh-my-posh
+echo "eval \"\$($TOOL_DEST/oh-my-posh init bash --config $TOOL_DEST/oh-my-posh.json )\"" >> /etc/bash.bashrc
