@@ -87,10 +87,6 @@ linters-settings:
     rules:
       - name: add-constant
         disabled: true
-      - name: cognitive-complexity
-        disabled: false
-      - name: cyclomatic
-        disabled: false
       - name: dot-imports
         arguments:
           [
@@ -100,7 +96,6 @@ linters-settings:
       - name: function-length
         disabled: true
       - name: line-length-limit
-        disabled: false
         arguments: [100]
       - name: unhandled-error
         disabled: true
