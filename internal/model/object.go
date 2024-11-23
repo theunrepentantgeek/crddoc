@@ -66,6 +66,10 @@ func (o *Object) SetUsage(uses []PropertyReference) {
 	o.usage = uses
 }
 
+func (o *Object) Package() *Package {
+	return o.pkg
+}
+
 func (o *Object) SetPackage(p *Package) {
 	o.pkg = p
 }
