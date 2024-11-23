@@ -25,13 +25,23 @@ func TryNewResource(object *Object) (*Resource, bool) {
 		return nil, false
 	}
 
-	return &Resource{
+	result := &Resource{
 		Object: *object,
 		Spec:   spec,
 		Status: status,
-	}, true
+	}
+
+	result.takePropertyOwnership()
+
+	return result, true
 }
 
 func (*Resource) Kind() DeclarationType {
 	return ResourceDeclaration
+}
+
+func (r *Resource) takePropertyOwnership() {
+	for _, p := range r.properties {
+		p.setContainer(r)
+	}
 }

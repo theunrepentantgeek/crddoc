@@ -13,6 +13,7 @@ type Property struct {
 	Type        TypeReference
 	description []string
 	required    string
+	container   PropertyContainer
 }
 
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
@@ -84,4 +85,8 @@ func (*Property) tryParseNameFromTag(
 	}
 
 	return "", false
+}
+
+func (p *Property) setContainer(container PropertyContainer) {
+	p.container = container
 }

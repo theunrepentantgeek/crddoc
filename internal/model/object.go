@@ -110,7 +110,7 @@ func (o *Object) Description() []string {
 	return o.description
 }
 
-func (*Object) findProperties(structType *dst.StructType) map[string]*Property {
+func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
 	// Iterate over the fields in the struct type and try to create a property for each one.
@@ -118,6 +118,7 @@ func (*Object) findProperties(structType *dst.StructType) map[string]*Property {
 		// A single field might contain multiple properties.
 		for _, name := range field.Names {
 			if property, ok := TryNewProperty(name.Name, field); ok {
+				property.setContainer(o)
 				result[property.Name] = property
 			}
 		}
