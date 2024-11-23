@@ -9,10 +9,19 @@ type TypeReference struct {
 	id   string
 }
 
-func NewTypeReference(expr dst.Expr) TypeReference {
+func NewTypeReferenceFromExpr(expr dst.Expr) TypeReference {
+	name := createName(expr)
+	id := createID(expr)
+	return NewTypeReference(name, id)
+}
+
+func NewTypeReference(
+	name string,
+	id string,
+) TypeReference {
 	return TypeReference{
-		name: createName(expr),
-		id:   createID(expr),
+		name: name,
+		id:   id,
 	}
 }
 

@@ -30,8 +30,8 @@ func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
 	}
 
 	result := &Enum{
-		TypeReference: NewTypeReference(typeSpec.Name),
-		base:          NewTypeReference(ident),
+		TypeReference: NewTypeReferenceFromExpr(typeSpec.Name),
+		base:          NewTypeReferenceFromExpr(ident),
 		description:   comments,
 	}
 

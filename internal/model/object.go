@@ -37,21 +37,31 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 		return nil, false
 	}
 
-	ref := NewTypeReference(typeSpec.Name)
+	name := createName(typeSpec.Name)
+	id := createID(typeSpec.Name)
+
 	// Clean up the comments
 	description, _ := ParseComments(comments)
-	description = formatComments(description, ref.Name())
+	description = formatComments(description, name)
 
-	result := &Object{
-		TypeReference: ref,
-		properties:    make(map[string]*Property),
-		description:   description,
-	}
+	result := NewObjectType(name, id, description)
 
 	result.properties = result.findProperties(structType)
 	result.embeds = result.findEmbeddedStructs(structType)
 
 	return result, true
+}
+
+func NewObjectType(
+	name string,
+	id string,
+	description []string,
+) *Object {
+	return &Object{
+		TypeReference: NewTypeReference(name, id),
+		properties:    make(map[string]*Property),
+		description:   description,
+	}
 }
 
 func (*Object) Kind() DeclarationType {
