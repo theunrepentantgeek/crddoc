@@ -13,6 +13,7 @@ type Object struct {
 	properties  map[string]*Property
 	embeds      []*Property
 	description []string
+	pkg         *Package
 	usage       []PropertyReference // List of other properties that reference this object
 }
 
@@ -36,21 +37,31 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 		return nil, false
 	}
 
-	ref := NewTypeReference(typeSpec.Name)
+	name := createName(typeSpec.Name)
+	id := createID(typeSpec.Name)
+
 	// Clean up the comments
 	description, _ := ParseComments(comments)
-	description = formatComments(description, ref.Name())
+	description = formatComments(description, name)
 
-	result := &Object{
-		TypeReference: ref,
-		properties:    make(map[string]*Property),
-		description:   description,
-	}
+	result := NewObjectType(name, id, description)
 
 	result.properties = result.findProperties(structType)
 	result.embeds = result.findEmbeddedStructs(structType)
 
 	return result, true
+}
+
+func NewObjectType(
+	name string,
+	id string,
+	description []string,
+) *Object {
+	return &Object{
+		TypeReference: NewTypeReference(name, id),
+		properties:    make(map[string]*Property),
+		description:   description,
+	}
 }
 
 func (*Object) Kind() DeclarationType {
@@ -63,6 +74,14 @@ func (o *Object) Usage() []PropertyReference {
 
 func (o *Object) SetUsage(uses []PropertyReference) {
 	o.usage = uses
+}
+
+func (o *Object) Package() *Package {
+	return o.pkg
+}
+
+func (o *Object) SetPackage(p *Package) {
+	o.pkg = p
 }
 
 // Properties returns all the properties of the object, in alphabetical order.
@@ -105,7 +124,7 @@ func (o *Object) Description() []string {
 	return o.description
 }
 
-func (*Object) findProperties(structType *dst.StructType) map[string]*Property {
+func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
 	// Iterate over the fields in the struct type and try to create a property for each one.
@@ -113,6 +132,7 @@ func (*Object) findProperties(structType *dst.StructType) map[string]*Property {
 		// A single field might contain multiple properties.
 		for _, name := range field.Names {
 			if property, ok := TryNewProperty(name.Name, field); ok {
+				property.setContainer(o)
 				result[property.Name] = property
 			}
 		}
