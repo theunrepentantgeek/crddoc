@@ -96,6 +96,23 @@ func TestPackage_Declaration_ReturnsExpectedObjects(t *testing.T) {
 	}
 }
 
+func TestPackage_Declarations_ReturnsDeclarationsOwnedByPackage(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := &config.Config{}
+	loader := packageloader.New(cfg, logr.Discard())
+
+	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
+	if err != nil {
+		t.Fatalf("Failed to load file: %v", err)
+	}
+
+	for _, decl := range pkg.Declarations(model.OrderAlphabetical) {
+		g.Expect(decl.Package()).To(Equal(pkg))
+	}
+}
+
 // loadTestData is a helper used to load a testdata source file.
 func testdataPath(
 	t *testing.T,
