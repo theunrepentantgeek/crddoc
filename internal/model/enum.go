@@ -54,6 +54,10 @@ func (e *Enum) SetUsage(usage []PropertyReference) {
 	e.usage = usage
 }
 
+func (e *Enum) Package() *Package {
+	return e.pkg
+}
+
 func (e *Enum) SetPackage(pkg *Package) {
 	e.pkg = pkg
 }
