@@ -12,6 +12,7 @@ type TypeReference struct {
 func NewTypeReferenceFromExpr(expr dst.Expr) TypeReference {
 	name := createName(expr)
 	id := createID(expr)
+
 	return NewTypeReference(name, id)
 }
 

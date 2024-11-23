@@ -51,6 +51,7 @@ func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	for n, c := range cases {
 		prop, ok := obj.Property(c.propertyName)
 		g.Expect(ok).To(Equal(c.expectedExists), "case %s", n)
+
 		if c.expectedExists {
 			g.Expect(prop).NotTo(BeNil(), "case %s", n)
 			g.Expect(prop.Name).To(Equal(c.propertyName), "case %s", n)
