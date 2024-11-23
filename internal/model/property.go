@@ -11,9 +11,9 @@ type Property struct {
 	Field       string // Name of the field
 	Name        string // Serialized name of the field
 	Type        TypeReference
+	DeclaredOn  PropertyContainer
 	description []string
 	required    string
-	container   PropertyContainer
 }
 
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
@@ -21,12 +21,10 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	description, commands := ParseComments(field.Decs.Start.All())
 	description = formatComments(description, name)
 
-	result := &Property{
-		Field:       name,
-		Name:        name,
-		Type:        NewTypeReference(field.Type),
-		description: description,
-	}
+	result := NewProperty(
+		name,
+		NewTypeReferenceFromExpr(field.Type),
+		description)
 
 	if commands.Any() {
 		if commands.Exists("kubebuilder", "validation", "Optional") {
@@ -41,6 +39,19 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	}
 
 	return result, true
+}
+
+func NewProperty(
+	name string,
+	ref TypeReference,
+	description []string,
+) *Property {
+	return &Property{
+		Name:        name,
+		Field:       name,
+		Type:        ref,
+		description: description,
+	}
 }
 
 func (p *Property) Required() string {
@@ -88,5 +99,5 @@ func (*Property) tryParseNameFromTag(
 }
 
 func (p *Property) setContainer(container PropertyContainer) {
-	p.container = container
+	p.DeclaredOn = container
 }
