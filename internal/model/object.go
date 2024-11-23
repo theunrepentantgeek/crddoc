@@ -13,6 +13,7 @@ type Object struct {
 	properties  map[string]*Property
 	embeds      []*Property
 	description []string
+	pkg         *Package
 	usage       []PropertyReference // List of other properties that reference this object
 }
 
@@ -63,6 +64,10 @@ func (o *Object) Usage() []PropertyReference {
 
 func (o *Object) SetUsage(uses []PropertyReference) {
 	o.usage = uses
+}
+
+func (o *Object) SetPackage(p *Package) {
+	o.pkg = p
 }
 
 // Properties returns all the properties of the object, in alphabetical order.

@@ -41,6 +41,7 @@ func NewPackage(
 	}
 
 	for _, d := range decl {
+		d.SetPackage(result)
 		result.declarations[d.Name()] = d
 	}
 

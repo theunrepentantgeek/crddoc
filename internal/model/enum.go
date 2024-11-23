@@ -8,6 +8,7 @@ type Enum struct {
 	description []string
 	values      []*EnumValue
 	base        TypeReference
+	pkg         *Package
 }
 
 func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
@@ -51,6 +52,10 @@ func (e *Enum) Usage() []PropertyReference {
 
 func (e *Enum) SetUsage(usage []PropertyReference) {
 	e.usage = usage
+}
+
+func (e *Enum) SetPackage(pkg *Package) {
+	e.pkg = pkg
 }
 
 func (e *Enum) Description() []string {

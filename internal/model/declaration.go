@@ -7,6 +7,7 @@ type Declaration interface {
 	Kind() DeclarationType
 	Usage() []PropertyReference
 	SetUsage([]PropertyReference)
+	SetPackage(*Package)
 	Description() []string
 }
 
