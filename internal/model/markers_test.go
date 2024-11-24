@@ -24,8 +24,7 @@ func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
 		},
 	}
 
-	markers := model.NewMarkers()
-	markers.Add("+kubebuilder:validation:Max=100")
+	markers := model.NewMarkers("+kubebuilder:validation:Max=100")
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
@@ -36,7 +35,7 @@ func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
 			actual, ok := markers.Lookup(path...)
 
 			g.Expect(ok).To(gomega.Equal(c.expected != ""))
-			g.Expect(actual).To(gomega.Equal(c.expected))
+			g.Expect(actual.Value()).To(gomega.Equal(c.expected))
 		})
 	}
 }
@@ -66,9 +65,9 @@ func TestMarkers_Exists_ReturnsExpectedValue(t *testing.T) {
 		},
 	}
 
-	markers := model.NewMarkers()
-	markers.Add("+kubebuilder:validation:Required")
-	markers.Add("+kubebuilder:validation:Optional")
+	markers := model.NewMarkers(
+		"+kubebuilder:validation:Required",
+		"+kubebuilder:validation:Optional")
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
