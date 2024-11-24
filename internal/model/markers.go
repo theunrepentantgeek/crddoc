@@ -8,10 +8,20 @@ type Markers struct {
 	children map[string]*Markers
 }
 
-func NewMarkers() *Markers {
-	return &Markers{
+func NewMarkers(markers ...string) *Markers {
+	result := &Markers{
 		children: make(map[string]*Markers),
 	}
+
+	for _, m := range markers {
+		result.Add(m)
+	}
+
+	return result
+}
+
+func (m *Markers) Value() string {
+	return m.value
 }
 
 // Add a marker to the list.
@@ -38,15 +48,15 @@ func (m *Markers) Any() bool {
 	return len(m.children) > 0
 }
 
-// Lookup a marker value by path, returning the final value.
-func (m *Markers) Lookup(path ...string) (string, bool) {
+// Lookup a marker value by path, returning the final marker.
+func (m *Markers) Lookup(path ...string) (Markers, bool) {
 	if len(path) == 0 {
-		return m.value, true
+		return *m, true
 	}
 
 	child, ok := m.children[path[0]]
 	if !ok {
-		return "", false
+		return Markers{}, false
 	}
 
 	return child.Lookup(path[1:]...)
