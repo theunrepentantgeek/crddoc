@@ -35,7 +35,7 @@ func TestMarkers_Lookup_ReturnsExpectedValue(t *testing.T) {
 			actual, ok := markers.Lookup(path...)
 
 			g.Expect(ok).To(gomega.Equal(c.expected != ""))
-			g.Expect(actual).To(gomega.Equal(c.expected))
+			g.Expect(actual.Value()).To(gomega.Equal(c.expected))
 		})
 	}
 }

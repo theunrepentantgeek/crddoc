@@ -105,11 +105,12 @@ func TestMarkerValue_WhenUpdatedWithDifferentValue_ReturnsError(t *testing.T) {
 	err = value.Update(testMarkers)
 	g.Expect(err).To(Not(BeNil()))
 
-	g.Expect(err.Error()).To(Equal("does not match"))
-	g.Expect(err.Error()).To(Equal("alertsmanagement.azure.com"))
-	g.Expect(err.Error()).To(Equal("network.azure.com"))
+	g.Expect(err.Error()).To(ContainSubstring("does not match"))
+	g.Expect(err.Error()).To(ContainSubstring("alertsmanagement.azure.com"))
+	g.Expect(err.Error()).To(ContainSubstring("network.azure.com"))
 }
 
+//nolint:funlen, revive // excessive length is acceptable for tests
 func TestMarkerValueMerge_givenValue_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
@@ -150,12 +151,12 @@ func TestMarkerValueMerge_givenValue_ReturnsExpectedResult(t *testing.T) {
 
 			value := MakeMarkerValue("groupName")
 			if c.initialValue != "" {
-				value.SetValue(c.initialValue)
+				g.Expect(value.SetValue(c.initialValue)).To(Succeed())
 			}
 
 			mergeValue := MakeMarkerValue("groupName")
 			if c.mergeValue != "" {
-				mergeValue.SetValue(c.mergeValue)
+				g.Expect(mergeValue.SetValue(c.mergeValue)).To(Succeed())
 			}
 
 			err := value.Merge(mergeValue)
