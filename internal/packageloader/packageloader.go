@@ -181,36 +181,13 @@ func (loader *PackageLoader) collectDeclarations(
 		decls := fl.Declarations()
 		declarations = append(declarations, decls...)
 
-		loader.updateMetadata(&metadata, fl)
+		if err := metadata.Merge(fl.PackageMarkers()); err != nil {
+			loader.log.Error(err, "Failed to merge package markers")
+		}
 	}
 
 	pkg := model.NewPackage(declarations, metadata, loader.cfg, loader.log)
 	packages <- pkg
-}
-
-func (loader *PackageLoader) updateMetadata(
-	metadata *model.PackageMetadata,
-	fileLoader *FileLoader,
-) {
-	if grp, ok := fileLoader.Group(); ok {
-		if !metadata.TrySetGroup(grp) {
-			loader.log.Info(
-				"Multiple values for 'group' found in package",
-				"file", fileLoader.name,
-				"existing", metadata.Group,
-				"new", grp)
-		}
-	}
-
-	if ver, ok := fileLoader.Version(); ok {
-		if !metadata.TrySetVersion(ver) {
-			loader.log.Info(
-				"Multiple values for 'version' found in package",
-				"file", fileLoader.name,
-				"existing", metadata.Version,
-				"new", ver)
-		}
-	}
 }
 
 func (*PackageLoader) collectErrors(
@@ -226,15 +203,14 @@ func (*PackageLoader) collectErrors(
 	finalerror <- kerrors.NewAggregate(allErrors)
 }
 
-func (loader *PackageLoader) readMetadata(folder string) model.PackageMetadata {
-	parent, ver := filepath.Split(folder)
-	_, grp := filepath.Split(parent)
+func (loader *PackageLoader) readMetadata(folder string) model.PackageMarkers {
+	_, ver := filepath.Split(folder)
+	// _, grp := filepath.Split(parent)
 
-	result := model.PackageMetadata{
-		Name:    ver,
-		Group:   grp,
-		Version: ver,
-	}
+	result := model.NewPackageMarkers()
+	result.Name = ver
+
+	// TODO: Do we want to preinitialize Group and Version as we used to?
 
 	if mod, ok := loader.tryReadMetadata(folder); ok {
 		result.Module = mod

@@ -59,7 +59,7 @@ func (m *MarkerValue) SetValue(value string) error {
 }
 
 // Value returns the current value of the metadata, if known.
-func (m *MarkerValue) Value() (string, bool) {
+func (m MarkerValue) Value() (string, bool) {
 	if m.value == nil {
 		return "", false
 	}

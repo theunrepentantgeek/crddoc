@@ -16,16 +16,15 @@ import (
 )
 
 type FileLoader struct {
-	path        string
-	name        string
-	typeFilters *typefilter.List
-	resources   map[string]*model.Resource
-	objects     map[string]*model.Object
-	enums       map[string]*model.Enum
-	values      map[string][]*model.EnumValue
-	group       *string
-	version     *string
-	log         logr.Logger
+	path           string
+	name           string
+	typeFilters    *typefilter.List
+	resources      map[string]*model.Resource
+	objects        map[string]*model.Object
+	enums          map[string]*model.Enum
+	values         map[string][]*model.EnumValue
+	packageMarkers model.PackageMarkers
+	log            logr.Logger
 }
 
 func NewFileLoader(
@@ -34,14 +33,15 @@ func NewFileLoader(
 	typeFilters *typefilter.List,
 ) *FileLoader {
 	return &FileLoader{
-		name:        filepath.Base(path),
-		path:        path,
-		typeFilters: typeFilters,
-		resources:   make(map[string]*model.Resource),
-		objects:     make(map[string]*model.Object),
-		enums:       make(map[string]*model.Enum),
-		values:      make(map[string][]*model.EnumValue),
-		log:         log,
+		name:           filepath.Base(path),
+		path:           path,
+		typeFilters:    typeFilters,
+		resources:      make(map[string]*model.Resource),
+		objects:        make(map[string]*model.Object),
+		enums:          make(map[string]*model.Enum),
+		values:         make(map[string][]*model.EnumValue),
+		packageMarkers: model.NewPackageMarkers(),
+		log:            log,
 	}
 }
 
@@ -55,22 +55,13 @@ func (loader *FileLoader) Load() error {
 		return err
 	}
 
-	loader.parseMetadata(file.Decs.Start)
-	loader.parseMetadata(file.Decs.End)
+	if err = loader.parseMetadata(file.Decs); err != nil {
+		return errors.Wrap(err, "failed to parse metadata")
+	}
 
 	for _, decl := range file.Decls {
-		loader.parseMetadata(decl.Decorations().Start)
-		loader.parseMetadata(decl.Decorations().End)
-
 		if gd, ok := decl.(*dst.GenDecl); ok {
-			switch gd.Tok {
-			case token.TYPE:
-				comments := gd.Decs.Start.All()
-				loader.parseTypes(gd.Specs, comments)
-			case token.CONST:
-				loader.parseConstants(gd.Specs)
-			default: // Nothing
-			}
+			parseDecl(gd, loader)
 		}
 	}
 
@@ -78,6 +69,17 @@ func (loader *FileLoader) Load() error {
 	loader.assembleEnumerations()
 
 	return nil
+}
+
+func parseDecl(gd *dst.GenDecl, loader *FileLoader) {
+	switch gd.Tok {
+	case token.TYPE:
+		comments := gd.Decs.Start.All()
+		loader.parseTypes(gd.Specs, comments)
+	case token.CONST:
+		loader.parseConstants(gd.Specs)
+	default:
+	}
 }
 
 // parseTypes iterates through a sequence of dst.Spec declarations trying to parse
@@ -191,36 +193,20 @@ func filterDeclarations[D model.Declaration](
 	return result
 }
 
-// Group returns the group of the file, if known.
-func (loader *FileLoader) Group() (string, bool) {
-	if loader.group == nil {
-		return "", false
-	}
-
-	return *loader.group, true
+func (loader *FileLoader) PackageMarkers() model.PackageMarkers {
+	return loader.packageMarkers
 }
 
-// Version returns the version of the file, if known.
-func (loader *FileLoader) Version() (string, bool) {
-	if loader.version == nil {
-		return "", false
+func (loader *FileLoader) parseMetadata(decs dst.FileDecorations) error {
+	leadingMarkers := model.NewMarkers(decs.Start...)
+	if err := loader.packageMarkers.Update(leadingMarkers); err != nil {
+		return errors.Wrap(err, "failed to update package markers")
 	}
 
-	return *loader.version, true
-}
-
-func (loader *FileLoader) parseMetadata(lines []string) {
-	if len(lines) == 0 {
-		// Nothing to do
-		return
+	trailingMarkers := model.NewMarkers(decs.End...)
+	if err := loader.packageMarkers.Update(trailingMarkers); err != nil {
+		return errors.Wrap(err, "failed to update package markers")
 	}
 
-	_, markers := model.ParseComments(lines)
-	if grp, ok := markers.Lookup("groupName"); ok {
-		loader.group = &grp
-	}
-
-	if ver, ok := markers.Lookup("versionName"); ok {
-		loader.version = &ver
-	}
+	return nil
 }

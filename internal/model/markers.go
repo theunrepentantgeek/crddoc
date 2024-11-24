@@ -26,7 +26,11 @@ func (m *Markers) Value() string {
 
 // Add a marker to the list.
 func (m *Markers) Add(marker string) {
+	// Trim any leading whitespace or comment markers
+	marker = strings.TrimPrefix(marker, "//")
+	marker = strings.TrimPrefix(marker, " ")
 	marker = strings.TrimPrefix(marker, "+")
+
 	if n, rest, ok := strings.Cut(marker, ":"); ok {
 		child := m.requireChild(n)
 		if rest != "" {
