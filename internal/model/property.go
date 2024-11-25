@@ -13,12 +13,12 @@ type Property struct {
 	Type        TypeReference
 	DeclaredOn  PropertyContainer
 	description []string
-	required    string
+	markers     *PropertyMarkers
 }
 
 func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 	// TODO: Parse tags as well
-	description, commands := ParseComments(field.Decs.Start.All())
+	description, markers := ParseComments(field.Decs.Start.All())
 	description = formatComments(description, name)
 
 	result := NewProperty(
@@ -26,12 +26,8 @@ func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
 		NewTypeReferenceFromExpr(field.Type),
 		description)
 
-	if commands.Any() {
-		if commands.Exists("kubebuilder", "validation", "Optional") {
-			result.required = "Optional"
-		} else if commands.Exists("kubebuilder", "validation", "Required") {
-			result.required = "Required"
-		}
+	if err := result.markers.Parse(markers); err != nil {
+		return nil, false
 	}
 
 	if name, ok := result.tryParseName(field); ok {
@@ -51,11 +47,20 @@ func NewProperty(
 		Field:       name,
 		Type:        ref,
 		description: description,
+		markers:     NewPropertyMarkers(),
 	}
 }
 
 func (p *Property) Required() string {
-	return p.required
+	if p.markers.Required() {
+		return "Required"
+	}
+
+	if p.markers.Optional() {
+		return "Optional"
+	}
+
+	return ""
 }
 
 func (p *Property) Description() []string {
