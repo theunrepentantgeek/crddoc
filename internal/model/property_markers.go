@@ -6,8 +6,8 @@ import (
 )
 
 type PropertyMarkers struct {
-	optional MarkerSwitch // Whether properties are optional by default
-	required MarkerSwitch // Whether properties are required by default
+	optional MarkerSwitch // Whether this property is optional
+	required MarkerSwitch // Whether this property is required
 }
 
 func NewPropertyMarkers() *PropertyMarkers {

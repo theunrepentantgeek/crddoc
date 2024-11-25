@@ -60,6 +60,10 @@ func (p *Property) Required() string {
 		return "Optional"
 	}
 
+	if p.DeclaredOn != nil && p.DeclaredOn.Package() != nil {
+		return p.DeclaredOn.Package().metadata.PropertiesRequiredByDefault()
+	}
+
 	return ""
 }
 
