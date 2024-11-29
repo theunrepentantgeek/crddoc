@@ -203,14 +203,14 @@ func (*PackageLoader) collectErrors(
 	finalerror <- kerrors.NewAggregate(allErrors)
 }
 
-func (loader *PackageLoader) readMetadata(folder string) model.PackageMarkers {
-	_, ver := filepath.Split(folder)
-	// _, grp := filepath.Split(parent)
+func (loader *PackageLoader) readMetadata(folder string) *model.PackageMarkers {
+	parent, ver := filepath.Split(folder)
+	_, grp := filepath.Split(parent)
 
 	result := model.NewPackageMarkers()
 	result.Name = ver
-
-	// TODO: Do we want to preinitialize Group and Version as we used to?
+	result.DefaultGroup = grp
+	result.DefaultVersion = ver
 
 	if mod, ok := loader.tryReadMetadata(folder); ok {
 		result.Module = mod

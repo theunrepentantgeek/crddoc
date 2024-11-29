@@ -23,7 +23,7 @@ type FileLoader struct {
 	objects        map[string]*model.Object
 	enums          map[string]*model.Enum
 	values         map[string][]*model.EnumValue
-	packageMarkers model.PackageMarkers
+	packageMarkers *model.PackageMarkers
 	log            logr.Logger
 }
 
@@ -193,7 +193,7 @@ func filterDeclarations[D model.Declaration](
 	return result
 }
 
-func (loader *FileLoader) PackageMarkers() model.PackageMarkers {
+func (loader *FileLoader) PackageMarkers() *model.PackageMarkers {
 	return loader.packageMarkers
 }
 

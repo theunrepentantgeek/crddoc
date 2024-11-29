@@ -15,7 +15,7 @@ type Package struct {
 	cfg          *config.Config
 	declarations map[string]Declaration // Dictionary of all objects in package, keyed by name.
 	ranks        map[string]int         // Dictionary of ranks (depth from root), keyed by name.
-	metadata     PackageMarkers
+	metadata     *PackageMarkers
 	log          logr.Logger
 }
 
@@ -28,7 +28,7 @@ const (
 
 func NewPackage(
 	decl []Declaration,
-	metadata PackageMarkers,
+	metadata *PackageMarkers,
 	cfg *config.Config,
 	log logr.Logger,
 ) *Package {
@@ -95,7 +95,7 @@ func (p *Package) Object(name string) (*Object, bool) {
 
 // Group returns the group of the package, if known.
 func (p *Package) Group() string {
-	if grp, ok := p.metadata.Group.Value(); ok {
+	if grp, ok := p.metadata.group.Value(); ok {
 		return grp
 	}
 
@@ -104,7 +104,7 @@ func (p *Package) Group() string {
 
 // Version returns the version of the package, if known.
 func (p *Package) Version() string {
-	if ver, ok := p.metadata.Version.Value(); ok {
+	if ver, ok := p.metadata.version.Value(); ok {
 		return ver
 	}
 

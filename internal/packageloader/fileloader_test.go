@@ -67,8 +67,7 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedGroup(t *testing.T) {
 	fl := NewFileLoader(testfile, logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
-	grp, ok := fl.PackageMarkers().Group.Value()
-	g.Expect(ok).To(BeTrue())
+	grp := fl.PackageMarkers().Group()
 	g.Expect(grp).To(Equal("colourmodel"))
 }
 
@@ -82,8 +81,7 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedVersion(t *testing.T) {
 	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
 	g.Expect(fl.Load()).To(Succeed())
 
-	ver, ok := fl.PackageMarkers().Version.Value()
-	g.Expect(ok).To(BeTrue())
+	ver := fl.PackageMarkers().Version()
 	g.Expect(ver).To(Equal("v1beta3"))
 }
 
