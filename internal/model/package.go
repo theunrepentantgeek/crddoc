@@ -116,6 +116,10 @@ func (p *Package) Module() string {
 	return p.metadata.Module
 }
 
+func (p *Package) PropertiesRequiredByDefault() string {
+	return p.metadata.PropertiesRequiredByDefault()
+}
+
 // Rank returns the usage rank (depth from the root resource) of the given declaration.
 func (p *Package) Rank(name string) int {
 	return p.ranks[name]
