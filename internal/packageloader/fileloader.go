@@ -59,10 +59,8 @@ func (loader *FileLoader) Load() error {
 		return errors.Wrap(err, "failed to parse metadata")
 	}
 
-	for _, decl := range file.Decls {
-		if gd, ok := decl.(*dst.GenDecl); ok {
-			parseDecl(gd, loader)
-		}
+	if err = loader.parseDecls(file.Decls); err != nil {
+		return errors.Wrap(err, "failed to parse declarations")
 	}
 
 	loader.discoverResources()
@@ -71,15 +69,22 @@ func (loader *FileLoader) Load() error {
 	return nil
 }
 
-func parseDecl(gd *dst.GenDecl, loader *FileLoader) {
+func parseDecl(
+	gd *dst.GenDecl,
+	loader *FileLoader,
+) error {
 	switch gd.Tok {
 	case token.TYPE:
 		comments := gd.Decs.Start.All()
-		loader.parseTypes(gd.Specs, comments)
+		if err := loader.parseTypes(gd.Specs, comments); err != nil {
+			return errors.Wrap(err, "parsing types")
+		}
 	case token.CONST:
 		loader.parseConstants(gd.Specs)
 	default:
 	}
+
+	return nil
 }
 
 // parseTypes iterates through a sequence of dst.Spec declarations trying to parse
@@ -87,19 +92,26 @@ func parseDecl(gd *dst.GenDecl, loader *FileLoader) {
 func (loader *FileLoader) parseTypes(
 	specs []dst.Spec,
 	comments []string,
-) {
+) error {
+	description, markers := model.ParseComments(comments)
+	if err := loader.packageMarkers.Update(markers); err != nil {
+		return errors.Wrap(err, "parsing comments for markers")
+	}
+
 	// Parse type declarations for objects and enums
 	for _, spec := range specs {
 		// Try to create an object from this declaration
-		if obj, ok := model.TryNewObject(spec, comments); ok {
+		if obj, ok := model.TryNewObject(spec, description); ok {
 			loader.objects[obj.ID()] = obj
 		}
 
 		// Try to create an enum from this declaration
-		if enum, ok := model.TryNewEnum(spec, comments); ok {
+		if enum, ok := model.TryNewEnum(spec, description); ok {
 			loader.enums[enum.ID()] = enum
 		}
 	}
+
+	return nil
 }
 
 func (loader *FileLoader) parseConstants(
@@ -112,6 +124,18 @@ func (loader *FileLoader) parseConstants(
 			loader.values[kind] = append(loader.values[kind], enumValue)
 		}
 	}
+}
+
+func (loader *FileLoader) parseDecls(decls []dst.Decl) error {
+	for _, decl := range decls {
+		if gd, ok := decl.(*dst.GenDecl); ok {
+			if err := parseDecl(gd, loader); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 // discoverResources iterates through the objects we've already loaded and identifies any
