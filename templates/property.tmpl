@@ -9,6 +9,6 @@
 ]({{ .Type | createLink }})
 {{- end -}}
 {{ if .Required -}}
-<br/>{{ .Required -}}
-{{ end -}} |
+<br/><small>{{ .Required -}}</small>
+{{- end -}} |
 {{- end }}
