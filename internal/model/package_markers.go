@@ -47,6 +47,9 @@ func (m *PackageMarkers) Merge(other *PackageMarkers) error {
 		return errors.Wrap(err, "failed to merge package markers version")
 	}
 
+	m.optional.Merge(other.optional)
+	m.required.Merge(other.required)
+
 	return nil
 }
 
