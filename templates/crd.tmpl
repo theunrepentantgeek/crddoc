@@ -7,6 +7,7 @@
 | Group    | {{ .Group }}   |
 | Version  | {{ .Version }} |
 | Module   | {{ .Module }}  |
+| Property Optionality | {{ .PropertiesRequiredByDefault }} |
 
 {{ range .Declarations "ranked" }}
 
@@ -20,13 +21,13 @@
 {{ end }}
 
 {{ with . | asResource }}
-### <a id="{{ .Spec.Type.Id }}"></a>{{ .Spec.Type.Id }}
+### <a id="{{ .Spec.Type.ID }}"></a>{{ .Spec.Type.ID }}
 
-{{ template "properties" ( .Spec.Type.Id | lookupDeclaration | asPropertyContainer ) }}
+{{ template "properties" ( .Spec.Type.ID | lookupDeclaration | asPropertyContainer ) }}
 
-### <a id="{{ .Status.Type.Id }}"></a>{{ .Status.Type.Id }}
+### <a id="{{ .Status.Type.ID }}"></a>{{ .Status.Type.ID }}
 
-{{ template "properties" ( .Status.Type.Id | lookupDeclaration | asPropertyContainer ) }}
+{{ template "properties" ( .Status.Type.ID | lookupDeclaration | asPropertyContainer ) }}
 
 {{ end }}
 

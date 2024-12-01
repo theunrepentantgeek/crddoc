@@ -1,11 +1,12 @@
 v1beta1
 =======
 
-| Metadata | Value                                              |
-|----------|----------------------------------------------------|
-| Group    | infrastructure.cluster.x-k8s.io                    |
-| Version  | v1beta1                                            |
-| Module   | sigs.k8s.io/cluster-api-provider-azure/api/v1beta1 |
+| Metadata             | Value                                              |
+|----------------------|----------------------------------------------------|
+| Group                | infrastructure.cluster.x-k8s.io                    |
+| Version              |                                                    |
+| Module               | sigs.k8s.io/cluster-api-provider-azure/api/v1beta1 |
+| Property Optionality |                                                    |
 
 <a id="AADProfile"></a>AADProfile
 ---------------------------------
@@ -14,10 +15,10 @@ AADProfile - AAD integration managed by AKS. See also [AKS doc](https://learn.mi
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
-| Property            | Description                                                                          | Type                  |
-|---------------------|--------------------------------------------------------------------------------------|-----------------------|
-| adminGroupObjectIDs | AdminGroupObjectIDs - AAD group object IDs that will have admin role of the cluster. | string[]<br/>Required |
-| managed             | Managed - Whether to enable managed AAD.                                             | bool<br/>Required     |
+| Property            | Description                                                                          | Type                                 |
+|---------------------|--------------------------------------------------------------------------------------|--------------------------------------|
+| adminGroupObjectIDs | AdminGroupObjectIDs - AAD group object IDs that will have admin role of the cluster. | string[]<br/><small>Required</small> |
+| managed             | Managed - Whether to enable managed AAD.                                             | bool<br/><small>Required</small>     |
 
 <a id="AddonProfile"></a>AddonProfile
 -------------------------------------
@@ -44,6 +45,8 @@ AddressRecord specifies a DNS record mapping a hostname to an IPV4 or IPv6 addre
 
 <a id="AKSAssignedIdentity"></a>AKSAssignedIdentity
 ---------------------------------------------------
+
+AKSAssignedIdentity defines the AKS assigned-identity of the aks marketplace extension, if configured.
 
 Used by: [AKSExtension](#AKSExtension).
 
@@ -309,8 +312,8 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 
 | Property              | Description                                                                                                                                                                                                                                                                             | Type                                                      |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| enabled               | Enabled enables the Azure Key Vault key management service. The default is false.                                                                                                                                                                                                       | bool<br/>Required                                         |
-| keyID                 | KeyID defines the Identifier of Azure Key Vault key. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier.                                                                                                                 | string<br/>Required                                       |
+| enabled               | Enabled enables the Azure Key Vault key management service. The default is false.                                                                                                                                                                                                       | bool<br/><small>Required</small>                          |
+| keyID                 | KeyID defines the Identifier of Azure Key Vault key. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier.                                                                                                                 | string<br/><small>Required</small>                        |
 | keyVaultNetworkAccess | KeyVaultNetworkAccess defines the network access of key vault. The possible values are Public and Private. Public means the key vault allows public access from all networks. Private means the key vault disables public access and enables private link. The default value is Public. | [KeyVaultNetworkAccessTypes](#KeyVaultNetworkAccessTypes) |
 | keyVaultResourceID    | KeyVaultResourceID is the Resource ID of key vault. When keyVaultNetworkAccess is Private, this field is required and must be a valid resource ID.                                                                                                                                      | string                                                    |
 
@@ -569,8 +572,8 @@ AzureManagedControlPlaneClassSpec defines the AzureManagedControlPlane propertie
 | addonProfiles               | AddonProfiles are the profiles of managed cluster add-on.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [AddonProfile[]](#AddonProfile)                                         |
 | apiServerAccessProfile      | APIServerAccessProfile is the access profile for AKS API server. Immutable except for `authorizedIPRanges`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | [APIServerAccessProfile](#APIServerAccessProfile)                       |
 | asoManagedClusterPatches    | ASOManagedClusterPatches defines JSON merge patches to be applied to the generated ASO ManagedCluster resource. WARNING: This is meant to be used sparingly to enable features for development and testing that are not otherwise represented in the CAPZ API. Misconfiguration that conflicts with CAPZ's normal mode of operation is possible.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | string[]                                                                |
-| autoUpgradeProfile          | AutoUpgradeProfile defines the auto upgrade configuration.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile)   |
 | autoscalerProfile           | AutoscalerProfile is the parameters to be applied to the cluster-autoscaler when enabled                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [AutoScalerProfile](#AutoScalerProfile)                                 |
+| autoUpgradeProfile          | AutoUpgradeProfile defines the auto upgrade configuration.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile)   |
 | azureEnvironment            | AzureEnvironment is the name of the AzureCloud to be used. The default value that would be used by most users is "AzurePublicCloud", other values are: - ChinaCloud: "AzureChinaCloud" - PublicCloud: "AzurePublicCloud" - USGovernmentCloud: "AzureUSGovernmentCloud" <br/>Note that values other than the default must also be accompanied by corresponding changes to the aso-controller-settings Secret to configure ASO to refer to the non-Public cloud. ASO currently does not support referring to multiple different clouds in a single installation. The following fields must be defined in the Secret: - AZURE_AUTHORITY_HOST - AZURE_RESOURCE_MANAGER_ENDPOINT - AZURE_RESOURCE_MANAGER_AUDIENCE <br/>See the [ASO docs](https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/) for more details. <br/> | string                                                                  |
 | disableLocalAccounts        | DisableLocalAccounts disables getting static credentials for this cluster when set. Expected to only be used for AAD clusters.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | bool                                                                    |
 | dnsServiceIP                | DNSServiceIP is an IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. Immutable.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | string                                                                  |
@@ -611,6 +614,8 @@ AzureManagedControlPlaneClassSpec defines the AzureManagedControlPlane propertie
 
 <a id="AzureManagedControlPlaneSkuTier"></a>AzureManagedControlPlaneSkuTier
 ---------------------------------------------------------------------------
+
+AzureManagedControlPlaneSkuTier - Tier of a managed cluster SKU.
 
 Used by: [AKSSku](#AKSSku).
 
@@ -850,6 +855,8 @@ Used by: [CloudProviderConfigOverrides](#CloudProviderConfigOverrides).
 <a id="BalanceSimilarNodeGroups"></a>BalanceSimilarNodeGroups
 -------------------------------------------------------------
 
+BalanceSimilarNodeGroups enumerates the values for BalanceSimilarNodeGroups.
+
 Used by: [AutoScalerProfile](#AutoScalerProfile).
 
 <a id="BastionTemplateSpec"></a>BastionTemplateSpec
@@ -892,10 +899,14 @@ Used by: [AzureClusterClassSpec](#AzureClusterClassSpec).
 <a id="CPUManagerPolicy"></a>CPUManagerPolicy
 ---------------------------------------------
 
+CPUManagerPolicy enumerates the values for KubeletConfig.CPUManagerPolicy.
+
 Used by: [KubeletConfig](#KubeletConfig).
 
 <a id="Expander"></a>Expander
 -----------------------------
+
+Expander enumerates the values for Expander.
 
 Used by: [AutoScalerProfile](#AutoScalerProfile).
 
@@ -913,6 +924,8 @@ Used by: [AzureClusterClassSpec](#AzureClusterClassSpec).
 
 <a id="ExtensionIdentity"></a>ExtensionIdentity
 -----------------------------------------------
+
+ExtensionIdentity defines the identity of the AKS marketplace extension, if configured.
 
 Used by: [AKSExtension](#AKSExtension).
 
@@ -946,6 +959,8 @@ Used by: [AKSExtension](#AKSExtension).
 
 <a id="ExtensionScopeType"></a>ExtensionScopeType
 -------------------------------------------------
+
+ExtensionScopeType defines the scope type of the AKS marketplace extension, if configured.
 
 Used by: [ExtensionScope](#ExtensionScope).
 
@@ -1013,6 +1028,8 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 <a id="KeyVaultNetworkAccessTypes"></a>KeyVaultNetworkAccessTypes
 -----------------------------------------------------------------
 
+KeyVaultNetworkAccessTypes defines the types of network access of key vault. The possible values are Public and Private. The default value is Public.
+
 Used by: [AzureKeyVaultKms](#AzureKeyVaultKms).
 
 <a id="KubeletConfig"></a>KubeletConfig
@@ -1039,10 +1056,14 @@ Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
 <a id="KubeletDiskType"></a>KubeletDiskType
 -------------------------------------------
 
+KubeletDiskType enumerates the values for the agent pool's KubeletDiskType.
+
 Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
 
 <a id="LBType"></a>LBType
 -------------------------
+
+LBType defines an Azure load balancer Type.
 
 Used by: [LoadBalancerClassSpec](#LoadBalancerClassSpec).
 
@@ -1125,10 +1146,10 @@ ManagedClusterSecurityProfileDefender defines Microsoft Defender settings for th
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 
-| Property                        | Description                                                                                                                                                                                                                       | Type                                                                                                                             |
-|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| logAnalyticsWorkspaceResourceID | LogAnalyticsWorkspaceResourceID is the ID of the Log Analytics workspace that has to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. | string<br/>Required                                                                                                              |
-| securityMonitoring              | SecurityMonitoring profile defines the Microsoft Defender threat detection for Cloud settings for the security profile.                                                                                                           | [ManagedClusterSecurityProfileDefenderSecurityMonitoring](#ManagedClusterSecurityProfileDefenderSecurityMonitoring)<br/>Required |
+| Property                        | Description                                                                                                                                                                                                                       | Type                                                                                                                                            |
+|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| logAnalyticsWorkspaceResourceID | LogAnalyticsWorkspaceResourceID is the ID of the Log Analytics workspace that has to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. | string<br/><small>Required</small>                                                                                                              |
+| securityMonitoring              | SecurityMonitoring profile defines the Microsoft Defender threat detection for Cloud settings for the security profile.                                                                                                           | [ManagedClusterSecurityProfileDefenderSecurityMonitoring](#ManagedClusterSecurityProfileDefenderSecurityMonitoring)<br/><small>Required</small> |
 
 <a id="ManagedClusterSecurityProfileDefenderSecurityMonitoring"></a>ManagedClusterSecurityProfileDefenderSecurityMonitoring
 ---------------------------------------------------------------------------------------------------------------------------
@@ -1137,9 +1158,9 @@ ManagedClusterSecurityProfileDefenderSecurityMonitoring settings for the securit
 
 Used by: [ManagedClusterSecurityProfileDefender](#ManagedClusterSecurityProfileDefender).
 
-| Property | Description                               | Type              |
-|----------|-------------------------------------------|-------------------|
-| enabled  | Enabled enables Defender threat detection | bool<br/>Required |
+| Property | Description                               | Type                             |
+|----------|-------------------------------------------|----------------------------------|
+| enabled  | Enabled enables Defender threat detection | bool<br/><small>Required</small> |
 
 <a id="ManagedClusterSecurityProfileImageCleaner"></a>ManagedClusterSecurityProfileImageCleaner
 -----------------------------------------------------------------------------------------------
@@ -1148,10 +1169,10 @@ ManagedClusterSecurityProfileImageCleaner removes unused images from nodes, free
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 
-| Property      | Description                                                                                | Type              |
-|---------------|--------------------------------------------------------------------------------------------|-------------------|
-| enabled       | Enabled enables the Image Cleaner on AKS cluster.                                          | bool<br/>Required |
-| intervalHours | IntervalHours defines Image Cleaner scanning interval in hours. Default value is 24 hours. | int               |
+| Property      | Description                                                                                | Type                             |
+|---------------|--------------------------------------------------------------------------------------------|----------------------------------|
+| enabled       | Enabled enables the Image Cleaner on AKS cluster.                                          | bool<br/><small>Required</small> |
+| intervalHours | IntervalHours defines Image Cleaner scanning interval in hours. Default value is 24 hours. | int                              |
 
 <a id="ManagedClusterSecurityProfileWorkloadIdentity"></a>ManagedClusterSecurityProfileWorkloadIdentity
 -------------------------------------------------------------------------------------------------------
@@ -1160,17 +1181,21 @@ ManagedClusterSecurityProfileWorkloadIdentity settings for the security profile.
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 
-| Property | Description                            | Type              |
-|----------|----------------------------------------|-------------------|
-| enabled  | Enabled enables the workload identity. | bool<br/>Required |
+| Property | Description                            | Type                             |
+|----------|----------------------------------------|----------------------------------|
+| enabled  | Enabled enables the workload identity. | bool<br/><small>Required</small> |
 
 <a id="ManagedControlPlaneIdentityType"></a>ManagedControlPlaneIdentityType
 ---------------------------------------------------------------------------
+
+ManagedControlPlaneIdentityType enumerates the values for managed control plane identity type.
 
 Used by: [Identity](#Identity).
 
 <a id="ManagedControlPlaneOutboundType"></a>ManagedControlPlaneOutboundType
 ---------------------------------------------------------------------------
+
+ManagedControlPlaneOutboundType enumerates the values for the managed control plane OutboundType.
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
@@ -1262,10 +1287,14 @@ NetworkClassSpec defines the NetworkSpec properties that may be shared across se
 <a id="NetworkDataplaneType"></a>NetworkDataplaneType
 -----------------------------------------------------
 
+NetworkDataplaneType is the type of network dataplane to use.
+
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
 <a id="NetworkPluginMode"></a>NetworkPluginMode
 -----------------------------------------------
+
+NetworkPluginMode is the mode the network plugin should use.
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
@@ -1288,6 +1317,8 @@ Used by: [AzureClusterTemplateResourceSpec](#AzureClusterTemplateResourceSpec).
 <a id="NodePoolMode"></a>NodePoolMode
 -------------------------------------
 
+NodePoolMode enumerates the values for agent pool mode.
+
 <a id="OIDCIssuerProfile"></a>OIDCIssuerProfile
 -----------------------------------------------
 
@@ -1301,6 +1332,8 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 
 <a id="OrchestrationModeType"></a>OrchestrationModeType
 -------------------------------------------------------
+
+OrchestrationModeType represents the orchestration mode for a Virtual Machine Scale Set backing an AzureMachinePool.
 
 <a id="osDiskTestInput"></a>osDiskTestInput
 -------------------------------------------
@@ -1370,6 +1403,8 @@ Used by: [CloudProviderConfigOverrides](#CloudProviderConfigOverrides).
 <a id="ResourceLifecycle"></a>ResourceLifecycle
 -----------------------------------------------
 
+ResourceLifecycle configures the lifecycle of a resource.
+
 Used by: [BuildParams](#BuildParams).
 
 | Value    | Description |
@@ -1391,6 +1426,8 @@ Used by: [SubnetTemplateSpec](#SubnetTemplateSpec).
 
 <a id="SecurityGroupProtocol"></a>SecurityGroupProtocol
 -------------------------------------------------------
+
+SecurityGroupProtocol defines the protocol type for a security group rule.
 
 Used by: [SecurityRule](#SecurityRule).
 
@@ -1423,10 +1460,14 @@ SecurityRule defines an Azure security rule for security groups.
 <a id="SecurityRuleAccess"></a>SecurityRuleAccess
 -------------------------------------------------
 
+SecurityRuleAccess defines the action type for a security group rule.
+
 Used by: [SecurityRule](#SecurityRule).
 
 <a id="SecurityRuleDirection"></a>SecurityRuleDirection
 -------------------------------------------------------
+
+SecurityRuleDirection defines the direction type for a security group rule.
 
 Used by: [SecurityRule](#SecurityRule).
 
@@ -1448,15 +1489,21 @@ ServiceEndpointSpec configures an Azure Service Endpoint.
 <a id="SkipNodesWithLocalStorage"></a>SkipNodesWithLocalStorage
 ---------------------------------------------------------------
 
+SkipNodesWithLocalStorage enumerates the values for SkipNodesWithLocalStorage.
+
 Used by: [AutoScalerProfile](#AutoScalerProfile).
 
 <a id="SkipNodesWithSystemPods"></a>SkipNodesWithSystemPods
 -----------------------------------------------------------
 
+SkipNodesWithSystemPods enumerates the values for SkipNodesWithSystemPods.
+
 Used by: [AutoScalerProfile](#AutoScalerProfile).
 
 <a id="SKU"></a>SKU
 -------------------
+
+SKU defines an Azure load balancer SKU.
 
 Used by: [LoadBalancerClassSpec](#LoadBalancerClassSpec).
 
@@ -1479,6 +1526,8 @@ SubnetClassSpec defines the SubnetSpec properties that may be shared across seve
 
 <a id="SubnetRole"></a>SubnetRole
 ---------------------------------
+
+SubnetRole defines the unique role of a subnet.
 
 Used by: [SubnetClassSpec](#SubnetClassSpec).
 
@@ -1521,12 +1570,12 @@ Used by: [LinuxOSConfig](#LinuxOSConfig).
 | netIpv4NeighDefaultGcThresh2   | NetIpv4NeighDefaultGcThresh2 specifies soft maximum number of entries that may be in the ARP cache. ARP garbage collection will be triggered about 5 seconds after reaching this soft maximum. Valid values are 512-90000 (inclusive). Maps to net.ipv4.neigh.default.gc_thresh2.                                                                                                                                                          | int    |
 | netIpv4NeighDefaultGcThresh3   | NetIpv4NeighDefaultGcThresh3 specified hard maximum number of entries in the ARP cache. Valid values are 1024-100000 (inclusive). Maps to net.ipv4.neigh.default.gc_thresh3.                                                                                                                                                                                                                                                               | int    |
 | netIpv4TCPFinTimeout           | NetIpv4TCPFinTimeout specifies the length of time an orphaned connection will remain in the FIN_WAIT_2 state before it's aborted at the local end. Valid values are 5-120 (inclusive). Maps to net.ipv4.tcp_fin_timeout.                                                                                                                                                                                                                   | int    |
+| netIpv4TCPkeepaliveIntvl       | NetIpv4TCPkeepaliveIntvl specifies the frequency of the probes sent out. Multiplied by tcpKeepaliveprobes, it makes up the time to kill a connection that isn't responding, after probes started. Valid values are 1-75 (inclusive). Maps to net.ipv4.tcp_keepalive_intvl.                                                                                                                                                                 | int    |
 | netIpv4TCPKeepaliveProbes      | NetIpv4TCPKeepaliveProbes specifies the number of keepalive probes TCP sends out, until it decides the connection is broken. Valid values are 1-15 (inclusive). Maps to net.ipv4.tcp_keepalive_probes.                                                                                                                                                                                                                                     | int    |
 | netIpv4TCPKeepaliveTime        | NetIpv4TCPKeepaliveTime specifies the rate at which TCP sends out a keepalive message when keepalive is enabled. Valid values are 30-432000 (inclusive). Maps to net.ipv4.tcp_keepalive_time.                                                                                                                                                                                                                                              | int    |
 | netIpv4TCPMaxSynBacklog        | NetIpv4TCPMaxSynBacklog specifies the maximum number of queued connection requests that have still not received an acknowledgment from the connecting client. If this number is exceeded, the kernel will begin dropping requests. Valid values are 128-3240000 (inclusive). Maps to net.ipv4.tcp_max_syn_backlog.                                                                                                                         | int    |
 | netIpv4TCPMaxTwBuckets         | NetIpv4TCPMaxTwBuckets specifies maximal number of timewait sockets held by system simultaneously. If this number is exceeded, time-wait socket is immediately destroyed and warning is printed. Valid values are 8000-1440000 (inclusive). Maps to net.ipv4.tcp_max_tw_buckets.                                                                                                                                                           | int    |
 | netIpv4TCPTwReuse              | NetIpv4TCPTwReuse is used to allow to reuse TIME-WAIT sockets for new connections when it's safe from protocol viewpoint. Maps to net.ipv4.tcp_tw_reuse.                                                                                                                                                                                                                                                                                   | bool   |
-| netIpv4TCPkeepaliveIntvl       | NetIpv4TCPkeepaliveIntvl specifies the frequency of the probes sent out. Multiplied by tcpKeepaliveprobes, it makes up the time to kill a connection that isn't responding, after probes started. Valid values are 1-75 (inclusive). Maps to net.ipv4.tcp_keepalive_intvl.                                                                                                                                                                 | int    |
 | netNetfilterNfConntrackBuckets | NetNetfilterNfConntrackBuckets specifies the size of hash table used by nf_conntrack module to record the established connection record of the TCP protocol. Valid values are 65536-147456 (inclusive). Maps to net.netfilter.nf_conntrack_buckets.                                                                                                                                                                                        | int    |
 | netNetfilterNfConntrackMax     | NetNetfilterNfConntrackMax specifies the maximum number of connections supported by the nf_conntrack module or the size of connection tracking table. Valid values are 131072-1048576 (inclusive). Maps to net.netfilter.nf_conntrack_max.                                                                                                                                                                                                 | int    |
 | vmMaxMapCount                  | VMMaxMapCount specifies the maximum number of memory map areas a process may have. Maps to vm.max_map_count. Valid values are 65530-262144 (inclusive).                                                                                                                                                                                                                                                                                    | int    |
@@ -1547,25 +1596,35 @@ Taint represents a Kubernetes taint.
 <a id="TaintEffect"></a>TaintEffect
 -----------------------------------
 
+TaintEffect is the effect for a Kubernetes taint.
+
 Used by: [Taint](#Taint).
 
 <a id="TopologyManagerPolicy"></a>TopologyManagerPolicy
 -------------------------------------------------------
+
+TopologyManagerPolicy enumerates the values for KubeletConfig.TopologyManagerPolicy.
 
 Used by: [KubeletConfig](#KubeletConfig).
 
 <a id="TransparentHugePageOption"></a>TransparentHugePageOption
 ---------------------------------------------------------------
 
+TransparentHugePageOption enumerates the values for various modes of Transparent Hugepages.
+
 Used by: [LinuxOSConfig](#LinuxOSConfig), and [LinuxOSConfig](#LinuxOSConfig).
 
 <a id="UpgradeChannel"></a>UpgradeChannel
 -----------------------------------------
 
+UpgradeChannel determines the type of upgrade channel for automatically upgrading the cluster. See also [AKS doc](https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-cluster). <br/>
+
 Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
 
 <a id="VMState"></a>VMState
 ---------------------------
+
+VMState describes the state of an Azure virtual machine. Deprecated: use ProvisioningState.
 
 <a id="VnetClassSpec"></a>VnetClassSpec
 ---------------------------------------
@@ -1886,6 +1945,8 @@ Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
 <a id="IdentityType"></a>IdentityType
 -------------------------------------
 
+IdentityType represents different types of identities.
+
 Used by: [AzureClusterIdentitySpec](#AzureClusterIdentitySpec).
 
 <a id="Image"></a>Image
@@ -1960,6 +2021,8 @@ Used by: [AzureMachineSpec](#AzureMachineSpec), and [osDiskTestInput](#osDiskTes
 <a id="ProvisioningState"></a>ProvisioningState
 -----------------------------------------------
 
+ProvisioningState describes the provisioning state of an Azure resource.
+
 Used by: [AzureMachineStatus](#AzureMachineStatus).
 
 <a id="SecurityProfile"></a>SecurityProfile
@@ -2028,6 +2091,8 @@ Used by: [AzureMachineSpec](#AzureMachineSpec).
 
 <a id="VMIdentity"></a>VMIdentity
 ---------------------------------
+
+VMIdentity defines the identity of the virtual machine, if configured.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
@@ -2100,10 +2165,10 @@ BootDiagnostics configures the boot diagnostics settings for the virtual machine
 
 Used by: [Diagnostics](#Diagnostics).
 
-| Property           | Description                                                                                                                                                                       | Type                                                                                 |
-|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
-| storageAccountType | StorageAccountType determines if the storage account for storing the diagnostics data should be disabled (Disabled), provisioned by Azure (Managed) or by the user (UserManaged). | [BootDiagnosticsStorageAccountType](#BootDiagnosticsStorageAccountType)<br/>Required |
-| userManaged        | UserManaged provides a reference to the user-managed storage account.                                                                                                             | [UserManagedBootDiagnostics](#UserManagedBootDiagnostics)                            |
+| Property           | Description                                                                                                                                                                       | Type                                                                                                |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| storageAccountType | StorageAccountType determines if the storage account for storing the diagnostics data should be disabled (Disabled), provisioned by Azure (Managed) or by the user (UserManaged). | [BootDiagnosticsStorageAccountType](#BootDiagnosticsStorageAccountType)<br/><small>Required</small> |
+| userManaged        | UserManaged provides a reference to the user-managed storage account.                                                                                                             | [UserManagedBootDiagnostics](#UserManagedBootDiagnostics)                                           |
 
 <a id="DiffDiskSettings"></a>DiffDiskSettings
 ---------------------------------------------
@@ -2149,10 +2214,14 @@ Used by: [DataDisk](#DataDisk), and [OSDisk](#OSDisk).
 <a id="SecurityTypes"></a>SecurityTypes
 ---------------------------------------
 
+SecurityTypes represents the SecurityType of the virtual machine.
+
 Used by: [SecurityProfile](#SecurityProfile).
 
 <a id="SpotEvictionPolicy"></a>SpotEvictionPolicy
 -------------------------------------------------
+
+SpotEvictionPolicy defines the eviction policy for spot VMs, if configured.
 
 Used by: [SpotVMOptions](#SpotVMOptions).
 
@@ -2197,15 +2266,21 @@ Used by: [LoadBalancerSpec](#LoadBalancerSpec).
 <a id="BastionHostSkuName"></a>BastionHostSkuName
 -------------------------------------------------
 
+BastionHostSkuName is the name of the SKU used to specify the tier of Azure Bastion Host.
+
 Used by: [AzureBastion](#AzureBastion).
 
 <a id="BootDiagnosticsStorageAccountType"></a>BootDiagnosticsStorageAccountType
 -------------------------------------------------------------------------------
 
+BootDiagnosticsStorageAccountType defines the list of valid storage account types for the boot diagnostics.
+
 Used by: [BootDiagnostics](#BootDiagnostics).
 
 <a id="DiffDiskPlacement"></a>DiffDiskPlacement
 -----------------------------------------------
+
+DiffDiskPlacement - Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk, resource disk or nvme disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
 
 Used by: [DiffDiskSettings](#DiffDiskSettings).
 
@@ -2281,9 +2356,9 @@ UserManagedBootDiagnostics provides a reference to a user-managed storage accoun
 
 Used by: [BootDiagnostics](#BootDiagnostics).
 
-| Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type                |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| storageAccountURI | StorageAccountURI is the URI of the user-managed storage account. The URI typically will be `https://<mystorageaccountname>.blob.core.windows.net/` but may differ if you are using Azure DNS zone endpoints. You can find the correct endpoint by looking for the Blob Primary Endpoint in the endpoints tab in the Azure console or with the CLI by issuing `az storage account list --query='[].{name: name, "resource group": resourceGroup, "blob endpoint": primaryEndpoints.blob}'`. | string<br/>Required |
+| Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type                               |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| storageAccountURI | StorageAccountURI is the URI of the user-managed storage account. The URI typically will be `https://<mystorageaccountname>.blob.core.windows.net/` but may differ if you are using Azure DNS zone endpoints. You can find the correct endpoint by looking for the Blob Primary Endpoint in the endpoints tab in the Azure console or with the CLI by issuing `az storage account list --query='[].{name: name, "resource group": resourceGroup, "blob endpoint": primaryEndpoints.blob}'`. | string<br/><small>Required</small> |
 
 <a id="VMDiskSecurityProfile"></a>VMDiskSecurityProfile
 -------------------------------------------------------
@@ -2336,6 +2411,8 @@ Used by: [SubnetSpec](#SubnetSpec).
 
 <a id="SecurityEncryptionType"></a>SecurityEncryptionType
 ---------------------------------------------------------
+
+SecurityEncryptionType represents the Encryption Type when the virtual machine is a Confidential VM.
 
 Used by: [VMDiskSecurityProfile](#VMDiskSecurityProfile).
 
