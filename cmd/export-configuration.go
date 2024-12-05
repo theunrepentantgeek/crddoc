@@ -21,31 +21,36 @@ func newExportConfigurationCommand(
 		},
 	}
 
+	options.outputFile = cmd.Flags().StringP(
+		"output",
+		"o",
+		"",
+		"Output file into which configuration will be exported.")
+	cmd.MarkFlagRequired("output")
+
 	return cmd, nil
 }
 
 // exportConfigurationOptions defines any optional parameters for template export.
 // Currently there are none.
-type exportConfigurationOptions struct{}
+type exportConfigurationOptions struct {
+	outputFile *string
+}
 
 func exportConfiguration(
 	args []string,
-	_ *exportConfigurationOptions,
+	options *exportConfigurationOptions,
 	log logr.Logger,
 ) error {
-	if len(args) == 0 {
-		return errors.New("no export file supplied")
-	}
-
-	if len(args) > 1 {
-		return errors.New("too many export filenames supplied")
+	if len(args) > 0 {
+		return errors.New("Extra parameters provided")
 	}
 
 	// Create our default configuration
 	cfg := config.Default()
 
 	// Save the configuration to a file as yaml
-	file := args[0]
+	file := *options.outputFile
 	log.Info("Exporting default configuration", "file", file)
 
 	if err := cfg.Save(file); err != nil {
