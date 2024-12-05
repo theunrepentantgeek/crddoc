@@ -25,7 +25,10 @@ func newExportTemplatesCommand(
 		"f",
 		"",
 		"Path to a folder into which templates will be exported")
-	cmd.MarkFlagRequired("folder")
+
+	if err := cmd.MarkFlagRequired("folder"); err != nil {
+		return nil, errors.Wrap(err, "setting up --folder")
+	}
 
 	return cmd, nil
 }

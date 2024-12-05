@@ -35,7 +35,10 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		"o",
 		"",
 		"Write resource CRDs to a single file")
-	cmd.MarkFlagRequired("output")
+
+	if err := cmd.MarkFlagRequired("output"); err != nil {
+		return nil, errors.Wrap(err, "setting up --output")
+	}
 
 	options.templatePath = cmd.Flags().StringP(
 		"template",

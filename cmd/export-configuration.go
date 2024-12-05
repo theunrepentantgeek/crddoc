@@ -26,7 +26,10 @@ func newExportConfigurationCommand(
 		"o",
 		"",
 		"Output file into which configuration will be exported.")
-	cmd.MarkFlagRequired("output")
+
+	if err := cmd.MarkFlagRequired("output"); err != nil {
+		return nil, errors.Wrap(err, "setting up --output")
+	}
 
 	return cmd, nil
 }
