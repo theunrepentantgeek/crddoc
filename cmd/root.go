@@ -35,7 +35,7 @@ func newRootCommand(log logr.Logger) (*cobra.Command, error) {
 	rootCmd.Flags().SortFlags = false
 
 	cmds := []func(logr.Logger) (*cobra.Command, error){
-		newDocumentPackageCommand,
+		newDocumentCommand,
 		newExportCommand,
 	}
 

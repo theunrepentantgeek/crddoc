@@ -38,7 +38,12 @@ func New(
 // LoadDirectory scans a directory for Go files and loads them into a Package.
 // folder is the full path to the directory to load.
 func (loader *PackageLoader) LoadDirectory(folder string) (*model.Package, error) {
-	return loader.load(folder, "*.go")
+	fqfolder, err := filepath.Abs(folder)
+	if err != nil {
+		return nil, errors.Wrapf(err, "converting %s to fully qualified path", folder)
+	}
+
+	return loader.load(fqfolder, "*.go")
 }
 
 // LoadFile loads a single Go file into a  Package.
@@ -204,8 +209,9 @@ func (*PackageLoader) collectErrors(
 }
 
 func (loader *PackageLoader) readMetadata(folder string) *model.PackageMarkers {
+	// Split keeps the trailing `/` in parent, but Base doesn't care.
 	parent, ver := filepath.Split(folder)
-	_, grp := filepath.Split(parent)
+	grp := filepath.Base(parent)
 
 	result := model.NewPackageMarkers()
 	result.Name = ver
