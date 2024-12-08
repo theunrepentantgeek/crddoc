@@ -22,4 +22,10 @@ go.work
 
 .idea
 .vscode
-tools/
+tools/custom-gcl
+tools/gofumpt
+tools/golangci-lint
+tools/go-testreport
+tools/gremlins
+tools/oh-my-posh
+tools/task
