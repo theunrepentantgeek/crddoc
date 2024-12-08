@@ -1,5 +1,5 @@
 run:
-  deadline: 5m
+  timeout: 5m
   allow-parallel-runners: true
 
 issues:
@@ -24,6 +24,7 @@ linters:
     - maintidx
     - misspell
     - nestif
+    - nilaway
     - nilerr
     - nlreturn
     - nolintlint
@@ -99,9 +100,15 @@ linters-settings:
         arguments: [100]
       - name: unhandled-error
         disabled: true
-
   unused:
     generated-is-used: true
-
   wsl:
     allow-cuddle-declarations: true
+  custom:
+    nilaway:
+      type: "module"
+      description: Static analysis tool to detect potential nil panics in Go code.
+      settings:
+        # Settings must be a "map from string to string" to mimic command line flags: the keys are
+        # flag names and the values are the values to the particular flags.
+        include-pkgs: "github.com/theunrepentantgeek/crddoc, github.com/onsi/gomega"

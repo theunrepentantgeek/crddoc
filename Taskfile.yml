@@ -38,8 +38,10 @@ tasks:
 
   lint:
     desc: Run golangci-lint to check for linting issues
+    deps:
+      - golangci-lint-custom
     cmds:
-      - golangci-lint run
+      - "{{.GOLANGCI_CUSTOM}} run"
 
   ci:
     desc: Run continuous integration tasks
