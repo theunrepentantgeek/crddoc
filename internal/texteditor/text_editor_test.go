@@ -62,7 +62,7 @@ func TestEditor_Replace_ReturnsExpectedResult(t *testing.T) {
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual := c.editor.Replace(c.input)
 			g.Expect(actual).To(Equal(c.expected))

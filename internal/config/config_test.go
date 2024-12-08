@@ -3,12 +3,12 @@ package config
 import (
 	"testing"
 
-	"github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
 )
 
 func TestConfig_Validate_WhenFilterInvalid_ReturnsError(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Arrange
 	c := &Config{
@@ -24,5 +24,5 @@ func TestConfig_Validate_WhenFilterInvalid_ReturnsError(t *testing.T) {
 	err := c.Validate()
 
 	// Assert
-	g.Expect(err).To(gomega.HaveOccurred())
+	g.Expect(err).To(HaveOccurred())
 }
