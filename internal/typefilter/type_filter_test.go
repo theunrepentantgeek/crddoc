@@ -3,14 +3,14 @@ package typefilter
 import (
 	"testing"
 
-	"github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
 
 func TestTypeFilter_Applies_WhenExcludeMatchedExactCase_ReturnsExcluded(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Arrange
 	cfg := &config.Filter{
@@ -22,12 +22,12 @@ func TestTypeFilter_Applies_WhenExcludeMatchedExactCase_ReturnsExcluded(t *testi
 	result := f.Applies("Foot")
 
 	// Assert
-	g.Expect(result).To(gomega.Equal(Excluded))
+	g.Expect(result).To(Equal(Excluded))
 }
 
 func TestTypeFilter_Applies_WhenExcludeMatchedDifferentCase_ReturnsExcluded(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Arrange
 	cfg := &config.Filter{
@@ -39,12 +39,12 @@ func TestTypeFilter_Applies_WhenExcludeMatchedDifferentCase_ReturnsExcluded(t *t
 	result := f.Applies("foot")
 
 	// Assert
-	g.Expect(result).To(gomega.Equal(Excluded))
+	g.Expect(result).To(Equal(Excluded))
 }
 
 func TestTypeFilter_Applies_WhenExcludedUnmatched_ReturnsNone(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Arrange
 	cfg := &config.Filter{
@@ -56,12 +56,12 @@ func TestTypeFilter_Applies_WhenExcludedUnmatched_ReturnsNone(t *testing.T) {
 	result := f.Applies("abcde")
 
 	// Assert
-	g.Expect(result).To(gomega.Equal(Skipped))
+	g.Expect(result).To(Equal(Skipped))
 }
 
 func TestTypeFilter_Applies_WhenIncludedMatchedExactCase_ReturnsIncluded(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Arrange
 	cfg := &config.Filter{
@@ -73,12 +73,12 @@ func TestTypeFilter_Applies_WhenIncludedMatchedExactCase_ReturnsIncluded(t *test
 	result := f.Applies("Foot")
 
 	// Assert
-	g.Expect(result).To(gomega.Equal(Included))
+	g.Expect(result).To(Equal(Included))
 }
 
 func TestTypeFilter_Applies_WhenIncludedMatchedDifferentCase_ReturnsIncluded(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Arrange
 	cfg := &config.Filter{
@@ -90,12 +90,12 @@ func TestTypeFilter_Applies_WhenIncludedMatchedDifferentCase_ReturnsIncluded(t *
 	result := f.Applies("foot")
 
 	// Assert
-	g.Expect(result).To(gomega.Equal(Included))
+	g.Expect(result).To(Equal(Included))
 }
 
 func TestTypeFilter_Applies_WhenIncludedUnmatched_ReturnsNone(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Arrange
 	cfg := &config.Filter{
@@ -107,5 +107,5 @@ func TestTypeFilter_Applies_WhenIncludedUnmatched_ReturnsNone(t *testing.T) {
 	result := f.Applies("Arm")
 
 	// Assert
-	g.Expect(result).To(gomega.Equal(Skipped))
+	g.Expect(result).To(Equal(Skipped))
 }

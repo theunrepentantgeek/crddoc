@@ -91,7 +91,7 @@ func documentPackage(
 func loadConfig(
 	options *documentPackageOptions,
 ) (*config.Config, error) {
-	cfg := config.Default()
+	cfg := config.Standard()
 
 	// If we have a config file specified, load it
 	if options.configPath != nil && *options.configPath != "" {

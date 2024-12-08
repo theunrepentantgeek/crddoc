@@ -104,10 +104,9 @@ func TestMarkerValue_WhenUpdatedWithDifferentValue_ReturnsError(t *testing.T) {
 
 	err = value.Update(testMarkers)
 	g.Expect(err).To(Not(BeNil()))
-
-	g.Expect(err.Error()).To(ContainSubstring("does not match"))
-	g.Expect(err.Error()).To(ContainSubstring("alertsmanagement.azure.com"))
-	g.Expect(err.Error()).To(ContainSubstring("network.azure.com"))
+	g.Expect(err).To(MatchError(ContainSubstring("does not match")))
+	g.Expect(err).To(MatchError(ContainSubstring("alertsmanagement.azure.com")))
+	g.Expect(err).To(MatchError(ContainSubstring("network.azure.com")))
 }
 
 //nolint:funlen, revive // excessive length is acceptable for tests
@@ -164,7 +163,7 @@ func TestMarkerValueMerge_givenValue_ReturnsExpectedResult(t *testing.T) {
 				g.Expect(err).To(Not(BeNil()))
 
 				for _, s := range c.expectedErrorSubstrings {
-					g.Expect(err.Error()).To(ContainSubstring(s))
+					g.Expect(err).To(MatchError(ContainSubstring(s)))
 				}
 			} else {
 				g.Expect(err).To(BeNil())

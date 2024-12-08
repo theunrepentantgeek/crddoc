@@ -49,13 +49,19 @@ func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 
 	for n, c := range cases {
-		prop, ok := obj.Property(c.propertyName)
-		g.Expect(ok).To(Equal(c.expectedExists), "case %s", n)
+		t.Run(n, func(t *testing.T) {
+			t.Parallel()
 
-		if c.expectedExists {
-			g.Expect(prop).NotTo(BeNil(), "case %s", n)
-			g.Expect(prop.Name).To(Equal(c.propertyName), "case %s", n)
-			g.Expect(prop.DeclaredOn).To(Equal(obj), "case %s", n)
-		}
+			g := NewGomegaWithT(t)
+
+			prop, ok := obj.Property(c.propertyName)
+			g.Expect(ok).To(Equal(c.expectedExists))
+
+			if c.expectedExists {
+				g.Expect(prop).NotTo(BeNil())
+				g.Expect(prop.Name).To(Equal(c.propertyName))
+				g.Expect(prop.DeclaredOn).To(Equal(obj))
+			}
+		})
 	}
 }
