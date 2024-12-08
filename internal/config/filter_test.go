@@ -17,8 +17,8 @@ func TestFilter_Validate_WhenBlank_ReturnsError(t *testing.T) {
 	err := f.validate()
 
 	// Assert
-	g.Expect(err).To(gomega.HaveOccurred())
-	g.Expect(err.Error()).To(gomega.ContainSubstring("must specify either"))
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err).To(MatchError(ContainSubstring("must specify either")))
 }
 
 func TestFilter_Validate_WhenBothIncludeAndExcludeSpecified_ReturnsError(t *testing.T) {
@@ -35,6 +35,6 @@ func TestFilter_Validate_WhenBothIncludeAndExcludeSpecified_ReturnsError(t *test
 	err := f.validate()
 
 	// Assert
-	g.Expect(err.Error()).To(gomega.ContainSubstring("cannot specify both"))
 	g.Expect(err).To(HaveOccurred())
+	g.Expect(err).To(MatchError(ContainSubstring("cannot specify both")))
 }
