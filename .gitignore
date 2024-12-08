@@ -21,6 +21,7 @@
 go.work
 
 .idea
+.task
 .vscode
 tools/custom-gcl
 tools/gofumpt

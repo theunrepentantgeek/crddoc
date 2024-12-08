@@ -41,8 +41,8 @@ func exportConfiguration(
 		return errors.New("too many export filenames supplied")
 	}
 
-	// Create our default configuration
-	cfg := config.Default()
+	// Create our standard configuration
+	cfg := config.Standard()
 
 	// Save the configuration to a file as yaml
 	file := args[0]
