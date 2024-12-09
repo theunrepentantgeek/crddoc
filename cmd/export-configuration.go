@@ -46,7 +46,7 @@ func exportConfiguration(
 	log logr.Logger,
 ) error {
 	if len(args) > 0 {
-		return errors.New("Unexpected parameters provided. Please check the command usage.")
+		return errors.New("unexpected parameters provided")
 	}
 
 	// Create our default configuration
