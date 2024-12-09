@@ -12,15 +12,15 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
-func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
-	options := &documentPackageOptions{}
+func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
+	options := &documentCRDsOptions{}
 
 	cmd := &cobra.Command{
-		Use:   "document-package",
-		Short: "Generate documentation for a package",
-		Long:  "Generate documentation for a package.",
+		Use:   "crds",
+		Short: "Generate CRD documentation from a package",
+		Long:  "Generate CRD documentation from a package.",
 		RunE: func(_ *cobra.Command, args []string) error {
-			return documentPackage(args, options, log)
+			return documentCRDs(args, options, log)
 		},
 	}
 
@@ -34,7 +34,11 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 		"output",
 		"o",
 		"",
-		"Write ARM resource CRDs to a single file")
+		"Write resource CRDs to a single file")
+
+	if err := cmd.MarkFlagRequired("output"); err != nil {
+		return nil, errors.Wrap(err, "setting up --output")
+	}
 
 	options.templatePath = cmd.Flags().StringP(
 		"template",
@@ -45,15 +49,15 @@ func newDocumentPackageCommand(log logr.Logger) (*cobra.Command, error) {
 	return cmd, nil
 }
 
-type documentPackageOptions struct {
+type documentCRDsOptions struct {
 	configPath   *string
 	outputPath   *string
 	templatePath *string
 }
 
-func documentPackage(
+func documentCRDs(
 	args []string,
-	options *documentPackageOptions,
+	options *documentCRDsOptions,
 	log logr.Logger,
 ) error {
 	if err := options.validate(args); err != nil {
@@ -89,7 +93,7 @@ func documentPackage(
 }
 
 func loadConfig(
-	options *documentPackageOptions,
+	options *documentCRDsOptions,
 ) (*config.Config, error) {
 	cfg := config.Default()
 
@@ -113,7 +117,7 @@ func loadConfig(
 	return cfg, nil
 }
 
-func (options *documentPackageOptions) validate(
+func (options *documentCRDsOptions) validate(
 	args []string,
 ) error {
 	// Error if package directory missing
@@ -145,6 +149,6 @@ func (options *documentPackageOptions) validate(
 }
 
 // applyToConfig applies options we've received on the command line to the config.
-func (options *documentPackageOptions) applyToConfig(cfg *config.Config) {
+func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.OverrideTemplatePath(options.templatePath)
 }
