@@ -1,4 +1,6 @@
 version: v1.61.0
+name: golangci-lint-custom
+destination: ./tools
 plugins:
   - module: "go.uber.org/nilaway"
     import: "go.uber.org/nilaway/cmd/gclplugin"
