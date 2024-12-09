@@ -5,7 +5,7 @@ version: "3"
 vars:
   TOOLS_DIR: '{{ list .ROOT_DIR "tools" | join "/" | osClean }}'
   SAMPLES_DIR: '{{ list .ROOT_DIR "samples" | join "/" | osClean }}'
-  GOLANGCI_CUSTOM: '{{ list .TOOLS_DIR "custom-gcl" | join "/" | osClean }}'
+  GOLANGCI_CUSTOM: '{{ list .TOOLS_DIR "golangci-lint-custom" | join "/" | osClean }}'
 
 run: once
 
@@ -41,7 +41,7 @@ tasks:
     deps:
       - golangci-lint-custom
     cmds:
-      - "{{.GOLANGCI_CUSTOM}} run"
+      - "{{.GOLANGCI_CUSTOM}} run --verbose"
 
   ci:
     desc: Run continuous integration tasks
@@ -122,16 +122,11 @@ tasks:
     cmds:
       - cmd: echo "Building custom golangci-lint"
         silent: true
-      - pwd
-      - echo {{.TOOLS_DIR}}
-      - echo {{.SAMPLES_DIR}}
-      - echo {{.GOLANGCI_CUSTOM}}
       - golangci-lint custom
-    dir: "{{.TOOLS_DIR}}"
     # Skip if we've already built the custom golangci-lint
     status:
       # Don't need to rebuild the custom tool if it exists
-      - test -f {{.TOOLS_DIR}}/custom-gcl
+      - test -f {{.TOOLS_DIR}}/golangci-lint-custom
     sources:
       - .custom-gcl.yml
-      - ../.golangci.yml
+      - .golangci.yml
