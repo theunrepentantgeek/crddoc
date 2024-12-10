@@ -49,8 +49,8 @@ func exportConfiguration(
 		return errors.New("unexpected parameters provided")
 	}
 
-	// Create our default configuration
-	cfg := config.Default()
+	// Create our standard configuration
+	cfg := config.Standard()
 
 	// Save the configuration to a file as yaml
 	file := *options.outputFile

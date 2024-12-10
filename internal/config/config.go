@@ -27,9 +27,9 @@ type Config struct {
 	TemplatePath string `yaml:"templatePath"`
 }
 
-// Default returns the default configuration, as a basis for loading
+// Standard returns the standard, as a basis for loading other configuration,
 // or for export.
-func Default() *Config {
+func Standard() *Config {
 	return &Config{
 		PrettyPrint: true,
 	}

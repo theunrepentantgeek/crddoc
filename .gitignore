@@ -21,5 +21,6 @@
 go.work
 
 .idea
+.task
 .vscode
-tools/
+tools

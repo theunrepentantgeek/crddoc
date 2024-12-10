@@ -3,7 +3,9 @@
 version: "3"
 
 vars:
+  TOOLS_DIR: '{{ list .ROOT_DIR "tools" | join "/" | osClean }}'
   SAMPLES_DIR: '{{ list .ROOT_DIR "samples" | join "/" | osClean }}'
+  GOLANGCI_CUSTOM: '{{ list .TOOLS_DIR "golangci-lint-custom" | join "/" | osClean }}'
 
 run: once
 
@@ -36,8 +38,10 @@ tasks:
 
   lint:
     desc: Run golangci-lint to check for linting issues
+    deps:
+      - golangci-lint-custom
     cmds:
-      - golangci-lint run
+      - "{{.GOLANGCI_CUSTOM}} run --verbose"
 
   ci:
     desc: Run continuous integration tasks
@@ -111,3 +115,18 @@ tasks:
     desc: "Use gremlins to check the quality of our tests"
     cmds:
       - gremlins unleash ./internal
+
+  # We use a custom golangci-lint with the nilaway module included,
+  # this target builds this if needed
+  golangci-lint-custom:
+    cmds:
+      - cmd: echo "Building custom golangci-lint"
+        silent: true
+      - golangci-lint custom
+    # Skip if we've already built the custom golangci-lint
+    status:
+      # Don't need to rebuild the custom tool if it exists
+      - test -f {{.TOOLS_DIR}}/golangci-lint-custom
+    sources:
+      - .custom-gcl.yml
+      - .golangci.yml

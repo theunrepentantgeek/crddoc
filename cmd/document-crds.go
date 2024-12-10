@@ -95,7 +95,7 @@ func documentCRDs(
 func loadConfig(
 	options *documentCRDsOptions,
 ) (*config.Config, error) {
-	cfg := config.Default()
+	cfg := config.Standard()
 
 	// If we have a config file specified, load it
 	if options.configPath != nil && *options.configPath != "" {
