@@ -60,7 +60,7 @@ tasks:
     deps:
       - build
     cmds:
-      - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+      - ./crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
     vars:
       DST_DIR: '{{joinPath .ROOT_DIR "docs" "config"}}'
       PACKAGE: '{{joinPath .ROOT_DIR "internal" "config" | shellQuote}}'
@@ -75,7 +75,7 @@ tasks:
       # Skip if the package isn't available
       - test ! -d {{.PACKAGE}}
     cmds:
-      - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+      - ./crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
     vars:
       DST_DIR: '{{joinPath .SAMPLES_DIR "azure-service-operator"}}'
       PACKAGE: '{{joinPath .ROOT_DIR "../azure-service-operator/v2/api/containerservice/v1api20210501" | shellQuote}}'
@@ -90,7 +90,7 @@ tasks:
       # Skip if the package isn't available
       - test ! -d {{.PACKAGE}}
     cmds:
-      - ./crddoc document-package {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+      - ./crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
     vars:
       CRD: "containerservice"
       DST_DIR: '{{joinPath .SAMPLES_DIR "cluster-api-provider-azure"}}'
