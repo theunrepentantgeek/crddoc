@@ -26,7 +26,7 @@ Go to the folder containing the Go source for your CRDs, and generate documentat
 crddoc document crds --output crd.md .
 ```
 
-Dcoumentation will be generated into `crd.md`.
+Documentation will be generated into `crd.md`.
 
 ## Features
 
@@ -88,7 +88,7 @@ After changing the configuration, use the `--config` flag when generating docume
 crddoc document crds --output package.md --config crddoc.yaml ./package
 ```
 
-For possible options, see the [configuration refrence](https://github.com/theunrepentantgeek/crddoc/blob/main/docs/config/config.md).
+For possible options, see the [configuration reference](https://github.com/theunrepentantgeek/crddoc/blob/main/docs/config/config.md).
 
 # Contributing
 
@@ -104,7 +104,7 @@ If you don't want to (or can't) use the devcontainer, you have two options.
 
 The simplest is to use just the Go CLI, as the entire project can be built with `go build` and tested with `go test ./...`. 
 
-Alternatively, you can use the `install-dependencies.sh` script to install all the reccommended tools. I suggest you review the script before running it. 
+Alternatively, you can use the `install-dependencies.sh` script to install all the recommended tools. I suggest you review the script before running it. 
 
 ## Linters
 
