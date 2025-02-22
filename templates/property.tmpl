@@ -4,7 +4,7 @@
 | {{ if .Type | createLink -}}
 [
 {{- end -}}
-{{- .Type.Name -}}
+{{- .Type.Display -}}
 {{- if .Type | createLink -}}
 ]({{ .Type | createLink }})
 {{- end -}}
