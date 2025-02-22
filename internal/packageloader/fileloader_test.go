@@ -13,6 +13,19 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
 )
 
+func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedImportCount(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := &config.Config{}
+	filter := typefilter.New(cfg)
+
+	fl := NewFileLoader(testdataPath(t, "party_types.go"), logr.Discard(), filter)
+	g.Expect(fl.Load()).To(Succeed())
+
+	g.Expect(fl.importReferences).To(HaveLen(6))
+}
+
 func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedResourceCount(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
