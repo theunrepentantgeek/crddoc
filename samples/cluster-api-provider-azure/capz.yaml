@@ -13,7 +13,5 @@ externalLinks:
     urlTemplate: "https://pkg.go.dev/sigs.k8s.io/cluster-api/errors#{{.Name}}"
   - importPath: "sigs.k8s.io/controller-runtime/pkg/client"
     urlTemplate: "https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/client#{{.Name}}"
-  - importPath: "sigs.k8s.io/cluster-api/errors"
-    urlTemplate: "https://pkg.go.dev/sigs.k8s.io/cluster-api/errors#{{.Name}}"
   - importPath: "k8s.io/apimachinery/pkg/api/resource"
     urlTemplate: "https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#{{.Name}}"
