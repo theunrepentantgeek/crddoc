@@ -39,7 +39,7 @@ func TryNewEnum(spec dst.Spec, comments []string) (*Enum, bool) {
 }
 
 func (e *Enum) Name() string {
-	return e.name
+	return e.display
 }
 
 func (*Enum) Kind() DeclarationType {
