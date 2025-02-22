@@ -3,6 +3,7 @@ package functions
 import (
 	"text/template"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
@@ -12,13 +13,18 @@ import (
 
 // Functions is a carrier type for all the Functions we provide to templates.
 type Functions struct {
-	pkg     *model.Package // Current Package used by the functions.
-	cfg     *config.Config // Config used by the functions.
-	editors *texteditor.List
+	pkg           *model.Package // Current Package used by the functions.
+	cfg           *config.Config // Config used by the functions.
+	editors       *texteditor.List
+	log           logr.Logger
+	externalLinks map[string]*template.Template
 }
 
-func New() *Functions {
-	return &Functions{}
+func New(log logr.Logger) *Functions {
+	return &Functions{
+		externalLinks: make(map[string]*template.Template),
+		log:           log,
+	}
 }
 
 func (f *Functions) CreateFuncMap() template.FuncMap {
@@ -48,6 +54,15 @@ func (f *Functions) SetConfig(cfg *config.Config) error {
 
 	if err != nil {
 		return errors.Wrap(err, "configuring functions")
+	}
+
+	for _, link := range cfg.ExternalLinks {
+		tmpl, err := template.New(link.ImportPath).Parse(link.URLTemplate)
+		if err != nil {
+			return errors.Wrapf(err, "parsing external link template for %q", link.ImportPath)
+		}
+
+		f.externalLinks[link.ImportPath] = tmpl
 	}
 
 	return nil

@@ -16,15 +16,16 @@ import (
 )
 
 type FileLoader struct {
-	path           string
-	name           string
-	typeFilters    *typefilter.List
-	resources      map[string]*model.Resource
-	objects        map[string]*model.Object
-	enums          map[string]*model.Enum
-	values         map[string][]*model.EnumValue
-	packageMarkers *model.PackageMarkers
-	log            logr.Logger
+	path             string
+	name             string
+	importReferences model.ImportReferenceSet
+	typeFilters      *typefilter.List
+	resources        map[string]*model.Resource
+	objects          map[string]*model.Object
+	enums            map[string]*model.Enum
+	values           map[string][]*model.EnumValue
+	packageMarkers   *model.PackageMarkers
+	log              logr.Logger
 }
 
 func NewFileLoader(
@@ -33,15 +34,16 @@ func NewFileLoader(
 	typeFilters *typefilter.List,
 ) *FileLoader {
 	return &FileLoader{
-		name:           filepath.Base(path),
-		path:           path,
-		typeFilters:    typeFilters,
-		resources:      make(map[string]*model.Resource),
-		objects:        make(map[string]*model.Object),
-		enums:          make(map[string]*model.Enum),
-		values:         make(map[string][]*model.EnumValue),
-		packageMarkers: model.NewPackageMarkers(),
-		log:            log,
+		name:             filepath.Base(path),
+		path:             path,
+		importReferences: make(model.ImportReferenceSet),
+		typeFilters:      typeFilters,
+		resources:        make(map[string]*model.Resource),
+		objects:          make(map[string]*model.Object),
+		enums:            make(map[string]*model.Enum),
+		values:           make(map[string][]*model.EnumValue),
+		packageMarkers:   model.NewPackageMarkers(),
+		log:              log,
 	}
 }
 
@@ -59,6 +61,8 @@ func (loader *FileLoader) Load() error {
 		return errors.Wrap(err, "failed to parse metadata")
 	}
 
+	loader.parseImports(file.Imports)
+
 	if err = loader.parseDecls(file.Decls); err != nil {
 		return errors.Wrap(err, "failed to parse declarations")
 	}
@@ -69,9 +73,8 @@ func (loader *FileLoader) Load() error {
 	return nil
 }
 
-func parseDecl(
+func (loader *FileLoader) parseDecl(
 	gd *dst.GenDecl,
-	loader *FileLoader,
 ) error {
 	switch gd.Tok {
 	case token.TYPE:
@@ -101,7 +104,7 @@ func (loader *FileLoader) parseTypes(
 	// Parse type declarations for objects and enums
 	for _, spec := range specs {
 		// Try to create an object from this declaration
-		if obj, ok := model.TryNewObject(spec, description); ok {
+		if obj, ok := model.TryNewObject(spec, description, loader.importReferences); ok {
 			loader.objects[obj.ID()] = obj
 		}
 
@@ -129,7 +132,7 @@ func (loader *FileLoader) parseConstants(
 func (loader *FileLoader) parseDecls(decls []dst.Decl) error {
 	for _, decl := range decls {
 		if gd, ok := decl.(*dst.GenDecl); ok {
-			if err := parseDecl(gd, loader); err != nil {
+			if err := loader.parseDecl(gd); err != nil {
 				return err
 			}
 		}
@@ -233,4 +236,12 @@ func (loader *FileLoader) parseMetadata(decs dst.FileDecorations) error {
 	}
 
 	return nil
+}
+
+func (loader *FileLoader) parseImports(imports []*dst.ImportSpec) {
+	for _, imp := range imports {
+		if ref, ok := model.TryNewImportReference(imp); ok {
+			loader.importReferences[ref.Name()] = ref
+		}
+	}
 }

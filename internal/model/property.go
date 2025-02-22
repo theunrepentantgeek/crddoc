@@ -16,14 +16,18 @@ type Property struct {
 	markers     *PropertyMarkers
 }
 
-func TryNewProperty(name string, field *dst.Field) (*Property, bool) {
+func TryNewProperty(
+	name string,
+	field *dst.Field,
+) (*Property, bool) {
 	// TODO: Parse tags as well
 	description, markers := ParseComments(field.Decs.Start.All())
 	description = formatComments(description, name)
 
+	typeRef := NewTypeReferenceFromExpr(field.Type)
 	result := NewProperty(
 		name,
-		NewTypeReferenceFromExpr(field.Type),
+		typeRef,
 		description)
 
 	if err := result.markers.Parse(markers); err != nil {

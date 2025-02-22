@@ -49,14 +49,14 @@ tasks:
       - test
 
   docs:
-    summary: Build documentation
+    desc: Build documentation
     deps:
       - docs.config
       - docs.aso
       - docs.capz
 
   docs.config:
-    summary: Build documentation of config options
+    desc: Build documentation of config options
     deps:
       - build
     cmds:
@@ -68,7 +68,7 @@ tasks:
       CONFIG: '{{joinPath .DST_DIR "crddoc-config.yaml" | shellQuote}}'
 
   docs.aso:
-    summary: Build example showing documentation for Azure Service Operator
+    desc: Build example showing documentation for Azure Service Operator
     deps:
       - build
     status:
@@ -83,7 +83,7 @@ tasks:
       CONFIG: '{{joinPath .DST_DIR "aso.yaml" | shellQuote}}'
 
   docs.capz:
-    summary: Build example showing documentation for Cluster API Provider Azure
+    desc: Build example showing documentation for Cluster API Provider Azure
     deps:
       - build
     status:

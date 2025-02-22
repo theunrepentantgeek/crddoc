@@ -19,7 +19,11 @@ type Object struct {
 
 var _ Declaration = &Object{}
 
-func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
+func TryNewObject(
+	spec dst.Spec,
+	comments []string,
+	importReferences map[string]ImportReference,
+) (*Object, bool) {
 	// Check for a TypeSpec ...
 	typeSpec, ok := spec.(*dst.TypeSpec)
 	if !ok {
@@ -37,8 +41,8 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 		return nil, false
 	}
 
-	name := createName(typeSpec.Name)
-	id := createID(typeSpec.Name)
+	name := displayOf(typeSpec.Name)
+	id := idOf(typeSpec.Name)
 
 	// Clean up the comments
 	description, _ := ParseComments(comments)
@@ -48,6 +52,7 @@ func TryNewObject(spec dst.Spec, comments []string) (*Object, bool) {
 
 	result.properties = result.findProperties(structType)
 	result.embeds = result.findEmbeddedStructs(structType)
+	result.linkImports(importReferences)
 
 	return result, true
 }
@@ -58,9 +63,13 @@ func NewObjectType(
 	description []string,
 ) *Object {
 	return &Object{
-		TypeReference: NewTypeReference(name, id),
-		properties:    make(map[string]*Property),
-		description:   description,
+		TypeReference: TypeReference{
+			name:    name,
+			display: name,
+			id:      id,
+		},
+		properties:  make(map[string]*Property),
+		description: description,
 	}
 }
 
@@ -157,6 +166,20 @@ func (*Object) findEmbeddedStructs(structType *dst.StructType) []*Property {
 	}
 
 	return result
+}
+
+func (o *Object) linkImports(importReferences ImportReferenceSet) {
+	for _, property := range o.properties {
+		if path, ok := importReferences.LookupImportPath(property.Type); ok {
+			property.Type.impPath = path
+		}
+	}
+
+	for _, embed := range o.embeds {
+		if path, ok := importReferences.LookupImportPath(embed.Type); ok {
+			embed.Type.impPath = path
+		}
+	}
 }
 
 // alphabeticalPropertyComparison does a case insensitive comparison of the names of the

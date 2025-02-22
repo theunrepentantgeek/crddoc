@@ -27,7 +27,7 @@ type Generator struct {
 }
 
 func New(cfg *config.Config, log logr.Logger) *Generator {
-	fns := functions.New()
+	fns := functions.New(log)
 	funcMap := fns.CreateFuncMap()
 
 	return &Generator{

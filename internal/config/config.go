@@ -13,10 +13,8 @@ type Config struct {
 	// Editors are applied in the order specified.
 	Editors []Editor `yaml:"editors"`
 
-	// TypeFilters allow you to filter out types from the output.
-	// Filters are applied in the order specified,
-	// with earlier filters taking priority over later ones.
-	TypeFilters []*Filter `yaml:"typeFilters"`
+	// ExternalLinks allow you to add links to external documentation.
+	ExternalLinks []*ExternalLink `yaml:"externalLinks"`
 
 	// PrettyPrint controls whether the Markdown output is pretty-printed or not.
 	// Defaults to true.
@@ -25,6 +23,11 @@ type Config struct {
 	// TemplatePath is the path to a folder containing templates to use for
 	// rendering the documentation.
 	TemplatePath string `yaml:"templatePath"`
+
+	// TypeFilters allow you to filter out types from the output.
+	// Filters are applied in the order specified,
+	// with earlier filters taking priority over later ones.
+	TypeFilters []*Filter `yaml:"typeFilters"`
 }
 
 // Standard returns the standard, as a basis for loading other configuration,
