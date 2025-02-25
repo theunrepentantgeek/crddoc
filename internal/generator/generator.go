@@ -9,6 +9,8 @@ import (
 	"os"
 	"text/template"
 
+	sprig "github.com/go-task/slim-sprig/v3"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/shurcooL/markdownfmt/markdown"
@@ -30,11 +32,15 @@ func New(cfg *config.Config, log logr.Logger) *Generator {
 	fns := functions.New(log)
 	funcMap := fns.CreateFuncMap()
 
+	tmpl := template.New("crddoc").
+		Funcs(sprig.FuncMap()).
+		Funcs(funcMap)
+
 	return &Generator{
 		cfg:      cfg,
 		log:      log,
 		fns:      fns,
-		template: template.New("crddoc").Funcs(funcMap),
+		template: tmpl,
 	}
 }
 
