@@ -74,6 +74,8 @@ After customization, use the `--template` flag to reference them when generating
 crddoc document crds --output package.md --template ./templates ./package
 ```
 
+Available template functions include the [sprig](https://github.com/Masterminds/sprig) library.
+
 ### Export configuration
 
 Exporting the default configuration of **crddoc** is a good place to start customizing its behaviour.
