@@ -2,7 +2,7 @@ module github.com/theunrepentantgeek/crddoc
 
 go 1.23.0
 
-toolchain go1.23.2
+toolchain go1.24.1
 
 require (
 	github.com/dave/dst v0.27.3
@@ -16,7 +16,7 @@ require (
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/exp v0.0.0-20250218142911-aa4b98e5adaa
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/apimachinery v0.32.2
+	k8s.io/apimachinery v0.32.3
 )
 
 require (
