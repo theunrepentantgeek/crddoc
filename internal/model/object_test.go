@@ -38,9 +38,8 @@ func TestObject_Property_ReturnsExpectedContent(t *testing.T) {
 	loader := packageloader.New(cfg, logr.Discard())
 
 	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
-	if err != nil {
-		t.Fatalf("Failed to load file: %v", err)
-	}
+	g.Expect(err).To(Succeed())
+	g.Expect(pkg).NotTo(BeNil())
 
 	dec, ok := pkg.Declaration("PersonResourceSpec")
 	g.Expect(ok).To(BeTrue())

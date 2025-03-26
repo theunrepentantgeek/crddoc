@@ -23,10 +23,8 @@ func TestPackage_LoadFile_LoadsExpectedContent(t *testing.T) {
 	loader := packageloader.New(cfg, logr.Discard())
 
 	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
-	if err != nil {
-		t.Fatalf("Failed to load file: %v", err)
-	}
 
+	g.Expect(err).To(Succeed())
 	g.Expect(len(pkg.Declarations(model.OrderAlphabetical))).To(Equal(4))
 }
 
@@ -43,12 +41,15 @@ func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
 	}
 
 	declarations := pkg.Declarations(model.OrderAlphabetical)
+	g.Expect(declarations).NotTo(BeNil())
 	g.Expect(len(declarations)).To(Equal(4))
 
-	g.Expect(declarations[0].Name()).To(Equal("PersonReference"))
-	g.Expect(declarations[1].Name()).To(Equal("PersonResource"))
-	g.Expect(declarations[2].Name()).To(Equal("PersonResourceSpec"))
-	g.Expect(declarations[3].Name()).To(Equal("PersonResourceStatus"))
+	if declarations != nil {
+		g.Expect(declarations[0].Name()).To(Equal("PersonReference"))
+		g.Expect(declarations[1].Name()).To(Equal("PersonResource"))
+		g.Expect(declarations[2].Name()).To(Equal("PersonResourceSpec"))
+		g.Expect(declarations[3].Name()).To(Equal("PersonResourceStatus"))
+	}
 }
 
 func TestPackage_Declaration_ReturnsExpectedObjects(t *testing.T) {

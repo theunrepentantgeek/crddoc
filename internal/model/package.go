@@ -56,6 +56,10 @@ func (p *Package) Name() string {
 }
 
 func (p *Package) Declarations(order Order) []Declaration {
+	if p == nil || p.declarations == nil {
+		return nil
+	}
+
 	result := maps.Values(p.declarations)
 
 	// Sort the declarations as specified
@@ -73,6 +77,10 @@ func (p *Package) Declarations(order Order) []Declaration {
 
 // Declaration returns the declaration with the given name, if found.
 func (p *Package) Declaration(name string) (Declaration, bool) {
+	if p == nil || p.declarations == nil {
+		return nil, false
+	}
+
 	dec, ok := p.declarations[name]
 	if !ok {
 		return nil, false
