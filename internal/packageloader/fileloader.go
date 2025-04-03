@@ -2,6 +2,7 @@ package packageloader
 
 import (
 	"go/token"
+	"maps"
 	"os"
 	"path/filepath"
 	"slices"
@@ -10,7 +11,6 @@ import (
 	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"golang.org/x/exp/maps"
 
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
@@ -146,7 +146,7 @@ func (loader *FileLoader) parseDecls(decls []dst.Decl) error {
 // that represent resources.
 func (loader *FileLoader) discoverResources() {
 	// Find all the objects that are actually resources
-	for _, obj := range maps.Values(loader.objects) {
+	for obj := range maps.Values(loader.objects) {
 		// Try to create a resource from this object
 		if resource, ok := model.TryNewResource(obj); ok {
 			loader.resources[resource.ID()] = resource

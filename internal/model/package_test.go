@@ -25,7 +25,7 @@ func TestPackage_LoadFile_LoadsExpectedContent(t *testing.T) {
 	pkg, err := loader.LoadFile(testdataPath(t, "person_types.go"))
 
 	g.Expect(err).To(Succeed())
-	g.Expect(len(pkg.Declarations(model.OrderAlphabetical))).To(Equal(4))
+	g.Expect(pkg.Declarations(model.OrderAlphabetical)).To(HaveLen(4))
 }
 
 func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
@@ -42,7 +42,7 @@ func TestPackage_Objects_ReturnsExpectedSequence(t *testing.T) {
 
 	declarations := pkg.Declarations(model.OrderAlphabetical)
 	g.Expect(declarations).NotTo(BeNil())
-	g.Expect(len(declarations)).To(Equal(4))
+	g.Expect(declarations).To(HaveLen(4))
 
 	if declarations != nil {
 		g.Expect(declarations[0].Name()).To(Equal("PersonReference"))

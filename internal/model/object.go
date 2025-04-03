@@ -1,11 +1,11 @@
 package model
 
 import (
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/dave/dst"
-	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 )
 
 type Object struct {
@@ -95,8 +95,9 @@ func (o *Object) SetPackage(p *Package) {
 
 // Properties returns all the properties of the object, in alphabetical order.
 func (o *Object) Properties() []*Property {
-	result := maps.Values(o.properties)
-	slices.SortFunc(result, alphabeticalPropertyComparison)
+	result := slices.SortedFunc(
+		maps.Values(o.properties),
+		alphabeticalPropertyComparison)
 
 	return result
 }

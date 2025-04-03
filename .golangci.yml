@@ -14,21 +14,31 @@ linters:
     - errname
     - errorlint
     - exhaustive
+    - exptostd
+    - fatcontext
     - funlen
     - gci
+    - ginkgolinter
+    - gocheckcompilerdirectives
+    - gochecksumtype
     - godot
     - gofmt
     - gosimple
+    - gosmopolitan
     - govet
+    - iface
+    - inamedparam
     - intrange
     - maintidx
     - misspell
     - nestif
     - nilaway
     - nilerr
+    - nilnesserr
     - nlreturn
     - nolintlint
     - paralleltest
+    - perfsprint
     - prealloc
     - revive
     - staticcheck
@@ -38,6 +48,7 @@ linters:
     - unconvert
     - unparam
     - unused
+    - usetesting
     - wastedassign
     - whitespace
     - wrapcheck
