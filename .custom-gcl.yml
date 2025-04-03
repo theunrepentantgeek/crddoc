@@ -1,4 +1,4 @@
-version: v1.61.0
+version: v1.64.7
 name: golangci-lint-custom
 destination: ./tools
 plugins:
