@@ -50,8 +50,8 @@ func (f *Functions) SetConfig(cfg *config.Config) error {
 	f.cfg = cfg
 
 	var err error
-	f.editors, err = texteditor.New(cfg)
 
+	f.editors, err = texteditor.New(cfg)
 	if err != nil {
 		return errors.Wrap(err, "configuring functions")
 	}

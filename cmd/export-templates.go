@@ -79,7 +79,7 @@ func exportTemplateFiles(
 		if entry.IsDir() {
 			dir := filepath.Join(folder, path)
 
-			return os.MkdirAll(dir, 0755)
+			return os.MkdirAll(dir, 0o755)
 		}
 
 		log.Info(

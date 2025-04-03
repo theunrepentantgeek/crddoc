@@ -4,6 +4,7 @@ import (
 	"go/token"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
@@ -195,14 +196,11 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 }
 
 func (loader *FileLoader) Declarations() []model.Declaration {
-	expectedDeclarations := len(loader.resources) + len(loader.objects) + len(loader.enums)
-	result := make([]model.Declaration, 0, expectedDeclarations)
+	resources := filterDeclarations(loader.resources, loader.typeFilters)
+	objects := filterDeclarations(loader.objects, loader.typeFilters)
+	enums := filterDeclarations(loader.enums, loader.typeFilters)
 
-	result = append(result, filterDeclarations(loader.resources, loader.typeFilters)...)
-	result = append(result, filterDeclarations(loader.objects, loader.typeFilters)...)
-	result = append(result, filterDeclarations(loader.enums, loader.typeFilters)...)
-
-	return result
+	return slices.Concat(resources, objects, enums)
 }
 
 func filterDeclarations[D model.Declaration](

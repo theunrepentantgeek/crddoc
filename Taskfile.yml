@@ -100,6 +100,10 @@ tasks:
 
   tidy:
     desc: "Tidy up source"
+    cmds:
+      - task: tidy.gofumpt
+      - task: tidy.mod
+      - task: tidy.lint
 
   tidy.gofumpt:
     desc: "Run gofumpt"
@@ -110,6 +114,11 @@ tasks:
     desc: "Run go mod tidy"
     cmds:
       - go mod tidy
+
+  tidy.lint:
+    desc: "Run golangci-lint in fix mode"
+    cmds:
+      - "{{.GOLANGCI_CUSTOM}} run --fix --verbose"
 
   gremlins:
     desc: "Use gremlins to check the quality of our tests"

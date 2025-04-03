@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"regexp"
 
 	"github.com/pkg/errors"
@@ -29,7 +28,7 @@ func (edit *Editor) Validate() error {
 	}
 
 	if edit.Search == "" {
-		return fmt.Errorf("editor search expression may not be empty")
+		return errors.New("editor search expression may not be empty")
 	}
 
 	_, err := regexp.Compile(edit.Search)
