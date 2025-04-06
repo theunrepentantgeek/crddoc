@@ -1,11 +1,11 @@
 package model
 
 import (
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/go-logr/logr"
-	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
@@ -60,16 +60,24 @@ func (p *Package) Declarations(order Order) []Declaration {
 		return nil
 	}
 
-	result := maps.Values(p.declarations)
+	var result []Declaration
 
 	// Sort the declarations as specified
 	switch order {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically
-		slices.SortFunc(result, p.alphabeticalObjectComparison)
+		result = slices.SortedFunc(
+			maps.Values(p.declarations),
+			p.alphabeticalObjectComparison)
 	case OrderRanked:
 		// Sort the objects by rank, then alphabetical
-		slices.SortFunc(result, p.rankedObjectComparison)
+		result = slices.SortedFunc(
+			maps.Values(p.declarations),
+			p.rankedObjectComparison)
+	default:
+		// Take whatever order they come - better than leaving them out
+		result = slices.Collect(
+			maps.Values(p.declarations))
 	}
 
 	return result

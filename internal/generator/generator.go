@@ -3,7 +3,6 @@ package generator
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"io/fs"
 	"os"
@@ -55,7 +54,7 @@ func (g *Generator) LoadTemplates() error {
 			"path", g.cfg.TemplatePath)
 
 		sourceFS = os.DirFS(g.cfg.TemplatePath)
-		sourceDescription = fmt.Sprintf("loading templates from folder %s", g.cfg.TemplatePath)
+		sourceDescription = "loading templates from folder " + g.cfg.TemplatePath
 	} else {
 		// Use internal templates
 		g.log.Info("Loading internal templates")

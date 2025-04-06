@@ -2,14 +2,15 @@ package packageloader
 
 import (
 	"go/token"
+	"maps"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"golang.org/x/exp/maps"
 
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
@@ -145,7 +146,7 @@ func (loader *FileLoader) parseDecls(decls []dst.Decl) error {
 // that represent resources.
 func (loader *FileLoader) discoverResources() {
 	// Find all the objects that are actually resources
-	for _, obj := range maps.Values(loader.objects) {
+	for obj := range maps.Values(loader.objects) {
 		// Try to create a resource from this object
 		if resource, ok := model.TryNewResource(obj); ok {
 			loader.resources[resource.ID()] = resource
@@ -195,14 +196,11 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 }
 
 func (loader *FileLoader) Declarations() []model.Declaration {
-	expectedDeclarations := len(loader.resources) + len(loader.objects) + len(loader.enums)
-	result := make([]model.Declaration, 0, expectedDeclarations)
+	resources := filterDeclarations(loader.resources, loader.typeFilters)
+	objects := filterDeclarations(loader.objects, loader.typeFilters)
+	enums := filterDeclarations(loader.enums, loader.typeFilters)
 
-	result = append(result, filterDeclarations(loader.resources, loader.typeFilters)...)
-	result = append(result, filterDeclarations(loader.objects, loader.typeFilters)...)
-	result = append(result, filterDeclarations(loader.enums, loader.typeFilters)...)
-
-	return result
+	return slices.Concat(resources, objects, enums)
 }
 
 func filterDeclarations[D model.Declaration](
