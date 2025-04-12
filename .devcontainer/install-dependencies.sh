@@ -188,6 +188,13 @@ if should-install "$TOOL_DEST/oh-my-posh"; then
     cp oh-my-posh.json "$TOOL_DEST/"
 fi
 
+# Install sbom-tool
+if should-install "$TOOL_DEST/sbom-tool"; then
+    write-info "Installing sbom-tool"
+    curl -Lo "$TOOL_DEST/sbom-tool" https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-linux-x64
+    chmod +x "$TOOL_DEST/sbom-tool"
+fi
+
 if [ "$VERBOSE" == true ]; then 
     echo "Installed tools: $(ls "$TOOL_DEST")"
 fi
