@@ -46,13 +46,20 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		"",
 		"Path to a folder containing templates to use for rendering the documentation")
 
+	options.classDiagrams = cmd.Flags().BoolP(
+		"class-diagrams",
+		"",
+		false,
+		"Generate class diagrams for the CRDs")
+
 	return cmd, nil
 }
 
 type documentCRDsOptions struct {
-	configPath   *string
-	outputPath   *string
-	templatePath *string
+	configPath    *string
+	outputPath    *string
+	templatePath  *string
+	classDiagrams *bool
 }
 
 func documentCRDs(
@@ -151,4 +158,5 @@ func (options *documentCRDsOptions) validate(
 // applyToConfig applies options we've received on the command line to the config.
 func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.OverrideTemplatePath(options.templatePath)
+	cfg.OverrideClassDiagrams(options.classDiagrams)
 }
