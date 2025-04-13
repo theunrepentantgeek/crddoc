@@ -16,12 +16,15 @@
 {{ .Description | inlineLinks | unwrap | applyEdits -}}
 {{ template "usage" . }}
 
-{{- if . | asPropertyContainer }}
+{{ if includeClassDiagrams }}
+{{ if . | asPropertyContainer }}
 {{ template "class-diagram" . }}
 {{ end }}
 {{ with . | asPropertyContainer }}
 {{ template "properties" . }}
 {{ end }}
+{{ end }}
+
 
 {{ with . | asResource }}
 ### <a id="{{ .Spec.Type.ID }}"></a>{{ .Spec.Type.ID }}
