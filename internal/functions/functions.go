@@ -37,6 +37,7 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"asResource":              f.asResource,
 		"createLink":              f.createLink,
 		"inlineLinks":             f.inlineLinks,
+		"internalOnly":            f.internalOnly,
 		"lookupDeclaration":       f.lookupDeclaration,
 		"unwrap":                  f.unwrap,
 	}
