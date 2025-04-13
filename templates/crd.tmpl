@@ -16,6 +16,9 @@
 {{ .Description | inlineLinks | unwrap | applyEdits -}}
 {{ template "usage" . }}
 
+{{- if . | asPropertyContainer }}
+{{ template "class-diagram" . }}
+{{ end }}
 {{ with . | asPropertyContainer }}
 {{ template "properties" . }}
 {{ end }}

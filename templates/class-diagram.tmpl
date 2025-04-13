@@ -1,0 +1,38 @@
+{{ define "class-diagram" -}}
+
+{{ "```mermaid" }}
+classDiagram
+
+{{- $id := .ID -}}
+{{- $name := .Name -}}
+
+{{- with . | asPropertyContainer }}
+class {{ $id }}["{{ $name }}"]
+{{- if . }} {
+{{- range .Properties | internalOnly }}
+    {{ .Name }} {{ .Type.Display }} 
+{{- end }}
+}
+{{ range .Embeds -}}
+{{- with $relatedType := .Type.ID | lookupDeclaration -}}
+{{ $id }} *-- {{ $relatedType.ID }}
+class {{ $relatedType.ID }}["{{ $relatedType.Name }}"]
+{{ end -}}
+{{- end -}}
+
+{{- range .Properties | externalOnly -}}
+{{- $propertyName := .Name -}}
+{{- with $relatedType := .Type.ID | lookupDeclaration -}}
+{{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }}
+{{ end -}}
+{{- end -}}
+
+{{- range .Properties | externalOnly -}}
+{{- with $relatedType := .Type.ID | lookupDeclaration -}}
+class {{ $relatedType.ID }}["{{ $relatedType.Display }}"] 
+{{ end -}}
+{{- end -}}
+{{- end -}}
+{{- end }}
+{{ "```" }}
+{{ end }}
