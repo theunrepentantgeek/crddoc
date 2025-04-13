@@ -36,6 +36,7 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"asPropertyContainer":     f.asPropertyContainer,
 		"asResource":              f.asResource,
 		"createLink":              f.createLink,
+		"externalOnly":            f.externalOnly,
 		"inlineLinks":             f.inlineLinks,
 		"internalOnly":            f.internalOnly,
 		"lookupDeclaration":       f.lookupDeclaration,
