@@ -3,8 +3,16 @@
 version: "3"
 
 vars:
-  TOOLS_DIR: '{{ list .ROOT_DIR "tools" | join "/" | osClean }}'
+  # Output folder for all build artifacts
+  BUILD_DIR: '{{ list .ROOT_DIR "build" | join "/" | osClean }}'
+
+  # Output folder for generated samples
   SAMPLES_DIR: '{{ list .ROOT_DIR "samples" | join "/" | osClean }}'
+
+  # Folder containing tools we can use
+  TOOLS_DIR: '{{ list .ROOT_DIR "tools" | join "/" | osClean }}'
+
+  # Path to our custom golangci-lint binary
   GOLANGCI_CUSTOM: '{{ list .TOOLS_DIR "golangci-lint-custom" | join "/" | osClean }}'
 
 run: once
@@ -17,9 +25,29 @@ tasks:
       - docs
 
   build:
+    desc: Build everything
+    deps:
+      - build.bin
+      - build.dir
+
+  build.bin:
     desc: Build the crddoc binary
+    deps:
+      - build.dir
     cmds:
-      - go build
+      - go build -o "{{.BUILD_DIR}}/crddoc"
+
+  build.sbom:
+    desc: Generate a software-bill-of-materials (SBOM)
+    deps:
+      - build.bin
+    cmds:
+      - "sbom-tool generate -BuildDropPath {{.BUILD_DIR}} -BuildComponentPath {{.ROOT_DIR}} -PackageName crddoc -PackageVersion latest -PackageSupplier https://github.com/theunrepentantgeek/crddoc -NamespaceUriBase https://github.com/theunrepentantgeek/crddoc"
+
+  build.dir:
+    desc: Ensure our output folder exists
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
 
   test:
     desc: Run tests and checks
@@ -60,7 +88,7 @@ tasks:
     deps:
       - build
     cmds:
-      - ./crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}"
     vars:
       DST_DIR: '{{joinPath .ROOT_DIR "docs" "config"}}'
       PACKAGE: '{{joinPath .ROOT_DIR "internal" "config" | shellQuote}}'
@@ -75,7 +103,7 @@ tasks:
       # Skip if the package isn't available
       - test ! -d {{.PACKAGE}}
     cmds:
-      - ./crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}"
     vars:
       DST_DIR: '{{joinPath .SAMPLES_DIR "azure-service-operator"}}'
       PACKAGE: '{{joinPath .ROOT_DIR "../azure-service-operator/v2/api/containerservice/v1api20210501" | shellQuote}}'
@@ -90,7 +118,7 @@ tasks:
       # Skip if the package isn't available
       - test ! -d {{.PACKAGE}}
     cmds:
-      - ./crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}
+      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}"
     vars:
       CRD: "containerservice"
       DST_DIR: '{{joinPath .SAMPLES_DIR "cluster-api-provider-azure"}}'
