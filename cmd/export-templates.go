@@ -87,13 +87,13 @@ func exportTemplateFiles(
 			"file", path,
 			"folder", folder)
 
-		f, err := template.Open(path)
+		sourceFile, err := template.Open(path)
 		if err != nil {
 			return errors.Wrap(err, "opening source file")
 		}
-		defer f.Close()
+		defer sourceFile.Close()
 
-		return exportTemplateFile(f, filepath.Join(folder, path))
+		return exportTemplateFile(sourceFile, filepath.Join(folder, path))
 	}
 }
 

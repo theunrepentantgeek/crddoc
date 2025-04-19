@@ -11,7 +11,7 @@ func TestConfig_Validate_WhenFilterInvalid_ReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	// Arrange
-	c := &Config{
+	cfg := &Config{
 		TypeFilters: []*Filter{
 			{
 				Include: "Foo",
@@ -21,7 +21,7 @@ func TestConfig_Validate_WhenFilterInvalid_ReturnsError(t *testing.T) {
 	}
 
 	// Act
-	err := c.Validate()
+	err := cfg.Validate()
 
 	// Assert
 	g.Expect(err).To(HaveOccurred())
