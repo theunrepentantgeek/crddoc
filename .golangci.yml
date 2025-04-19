@@ -1,126 +1,169 @@
+version: "2"
 run:
-  timeout: 5m
   allow-parallel-runners: true
-
-issues:
-  max-issues-per-linter: 10
-
 linters:
   enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - contextcheck
     - copyloopvar
     - cyclop
     - dupl
     - dupword
+    - durationcheck
+    - errchkjson
     - errname
     - errorlint
     - exhaustive
     - exptostd
     - fatcontext
     - funlen
-    - gci
     - ginkgolinter
     - gocheckcompilerdirectives
     - gochecksumtype
+    - gocognit
+    - goconst
+    - gocritic
     - godot
-    - gofmt
-    - gosimple
+    - gosec
     - gosmopolitan
-    - govet
     - iface
     - inamedparam
     - intrange
+    - loggercheck
     - maintidx
+    - makezero
+    - mirror
     - misspell
+    - nakedret
     - nestif
     - nilaway
     - nilerr
     - nilnesserr
+    - nilnil
     - nlreturn
+    - noctx
     - nolintlint
     - paralleltest
     - perfsprint
     - prealloc
+    - predeclared
+    - protogetter
+    - reassign
+    - recvcheck
     - revive
+    - rowserrcheck
+    - spancheck
+    - sqlclosecheck
     - staticcheck
-    - stylecheck
+    - tagalign
+    - tagliatelle
+    - testifylint
     - thelper
     - tparallel
     - unconvert
     - unparam
-    - unused
+    - usestdlibvars
     - usetesting
     - wastedassign
     - whitespace
     - wrapcheck
     - wsl
-  presets:
-    - bugs
-    - unused
+    - zerologlint
   disable:
     - musttag # Extremely slow, at least on CI machines
-linters-settings:
-  cyclop:
-    max-complexity: 10
-    skip-tests: true
-  exhaustive:
-    default-signifies-exhaustive: true
-  funlen:
-    lines: 60
-    ignore-comments: true
-  gci:
-    sections:
-      - standard
-      - dot
-      - alias
-      - default
-      - localmodule
-    custom-order: true
-  gosimple:
-    # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
-    checks:
-      - "all"
-      - "-S1002" # Comparison to bool explicitly can sometimes add clarity
-      - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment
-  maintidx:
-    under: 30
-  nolintlint:
-    allow-unused: false
-    require-explanation: true
-    require-specific: true
-  prealloc:
-    simple: false
-    for-loops: true
-  revive:
-    enable-all-rules: true
+  settings:
+    cyclop:
+      max-complexity: 10
+    exhaustive:
+      default-signifies-exhaustive: true
+    funlen:
+      lines: 60
+      ignore-comments: true
+    govet:
+      disable:
+        - fieldalignment
+      enable-all: true
+    maintidx:
+      under: 30
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+      allow-unused: false
+    prealloc:
+      simple: false
+      for-loops: true
+    revive:
+      enable-all-rules: true
+      rules:
+        - name: add-constant
+          disabled: true
+        - name: dot-imports
+          arguments:
+            - allowedPackages:
+                - github.com/onsi/ginkgo/v2
+                - github.com/onsi/gomega
+        - name: function-length
+          disabled: true
+        - name: line-length-limit
+          arguments:
+            - 100
+        - name: unhandled-error
+          disabled: true
+    staticcheck:
+      checks:
+        - -S1002
+        - -S1016
+        - all
+    unused:
+      generated-is-used: true
+    varnamelen:
+      ignore-decls:
+        - "g *github.com/onsi/gomega/internal.Gomega"
+    wsl:
+      allow-cuddle-declarations: true
+    custom:
+      nilaway:
+        type: module
+        description: Static analysis tool to detect potential nil panics in Go code.
+        settings:
+          include-pkgs: github.com/theunrepentantgeek/crddoc, github.com/onsi/gomega
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
     rules:
-      - name: add-constant
-        disabled: true
-      - name: dot-imports
-        arguments:
-          [
-            "allowedPackages":
-              ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"],
-          ]
-      - name: function-length
-        disabled: true
-      - name: line-length-limit
-        arguments: [100]
-      - name: unhandled-error
-        disabled: true
-  unused:
-    generated-is-used: true
-  wsl:
-    allow-cuddle-declarations: true
-  custom:
-    nilaway:
-      type: "module"
-      description: Static analysis tool to detect potential nil panics in Go code.
-      settings:
-        # Settings must be a "map from string to string" to mimic command line flags: the keys are
-        # flag names and the values are the values to the particular flags.
-        include-pkgs: "github.com/theunrepentantgeek/crddoc, github.com/onsi/gomega"
-        #include-pkgs: ""
+      # Exclude specific linters from tests
+      - linters:
+          - cyclop
+        path: (.+)_test\.go
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  max-issues-per-linter: 10
+formatters:
+  enable:
+    - gci
+    - gofmt
+  settings:
+    gci:
+      sections:
+        - standard
+        - dot
+        - alias
+        - default
+        - localmodule
+      custom-order: true
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
