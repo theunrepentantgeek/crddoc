@@ -19,6 +19,35 @@ type Package struct {
 	log          logr.Logger
 }
 
+// PackageBuilder is a builder for Package instances.
+type PackageBuilder struct {
+	Declarations []Declaration
+	Metadata     *PackageMarkers
+	Config       *config.Config
+	Log          logr.Logger
+}
+
+// Build creates a new Package from the builder.
+func (b *PackageBuilder) Build() *Package {
+	result := &Package{
+		cfg:          b.Config,
+		declarations: make(map[string]Declaration, len(b.Declarations)),
+		ranks:        make(map[string]int, len(b.Declarations)),
+		metadata:     b.Metadata,
+		log:          b.Log,
+	}
+
+	for _, d := range b.Declarations {
+		d.SetPackage(result)
+		result.declarations[d.Name()] = d
+	}
+
+	result.catalogCrossReferences()
+	result.calculateRanks()
+
+	return result
+}
+
 type Order string
 
 const (
@@ -32,23 +61,13 @@ func NewPackage(
 	cfg *config.Config,
 	log logr.Logger,
 ) *Package {
-	result := &Package{
-		cfg:          cfg,
-		declarations: make(map[string]Declaration, len(decl)),
-		ranks:        make(map[string]int, len(decl)),
-		metadata:     metadata,
-		log:          log,
+	builder := &PackageBuilder{
+		Declarations: decl,
+		Metadata:     metadata,
+		Config:       cfg,
+		Log:          log,
 	}
-
-	for _, d := range decl {
-		d.SetPackage(result)
-		result.declarations[d.Name()] = d
-	}
-
-	result.catalogCrossReferences()
-	result.calculateRanks()
-
-	return result
+	return builder.Build()
 }
 
 func (p *Package) Name() string {
