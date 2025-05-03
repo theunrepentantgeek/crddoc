@@ -7,9 +7,9 @@ import (
 
 // PackageBuilder is a builder for Package instances.
 type PackageBuilder struct {
-	Resources []Declaration
-	Objects   []Declaration
-	Enums     []Declaration
+	Resources []*Resource
+	Objects   []*Object
+	Enums     []*Enum
 	Metadata  *PackageMarkers
 	Config    *config.Config
 	Log       logr.Logger

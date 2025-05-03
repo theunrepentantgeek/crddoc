@@ -5,7 +5,6 @@ import (
 	"maps"
 	"os"
 	"path/filepath"
-	"slices"
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
@@ -195,19 +194,23 @@ func (loader *FileLoader) parseFile() (file *dst.File, failure error) {
 	return file, nil
 }
 
-func (loader *FileLoader) Declarations() []model.Declaration {
-	resources := filterDeclarations(loader.resources, loader.typeFilters)
-	objects := filterDeclarations(loader.objects, loader.typeFilters)
-	enums := filterDeclarations(loader.enums, loader.typeFilters)
+func (loader *FileLoader) Resources() []*model.Resource {
+	return filterDeclarations(loader.resources, loader.typeFilters)
+}
 
-	return slices.Concat(resources, objects, enums)
+func (loader *FileLoader) Objects() []*model.Object {
+	return filterDeclarations(loader.objects, loader.typeFilters)
+}
+
+func (loader *FileLoader) Enums() []*model.Enum {
+	return filterDeclarations(loader.enums, loader.typeFilters)
 }
 
 func filterDeclarations[D model.Declaration](
 	decls map[string]D,
 	typeFilters *typefilter.List,
-) []model.Declaration {
-	result := make([]model.Declaration, 0, len(decls))
+) []D {
+	result := make([]D, 0, len(decls))
 
 	for n, d := range decls {
 		if typeFilters.Filter(n) == typefilter.Included {

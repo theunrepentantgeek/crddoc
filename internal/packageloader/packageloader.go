@@ -178,26 +178,18 @@ func (loader *PackageLoader) collectDeclarations(
 ) {
 	metadata := loader.readMetadata(folder)
 
-	// Initialize separate slices for each type of declaration
-	var resources, objects, enums []model.Declaration
+	// Initialize slices for each type of declaration
+	var resources []*model.Resource
+	var objects []*model.Object
+	var enums []*model.Enum
 
 	for fl := range loadedFiles {
 		loader.log.V(3).Info("Collecting declarations", "file", fl.name)
 
-		// Get all declarations from the file
-		decls := fl.Declarations()
-
-		// Sort the declarations by type
-		for _, d := range decls {
-			switch d.Kind() {
-			case model.ResourceDeclaration:
-				resources = append(resources, d)
-			case model.ObjectDeclaration:
-				objects = append(objects, d)
-			case model.EnumDeclaration:
-				enums = append(enums, d)
-			}
-		}
+		// Get declarations by type directly
+		resources = append(resources, fl.Resources()...)
+		objects = append(objects, fl.Objects()...)
+		enums = append(enums, fl.Enums()...)
 
 		if err := metadata.Merge(fl.PackageMarkers()); err != nil {
 			loader.log.Error(err, "Failed to merge package markers")
