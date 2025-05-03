@@ -191,7 +191,13 @@ func (loader *PackageLoader) collectDeclarations(
 		}
 	}
 
-	pkg := model.NewPackage(declarations, metadata, loader.cfg, loader.log)
+	builder := &model.PackageBuilder{
+		Declarations: declarations,
+		Metadata:     metadata,
+		Config:       loader.cfg,
+		Log:          loader.log,
+	}
+	pkg := builder.Build()
 	packages <- pkg
 }
 
