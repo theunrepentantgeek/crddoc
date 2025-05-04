@@ -8,6 +8,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/go-logr/logr"
+	"github.com/onsi/gomega/types"
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/typefilter"
@@ -27,23 +28,27 @@ func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedImports(t *testing.T) {
 	g.Expect(fl.importReferences).Should(
 		HaveKeyWithValue(
 			"errors",
-			HaveField("ImportPath", Equal("errors"))))
+			HaveImportPath("errors")))
 	g.Expect(fl.importReferences).Should(
 		HaveKeyWithValue(
 			"fmt",
-			HaveField("ImportPath", Equal("fmt"))))
+			HaveImportPath("fmt")))
 	g.Expect(fl.importReferences).Should(
 		HaveKeyWithValue(
 			"metav1",
-			HaveField("ImportPath", Equal("k8s.io/apimachinery/pkg/apis/meta/v1"))))
+			HaveImportPath("k8s.io/apimachinery/pkg/apis/meta/v1")))
 	g.Expect(fl.importReferences).Should(
 		HaveKeyWithValue(
 			"kerrors",
-			HaveField("ImportPath", Equal("k8s.io/apimachinery/pkg/util/errors"))))
+			HaveImportPath("k8s.io/apimachinery/pkg/util/errors")))
 	g.Expect(fl.importReferences).Should(
 		HaveKeyWithValue(
 			"conditions",
-			HaveField("ImportPath", Equal("github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"))))
+			HaveImportPath("github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions")))
+}
+
+func HaveImportPath(path string) types.GomegaMatcher {
+	return HaveField("ImportPath", Equal(path))
 }
 
 func TestFileLoader_Load_GivenPartyFile_ReturnsExpectedResourceCount(t *testing.T) {
