@@ -236,6 +236,7 @@ func (p *Package) rankedObjectComparison(left Declaration, right Declaration) in
 }
 
 func asDeclarations[T Declaration](items iter.Seq[T]) []Declaration {
+	//nolint:prealloc // don't want to iterate the sequence twice
 	var result []Declaration
 	for item := range items {
 		result = append(result, item)
