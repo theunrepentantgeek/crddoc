@@ -62,15 +62,12 @@ func (p *Package) Declarations(order Order) []Declaration {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically
 		slices.SortFunc(allDeclarations, p.alphabeticalObjectComparison)
-		return allDeclarations
 	case OrderRanked:
 		// Sort the objects by rank, then alphabetical
 		slices.SortFunc(allDeclarations, p.rankedObjectComparison)
-		return allDeclarations
-	default:
-		// Take whatever order they come - better than leaving them out
-		return allDeclarations
 	}
+
+	return allDeclarations
 }
 
 // Declaration returns the declaration with the given name, if found.
@@ -139,11 +136,18 @@ func (p *Package) Rank(name string) int {
 }
 
 func (p *Package) catalogCrossReferences() {
+	// canSetUsage is a marker interface for declarations that can keep track of their usage.
+	type canSetUsage interface {
+		SetUsage(refs []PropertyReference)
+	}
+
 	usages := p.indexUsage()
 	for name, usage := range usages {
-		if obj, ok := p.declarations[name]; ok {
-			slices.SortFunc(usage, ComparePropertyReferences)
-			obj.SetUsage(usage)
+		if decl, ok := p.Declaration(name); !ok {
+			if can, ok := decl.(canSetUsage); ok {
+				slices.SortFunc(usage, ComparePropertyReferences)
+				can.SetUsage(usage)
+			}
 		}
 	}
 }
@@ -151,12 +155,17 @@ func (p *Package) catalogCrossReferences() {
 func (p *Package) indexUsage() map[string][]PropertyReference {
 	result := make(map[string][]PropertyReference)
 
-	for _, dec := range p.declarations {
-		// Index references from an object
-		if host, ok := dec.(PropertyContainer); ok {
-			p.addPropertyReferences(dec.ID(), dec.Name(), host, result)
-		}
+	// Handle resources
+	for _, dec := range p.resources {
+		p.addPropertyReferences(dec.ID(), dec.Name(), dec, result)
 	}
+
+	// Handle objects
+	for _, dec := range p.objects {
+		p.addPropertyReferences(dec.ID(), dec.Name(), dec, result)
+	}
+
+	// Enums don't have properties to reference, so we skip them
 
 	return result
 }
@@ -169,20 +178,21 @@ func (p *Package) addPropertyReferences(
 ) {
 	for _, prop := range container.Properties() {
 		id := prop.Type.ID()
-		if _, ok := p.declarations[id]; ok {
+		if _, ok := p.Declaration(id); ok {
 			ref := NewPropertyReference(name, hostID, prop.Name)
 			refs[id] = append(refs[id], ref)
 		}
 	}
 }
 
+// calculateRanks calculates the ranks of all declarations in the package.
+// The rank is the depth from the root resource, with resources having a rank of 0.
 func (p *Package) calculateRanks() {
-	for name, decl := range p.declarations {
-		if decl.Kind() != ResourceDeclaration {
-			continue
+	// Only resources should have rank 0 (root)
+	for name, decl := range p.resources {
+		if decl.Kind() == ResourceDeclaration {
+			p.calculateRanksFromRoot(name, 0)
 		}
-
-		p.calculateRanksFromRoot(name, 0)
 	}
 }
 
@@ -197,16 +207,19 @@ func (p *Package) calculateRanksFromRoot(
 
 	p.ranks[name] = rank
 
-	decl, ok := p.declarations[name]
+	decl, ok := p.Declaration(name)
 	if !ok {
-		// Shouldn't happen, but just in case.
 		return
 	}
 
-	if host, ok := decl.(PropertyContainer); ok {
-		for _, prop := range host.Properties() {
-			p.calculateRanksFromRoot(prop.Type.ID(), rank+1)
-		}
+	ctr, ok := decl.(PropertyContainer)
+	if !ok {
+		return
+	}
+
+	// Walk through the properties of this declaration
+	for _, prop := range ctr.Properties() {
+		p.calculateRanksFromRoot(prop.Type.ID(), rank+1)
 	}
 }
 
