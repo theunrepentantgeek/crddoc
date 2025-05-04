@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/go-logr/logr"
+
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 )
 
