@@ -12,7 +12,7 @@ func NewImportReferenceSet(refs ...ImportReference) ImportReferenceSet {
 }
 
 func (set ImportReferenceSet) Add(ref ImportReference) {
-	set[ref.ImportPath] = ref
+	set[ref.Alias] = ref
 }
 
 func (set ImportReferenceSet) LookupImportPath(
