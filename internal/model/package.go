@@ -26,31 +26,6 @@ const (
 	OrderRanked       = "ranked"
 )
 
-func NewPackage(
-	decl []Declaration,
-	metadata *PackageMarkers,
-	cfg *config.Config,
-	log logr.Logger,
-) *Package {
-	result := &Package{
-		cfg:          cfg,
-		declarations: make(map[string]Declaration, len(decl)),
-		ranks:        make(map[string]int, len(decl)),
-		metadata:     metadata,
-		log:          log,
-	}
-
-	for _, d := range decl {
-		d.SetPackage(result)
-		result.declarations[d.Name()] = d
-	}
-
-	result.catalogCrossReferences()
-	result.calculateRanks()
-
-	return result
-}
-
 func (p *Package) Name() string {
 	return p.metadata.Name
 }
