@@ -143,7 +143,7 @@ func (p *Package) catalogCrossReferences() {
 
 	usages := p.indexUsage()
 	for name, usage := range usages {
-		if decl, ok := p.Declaration(name); !ok {
+		if decl, ok := p.Declaration(name); ok {
 			if can, ok := decl.(canSetUsage); ok {
 				slices.SortFunc(usage, ComparePropertyReferences)
 				can.SetUsage(usage)
