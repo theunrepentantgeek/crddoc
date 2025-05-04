@@ -1,7 +1,6 @@
 package model
 
 import (
-	"maps"
 	"slices"
 	"strings"
 
@@ -12,11 +11,13 @@ import (
 
 // Package is a struct containing all of the declarations found in a package directory.
 type Package struct {
-	cfg          *config.Config
-	declarations map[string]Declaration // Dictionary of all objects in package, keyed by name.
-	ranks        map[string]int         // Dictionary of ranks (depth from root), keyed by name.
-	metadata     *PackageMarkers
-	log          logr.Logger
+	cfg       *config.Config
+	resources map[string]*Resource // Dictionary of resources in package, keyed by name
+	objects   map[string]*Object   // Dictionary of objects in package, keyed by name
+	enums     map[string]*Enum     // Dictionary of enums in package, keyed by name
+	ranks     map[string]int       // Dictionary of ranks (depth from root), keyed by name
+	metadata  *PackageMarkers
+	log       logr.Logger
 }
 
 type Order string
@@ -31,45 +32,66 @@ func (p *Package) Name() string {
 }
 
 func (p *Package) Declarations(order Order) []Declaration {
-	if p == nil || p.declarations == nil {
+	if p == nil || (len(p.resources) == 0 && len(p.objects) == 0 && len(p.enums) == 0) {
 		return nil
 	}
 
-	var result []Declaration
+	// Calculate total size for all declarations
+	totalDeclarations := len(p.resources) + len(p.objects) + len(p.enums)
+
+	// Collect all declarations into a single slice
+	allDeclarations := make([]Declaration, 0, totalDeclarations)
+
+	// Add resources
+	for _, res := range p.resources {
+		allDeclarations = append(allDeclarations, res)
+	}
+
+	// Add objects
+	for _, obj := range p.objects {
+		allDeclarations = append(allDeclarations, obj)
+	}
+
+	// Add enums
+	for _, enum := range p.enums {
+		allDeclarations = append(allDeclarations, enum)
+	}
 
 	// Sort the declarations as specified
 	switch order {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically
-		result = slices.SortedFunc(
-			maps.Values(p.declarations),
-			p.alphabeticalObjectComparison)
+		slices.SortFunc(allDeclarations, p.alphabeticalObjectComparison)
+		return allDeclarations
 	case OrderRanked:
 		// Sort the objects by rank, then alphabetical
-		result = slices.SortedFunc(
-			maps.Values(p.declarations),
-			p.rankedObjectComparison)
+		slices.SortFunc(allDeclarations, p.rankedObjectComparison)
+		return allDeclarations
 	default:
 		// Take whatever order they come - better than leaving them out
-		result = slices.Collect(
-			maps.Values(p.declarations))
+		return allDeclarations
 	}
-
-	return result
 }
 
 // Declaration returns the declaration with the given name, if found.
 func (p *Package) Declaration(name string) (Declaration, bool) {
-	if p == nil || p.declarations == nil {
+	if p == nil {
 		return nil, false
 	}
 
-	dec, ok := p.declarations[name]
-	if !ok {
-		return nil, false
+	if res, ok := p.resources[name]; ok {
+		return res, true
 	}
 
-	return dec, ok
+	if obj, ok := p.objects[name]; ok {
+		return obj, true
+	}
+
+	if enum, ok := p.enums[name]; ok {
+		return enum, true
+	}
+
+	return nil, false
 }
 
 // Object returns the object with the given name, if there is one.

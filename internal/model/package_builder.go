@@ -18,33 +18,32 @@ type PackageBuilder struct {
 
 // Build creates a new Package from the builder.
 func (b *PackageBuilder) Build() *Package {
-	// Calculate total size for all declarations
-	totalDeclarations := len(b.Resources) + len(b.Objects) + len(b.Enums)
-
 	result := &Package{
-		cfg:          b.Config,
-		declarations: make(map[string]Declaration, totalDeclarations),
-		ranks:        make(map[string]int, totalDeclarations),
-		metadata:     b.Metadata,
-		log:          b.Log,
+		cfg:       b.Config,
+		resources: make(map[string]*Resource, len(b.Resources)),
+		objects:   make(map[string]*Object, len(b.Objects)),
+		enums:     make(map[string]*Enum, len(b.Enums)),
+		ranks:     make(map[string]int, len(b.Resources)+len(b.Objects)+len(b.Enums)),
+		metadata:  b.Metadata,
+		log:       b.Log,
 	}
 
 	// Add all resources
 	for _, d := range b.Resources {
 		d.SetPackage(result)
-		result.declarations[d.Name()] = d
+		result.resources[d.Name()] = d
 	}
 
 	// Add all objects
 	for _, d := range b.Objects {
 		d.SetPackage(result)
-		result.declarations[d.Name()] = d
+		result.objects[d.Name()] = d
 	}
 
 	// Add all enums
 	for _, d := range b.Enums {
 		d.SetPackage(result)
-		result.declarations[d.Name()] = d
+		result.enums[d.Name()] = d
 	}
 
 	result.catalogCrossReferences()
