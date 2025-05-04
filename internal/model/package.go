@@ -1,6 +1,8 @@
 package model
 
 import (
+	"iter"
+	"maps"
 	"slices"
 	"strings"
 
@@ -36,26 +38,11 @@ func (p *Package) Declarations(order Order) []Declaration {
 		return nil
 	}
 
-	// Calculate total size for all declarations
-	totalDeclarations := len(p.resources) + len(p.objects) + len(p.enums)
-
 	// Collect all declarations into a single slice
-	allDeclarations := make([]Declaration, 0, totalDeclarations)
-
-	// Add resources
-	for _, res := range p.resources {
-		allDeclarations = append(allDeclarations, res)
-	}
-
-	// Add objects
-	for _, obj := range p.objects {
-		allDeclarations = append(allDeclarations, obj)
-	}
-
-	// Add enums
-	for _, enum := range p.enums {
-		allDeclarations = append(allDeclarations, enum)
-	}
+	allDeclarations := slices.Concat(
+		asDeclarations(maps.Values(p.resources)),
+		asDeclarations(maps.Values(p.objects)),
+		asDeclarations(maps.Values(p.enums)))
 
 	// Sort the declarations as specified
 	switch order {
@@ -246,4 +233,13 @@ func (p *Package) rankedObjectComparison(left Declaration, right Declaration) in
 	rightName := strings.ToLower(right.Name())
 
 	return strings.Compare(leftName, rightName)
+}
+
+func asDeclarations[T Declaration](items iter.Seq[T]) []Declaration {
+	var result []Declaration
+	for item := range items {
+		result = append(result, item)
+	}
+
+	return result
 }
