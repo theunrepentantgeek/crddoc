@@ -1,7 +1,8 @@
 module github.com/theunrepentantgeek/crddoc
 
-go 1.23.0
-toolchain go1.24.1
+go 1.24.0
+
+toolchain go1.24.2
 
 require (
 	github.com/dave/dst v0.27.3
