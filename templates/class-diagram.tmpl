@@ -1,6 +1,11 @@
 {{ define "class-diagram" -}}
 
 {{ "```mermaid" }}
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
 
 {{- $id := .ID -}}
