@@ -15,6 +15,21 @@ AADProfile - AAD integration managed by AKS. See also [AKS doc](https://learn.mi
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AADProfile["AADProfile"] {
+    adminGroupObjectIDs string[]
+    managed bool
+}
+
+
+```
+
 | Property            | Description                                                                          | Type                                 |
 |---------------------|--------------------------------------------------------------------------------------|--------------------------------------|
 | adminGroupObjectIDs | AdminGroupObjectIDs - AAD group object IDs that will have admin role of the cluster. | string[]<br/><small>Required</small> |
@@ -27,6 +42,22 @@ AddonProfile represents a managed cluster add-on.
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AddonProfile["AddonProfile"] {
+    config map[string]string
+    enabled bool
+    name string
+}
+
+
+```
+
 | Property | Description                                          | Type              |
 |----------|------------------------------------------------------|-------------------|
 | config   | Config - Key-value pairs for configuring the add-on. | map[string]string |
@@ -37,6 +68,21 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 ---------------------------------------
 
 AddressRecord specifies a DNS record mapping a hostname to an IPV4 or IPv6 address.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AddressRecord["AddressRecord"] {
+    Hostname string
+    IP string
+}
+
+
+```
 
 | Property | Description | Type   |
 |----------|-------------|--------|
@@ -56,6 +102,33 @@ Used by: [AKSExtension](#AKSExtension).
 AKSExtension represents the configuration for an AKS cluster extension. See also [AKS doc](https://learn.microsoft.com/en-us/azure/aks/cluster-extensions). <br/>
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AKSExtension["AKSExtension"] {
+    autoUpgradeMinorVersion bool
+    configurationSettings map[string]string
+    extensionType string
+    name string
+    releaseTrain string
+    version string
+}
+
+AKSExtension -- AKSAssignedIdentity : aksAssignedIdentityType
+AKSExtension -- ExtensionIdentity : identity
+AKSExtension -- ExtensionPlan : plan
+AKSExtension -- ExtensionScope : scope
+class AKSAssignedIdentity["AKSAssignedIdentity"] 
+class ExtensionIdentity["ExtensionIdentity"] 
+class ExtensionPlan["ExtensionPlan"] 
+class ExtensionScope["ExtensionScope"] 
+
+```
 
 | Property                | Description                                                                                                                                                                                           | Type                                        |
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
@@ -77,6 +150,19 @@ AKSSku - AKS SKU.
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AKSSku["AKSSku"]
+AKSSku -- AzureManagedControlPlaneSkuTier : tier
+class AzureManagedControlPlaneSkuTier["AzureManagedControlPlaneSkuTier"] 
+
+```
+
 | Property | Description                    | Type                                                                |
 |----------|--------------------------------|---------------------------------------------------------------------|
 | tier     | Tier - Tier of an AKS cluster. | [AzureManagedControlPlaneSkuTier](#AzureManagedControlPlaneSkuTier) |
@@ -88,6 +174,22 @@ APIServerAccessProfile tunes the accessibility of the cluster's control plane. S
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class APIServerAccessProfile["APIServerAccessProfile"] {
+    authorizedIPRanges string[]
+}
+
+APIServerAccessProfile *-- APIServerAccessProfileClassSpec
+class APIServerAccessProfileClassSpec["APIServerAccessProfileClassSpec"]
+
+```
+
 | Property                                                            | Description                                                         | Type     |
 |---------------------------------------------------------------------|---------------------------------------------------------------------|----------|
 | [APIServerAccessProfileClassSpec](#APIServerAccessProfileClassSpec) |                                                                     |          |
@@ -97,6 +199,22 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 ---------------------------------------------------------------------------
 
 APIServerAccessProfileClassSpec defines the APIServerAccessProfile properties that may be shared across several API server access profiles.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class APIServerAccessProfileClassSpec["APIServerAccessProfileClassSpec"] {
+    enablePrivateCluster bool
+    enablePrivateClusterPublicFQDN bool
+    privateDNSZone string
+}
+
+
+```
 
 | Property                       | Description                                                                                                   | Type   |
 |--------------------------------|---------------------------------------------------------------------------------------------------------------|--------|
@@ -110,6 +228,40 @@ APIServerAccessProfileClassSpec defines the APIServerAccessProfile properties th
 AutoScalerProfile parameters to be applied to the cluster-autoscaler. See also [AKS doc](https://learn.microsoft.com/azure/aks/cluster-autoscaler#use-the-cluster-autoscaler-profile), [K8s doc](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca). <br/>
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AutoScalerProfile["AutoScalerProfile"] {
+    maxEmptyBulkDelete string
+    maxGracefulTerminationSec string
+    maxNodeProvisionTime string
+    maxTotalUnreadyPercentage string
+    newPodScaleUpDelay string
+    okTotalUnreadyCount string
+    scaleDownDelayAfterAdd string
+    scaleDownDelayAfterDelete string
+    scaleDownDelayAfterFailure string
+    scaleDownUnneededTime string
+    scaleDownUnreadyTime string
+    scaleDownUtilizationThreshold string
+    scanInterval string
+}
+
+AutoScalerProfile -- BalanceSimilarNodeGroups : balanceSimilarNodeGroups
+AutoScalerProfile -- Expander : expander
+AutoScalerProfile -- SkipNodesWithLocalStorage : skipNodesWithLocalStorage
+AutoScalerProfile -- SkipNodesWithSystemPods : skipNodesWithSystemPods
+class BalanceSimilarNodeGroups["BalanceSimilarNodeGroups"] 
+class Expander["Expander"] 
+class SkipNodesWithLocalStorage["SkipNodesWithLocalStorage"] 
+class SkipNodesWithSystemPods["SkipNodesWithSystemPods"] 
+
+```
 
 | Property                      | Description                                                                                                                                                                                                                                                                                                                                              | Type                                                    |
 |-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
@@ -138,6 +290,19 @@ AzureBastionTemplateSpec specifies a template for an Azure Bastion host.
 
 Used by: [BastionTemplateSpec](#BastionTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureBastionTemplateSpec["AzureBastionTemplateSpec"]
+AzureBastionTemplateSpec -- SubnetTemplateSpec : subnet
+class SubnetTemplateSpec["SubnetTemplateSpec"] 
+
+```
+
 | Property | Description | Type                                      |
 |----------|-------------|-------------------------------------------|
 | subnet   |             | [SubnetTemplateSpec](#SubnetTemplateSpec) |
@@ -148,6 +313,21 @@ Used by: [BastionTemplateSpec](#BastionTemplateSpec).
 <br/>AzureCluster is the Schema for the azureclusters API.
 
 Used by: [AzureClusterList](#AzureClusterList).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureCluster["AzureCluster"]
+AzureCluster -- AzureClusterSpec : spec
+AzureCluster -- AzureClusterStatus : status
+class AzureClusterSpec["AzureClusterSpec"] 
+class AzureClusterStatus["AzureClusterStatus"] 
+
+```
 
 | Property                                                                                | Description | Type                                      |
 |-----------------------------------------------------------------------------------------|-------------|-------------------------------------------|
@@ -171,7 +351,7 @@ Used by: [AzureClusterList](#AzureClusterList).
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                               |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | conditions                 | Conditions defines current service state of the AzureCluster.                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [clusterv1.Conditions](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#Conditions)         |
-| failureDomains             | FailureDomains specifies the list of unique failure domains for the location/region of the cluster. A FailureDomain maps to Availability Zone with an Azure Region (if the region support them). An Availability Zone is a separate data center within a region and they can be used to ensure the cluster is more resilient to failure. See: https://learn.microsoft.com/azure/reliability/availability-zones-overview This list will be used by Cluster API to try and spread the machines across the failure domains. | [clusterv1.FailureDomains](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#FailureDomains) |
+| failureDomains             | FailureDomains specifies the list of unique failure domains for the location/region of the cluster. A FailureDomain maps to Availability Zone with an Azure Region (if the region support them). An Availability Zone is a separate data center within a region and they can be used to ensure the cluster is more resilient to failure. See: <https://learn.microsoft.com/azure/reliability/availability-zones-overview> This list will be used by Cluster API to try and spread the machines across the failure domains. | [clusterv1.FailureDomains](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#FailureDomains) |
 | longRunningOperationStates | LongRunningOperationStates saves the states for Azure long-running operations so they can be continued on the next reconciliation loop.                                                                                                                                                                                                                                                                                                                                                                                  | Futures                                                                                            |
 | ready                      | Ready is true when the provider resource is ready.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | bool                                                                                               |
 
@@ -180,13 +360,36 @@ Used by: [AzureClusterList](#AzureClusterList).
 
 AzureClusterClassSpec defines the AzureCluster properties that may be shared across several Azure clusters.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterClassSpec["AzureClusterClassSpec"] {
+    additionalTags Tags
+    azureEnvironment string
+    failureDomains clusterv1.FailureDomains
+    identityRef corev1.ObjectReference
+    location string
+    subscriptionID string
+}
+
+AzureClusterClassSpec -- CloudProviderConfigOverrides : cloudProviderConfigOverrides
+AzureClusterClassSpec -- ExtendedLocationSpec : extendedLocation
+class CloudProviderConfigOverrides["CloudProviderConfigOverrides"] 
+class ExtendedLocationSpec["ExtendedLocationSpec"] 
+
+```
+
 | Property                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Type                                                                                               |
 |------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | additionalTags               | AdditionalTags is an optional set of tags to add to Azure resources managed by the Azure provider, in addition to the ones added by default.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Tags                                                                                               |
 | azureEnvironment             | AzureEnvironment is the name of the AzureCloud to be used. The default value that would be used by most users is "AzurePublicCloud", other values are: - ChinaCloud: "AzureChinaCloud" - GermanCloud: "AzureGermanCloud" - PublicCloud: "AzurePublicCloud" - USGovernmentCloud: "AzureUSGovernmentCloud" <br/>Note that values other than the default must also be accompanied by corresponding changes to the aso-controller-settings Secret to configure ASO to refer to the non-Public cloud. ASO currently does not support referring to multiple different clouds in a single installation. The following fields must be defined in the Secret: - AZURE_AUTHORITY_HOST - AZURE_RESOURCE_MANAGER_ENDPOINT - AZURE_RESOURCE_MANAGER_AUDIENCE <br/>See the [ASO docs](https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/) for more details. <br/> | string                                                                                             |
-| cloudProviderConfigOverrides | CloudProviderConfigOverrides is an optional set of configuration values that can be overridden in azure cloud provider config. This is only a subset of options that are available in azure cloud provider config. Some values for the cloud provider config are inferred from other parts of cluster api provider azure spec, and may not be available for overrides. See: https://cloud-provider-azure.sigs.k8s.io/install/configs Note: All cloud provider config values can be customized by creating the secret beforehand. CloudProviderConfigOverrides is only used when the secret is managed by the Azure Provider.                                                                                                                                                                                                                                                           | [CloudProviderConfigOverrides](#CloudProviderConfigOverrides)                                      |
+| cloudProviderConfigOverrides | CloudProviderConfigOverrides is an optional set of configuration values that can be overridden in azure cloud provider config. This is only a subset of options that are available in azure cloud provider config. Some values for the cloud provider config are inferred from other parts of cluster api provider azure spec, and may not be available for overrides. See: <https://cloud-provider-azure.sigs.k8s.io/install/configs> Note: All cloud provider config values can be customized by creating the secret beforehand. CloudProviderConfigOverrides is only used when the secret is managed by the Azure Provider.                                                                                                                                                                                                                                                           | [CloudProviderConfigOverrides](#CloudProviderConfigOverrides)                                      |
 | extendedLocation             | ExtendedLocation is an optional set of ExtendedLocation properties for clusters on Azure public MEC.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [ExtendedLocationSpec](#ExtendedLocationSpec)                                                      |
-| failureDomains               | FailureDomains is a list of failure domains in the cluster's region, used to restrict eligibility to host the control plane. A FailureDomain maps to an availability zone, which is a separated group of datacenters within a region. See: https://learn.microsoft.com/azure/reliability/availability-zones-overview                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [clusterv1.FailureDomains](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#FailureDomains) |
+| failureDomains               | FailureDomains is a list of failure domains in the cluster's region, used to restrict eligibility to host the control plane. A FailureDomain maps to an availability zone, which is a separated group of datacenters within a region. See: <https://learn.microsoft.com/azure/reliability/availability-zones-overview>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [clusterv1.FailureDomains](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#FailureDomains) |
 | identityRef                  | IdentityRef is a reference to an AzureIdentity to be used when reconciling this cluster                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | [corev1.ObjectReference](https://pkg.go.dev/k8s.io/api/core/v1#ObjectReference)                    |
 | location                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | string                                                                                             |
 | subscriptionID               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | string                                                                                             |
@@ -197,6 +400,21 @@ AzureClusterClassSpec defines the AzureCluster properties that may be shared acr
 <br/>AzureClusterIdentity is the Schema for the azureclustersidentities API.
 
 Used by: [AzureClusterIdentityList](#AzureClusterIdentityList).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterIdentity["AzureClusterIdentity"]
+AzureClusterIdentity -- AzureClusterIdentitySpec : spec
+AzureClusterIdentity -- AzureClusterIdentityStatus : status
+class AzureClusterIdentitySpec["AzureClusterIdentitySpec"] 
+class AzureClusterIdentityStatus["AzureClusterIdentityStatus"] 
+
+```
 
 | Property                                                                                | Description | Type                                                      |
 |-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------|
@@ -227,6 +445,19 @@ Used by: [AzureClusterIdentityList](#AzureClusterIdentityList).
 
 <br/>AzureClusterIdentityList contains a list of AzureClusterIdentity.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterIdentityList["AzureClusterIdentityList"]
+AzureClusterIdentityList -- AzureClusterIdentity : items
+class AzureClusterIdentity["AzureClusterIdentity"] 
+
+```
+
 | Property                                                                            | Description | Type                                            |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                 |
@@ -237,6 +468,19 @@ Used by: [AzureClusterIdentityList](#AzureClusterIdentityList).
 ---------------------------------------------
 
 <br/>AzureClusterList contains a list of AzureClusters.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterList["AzureClusterList"]
+AzureClusterList -- AzureCluster : items
+class AzureCluster["AzureCluster"] 
+
+```
 
 | Property                                                                            | Description | Type                            |
 |-------------------------------------------------------------------------------------|-------------|---------------------------------|
@@ -251,6 +495,19 @@ Used by: [AzureClusterIdentityList](#AzureClusterIdentityList).
 
 Used by: [AzureClusterTemplateList](#AzureClusterTemplateList).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterTemplate["AzureClusterTemplate"]
+AzureClusterTemplate -- AzureClusterTemplateSpec : spec
+class AzureClusterTemplateSpec["AzureClusterTemplateSpec"] 
+
+```
+
 | Property                                                                                | Description | Type                                                  |
 |-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                       |
@@ -261,6 +518,19 @@ Used by: [AzureClusterTemplateList](#AzureClusterTemplateList).
 -------------------------------------------------------------
 
 <br/>AzureClusterTemplateList contains a list of AzureClusterTemplate.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterTemplateList["AzureClusterTemplateList"]
+AzureClusterTemplateList -- AzureClusterTemplate : items
+class AzureClusterTemplate["AzureClusterTemplate"] 
+
+```
 
 | Property                                                                            | Description | Type                                            |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------|
@@ -275,6 +545,19 @@ AzureClusterTemplateResource describes the data needed to create an AzureCluster
 
 Used by: [AzureClusterTemplateSpec](#AzureClusterTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterTemplateResource["AzureClusterTemplateResource"]
+AzureClusterTemplateResource -- AzureClusterTemplateResourceSpec : spec
+class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"] 
+
+```
+
 | Property | Description | Type                                                                  |
 |----------|-------------|-----------------------------------------------------------------------|
 | spec     |             | [AzureClusterTemplateResourceSpec](#AzureClusterTemplateResourceSpec) |
@@ -285,6 +568,23 @@ Used by: [AzureClusterTemplateSpec](#AzureClusterTemplateSpec).
 AzureClusterTemplateResourceSpec specifies an Azure cluster template resource.
 
 Used by: [AzureClusterTemplateResource](#AzureClusterTemplateResource).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"]
+AzureClusterTemplateResourceSpec *-- AzureClusterClassSpec
+class AzureClusterClassSpec["AzureClusterClassSpec"]
+AzureClusterTemplateResourceSpec -- BastionTemplateSpec : bastionSpec
+AzureClusterTemplateResourceSpec -- NetworkTemplateSpec : networkSpec
+class BastionTemplateSpec["BastionTemplateSpec"] 
+class NetworkTemplateSpec["NetworkTemplateSpec"] 
+
+```
 
 | Property                                        | Description                                                                 | Type                                        |
 |-------------------------------------------------|-----------------------------------------------------------------------------|---------------------------------------------|
@@ -299,6 +599,19 @@ AzureClusterTemplateSpec defines the desired state of AzureClusterTemplate.
 
 Used by: [AzureClusterTemplate](#AzureClusterTemplate).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
+AzureClusterTemplateSpec -- AzureClusterTemplateResource : template
+class AzureClusterTemplateResource["AzureClusterTemplateResource"] 
+
+```
+
 | Property | Description | Type                                                          |
 |----------|-------------|---------------------------------------------------------------|
 | template |             | [AzureClusterTemplateResource](#AzureClusterTemplateResource) |
@@ -309,6 +622,24 @@ Used by: [AzureClusterTemplate](#AzureClusterTemplate).
 AzureKeyVaultKms service settings for the security profile. See also [AKS doc](https://learn.microsoft.com/azure/aks/use-kms-etcd-encryption#update-key-vault-mode). <br/>
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureKeyVaultKms["AzureKeyVaultKms"] {
+    enabled bool
+    keyID string
+    keyVaultResourceID string
+}
+
+AzureKeyVaultKms -- KeyVaultNetworkAccessTypes : keyVaultNetworkAccess
+class KeyVaultNetworkAccessTypes["KeyVaultNetworkAccessTypes"] 
+
+```
 
 | Property              | Description                                                                                                                                                                                                                                                                             | Type                                                      |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
@@ -323,6 +654,21 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 <br/>AzureMachine is the Schema for the azuremachines API.
 
 Used by: [AzureMachineList](#AzureMachineList).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachine["AzureMachine"]
+AzureMachine -- AzureMachineSpec : spec
+AzureMachine -- AzureMachineStatus : status
+class AzureMachineSpec["AzureMachineSpec"] 
+class AzureMachineStatus["AzureMachineStatus"] 
+
+```
 
 | Property                                                                                | Description | Type                                      |
 |-----------------------------------------------------------------------------------------|-------------|-------------------------------------------|
@@ -357,7 +703,7 @@ Used by: [AzureMachineList](#AzureMachineList).
 | sshPublicKey               | SSHPublicKey is the SSH public key string, base64-encoded to add to a Virtual Machine. Linux only. Refer to documentation on how to set up SSH access on Windows instances.                                                                                                                                                                                                                                                                                                                                                                                                                                                           | string                                                    |
 | subnetName                 | Deprecated: SubnetName should be set in the networkInterfaces field.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | string                                                    |
 | systemAssignedIdentityRole | SystemAssignedIdentityRole defines the role and scope to assign to the system-assigned identity.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [SystemAssignedIdentityRole](#SystemAssignedIdentityRole) |
-| userAssignedIdentities     | UserAssignedIdentities is a list of standalone Azure identities provided by the user The lifecycle of a user-assigned identity is managed separately from the lifecycle of the AzureMachine. See https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-cli                                                                                                                                                                                                                                                                                                                  | [UserAssignedIdentity[]](#UserAssignedIdentity)           |
+| userAssignedIdentities     | UserAssignedIdentities is a list of standalone Azure identities provided by the user The lifecycle of a user-assigned identity is managed separately from the lifecycle of the AzureMachine. See <https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-cli>                                                                                                                                                                                                                                                                                                                  | [UserAssignedIdentity[]](#UserAssignedIdentity)           |
 | vmExtensions               | VMExtensions specifies a list of extensions to be added to the virtual machine.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | [VMExtension[]](#VMExtension)                             |
 | vmSize                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | string                                                    |
 
@@ -378,6 +724,19 @@ Used by: [AzureMachineList](#AzureMachineList).
 
 <br/>AzureMachineList contains a list of AzureMachine.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachineList["AzureMachineList"]
+AzureMachineList -- AzureMachine : items
+class AzureMachine["AzureMachine"] 
+
+```
+
 | Property                                                                            | Description | Type                            |
 |-------------------------------------------------------------------------------------|-------------|---------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                 |
@@ -391,6 +750,19 @@ Used by: [AzureMachineList](#AzureMachineList).
 
 Used by: [AzureMachineTemplateList](#AzureMachineTemplateList).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachineTemplate["AzureMachineTemplate"]
+AzureMachineTemplate -- AzureMachineTemplateSpec : spec
+class AzureMachineTemplateSpec["AzureMachineTemplateSpec"] 
+
+```
+
 | Property                                                                                | Description | Type                                                  |
 |-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                       |
@@ -401,6 +773,19 @@ Used by: [AzureMachineTemplateList](#AzureMachineTemplateList).
 -------------------------------------------------------------
 
 <br/>AzureMachineTemplateList contains a list of AzureMachineTemplates.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachineTemplateList["AzureMachineTemplateList"]
+AzureMachineTemplateList -- AzureMachineTemplate : items
+class AzureMachineTemplate["AzureMachineTemplate"] 
+
+```
 
 | Property                                                                            | Description | Type                                            |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------|
@@ -415,6 +800,22 @@ AzureMachineTemplateResource describes the data needed to create an AzureMachine
 
 Used by: [AzureMachineTemplateSpec](#AzureMachineTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachineTemplateResource["AzureMachineTemplateResource"] {
+    metadata clusterv1.ObjectMeta
+}
+
+AzureMachineTemplateResource -- AzureMachineSpec : spec
+class AzureMachineSpec["AzureMachineSpec"] 
+
+```
+
 | Property | Description                                                       | Type                                                                                       |
 |----------|-------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
 | metadata |                                                                   | [clusterv1.ObjectMeta](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#ObjectMeta) |
@@ -427,6 +828,19 @@ AzureMachineTemplateSpec defines the desired state of AzureMachineTemplate.
 
 Used by: [AzureMachineTemplate](#AzureMachineTemplate).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
+AzureMachineTemplateSpec -- AzureMachineTemplateResource : template
+class AzureMachineTemplateResource["AzureMachineTemplateResource"] 
+
+```
+
 | Property | Description | Type                                                          |
 |----------|-------------|---------------------------------------------------------------|
 | template |             | [AzureMachineTemplateResource](#AzureMachineTemplateResource) |
@@ -435,6 +849,20 @@ Used by: [AzureMachineTemplate](#AzureMachineTemplate).
 ---------------------------------------------------
 
 <br/>azureMachineWebhook implements a validating and defaulting webhook for AzureMachines.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class azureMachineWebhook["azureMachineWebhook"] {
+    Client client.Client
+}
+
+
+```
 
 | Property | Description | Type                                                                                 |
 |----------|-------------|--------------------------------------------------------------------------------------|
@@ -446,6 +874,21 @@ Used by: [AzureMachineTemplate](#AzureMachineTemplate).
 <br/>AzureManagedCluster is the Schema for the azuremanagedclusters API.
 
 Used by: [AzureManagedClusterList](#AzureManagedClusterList).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedCluster["AzureManagedCluster"]
+AzureManagedCluster -- AzureManagedClusterSpec : spec
+AzureManagedCluster -- AzureManagedClusterStatus : status
+class AzureManagedClusterSpec["AzureManagedClusterSpec"] 
+class AzureManagedClusterStatus["AzureManagedClusterStatus"] 
+
+```
 
 | Property                                                                                | Description | Type                                                    |
 |-----------------------------------------------------------------------------------------|-------------|---------------------------------------------------------|
@@ -471,6 +914,19 @@ Used by: [AzureManagedClusterList](#AzureManagedClusterList).
 
 <br/>AzureManagedClusterList contains a list of AzureManagedClusters.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedClusterList["AzureManagedClusterList"]
+AzureManagedClusterList -- AzureManagedCluster : items
+class AzureManagedCluster["AzureManagedCluster"] 
+
+```
+
 | Property                                                                            | Description | Type                                          |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                               |
@@ -484,6 +940,19 @@ Used by: [AzureManagedClusterList](#AzureManagedClusterList).
 
 Used by: [AzureManagedClusterTemplateList](#AzureManagedClusterTemplateList).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedClusterTemplate["AzureManagedClusterTemplate"]
+AzureManagedClusterTemplate -- AzureManagedClusterTemplateSpec : spec
+class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"] 
+
+```
+
 | Property                                                                                | Description | Type                                                                |
 |-----------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                     |
@@ -494,6 +963,19 @@ Used by: [AzureManagedClusterTemplateList](#AzureManagedClusterTemplateList).
 ---------------------------------------------------------------------------
 
 <br/>AzureManagedClusterTemplateList contains a list of AzureManagedClusterTemplates.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedClusterTemplateList["AzureManagedClusterTemplateList"]
+AzureManagedClusterTemplateList -- AzureManagedClusterTemplate : items
+class AzureManagedClusterTemplate["AzureManagedClusterTemplate"] 
+
+```
 
 | Property                                                                            | Description | Type                                                          |
 |-------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------|
@@ -508,6 +990,20 @@ AzureManagedClusterTemplateResource describes the data needed to create an Azure
 
 Used by: [AzureManagedClusterTemplateSpec](#AzureManagedClusterTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"] {
+    spec AzureManagedClusterTemplateResourceSpec
+}
+
+
+```
+
 | Property | Description | Type                                    |
 |----------|-------------|-----------------------------------------|
 | spec     |             | AzureManagedClusterTemplateResourceSpec |
@@ -519,6 +1015,19 @@ AzureManagedClusterTemplateSpec defines the desired state of AzureManagedCluster
 
 Used by: [AzureManagedClusterTemplate](#AzureManagedClusterTemplate).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
+AzureManagedClusterTemplateSpec -- AzureManagedClusterTemplateResource : template
+class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"] 
+
+```
+
 | Property | Description | Type                                                                        |
 |----------|-------------|-----------------------------------------------------------------------------|
 | template |             | [AzureManagedClusterTemplateResource](#AzureManagedClusterTemplateResource) |
@@ -529,6 +1038,21 @@ Used by: [AzureManagedClusterTemplate](#AzureManagedClusterTemplate).
 <br/>AzureManagedControlPlane is the Schema for the azuremanagedcontrolplanes API.
 
 Used by: [AzureManagedControlPlaneList](#AzureManagedControlPlaneList).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlane["AzureManagedControlPlane"]
+AzureManagedControlPlane -- AzureManagedControlPlaneSpec : spec
+AzureManagedControlPlane -- AzureManagedControlPlaneStatus : status
+class AzureManagedControlPlaneSpec["AzureManagedControlPlaneSpec"] 
+class AzureManagedControlPlaneStatus["AzureManagedControlPlaneStatus"] 
+
+```
 
 | Property                                                                                | Description | Type                                                              |
 |-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------|
@@ -564,6 +1088,69 @@ Used by: [AzureManagedControlPlaneList](#AzureManagedControlPlaneList).
 -------------------------------------------------------------------------------
 
 AzureManagedControlPlaneClassSpec defines the AzureManagedControlPlane properties that may be shared across several azure managed control planes.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"] {
+    additionalTags Tags
+    asoManagedClusterPatches string[]
+    azureEnvironment string
+    disableLocalAccounts bool
+    dnsServiceIP string
+    enablePreviewFeatures bool
+    identityRef corev1.ObjectReference
+    kubeletUserAssignedIdentity string
+    loadBalancerSKU string
+    location string
+    machineTemplate AzureManagedControlPlaneTemplateMachineTemplate
+    networkPlugin string
+    networkPolicy string
+    resourceGroupName string
+    subscriptionID string
+    version string
+}
+
+AzureManagedControlPlaneClassSpec -- AADProfile : aadProfile
+AzureManagedControlPlaneClassSpec -- AddonProfile : addonProfiles
+AzureManagedControlPlaneClassSpec -- APIServerAccessProfile : apiServerAccessProfile
+AzureManagedControlPlaneClassSpec -- AutoScalerProfile : autoscalerProfile
+AzureManagedControlPlaneClassSpec -- ManagedClusterAutoUpgradeProfile : autoUpgradeProfile
+AzureManagedControlPlaneClassSpec -- AKSExtension : extensions
+AzureManagedControlPlaneClassSpec -- FleetsMemberClassSpec : fleetsMember
+AzureManagedControlPlaneClassSpec -- HTTPProxyConfig : httpProxyConfig
+AzureManagedControlPlaneClassSpec -- Identity : identity
+AzureManagedControlPlaneClassSpec -- LoadBalancerProfile : loadBalancerProfile
+AzureManagedControlPlaneClassSpec -- NetworkDataplaneType : networkDataplane
+AzureManagedControlPlaneClassSpec -- NetworkPluginMode : networkPluginMode
+AzureManagedControlPlaneClassSpec -- OIDCIssuerProfile : oidcIssuerProfile
+AzureManagedControlPlaneClassSpec -- ManagedControlPlaneOutboundType : outboundType
+AzureManagedControlPlaneClassSpec -- ManagedClusterSecurityProfile : securityProfile
+AzureManagedControlPlaneClassSpec -- AKSSku : sku
+AzureManagedControlPlaneClassSpec -- ManagedControlPlaneVirtualNetwork : virtualNetwork
+class AADProfile["AADProfile"] 
+class AddonProfile["AddonProfile"] 
+class APIServerAccessProfile["APIServerAccessProfile"] 
+class AutoScalerProfile["AutoScalerProfile"] 
+class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"] 
+class AKSExtension["AKSExtension"] 
+class FleetsMemberClassSpec["FleetsMemberClassSpec"] 
+class HTTPProxyConfig["HTTPProxyConfig"] 
+class Identity["Identity"] 
+class LoadBalancerProfile["LoadBalancerProfile"] 
+class NetworkDataplaneType["NetworkDataplaneType"] 
+class NetworkPluginMode["NetworkPluginMode"] 
+class OIDCIssuerProfile["OIDCIssuerProfile"] 
+class ManagedControlPlaneOutboundType["ManagedControlPlaneOutboundType"] 
+class ManagedClusterSecurityProfile["ManagedClusterSecurityProfile"] 
+class AKSSku["AKSSku"] 
+class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"] 
+
+```
 
 | Property                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Type                                                                            |
 |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
@@ -606,6 +1193,19 @@ AzureManagedControlPlaneClassSpec defines the AzureManagedControlPlane propertie
 
 <br/>AzureManagedControlPlaneList contains a list of AzureManagedControlPlane.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneList["AzureManagedControlPlaneList"]
+AzureManagedControlPlaneList -- AzureManagedControlPlane : items
+class AzureManagedControlPlane["AzureManagedControlPlane"] 
+
+```
+
 | Property                                                                            | Description | Type                                                    |
 |-------------------------------------------------------------------------------------|-------------|---------------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                         |
@@ -626,6 +1226,19 @@ Used by: [AKSSku](#AKSSku).
 
 Used by: [AzureManagedControlPlaneTemplateList](#AzureManagedControlPlaneTemplateList).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"]
+AzureManagedControlPlaneTemplate -- AzureManagedControlPlaneTemplateSpec : spec
+class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"] 
+
+```
+
 | Property                                                                                | Description | Type                                                                          |
 |-----------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                               |
@@ -636,6 +1249,19 @@ Used by: [AzureManagedControlPlaneTemplateList](#AzureManagedControlPlaneTemplat
 -------------------------------------------------------------------------------------
 
 <br/>AzureManagedControlPlaneTemplateList contains a list of AzureManagedControlPlaneTemplates.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneTemplateList["AzureManagedControlPlaneTemplateList"]
+AzureManagedControlPlaneTemplateList -- AzureManagedControlPlaneTemplate : items
+class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"] 
+
+```
 
 | Property                                                                            | Description | Type                                                                    |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------|
@@ -650,6 +1276,19 @@ AzureManagedControlPlaneTemplateResource describes the data needed to create an 
 
 Used by: [AzureManagedControlPlaneTemplateSpec](#AzureManagedControlPlaneTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"]
+AzureManagedControlPlaneTemplateResource -- AzureManagedControlPlaneTemplateResourceSpec : spec
+class AzureManagedControlPlaneTemplateResourceSpec["AzureManagedControlPlaneTemplateResourceSpec"] 
+
+```
+
 | Property | Description | Type                                                                                          |
 |----------|-------------|-----------------------------------------------------------------------------------------------|
 | spec     |             | [AzureManagedControlPlaneTemplateResourceSpec](#AzureManagedControlPlaneTemplateResourceSpec) |
@@ -661,12 +1300,38 @@ AzureManagedControlPlaneTemplateResourceSpec specifies an Azure managed control 
 
 Used by: [AzureManagedControlPlaneTemplateResource](#AzureManagedControlPlaneTemplateResource).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneTemplateResourceSpec["AzureManagedControlPlaneTemplateResourceSpec"]
+AzureManagedControlPlaneTemplateResourceSpec *-- AzureManagedControlPlaneClassSpec
+class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"]
+
+```
+
 <a id="AzureManagedControlPlaneTemplateSpec"></a>AzureManagedControlPlaneTemplateSpec
 -------------------------------------------------------------------------------------
 
 AzureManagedControlPlaneTemplateSpec defines the desired state of AzureManagedControlPlaneTemplate.
 
 Used by: [AzureManagedControlPlaneTemplate](#AzureManagedControlPlaneTemplate).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"]
+AzureManagedControlPlaneTemplateSpec -- AzureManagedControlPlaneTemplateResource : template
+class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"] 
+
+```
 
 | Property | Description | Type                                                                                  |
 |----------|-------------|---------------------------------------------------------------------------------------|
@@ -677,6 +1342,20 @@ Used by: [AzureManagedControlPlaneTemplate](#AzureManagedControlPlaneTemplate).
 
 <br/>
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class azureManagedControlPlaneTemplateWebhook["azureManagedControlPlaneTemplateWebhook"] {
+    Client client.Client
+}
+
+
+```
+
 | Property | Description | Type                                                                                 |
 |----------|-------------|--------------------------------------------------------------------------------------|
 | Client   |             | [client.Client](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/client#Client) |
@@ -685,6 +1364,20 @@ Used by: [AzureManagedControlPlaneTemplate](#AzureManagedControlPlaneTemplate).
 ---------------------------------------------------------------------------
 
 <br/>azureManagedControlPlaneWebhook implements a validating and defaulting webhook for AzureManagedControlPlane.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class azureManagedControlPlaneWebhook["azureManagedControlPlaneWebhook"] {
+    Client client.Client
+}
+
+
+```
 
 | Property | Description | Type                                                                                 |
 |----------|-------------|--------------------------------------------------------------------------------------|
@@ -696,6 +1389,21 @@ Used by: [AzureManagedControlPlaneTemplate](#AzureManagedControlPlaneTemplate).
 <br/>AzureManagedMachinePool is the Schema for the azuremanagedmachinepools API.
 
 Used by: [AzureManagedMachinePoolList](#AzureManagedMachinePoolList).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePool["AzureManagedMachinePool"]
+AzureManagedMachinePool -- AzureManagedMachinePoolSpec : spec
+AzureManagedMachinePool -- AzureManagedMachinePoolStatus : status
+class AzureManagedMachinePoolSpec["AzureManagedMachinePoolSpec"] 
+class AzureManagedMachinePoolStatus["AzureManagedMachinePoolStatus"] 
+
+```
 
 | Property                                                                                | Description | Type                                                            |
 |-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------|
@@ -726,6 +1434,47 @@ Used by: [AzureManagedMachinePoolList](#AzureManagedMachinePoolList).
 -----------------------------------------------------------------------------
 
 AzureManagedMachinePoolClassSpec defines the AzureManagedMachinePool properties that may be shared across several Azure managed machinepools.
+
+```mermaid
+---
+config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"] {
+    additionalTags Tags
+    asoManagedClustersAgentPoolPatches string[]
+    availabilityZones string[]
+    enableEncryptionAtHost bool
+    enableFIPS bool
+    enableNodePublicIP bool
+    enableUltraSSD bool
+    maxPods int
+    mode string
+    name string
+    nodeLabels map[string]string
+    nodePublicIPPrefixID string
+    osDiskSizeGB int
+    osDiskType string
+    osType string
+    scaleDownMode string
+    scaleSetPriority string
+    sku string
+    spotMaxPrice resource.Quantity
+    subnetName string
+    taints Taints
+}
+
+AzureManagedMachinePoolClassSpec -- KubeletConfig : kubeletConfig
+AzureManagedMachinePoolClassSpec -- KubeletDiskType : kubeletDiskType
+AzureManagedMachinePoolClassSpec -- LinuxOSConfig : linuxOSConfig
+AzureManagedMachinePoolClassSpec -- ManagedMachinePoolScaling : scaling
+class KubeletConfig["KubeletConfig"] 
+class KubeletDiskType["KubeletDiskType"] 
+class LinuxOSConfig["LinuxOSConfig"] 
+class ManagedMachinePoolScaling["ManagedMachinePoolScaling"]
+```
 
 | Property                           | Description                                                                                                                                                                                                                                                                                                                                                          | Type                                                                                  |
 |------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
@@ -760,6 +1509,19 @@ AzureManagedMachinePoolClassSpec defines the AzureManagedMachinePool properties 
 
 <br/>AzureManagedMachinePoolList contains a list of AzureManagedMachinePools.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolList["AzureManagedMachinePoolList"]
+AzureManagedMachinePoolList -- AzureManagedMachinePool : items
+class AzureManagedMachinePool["AzureManagedMachinePool"] 
+
+```
+
 | Property                                                                            | Description | Type                                                  |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta) |             |                                                       |
@@ -773,6 +1535,19 @@ AzureManagedMachinePoolClassSpec defines the AzureManagedMachinePool properties 
 
 Used by: [AzureManagedMachinePoolTemplateList](#AzureManagedMachinePoolTemplateList).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"]
+AzureManagedMachinePoolTemplate -- AzureManagedMachinePoolTemplateSpec : spec
+class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"] 
+
+```
+
 | Property                                                                                | Description | Type                                                                        |
 |-----------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------------|
 | [metav1.TypeMeta](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta)     |             |                                                                             |
@@ -783,6 +1558,19 @@ Used by: [AzureManagedMachinePoolTemplateList](#AzureManagedMachinePoolTemplateL
 -----------------------------------------------------------------------------------
 
 <br/>AzureManagedMachinePoolTemplateList contains a list of AzureManagedMachinePoolTemplates.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolTemplateList["AzureManagedMachinePoolTemplateList"]
+AzureManagedMachinePoolTemplateList -- AzureManagedMachinePoolTemplate : items
+class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"] 
+
+```
 
 | Property                                                                            | Description | Type                                                                  |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------|
@@ -797,6 +1585,19 @@ AzureManagedMachinePoolTemplateResource describes the data needed to create an A
 
 Used by: [AzureManagedMachinePoolTemplateSpec](#AzureManagedMachinePoolTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"]
+AzureManagedMachinePoolTemplateResource -- AzureManagedMachinePoolTemplateResourceSpec : spec
+class AzureManagedMachinePoolTemplateResourceSpec["AzureManagedMachinePoolTemplateResourceSpec"] 
+
+```
+
 | Property | Description | Type                                                                                        |
 |----------|-------------|---------------------------------------------------------------------------------------------|
 | spec     |             | [AzureManagedMachinePoolTemplateResourceSpec](#AzureManagedMachinePoolTemplateResourceSpec) |
@@ -808,12 +1609,38 @@ AzureManagedMachinePoolTemplateResourceSpec specifies an Azure managed control p
 
 Used by: [AzureManagedMachinePoolTemplateResource](#AzureManagedMachinePoolTemplateResource).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolTemplateResourceSpec["AzureManagedMachinePoolTemplateResourceSpec"]
+AzureManagedMachinePoolTemplateResourceSpec *-- AzureManagedMachinePoolClassSpec
+class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"]
+
+```
+
 <a id="AzureManagedMachinePoolTemplateSpec"></a>AzureManagedMachinePoolTemplateSpec
 -----------------------------------------------------------------------------------
 
 AzureManagedMachinePoolTemplateSpec defines the desired state of AzureManagedMachinePoolTemplate.
 
 Used by: [AzureManagedMachinePoolTemplate](#AzureManagedMachinePoolTemplate).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
+AzureManagedMachinePoolTemplateSpec -- AzureManagedMachinePoolTemplateResource : template
+class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"] 
+
+```
 
 | Property | Description | Type                                                                                |
 |----------|-------------|-------------------------------------------------------------------------------------|
@@ -824,6 +1651,20 @@ Used by: [AzureManagedMachinePoolTemplate](#AzureManagedMachinePoolTemplate).
 
 <br/>
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class azureManagedMachinePoolTemplateWebhook["azureManagedMachinePoolTemplateWebhook"] {
+    Client client.Client
+}
+
+
+```
+
 | Property | Description | Type                                                                                 |
 |----------|-------------|--------------------------------------------------------------------------------------|
 | Client   |             | [client.Client](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/client#Client) |
@@ -832,6 +1673,20 @@ Used by: [AzureManagedMachinePoolTemplate](#AzureManagedMachinePoolTemplate).
 -------------------------------------------------------------------------
 
 <br/>azureManagedMachinePoolWebhook implements a validating and defaulting webhook for AzureManagedMachinePool.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class azureManagedMachinePoolWebhook["azureManagedMachinePoolWebhook"] {
+    Client client.Client
+}
+
+
+```
 
 | Property | Description | Type                                                                                 |
 |----------|-------------|--------------------------------------------------------------------------------------|
@@ -843,6 +1698,24 @@ Used by: [AzureManagedMachinePoolTemplate](#AzureManagedMachinePoolTemplate).
 BackOffConfig indicates the back-off config options.
 
 Used by: [CloudProviderConfigOverrides](#CloudProviderConfigOverrides).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class BackOffConfig["BackOffConfig"] {
+    cloudProviderBackoff bool
+    cloudProviderBackoffDuration int
+    cloudProviderBackoffExponent resource.Quantity
+    cloudProviderBackoffJitter resource.Quantity
+    cloudProviderBackoffRetries int
+}
+
+
+```
 
 | Property                     | Description | Type                                                                                  |
 |------------------------------|-------------|---------------------------------------------------------------------------------------|
@@ -866,6 +1739,19 @@ BastionTemplateSpec specifies a template for a bastion host.
 
 Used by: [AzureClusterTemplateResourceSpec](#AzureClusterTemplateResourceSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class BastionTemplateSpec["BastionTemplateSpec"]
+BastionTemplateSpec -- AzureBastionTemplateSpec : azureBastion
+class AzureBastionTemplateSpec["AzureBastionTemplateSpec"] 
+
+```
+
 | Property     | Description | Type                                                  |
 |--------------|-------------|-------------------------------------------------------|
 | azureBastion |             | [AzureBastionTemplateSpec](#AzureBastionTemplateSpec) |
@@ -874,6 +1760,26 @@ Used by: [AzureClusterTemplateResourceSpec](#AzureClusterTemplateResourceSpec).
 -----------------------------------
 
 BuildParams is used to build tags around an azure resource.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class BuildParams["BuildParams"] {
+    Additional Tags
+    ClusterName string
+    Name string
+    ResourceID string
+    Role string
+}
+
+BuildParams -- ResourceLifecycle : Lifecycle
+class ResourceLifecycle["ResourceLifecycle"] 
+
+```
 
 | Property    | Description                                                                | Type                                    |
 |-------------|----------------------------------------------------------------------------|-----------------------------------------|
@@ -890,6 +1796,21 @@ BuildParams is used to build tags around an azure resource.
 CloudProviderConfigOverrides represents the fields that can be overridden in azure cloud provider config.
 
 Used by: [AzureClusterClassSpec](#AzureClusterClassSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class CloudProviderConfigOverrides["CloudProviderConfigOverrides"]
+CloudProviderConfigOverrides -- BackOffConfig : backOffs
+CloudProviderConfigOverrides -- RateLimitSpec : rateLimits
+class BackOffConfig["BackOffConfig"] 
+class RateLimitSpec["RateLimitSpec"] 
+
+```
 
 | Property   | Description | Type                              |
 |------------|-------------|-----------------------------------|
@@ -917,6 +1838,21 @@ ExtendedLocationSpec defines the ExtendedLocation properties to enable CAPZ for 
 
 Used by: [AzureClusterClassSpec](#AzureClusterClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ExtendedLocationSpec["ExtendedLocationSpec"] {
+    name string
+    type string
+}
+
+
+```
+
 | Property | Description                                      | Type   |
 |----------|--------------------------------------------------|--------|
 | name     | Name defines the name for the extended location. | string |
@@ -936,6 +1872,24 @@ ExtensionPlan represents the plan for an AKS marketplace extension.
 
 Used by: [AKSExtension](#AKSExtension).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ExtensionPlan["ExtensionPlan"] {
+    name string
+    product string
+    promotionCode string
+    publisher string
+    version string
+}
+
+
+```
+
 | Property      | Description                                                                                                       | Type   |
 |---------------|-------------------------------------------------------------------------------------------------------------------|--------|
 | name          | Name is the user-defined name of the 3rd Party Artifact that is being procured.                                   | string |
@@ -950,6 +1904,23 @@ Used by: [AKSExtension](#AKSExtension).
 ExtensionScope defines the scope of the AKS marketplace extension, if configured.
 
 Used by: [AKSExtension](#AKSExtension).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ExtensionScope["ExtensionScope"] {
+    releaseNamespace string
+    targetNamespace string
+}
+
+ExtensionScope -- ExtensionScopeType : scopeType
+class ExtensionScopeType["ExtensionScopeType"] 
+
+```
 
 | Property         | Description                                                                                                                                           | Type                                      |
 |------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
@@ -971,6 +1942,22 @@ FleetsMemberClassSpec defines the FleetsMemberSpec properties that may be shared
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class FleetsMemberClassSpec["FleetsMemberClassSpec"] {
+    group string
+    managerName string
+    managerResourceGroup string
+}
+
+
+```
+
 | Property             | Description                                                                    | Type   |
 |----------------------|--------------------------------------------------------------------------------|--------|
 | group                | Group is the group this member belongs to for multi-cluster update management. | string |
@@ -982,6 +1969,20 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 
 FrontendIPClass defines the FrontendIP properties that may be shared across several Azure clusters.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class FrontendIPClass["FrontendIPClass"] {
+    privateIP string
+}
+
+
+```
+
 | Property  | Description | Type   |
 |-----------|-------------|--------|
 | privateIP |             | string |
@@ -990,6 +1991,24 @@ FrontendIPClass defines the FrontendIP properties that may be shared across seve
 -------------------------
 
 Future contains the data needed for an Azure long-running operation to continue across reconcile loops.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Future["Future"] {
+    data string
+    name string
+    resourceGroup string
+    serviceName string
+    type string
+}
+
+
+```
 
 | Property      | Description                                                                                                                            | Type   |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -1006,6 +2025,23 @@ HTTPProxyConfig is the HTTP proxy configuration for the cluster.
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class HTTPProxyConfig["HTTPProxyConfig"] {
+    httpProxy string
+    httpsProxy string
+    noProxy string[]
+    trustedCa string
+}
+
+
+```
+
 | Property   | Description                                                                  | Type     |
 |------------|------------------------------------------------------------------------------|----------|
 | httpProxy  | HTTPProxy is the HTTP proxy server endpoint to use.                          | string   |
@@ -1019,6 +2055,22 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 Identity represents the Identity configuration for an AKS control plane. See also [AKS doc](https://learn.microsoft.com/en-us/azure/aks/use-managed-identity). <br/>
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Identity["Identity"] {
+    userAssignedIdentityResourceID string
+}
+
+Identity -- ManagedControlPlaneIdentityType : type
+class ManagedControlPlaneIdentityType["ManagedControlPlaneIdentityType"] 
+
+```
 
 | Property                       | Description                                                                                  | Type                                                                |
 |--------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
@@ -1038,6 +2090,32 @@ Used by: [AzureKeyVaultKms](#AzureKeyVaultKms).
 KubeletConfig defines the supported subset of kubelet configurations for nodes in pools. See also [AKS doc](https://learn.microsoft.com/azure/aks/custom-node-configuration), [K8s doc](https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/). <br/>
 
 Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class KubeletConfig["KubeletConfig"] {
+    allowedUnsafeSysctls string[]
+    containerLogMaxFiles int
+    containerLogMaxSizeMB int
+    cpuCfsQuota bool
+    cpuCfsQuotaPeriod string
+    failSwapOn bool
+    imageGcHighThreshold int
+    imageGcLowThreshold int
+    podMaxPids int
+}
+
+KubeletConfig -- CPUManagerPolicy : cpuManagerPolicy
+KubeletConfig -- TopologyManagerPolicy : topologyManagerPolicy
+class CPUManagerPolicy["CPUManagerPolicy"] 
+class TopologyManagerPolicy["TopologyManagerPolicy"] 
+
+```
 
 | Property              | Description                                                                                                                                                                             | Type                                            |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
@@ -1079,12 +2157,32 @@ LinuxOSConfig specifies the custom Linux OS settings and configurations. See als
 
 Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class LinuxOSConfig["LinuxOSConfig"] {
+    swapFileSizeMB int
+}
+
+LinuxOSConfig -- SysctlConfig : sysctls
+LinuxOSConfig -- TransparentHugePageOption : transparentHugePageDefrag
+LinuxOSConfig -- TransparentHugePageOption : transparentHugePageEnabled
+class SysctlConfig["SysctlConfig"] 
+class TransparentHugePageOption["TransparentHugePageOption"] 
+class TransparentHugePageOption["TransparentHugePageOption"] 
+
+```
+
 | Property                   | Description                                                                                                                                                                                                                                                                                                                    | Type                                                    |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
 | swapFileSizeMB             | SwapFileSizeMB specifies size in MB of a swap file will be created on the agent nodes from this node pool. Max value of SwapFileSizeMB should be the size of temporary disk(/dev/sdb). Must be at least 1. See also [AKS doc](https://learn.microsoft.com/azure/virtual-machines/managed-disks-overview#temporary-disk). <br/> | int                                                     |
 | sysctls                    | Sysctl specifies the settings for Linux agent nodes.                                                                                                                                                                                                                                                                           | [SysctlConfig](#SysctlConfig)                           |
-| transparentHugePageDefrag  | TransparentHugePageDefrag specifies whether the kernel should make aggressive use of memory compaction to make more hugepages available. See also [Linux doc](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge for more details.). <br/>                                             | [TransparentHugePageOption](#TransparentHugePageOption) |
-| transparentHugePageEnabled | TransparentHugePageEnabled specifies various modes of Transparent Hugepages. See also [Linux doc](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge for more details.). <br/>                                                                                                         | [TransparentHugePageOption](#TransparentHugePageOption) |
+| transparentHugePageDefrag  | TransparentHugePageDefrag specifies whether the kernel should make aggressive use of memory compaction to make more hugepages available. See also [Linux doc](<https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge> for more details.). <br/>                                             | [TransparentHugePageOption](#TransparentHugePageOption) |
+| transparentHugePageEnabled | TransparentHugePageEnabled specifies various modes of Transparent Hugepages. See also [Linux doc](<https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge> for more details.). <br/>                                                                                                         | [TransparentHugePageOption](#TransparentHugePageOption) |
 
 <a id="LoadBalancerClassSpec"></a>LoadBalancerClassSpec
 -------------------------------------------------------
@@ -1092,6 +2190,24 @@ Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
 LoadBalancerClassSpec defines the LoadBalancerSpec properties that may be shared across several Azure clusters.
 
 Used by: [NetworkTemplateSpec](#NetworkTemplateSpec), [NetworkTemplateSpec](#NetworkTemplateSpec), and [NetworkTemplateSpec](#NetworkTemplateSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class LoadBalancerClassSpec["LoadBalancerClassSpec"] {
+    idleTimeoutInMinutes int32
+}
+
+LoadBalancerClassSpec -- SKU : sku
+LoadBalancerClassSpec -- LBType : type
+class SKU["SKU"] 
+class LBType["LBType"] 
+
+```
 
 | Property             | Description                                                             | Type              |
 |----------------------|-------------------------------------------------------------------------|-------------------|
@@ -1105,6 +2221,24 @@ Used by: [NetworkTemplateSpec](#NetworkTemplateSpec), [NetworkTemplateSpec](#Net
 LoadBalancerProfile - Profile of the cluster load balancer. At most one of `managedOutboundIPs`, `outboundIPPrefixes`, or `outboundIPs` may be specified. See also [AKS doc](https://learn.microsoft.com/azure/aks/load-balancer-standard). <br/>
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class LoadBalancerProfile["LoadBalancerProfile"] {
+    allocatedOutboundPorts int
+    idleTimeoutInMinutes int
+    managedOutboundIPs int
+    outboundIPPrefixes string[]
+    outboundIPs string[]
+}
+
+
+```
 
 | Property               | Description                                                                                                                                                                                                        | Type     |
 |------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
@@ -1121,6 +2255,19 @@ ManagedClusterAutoUpgradeProfile defines the auto upgrade profile for a managed 
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
+ManagedClusterAutoUpgradeProfile -- UpgradeChannel : upgradeChannel
+class UpgradeChannel["UpgradeChannel"] 
+
+```
+
 | Property       | Description                                                                                    | Type                              |
 |----------------|------------------------------------------------------------------------------------------------|-----------------------------------|
 | upgradeChannel | UpgradeChannel determines the type of upgrade channel for automatically upgrading the cluster. | [UpgradeChannel](#UpgradeChannel) |
@@ -1131,6 +2278,25 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 ManagedClusterSecurityProfile defines the security profile for the cluster.
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedClusterSecurityProfile["ManagedClusterSecurityProfile"]
+ManagedClusterSecurityProfile -- AzureKeyVaultKms : azureKeyVaultKms
+ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileDefender : defender
+ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileImageCleaner : imageCleaner
+ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileWorkloadIdentity : workloadIdentity
+class AzureKeyVaultKms["AzureKeyVaultKms"] 
+class ManagedClusterSecurityProfileDefender["ManagedClusterSecurityProfileDefender"] 
+class ManagedClusterSecurityProfileImageCleaner["ManagedClusterSecurityProfileImageCleaner"] 
+class ManagedClusterSecurityProfileWorkloadIdentity["ManagedClusterSecurityProfileWorkloadIdentity"] 
+
+```
 
 | Property         | Description                                                                                                                                                            | Type                                                                                            |
 |------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
@@ -1146,6 +2312,22 @@ ManagedClusterSecurityProfileDefender defines Microsoft Defender settings for th
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedClusterSecurityProfileDefender["ManagedClusterSecurityProfileDefender"] {
+    logAnalyticsWorkspaceResourceID string
+}
+
+ManagedClusterSecurityProfileDefender -- ManagedClusterSecurityProfileDefenderSecurityMonitoring : securityMonitoring
+class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSecurityProfileDefenderSecurityMonitoring"] 
+
+```
+
 | Property                        | Description                                                                                                                                                                                                                       | Type                                                                                                                                            |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
 | logAnalyticsWorkspaceResourceID | LogAnalyticsWorkspaceResourceID is the ID of the Log Analytics workspace that has to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. | string<br/><small>Required</small>                                                                                                              |
@@ -1158,6 +2340,20 @@ ManagedClusterSecurityProfileDefenderSecurityMonitoring settings for the securit
 
 Used by: [ManagedClusterSecurityProfileDefender](#ManagedClusterSecurityProfileDefender).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSecurityProfileDefenderSecurityMonitoring"] {
+    enabled bool
+}
+
+
+```
+
 | Property | Description                               | Type                             |
 |----------|-------------------------------------------|----------------------------------|
 | enabled  | Enabled enables Defender threat detection | bool<br/><small>Required</small> |
@@ -1168,6 +2364,21 @@ Used by: [ManagedClusterSecurityProfileDefender](#ManagedClusterSecurityProfileD
 ManagedClusterSecurityProfileImageCleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. See also [AKS doc](https://learn.microsoft.com/azure/aks/image-cleaner). <br/>
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedClusterSecurityProfileImageCleaner["ManagedClusterSecurityProfileImageCleaner"] {
+    enabled bool
+    intervalHours int
+}
+
+
+```
 
 | Property      | Description                                                                                | Type                             |
 |---------------|--------------------------------------------------------------------------------------------|----------------------------------|
@@ -1180,6 +2391,20 @@ Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
 ManagedClusterSecurityProfileWorkloadIdentity settings for the security profile. See also [AKS doc](https://learn.microsoft.com/azure/defender-for-cloud/defender-for-containers-enable). <br/>
 
 Used by: [ManagedClusterSecurityProfile](#ManagedClusterSecurityProfile).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedClusterSecurityProfileWorkloadIdentity["ManagedClusterSecurityProfileWorkloadIdentity"] {
+    enabled bool
+}
+
+
+```
 
 | Property | Description                            | Type                             |
 |----------|----------------------------------------|----------------------------------|
@@ -1206,6 +2431,23 @@ ManagedControlPlaneSubnet describes a subnet for an AKS cluster.
 
 Used by: [ManagedControlPlaneVirtualNetworkClassSpec](#ManagedControlPlaneVirtualNetworkClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedControlPlaneSubnet["ManagedControlPlaneSubnet"] {
+    cidrBlock string
+    name string
+    privateEndpoints PrivateEndpoints
+    serviceEndpoints ServiceEndpoints
+}
+
+
+```
+
 | Property         | Description                                                                                 | Type             |
 |------------------|---------------------------------------------------------------------------------------------|------------------|
 | cidrBlock        |                                                                                             | string           |
@@ -1220,6 +2462,23 @@ ManagedControlPlaneVirtualNetwork describes a virtual network required to provis
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"] {
+    name string
+    resourceGroup string
+}
+
+ManagedControlPlaneVirtualNetwork *-- ManagedControlPlaneVirtualNetworkClassSpec
+class ManagedControlPlaneVirtualNetworkClassSpec["ManagedControlPlaneVirtualNetworkClassSpec"]
+
+```
+
 | Property                                                                                  | Description                                                                    | Type   |
 |-------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|--------|
 | [ManagedControlPlaneVirtualNetworkClassSpec](#ManagedControlPlaneVirtualNetworkClassSpec) |                                                                                |        |
@@ -1230,6 +2489,22 @@ Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec)
 -------------------------------------------------------------------------------------------------
 
 ManagedControlPlaneVirtualNetworkClassSpec defines the ManagedControlPlaneVirtualNetwork properties that may be shared across several managed control plane vnets.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedControlPlaneVirtualNetworkClassSpec["ManagedControlPlaneVirtualNetworkClassSpec"] {
+    cidrBlock string
+}
+
+ManagedControlPlaneVirtualNetworkClassSpec -- ManagedControlPlaneSubnet : subnet
+class ManagedControlPlaneSubnet["ManagedControlPlaneSubnet"] 
+
+```
 
 | Property  | Description | Type                                                    |
 |-----------|-------------|---------------------------------------------------------|
@@ -1243,6 +2518,21 @@ ManagedMachinePoolScaling specifies scaling options.
 
 Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedMachinePoolScaling["ManagedMachinePoolScaling"] {
+    maxSize int
+    minSize int
+}
+
+
+```
+
 | Property | Description                                              | Type |
 |----------|----------------------------------------------------------|------|
 | maxSize  | MaxSize is the maximum number of nodes for auto-scaling. | int  |
@@ -1251,6 +2541,20 @@ Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
 <a id="mockClient"></a>mockClient
 ---------------------------------
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class mockClient["mockClient"] {
+    ReturnError bool
+}
+
+
+```
+
 | Property                                                                             | Description | Type |
 |--------------------------------------------------------------------------------------|-------------|------|
 | [client.Client](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/client#Client) |             |      |
@@ -1258,6 +2562,20 @@ Used by: [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec).
 
 <a id="mockDefaultClient"></a>mockDefaultClient
 -----------------------------------------------
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class mockDefaultClient["mockDefaultClient"] {
+    SubscriptionID string
+}
+
+
+```
 
 | Property                                                                             | Description | Type   |
 |--------------------------------------------------------------------------------------|-------------|--------|
@@ -1271,6 +2589,20 @@ NatGatewayClassSpec defines a NAT gateway class specification.
 
 Used by: [SubnetTemplateSpec](#SubnetTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class NatGatewayClassSpec["NatGatewayClassSpec"] {
+    name string
+}
+
+
+```
+
 | Property | Description | Type   |
 |----------|-------------|--------|
 | name     |             | string |
@@ -1279,6 +2611,20 @@ Used by: [SubnetTemplateSpec](#SubnetTemplateSpec).
 ---------------------------------------------
 
 NetworkClassSpec defines the NetworkSpec properties that may be shared across several Azure clusters.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class NetworkClassSpec["NetworkClassSpec"] {
+    privateDNSZoneName string
+}
+
+
+```
 
 | Property           | Description                                                         | Type   |
 |--------------------|---------------------------------------------------------------------|--------|
@@ -1305,6 +2651,30 @@ NetworkTemplateSpec specifies a network template.
 
 Used by: [AzureClusterTemplateResourceSpec](#AzureClusterTemplateResourceSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class NetworkTemplateSpec["NetworkTemplateSpec"] {
+    subnets SubnetTemplatesSpec
+}
+
+NetworkTemplateSpec *-- NetworkClassSpec
+class NetworkClassSpec["NetworkClassSpec"]
+NetworkTemplateSpec -- LoadBalancerClassSpec : apiServerLB
+NetworkTemplateSpec -- LoadBalancerClassSpec : controlPlaneOutboundLB
+NetworkTemplateSpec -- LoadBalancerClassSpec : nodeOutboundLB
+NetworkTemplateSpec -- VnetTemplateSpec : vnet
+class LoadBalancerClassSpec["LoadBalancerClassSpec"] 
+class LoadBalancerClassSpec["LoadBalancerClassSpec"] 
+class LoadBalancerClassSpec["LoadBalancerClassSpec"] 
+class VnetTemplateSpec["VnetTemplateSpec"] 
+
+```
+
 | Property                              | Description                                                                                                                                                                                                    | Type                                            |
 |---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
 | [NetworkClassSpec](#NetworkClassSpec) |                                                                                                                                                                                                                |                                                 |
@@ -1326,6 +2696,20 @@ OIDCIssuerProfile is the OIDC issuer profile of the Managed Cluster. See also [A
 
 Used by: [AzureManagedControlPlaneClassSpec](#AzureManagedControlPlaneClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class OIDCIssuerProfile["OIDCIssuerProfile"] {
+    enabled bool
+}
+
+
+```
+
 | Property | Description                                    | Type |
 |----------|------------------------------------------------|------|
 | enabled  | Enabled is whether the OIDC issuer is enabled. | bool |
@@ -1338,6 +2722,23 @@ OrchestrationModeType represents the orchestration mode for a Virtual Machine Sc
 <a id="osDiskTestInput"></a>osDiskTestInput
 -------------------------------------------
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class osDiskTestInput["osDiskTestInput"] {
+    name string
+    wantErr bool
+}
+
+osDiskTestInput -- OSDisk : osDisk
+class OSDisk["OSDisk"] 
+
+```
+
 | Property | Description | Type              |
 |----------|-------------|-------------------|
 | name     |             | string            |
@@ -1348,6 +2749,27 @@ OrchestrationModeType represents the orchestration mode for a Virtual Machine Sc
 ---------------------------------------------------
 
 PrivateEndpointSpec configures an Azure Private Endpoint.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class PrivateEndpointSpec["PrivateEndpointSpec"] {
+    applicationSecurityGroups string[]
+    customNetworkInterfaceName string
+    location string
+    manualApproval bool
+    name string
+    privateIPAddresses string[]
+}
+
+PrivateEndpointSpec -- PrivateLinkServiceConnection : privateLinkServiceConnections
+class PrivateLinkServiceConnection["PrivateLinkServiceConnection"] 
+
+```
 
 | Property                      | Description                                                                                                                                                                                                     | Type                                                            |
 |-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
@@ -1366,6 +2788,23 @@ PrivateLinkServiceConnection defines the specification for a private link servic
 
 Used by: [PrivateEndpointSpec](#PrivateEndpointSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class PrivateLinkServiceConnection["PrivateLinkServiceConnection"] {
+    groupIDs string[]
+    name string
+    privateLinkServiceID string
+    requestMessage string
+}
+
+
+```
+
 | Property             | Description                                                                                                                  | Type     |
 |----------------------|------------------------------------------------------------------------------------------------------------------------------|----------|
 | groupIDs             | GroupIDs specifies the ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to. | string[] |
@@ -1380,6 +2819,24 @@ RateLimitConfig indicates the rate limit config options.
 
 Used by: [RateLimitSpec](#RateLimitSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class RateLimitConfig["RateLimitConfig"] {
+    cloudProviderRateLimit bool
+    cloudProviderRateLimitBucket int
+    cloudProviderRateLimitBucketWrite int
+    cloudProviderRateLimitQPS resource.Quantity
+    cloudProviderRateLimitQPSWrite resource.Quantity
+}
+
+
+```
+
 | Property                          | Description | Type                                                                                  |
 |-----------------------------------|-------------|---------------------------------------------------------------------------------------|
 | cloudProviderRateLimit            |             | bool                                                                                  |
@@ -1391,9 +2848,25 @@ Used by: [RateLimitSpec](#RateLimitSpec).
 <a id="RateLimitSpec"></a>RateLimitSpec
 ---------------------------------------
 
-RateLimitSpec represents the rate limit configuration for a particular kind of resource. Eg. loadBalancerRateLimit is used to configure rate limits for load balancers. This eventually gets converted to CloudProviderRateLimitConfig that cloud-provider-azure expects. See: https://github.com/kubernetes-sigs/cloud-provider-azure/blob/d585c2031925b39c925624302f22f8856e29e352/pkg/provider/azure_ratelimit.go#L25 We cannot use CloudProviderRateLimitConfig directly because floating point values are not supported in controller-tools. See: https://github.com/kubernetes-sigs/controller-tools/issues/245
+RateLimitSpec represents the rate limit configuration for a particular kind of resource. Eg. loadBalancerRateLimit is used to configure rate limits for load balancers. This eventually gets converted to CloudProviderRateLimitConfig that cloud-provider-azure expects. See: <https://github.com/kubernetes-sigs/cloud-provider-azure/blob/d585c2031925b39c925624302f22f8856e29e352/pkg/provider/azure_ratelimit.go#L25> We cannot use CloudProviderRateLimitConfig directly because floating point values are not supported in controller-tools. See: <https://github.com/kubernetes-sigs/controller-tools/issues/245>
 
 Used by: [CloudProviderConfigOverrides](#CloudProviderConfigOverrides).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class RateLimitSpec["RateLimitSpec"] {
+    name string
+}
+
+RateLimitSpec -- RateLimitConfig : config
+class RateLimitConfig["RateLimitConfig"] 
+
+```
 
 | Property | Description                              | Type                                |
 |----------|------------------------------------------|-------------------------------------|
@@ -1419,6 +2892,21 @@ SecurityGroupClass defines the SecurityGroup properties that may be shared acros
 
 Used by: [SubnetTemplateSpec](#SubnetTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SecurityGroupClass["SecurityGroupClass"] {
+    securityRules SecurityRules
+    tags Tags
+}
+
+
+```
+
 | Property      | Description | Type          |
 |---------------|-------------|---------------|
 | securityRules |             | SecurityRules |
@@ -1442,6 +2930,33 @@ Used by: [SecurityRule](#SecurityRule).
 -------------------------------------
 
 SecurityRule defines an Azure security rule for security groups.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SecurityRule["SecurityRule"] {
+    description string
+    destination string
+    destinationPorts string
+    name string
+    priority int32
+    source string
+    sourcePorts string
+    sources string[]
+}
+
+SecurityRule -- SecurityRuleAccess : action
+SecurityRule -- SecurityRuleDirection : direction
+SecurityRule -- SecurityGroupProtocol : protocol
+class SecurityRuleAccess["SecurityRuleAccess"] 
+class SecurityRuleDirection["SecurityRuleDirection"] 
+class SecurityGroupProtocol["SecurityGroupProtocol"] 
+
+```
 
 | Property         | Description                                                                                                                                                                                                                                                                  | Type                                            |
 |------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
@@ -1481,6 +2996,21 @@ Used by: [SecurityRule](#SecurityRule).
 
 ServiceEndpointSpec configures an Azure Service Endpoint.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ServiceEndpointSpec["ServiceEndpointSpec"] {
+    locations string[]
+    service string
+}
+
+
+```
+
 | Property  | Description | Type     |
 |-----------|-------------|----------|
 | locations |             | string[] |
@@ -1516,6 +3046,25 @@ Used by: [LoadBalancerClassSpec](#LoadBalancerClassSpec).
 
 SubnetClassSpec defines the SubnetSpec properties that may be shared across several Azure clusters.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SubnetClassSpec["SubnetClassSpec"] {
+    cidrBlocks string[]
+    name string
+    privateEndpoints PrivateEndpoints
+    serviceEndpoints ServiceEndpoints
+}
+
+SubnetClassSpec -- SubnetRole : role
+class SubnetRole["SubnetRole"] 
+
+```
+
 | Property         | Description                                                                                                | Type                      |
 |------------------|------------------------------------------------------------------------------------------------------------|---------------------------|
 | cidrBlocks       | CIDRBlocks defines the subnet's address space, specified as one or more address prefixes in CIDR notation. | string[]                  |
@@ -1538,6 +3087,23 @@ SubnetTemplateSpec specifies a template for a subnet.
 
 Used by: [AzureBastionTemplateSpec](#AzureBastionTemplateSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SubnetTemplateSpec["SubnetTemplateSpec"]
+SubnetTemplateSpec *-- SubnetClassSpec
+class SubnetClassSpec["SubnetClassSpec"]
+SubnetTemplateSpec -- NatGatewayClassSpec : natGateway
+SubnetTemplateSpec -- SecurityGroupClass : securityGroup
+class NatGatewayClassSpec["NatGatewayClassSpec"] 
+class SecurityGroupClass["SecurityGroupClass"] 
+
+```
+
 | Property                            | Description                                                                                    | Type                                        |
 |-------------------------------------|------------------------------------------------------------------------------------------------|---------------------------------------------|
 | [SubnetClassSpec](#SubnetClassSpec) |                                                                                                |                                             |
@@ -1551,6 +3117,47 @@ SysctlConfig specifies the settings for Linux agent nodes.
 
 Used by: [LinuxOSConfig](#LinuxOSConfig).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SysctlConfig["SysctlConfig"] {
+    fsAioMaxNr int
+    fsFileMax int
+    fsInotifyMaxUserWatches int
+    fsNrOpen int
+    kernelThreadsMax int
+    netCoreNetdevMaxBacklog int
+    netCoreOptmemMax int
+    netCoreRmemDefault int
+    netCoreRmemMax int
+    netCoreSomaxconn int
+    netCoreWmemDefault int
+    netCoreWmemMax int
+    netIpv4IPLocalPortRange string
+    netIpv4NeighDefaultGcThresh1 int
+    netIpv4NeighDefaultGcThresh2 int
+    netIpv4NeighDefaultGcThresh3 int
+    netIpv4TCPFinTimeout int
+    netIpv4TCPkeepaliveIntvl int
+    netIpv4TCPKeepaliveProbes int
+    netIpv4TCPKeepaliveTime int
+    netIpv4TCPMaxSynBacklog int
+    netIpv4TCPMaxTwBuckets int
+    netIpv4TCPTwReuse bool
+    netNetfilterNfConntrackBuckets int
+    netNetfilterNfConntrackMax int
+    vmMaxMapCount int
+    vmSwappiness int
+    vmVfsCachePressure int
+}
+
+
+```
+
 | Property                       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                | Type   |
 |--------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
 | fsAioMaxNr                     | FsAioMaxNr specifies the maximum number of system-wide asynchronous io requests. Valid values are 65536-6553500 (inclusive). Maps to fs.aio-max-nr.                                                                                                                                                                                                                                                                                        | int    |
@@ -1562,7 +3169,7 @@ Used by: [LinuxOSConfig](#LinuxOSConfig).
 | netCoreOptmemMax               | NetCoreOptmemMax specifies the maximum ancillary buffer size (option memory buffer) allowed per socket. Socket option memory is used in a few cases to store extra structures relating to usage of the socket. Valid values are 20480-4194304 (inclusive). Maps to net.core.optmem_max.                                                                                                                                                    | int    |
 | netCoreRmemDefault             | NetCoreRmemDefault specifies the default receive socket buffer size in bytes. Valid values are 212992-134217728 (inclusive). Maps to net.core.rmem_default.                                                                                                                                                                                                                                                                                | int    |
 | netCoreRmemMax                 | NetCoreRmemMax specifies the maximum receive socket buffer size in bytes. Valid values are 212992-134217728 (inclusive). Maps to net.core.rmem_max.                                                                                                                                                                                                                                                                                        | int    |
-| netCoreSomaxconn               | NetCoreSomaxconn specifies maximum number of connection requests that can be queued for any given listening socket. An upper limit for the value of the backlog parameter passed to the listen(2)(https://man7.org/linux/man-pages/man2/listen.2.html) function. If the backlog argument is greater than the somaxconn, then it's silently truncated to this limit. Valid values are 4096-3240000 (inclusive). Maps to net.core.somaxconn. | int    |
+| netCoreSomaxconn               | NetCoreSomaxconn specifies maximum number of connection requests that can be queued for any given listening socket. An upper limit for the value of the backlog parameter passed to the listen(2)(<https://man7.org/linux/man-pages/man2/listen.2.html>) function. If the backlog argument is greater than the somaxconn, then it's silently truncated to this limit. Valid values are 4096-3240000 (inclusive). Maps to net.core.somaxconn. | int    |
 | netCoreWmemDefault             | NetCoreWmemDefault specifies the default send socket buffer size in bytes. Valid values are 212992-134217728 (inclusive). Maps to net.core.wmem_default.                                                                                                                                                                                                                                                                                   | int    |
 | netCoreWmemMax                 | NetCoreWmemMax specifies the maximum send socket buffer size in bytes. Valid values are 212992-134217728 (inclusive). Maps to net.core.wmem_max.                                                                                                                                                                                                                                                                                           | int    |
 | netIpv4IPLocalPortRange        | NetIpv4IPLocalPortRange is used by TCP and UDP traffic to choose the local port on the agent node. PortRange should be specified in the format "first last". First, being an integer, must be between [1024 - 60999]. Last, being an integer, must be between [32768 - 65000]. Maps to net.ipv4.ip_local_port_range.                                                                                                                       | string |
@@ -1586,6 +3193,23 @@ Used by: [LinuxOSConfig](#LinuxOSConfig).
 -----------------------
 
 Taint represents a Kubernetes taint.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Taint["Taint"] {
+    key string
+    value string
+}
+
+Taint -- TaintEffect : effect
+class TaintEffect["TaintEffect"] 
+
+```
 
 | Property | Description                               | Type                        |
 |----------|-------------------------------------------|-----------------------------|
@@ -1631,6 +3255,21 @@ VMState describes the state of an Azure virtual machine. Deprecated: use Provisi
 
 VnetClassSpec defines the VnetSpec properties that may be shared across several Azure clusters.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VnetClassSpec["VnetClassSpec"] {
+    cidrBlocks string[]
+    tags Tags
+}
+
+
+```
+
 | Property   | Description                                                                                                         | Type     |
 |------------|---------------------------------------------------------------------------------------------------------------------|----------|
 | cidrBlocks | CIDRBlocks defines the virtual network's address space, specified as one or more address prefixes in CIDR notation. | string[] |
@@ -1640,6 +3279,25 @@ VnetClassSpec defines the VnetSpec properties that may be shared across several 
 -----------------------------------------------------
 
 VnetPeeringClassSpec specifies a virtual network peering class.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VnetPeeringClassSpec["VnetPeeringClassSpec"] {
+    remoteVnetName string
+    resourceGroup string
+}
+
+VnetPeeringClassSpec -- VnetPeeringProperties : forwardPeeringProperties
+VnetPeeringClassSpec -- VnetPeeringProperties : reversePeeringProperties
+class VnetPeeringProperties["VnetPeeringProperties"] 
+class VnetPeeringProperties["VnetPeeringProperties"] 
+
+```
 
 | Property                 | Description                                                                                                                            | Type                                            |
 |--------------------------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
@@ -1655,6 +3313,23 @@ VnetPeeringProperties specifies virtual network peering properties.
 
 Used by: [VnetPeeringClassSpec](#VnetPeeringClassSpec), and [VnetPeeringClassSpec](#VnetPeeringClassSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VnetPeeringProperties["VnetPeeringProperties"] {
+    allowForwardedTraffic bool
+    allowGatewayTransit bool
+    allowVirtualNetworkAccess bool
+    useRemoteGateways bool
+}
+
+
+```
+
 | Property                  | Description                                                                                                                                                                                                                                                                                                                                                                            | Type |
 |---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
 | allowForwardedTraffic     | AllowForwardedTraffic specifies whether the forwarded traffic from the VMs in the local virtual network will be allowed/disallowed in remote virtual network.                                                                                                                                                                                                                          | bool |
@@ -1667,12 +3342,41 @@ Used by: [VnetPeeringClassSpec](#VnetPeeringClassSpec), and [VnetPeeringClassSpe
 
 VnetPeeringSpec specifies an existing remote virtual network to peer with the AzureCluster's virtual network.
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VnetPeeringSpec["VnetPeeringSpec"]
+VnetPeeringSpec *-- VnetPeeringClassSpec
+class VnetPeeringClassSpec["VnetPeeringClassSpec"]
+
+```
+
 <a id="VnetTemplateSpec"></a>VnetTemplateSpec
 ---------------------------------------------
 
 VnetTemplateSpec defines the desired state of a virtual network.
 
 Used by: [NetworkTemplateSpec](#NetworkTemplateSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VnetTemplateSpec["VnetTemplateSpec"] {
+    peerings VnetPeeringsTemplateSpec
+}
+
+VnetTemplateSpec *-- VnetClassSpec
+class VnetClassSpec["VnetClassSpec"]
+
+```
 
 | Property                        | Description                                                                                              | Type                     |
 |---------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------|
@@ -1685,6 +3389,27 @@ Used by: [NetworkTemplateSpec](#NetworkTemplateSpec).
 AzureClusterIdentitySpec defines the parameters that are used to create an AzureIdentity.
 
 Used by: [AzureClusterIdentity](#AzureClusterIdentity).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterIdentitySpec["AzureClusterIdentitySpec"] {
+    clientID string
+    clientSecret corev1.SecretReference
+    resourceID string
+    tenantID string
+}
+
+AzureClusterIdentitySpec -- AllowedNamespaces : allowedNamespaces
+AzureClusterIdentitySpec -- IdentityType : type
+class AllowedNamespaces["AllowedNamespaces"] 
+class IdentityType["IdentityType"] 
+
+```
 
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Type                                                                            |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
@@ -1702,6 +3427,20 @@ AzureClusterIdentityStatus defines the observed state of AzureClusterIdentity.
 
 Used by: [AzureClusterIdentity](#AzureClusterIdentity).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterIdentityStatus["AzureClusterIdentityStatus"] {
+    conditions clusterv1.Conditions
+}
+
+
+```
+
 | Property   | Description                                                           | Type                                                                                       |
 |------------|-----------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
 | conditions | Conditions defines current service state of the AzureClusterIdentity. | [clusterv1.Conditions](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#Conditions) |
@@ -1712,6 +3451,27 @@ Used by: [AzureClusterIdentity](#AzureClusterIdentity).
 AzureClusterSpec defines the desired state of AzureCluster.
 
 Used by: [AzureCluster](#AzureCluster).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterSpec["AzureClusterSpec"] {
+    controlPlaneEndpoint clusterv1.APIEndpoint
+    resourceGroup string
+}
+
+AzureClusterSpec *-- AzureClusterClassSpec
+class AzureClusterClassSpec["AzureClusterClassSpec"]
+AzureClusterSpec -- BastionSpec : bastionSpec
+AzureClusterSpec -- NetworkSpec : networkSpec
+class BastionSpec["BastionSpec"] 
+class NetworkSpec["NetworkSpec"] 
+
+```
 
 | Property                                        | Description                                                                                                                                                                                                                             | Type                                                                                         |
 |-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
@@ -1728,10 +3488,27 @@ AzureClusterStatus defines the observed state of AzureCluster.
 
 Used by: [AzureCluster](#AzureCluster).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureClusterStatus["AzureClusterStatus"] {
+    conditions clusterv1.Conditions
+    failureDomains clusterv1.FailureDomains
+    longRunningOperationStates Futures
+    ready bool
+}
+
+
+```
+
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                               |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | conditions                 | Conditions defines current service state of the AzureCluster.                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [clusterv1.Conditions](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#Conditions)         |
-| failureDomains             | FailureDomains specifies the list of unique failure domains for the location/region of the cluster. A FailureDomain maps to Availability Zone with an Azure Region (if the region support them). An Availability Zone is a separate data center within a region and they can be used to ensure the cluster is more resilient to failure. See: https://learn.microsoft.com/azure/reliability/availability-zones-overview This list will be used by Cluster API to try and spread the machines across the failure domains. | [clusterv1.FailureDomains](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#FailureDomains) |
+| failureDomains             | FailureDomains specifies the list of unique failure domains for the location/region of the cluster. A FailureDomain maps to Availability Zone with an Azure Region (if the region support them). An Availability Zone is a separate data center within a region and they can be used to ensure the cluster is more resilient to failure. See: <https://learn.microsoft.com/azure/reliability/availability-zones-overview> This list will be used by Cluster API to try and spread the machines across the failure domains. | [clusterv1.FailureDomains](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#FailureDomains) |
 | longRunningOperationStates | LongRunningOperationStates saves the states for Azure long-running operations so they can be continued on the next reconciliation loop.                                                                                                                                                                                                                                                                                                                                                                                  | Futures                                                                                            |
 | ready                      | Ready is true when the provider resource is ready.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | bool                                                                                               |
 
@@ -1741,6 +3518,56 @@ Used by: [AzureCluster](#AzureCluster).
 AzureMachineSpec defines the desired state of AzureMachine.
 
 Used by: [AzureMachine](#AzureMachine), and [AzureMachineTemplateResource](#AzureMachineTemplateResource).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachineSpec["AzureMachineSpec"] {
+    acceleratedNetworking bool
+    additionalTags Tags
+    allocatePublicIP bool
+    capacityReservationGroupID string
+    disableExtensionOperations bool
+    dnsServers string[]
+    enableIPForwarding bool
+    failureDomain string
+    providerID string
+    roleAssignmentName string
+    sshPublicKey string
+    subnetName string
+    vmSize string
+}
+
+AzureMachineSpec -- AdditionalCapabilities : additionalCapabilities
+AzureMachineSpec -- DataDisk : dataDisks
+AzureMachineSpec -- Diagnostics : diagnostics
+AzureMachineSpec -- VMIdentity : identity
+AzureMachineSpec -- Image : image
+AzureMachineSpec -- NetworkInterface : networkInterfaces
+AzureMachineSpec -- OSDisk : osDisk
+AzureMachineSpec -- SecurityProfile : securityProfile
+AzureMachineSpec -- SpotVMOptions : spotVMOptions
+AzureMachineSpec -- SystemAssignedIdentityRole : systemAssignedIdentityRole
+AzureMachineSpec -- UserAssignedIdentity : userAssignedIdentities
+AzureMachineSpec -- VMExtension : vmExtensions
+class AdditionalCapabilities["AdditionalCapabilities"] 
+class DataDisk["DataDisk"] 
+class Diagnostics["Diagnostics"] 
+class VMIdentity["VMIdentity"] 
+class Image["Image"] 
+class NetworkInterface["NetworkInterface"] 
+class OSDisk["OSDisk"] 
+class SecurityProfile["SecurityProfile"] 
+class SpotVMOptions["SpotVMOptions"] 
+class SystemAssignedIdentityRole["SystemAssignedIdentityRole"] 
+class UserAssignedIdentity["UserAssignedIdentity"] 
+class VMExtension["VMExtension"] 
+
+```
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Type                                                      |
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
@@ -1766,7 +3593,7 @@ Used by: [AzureMachine](#AzureMachine), and [AzureMachineTemplateResource](#Azur
 | sshPublicKey               | SSHPublicKey is the SSH public key string, base64-encoded to add to a Virtual Machine. Linux only. Refer to documentation on how to set up SSH access on Windows instances.                                                                                                                                                                                                                                                                                                                                                                                                                                                           | string                                                    |
 | subnetName                 | Deprecated: SubnetName should be set in the networkInterfaces field.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | string                                                    |
 | systemAssignedIdentityRole | SystemAssignedIdentityRole defines the role and scope to assign to the system-assigned identity.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [SystemAssignedIdentityRole](#SystemAssignedIdentityRole) |
-| userAssignedIdentities     | UserAssignedIdentities is a list of standalone Azure identities provided by the user The lifecycle of a user-assigned identity is managed separately from the lifecycle of the AzureMachine. See https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-cli                                                                                                                                                                                                                                                                                                                  | [UserAssignedIdentity[]](#UserAssignedIdentity)           |
+| userAssignedIdentities     | UserAssignedIdentities is a list of standalone Azure identities provided by the user The lifecycle of a user-assigned identity is managed separately from the lifecycle of the AzureMachine. See <https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-cli>                                                                                                                                                                                                                                                                                                                  | [UserAssignedIdentity[]](#UserAssignedIdentity)           |
 | vmExtensions               | VMExtensions specifies a list of extensions to be added to the virtual machine.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | [VMExtension[]](#VMExtension)                             |
 | vmSize                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | string                                                    |
 
@@ -1776,6 +3603,27 @@ Used by: [AzureMachine](#AzureMachine), and [AzureMachineTemplateResource](#Azur
 AzureMachineStatus defines the observed state of AzureMachine.
 
 Used by: [AzureMachine](#AzureMachine).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMachineStatus["AzureMachineStatus"] {
+    addresses corev1.NodeAddress[]
+    conditions clusterv1.Conditions
+    failureMessage string
+    failureReason errors.MachineStatusError
+    longRunningOperationStates Futures
+    ready bool
+}
+
+AzureMachineStatus -- ProvisioningState : vmState
+class ProvisioningState["ProvisioningState"] 
+
+```
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Type                                                                                              |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
@@ -1794,6 +3642,20 @@ AzureManagedClusterSpec defines the desired state of AzureManagedCluster.
 
 Used by: [AzureManagedCluster](#AzureManagedCluster).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedClusterSpec["AzureManagedClusterSpec"] {
+    controlPlaneEndpoint clusterv1.APIEndpoint
+}
+
+
+```
+
 | Property             | Description                                                                                                                                                                                                                                                                                   | Type                                                                                         |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
 | controlPlaneEndpoint | ControlPlaneEndpoint represents the endpoint used to communicate with the control plane. Immutable, populated by the AKS API at create. Because this field is programmatically set by CAPZ after resource creation, we define it as +optional in the API schema to permit resource admission. | [clusterv1.APIEndpoint](https://pkg.go.dev/sigs.k8s.io/cluster-api/api/v1beta11#APIEndpoint) |
@@ -1805,6 +3667,20 @@ AzureManagedClusterStatus defines the observed state of AzureManagedCluster.
 
 Used by: [AzureManagedCluster](#AzureManagedCluster).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedClusterStatus["AzureManagedClusterStatus"] {
+    ready bool
+}
+
+
+```
+
 | Property | Description                                        | Type |
 |----------|----------------------------------------------------|------|
 | ready    | Ready is true when the provider resource is ready. | bool |
@@ -1815,6 +3691,27 @@ Used by: [AzureManagedCluster](#AzureManagedCluster).
 AzureManagedControlPlaneSpec defines the desired state of AzureManagedControlPlane.
 
 Used by: [AzureManagedControlPlane](#AzureManagedControlPlane).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneSpec["AzureManagedControlPlaneSpec"] {
+    controlPlaneEndpoint clusterv1.APIEndpoint
+    dnsPrefix string
+    nodeResourceGroupName string
+    sshPublicKey string
+}
+
+AzureManagedControlPlaneSpec *-- AzureManagedControlPlaneClassSpec
+class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"]
+AzureManagedControlPlaneSpec -- FleetsMember : fleetsMember
+class FleetsMember["FleetsMember"] 
+
+```
 
 | Property                                                                | Description                                                                                                                                                                                                   | Type                                                                                         |
 |-------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
@@ -1831,6 +3728,27 @@ Used by: [AzureManagedControlPlane](#AzureManagedControlPlane).
 AzureManagedControlPlaneStatus defines the observed state of AzureManagedControlPlane.
 
 Used by: [AzureManagedControlPlane](#AzureManagedControlPlane).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedControlPlaneStatus["AzureManagedControlPlaneStatus"] {
+    autoUpgradeVersion string
+    conditions clusterv1.Conditions
+    initialized bool
+    longRunningOperationStates Futures
+    ready bool
+    version string
+}
+
+AzureManagedControlPlaneStatus -- OIDCIssuerProfileStatus : oidcIssuerProfile
+class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"] 
+
+```
 
 | Property                   | Description                                                                                                                                                                                               | Type                                                                                       |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
@@ -1849,6 +3767,22 @@ AzureManagedMachinePoolSpec defines the desired state of AzureManagedMachinePool
 
 Used by: [AzureManagedMachinePool](#AzureManagedMachinePool).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolSpec["AzureManagedMachinePoolSpec"] {
+    providerIDList string[]
+}
+
+AzureManagedMachinePoolSpec *-- AzureManagedMachinePoolClassSpec
+class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"]
+
+```
+
 | Property                                                              | Description                                                                 | Type     |
 |-----------------------------------------------------------------------|-----------------------------------------------------------------------------|----------|
 | [AzureManagedMachinePoolClassSpec](#AzureManagedMachinePoolClassSpec) |                                                                             |          |
@@ -1860,6 +3794,25 @@ Used by: [AzureManagedMachinePool](#AzureManagedMachinePool).
 AzureManagedMachinePoolStatus defines the observed state of AzureManagedMachinePool.
 
 Used by: [AzureManagedMachinePool](#AzureManagedMachinePool).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureManagedMachinePoolStatus["AzureManagedMachinePoolStatus"] {
+    conditions clusterv1.Conditions
+    errorMessage string
+    errorReason capierrors.MachineStatusError
+    longRunningOperationStates Futures
+    ready bool
+    replicas int32
+}
+
+
+```
 
 | Property                   | Description                                                                                                                                                  | Type                                                                                                  |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
@@ -1877,6 +3830,20 @@ AdditionalCapabilities enables or disables a capability on the virtual machine.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AdditionalCapabilities["AdditionalCapabilities"] {
+    ultraSSDEnabled bool
+}
+
+
+```
+
 | Property        | Description                                                                                                                                                                                       | Type |
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
 | ultraSSDEnabled | UltraSSDEnabled enables or disables Azure UltraSSD capability for the virtual machine. Defaults to true if Ultra SSD data disks are specified, otherwise it doesn't set the capability on the VM. | bool |
@@ -1887,6 +3854,21 @@ Used by: [AzureMachineSpec](#AzureMachineSpec).
 AllowedNamespaces defines the namespaces the clusters are allowed to use the identity from NamespaceList takes precedence over the Selector.
 
 Used by: [AzureClusterIdentitySpec](#AzureClusterIdentitySpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AllowedNamespaces["AllowedNamespaces"] {
+    list string[]
+    selector metav1.LabelSelector
+}
+
+
+```
 
 | Property | Description                                                                                                                                                                                                                                                                                                                                        | Type                                                                                          |
 |----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -1900,6 +3882,19 @@ BastionSpec specifies how the Bastion feature should be set up for the cluster.
 
 Used by: [AzureClusterSpec](#AzureClusterSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class BastionSpec["BastionSpec"]
+BastionSpec -- AzureBastion : azureBastion
+class AzureBastion["AzureBastion"] 
+
+```
+
 | Property     | Description | Type                          |
 |--------------|-------------|-------------------------------|
 | azureBastion |             | [AzureBastion](#AzureBastion) |
@@ -1910,6 +3905,25 @@ Used by: [AzureClusterSpec](#AzureClusterSpec).
 DataDisk specifies the parameters that are used to add one or more data disks to the machine.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class DataDisk["DataDisk"] {
+    cachingType string
+    diskSizeGB int32
+    lun int32
+    nameSuffix string
+}
+
+DataDisk -- ManagedDiskParameters : managedDisk
+class ManagedDiskParameters["ManagedDiskParameters"] 
+
+```
 
 | Property    | Description                                                                                                                                                                                                           | Type                                            |
 |-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
@@ -1926,6 +3940,19 @@ Diagnostics is used to configure the diagnostic settings of the virtual machine.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Diagnostics["Diagnostics"]
+Diagnostics -- BootDiagnostics : boot
+class BootDiagnostics["BootDiagnostics"] 
+
+```
+
 | Property | Description                                                                                                                                                                                                                                                                            | Type                                |
 |----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
 | boot     | Boot configures the boot diagnostics settings for the virtual machine. This allows to configure capturing serial output from the virtual machine on boot. This is useful for debugging software based launch issues. If not specified then Boot diagnostics (Managed) will be enabled. | [BootDiagnostics](#BootDiagnostics) |
@@ -1936,6 +3963,22 @@ Used by: [AzureMachineSpec](#AzureMachineSpec).
 FleetsMember defines the fleets member configuration. See also [AKS doc](https://learn.microsoft.com/en-us/azure/templates/microsoft.containerservice/2023-03-15-preview/fleets/members). <br/>
 
 Used by: [AzureManagedControlPlaneSpec](#AzureManagedControlPlaneSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class FleetsMember["FleetsMember"] {
+    name string
+}
+
+FleetsMember *-- FleetsMemberClassSpec
+class FleetsMemberClassSpec["FleetsMemberClassSpec"]
+
+```
 
 | Property                                        | Description                     | Type   |
 |-------------------------------------------------|---------------------------------|--------|
@@ -1956,6 +3999,26 @@ Image defines information about the image to use for VM creation. There are thre
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Image["Image"] {
+    id string
+}
+
+Image -- AzureComputeGalleryImage : computeGallery
+Image -- AzureMarketplaceImage : marketplace
+Image -- AzureSharedGalleryImage : sharedGallery
+class AzureComputeGalleryImage["AzureComputeGalleryImage"] 
+class AzureMarketplaceImage["AzureMarketplaceImage"] 
+class AzureSharedGalleryImage["AzureSharedGalleryImage"] 
+
+```
+
 | Property       | Description                                                                                                        | Type                                                  |
 |----------------|--------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
 | computeGallery | ComputeGallery specifies an image to use from the Azure Compute Gallery                                            | [AzureComputeGalleryImage](#AzureComputeGalleryImage) |
@@ -1970,6 +4033,22 @@ NetworkInterface defines a network interface.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class NetworkInterface["NetworkInterface"] {
+    acceleratedNetworking bool
+    privateIPConfigs int
+    subnetName string
+}
+
+
+```
+
 | Property              | Description                                                                                                                                                                                                                                                                           | Type   |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
 | acceleratedNetworking | AcceleratedNetworking enables or disables Azure accelerated networking. If omitted, it will be set based on whether the requested VMSize supports accelerated networking. If AcceleratedNetworking is set to true with a VMSize that does not support it, Azure will return an error. | bool   |
@@ -1982,6 +4061,30 @@ Used by: [AzureMachineSpec](#AzureMachineSpec).
 NetworkSpec specifies what the Azure networking resources should look like.
 
 Used by: [AzureClusterSpec](#AzureClusterSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class NetworkSpec["NetworkSpec"] {
+    subnets Subnets
+}
+
+NetworkSpec *-- NetworkClassSpec
+class NetworkClassSpec["NetworkClassSpec"]
+NetworkSpec -- LoadBalancerSpec : apiServerLB
+NetworkSpec -- LoadBalancerSpec : controlPlaneOutboundLB
+NetworkSpec -- LoadBalancerSpec : nodeOutboundLB
+NetworkSpec -- VnetSpec : vnet
+class LoadBalancerSpec["LoadBalancerSpec"] 
+class LoadBalancerSpec["LoadBalancerSpec"] 
+class LoadBalancerSpec["LoadBalancerSpec"] 
+class VnetSpec["VnetSpec"] 
+
+```
 
 | Property                              | Description                                                                                                                                                                                                    | Type                                  |
 |---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------|
@@ -1999,6 +4102,20 @@ OIDCIssuerProfileStatus is the OIDC issuer profile of the Managed Cluster.
 
 Used by: [AzureManagedControlPlaneStatus](#AzureManagedControlPlaneStatus).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"] {
+    issuerURL string
+}
+
+
+```
+
 | Property  | Description                                              | Type   |
 |-----------|----------------------------------------------------------|--------|
 | issuerURL | IssuerURL is the OIDC issuer url of the Managed Cluster. | string |
@@ -2009,6 +4126,26 @@ Used by: [AzureManagedControlPlaneStatus](#AzureManagedControlPlaneStatus).
 OSDisk defines the operating system disk for a VM. <br/>WARNING: this requires any updates to ManagedDisk to be manually converted. This is due to the odd issue with conversion-gen where the warning message generated uses a relative directory import rather than the fully qualified import when generating outside of the GOPATH.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec), and [osDiskTestInput](#osDiskTestInput).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class OSDisk["OSDisk"] {
+    cachingType string
+    diskSizeGB int32
+    osType string
+}
+
+OSDisk -- DiffDiskSettings : diffDiskSettings
+OSDisk -- ManagedDiskParameters : managedDisk
+class DiffDiskSettings["DiffDiskSettings"] 
+class ManagedDiskParameters["ManagedDiskParameters"] 
+
+```
 
 | Property         | Description                                                                                        | Type                                            |
 |------------------|----------------------------------------------------------------------------------------------------|-------------------------------------------------|
@@ -2032,6 +4169,24 @@ SecurityProfile specifies the Security profile settings for a virtual machine or
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SecurityProfile["SecurityProfile"] {
+    encryptionAtHost bool
+}
+
+SecurityProfile -- SecurityTypes : securityType
+SecurityProfile -- UefiSettings : uefiSettings
+class SecurityTypes["SecurityTypes"] 
+class UefiSettings["UefiSettings"] 
+
+```
+
 | Property         | Description                                                                                                                                                                                                                             | Type                            |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
 | encryptionAtHost | This field indicates whether Host Encryption should be enabled or disabled for a virtual machine or virtual machine scale set. This should be disabled when SecurityEncryptionType is set to DiskWithVMGuestState. Default is disabled. | bool                            |
@@ -2045,6 +4200,22 @@ SpotVMOptions defines the options relevant to running the Machine on Spot VMs.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SpotVMOptions["SpotVMOptions"] {
+    maxPrice resource.Quantity
+}
+
+SpotVMOptions -- SpotEvictionPolicy : evictionPolicy
+class SpotEvictionPolicy["SpotEvictionPolicy"] 
+
+```
+
 | Property       | Description                                                                                                           | Type                                                                                  |
 |----------------|-----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
 | evictionPolicy | EvictionPolicy defines the behavior of the virtual machine when it is evicted. It can be either Delete or Deallocate. | [SpotEvictionPolicy](#SpotEvictionPolicy)                                             |
@@ -2057,9 +4228,25 @@ SystemAssignedIdentityRole defines the role and scope to assign to the system as
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SystemAssignedIdentityRole["SystemAssignedIdentityRole"] {
+    definitionID string
+    name string
+    scope string
+}
+
+
+```
+
 | Property     | Description                                                                                                                                                                                                                                          | Type   |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
-| definitionID | DefinitionID is the ID of the role definition to create for a system assigned identity. It can be an Azure built-in role or a custom role. Refer to built-in roles: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles | string |
+| definitionID | DefinitionID is the ID of the role definition to create for a system assigned identity. It can be an Azure built-in role or a custom role. Refer to built-in roles: <https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles> | string |
 | name         | Name is the name of the role assignment to create for a system assigned identity. It can be any valid UUID. If not specified, a random UUID will be generated.                                                                                       | string |
 | scope        | Scope is the scope that the role assignment or definition applies to. The scope can be any REST resource instance. If not specified, the scope will be the subscription.                                                                             | string |
 
@@ -2069,6 +4256,20 @@ Used by: [AzureMachineSpec](#AzureMachineSpec).
 UserAssignedIdentity defines the user-assigned identities provided by the user to be assigned to Azure resources.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class UserAssignedIdentity["UserAssignedIdentity"] {
+    providerID string
+}
+
+
+```
 
 | Property   | Description                                                                                                                                                                                                                                             | Type   |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -2080,6 +4281,24 @@ Used by: [AzureMachineSpec](#AzureMachineSpec).
 VMExtension specifies the parameters for a custom VM extension.
 
 Used by: [AzureMachineSpec](#AzureMachineSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VMExtension["VMExtension"] {
+    name string
+    protectedSettings Tags
+    publisher string
+    settings Tags
+    version string
+}
+
+
+```
 
 | Property          | Description                                                                 | Type   |
 |-------------------|-----------------------------------------------------------------------------|--------|
@@ -2103,6 +4322,27 @@ AzureBastion specifies how the Azure Bastion cloud component should be configure
 
 Used by: [BastionSpec](#BastionSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureBastion["AzureBastion"] {
+    enableTunneling bool
+    name string
+}
+
+AzureBastion -- PublicIPSpec : publicIP
+AzureBastion -- BastionHostSkuName : sku
+AzureBastion -- SubnetSpec : subnet
+class PublicIPSpec["PublicIPSpec"] 
+class BastionHostSkuName["BastionHostSkuName"] 
+class SubnetSpec["SubnetSpec"] 
+
+```
+
 | Property        | Description                                                                                                           | Type                                      |
 |-----------------|-----------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | enableTunneling | EnableTunneling enables the native client support feature for the Azure Bastion Host. Defaults to false.              | bool                                      |
@@ -2117,6 +4357,26 @@ Used by: [BastionSpec](#BastionSpec).
 AzureComputeGalleryImage defines an image in the Azure Compute Gallery to use for VM creation.
 
 Used by: [Image](#Image).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureComputeGalleryImage["AzureComputeGalleryImage"] {
+    gallery string
+    name string
+    resourceGroup string
+    subscriptionID string
+    version string
+}
+
+AzureComputeGalleryImage -- ImagePlan : plan
+class ImagePlan["ImagePlan"] 
+
+```
 
 | Property       | Description                                                                                                                                                                                                                                                                                                                                                                  | Type                    |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
@@ -2134,6 +4394,23 @@ AzureMarketplaceImage defines an image in the Azure Marketplace to use for VM cr
 
 Used by: [Image](#Image).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureMarketplaceImage["AzureMarketplaceImage"] {
+    thirdPartyImage bool
+    version string
+}
+
+AzureMarketplaceImage *-- ImagePlan
+class ImagePlan["ImagePlan"]
+
+```
+
 | Property                | Description                                                                                                                                                                                                                                                                                                                                                         | Type   |
 |-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
 | [ImagePlan](#ImagePlan) |                                                                                                                                                                                                                                                                                                                                                                     |        |
@@ -2146,6 +4423,27 @@ Used by: [Image](#Image).
 AzureSharedGalleryImage defines an image in a Shared Image Gallery to use for VM creation.
 
 Used by: [Image](#Image).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class AzureSharedGalleryImage["AzureSharedGalleryImage"] {
+    gallery string
+    name string
+    offer string
+    publisher string
+    resourceGroup string
+    sku string
+    subscriptionID string
+    version string
+}
+
+
+```
 
 | Property       | Description                                                                                                                                                                                                                                                                                                                                                                  | Type   |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -2165,6 +4463,21 @@ BootDiagnostics configures the boot diagnostics settings for the virtual machine
 
 Used by: [Diagnostics](#Diagnostics).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class BootDiagnostics["BootDiagnostics"]
+BootDiagnostics -- BootDiagnosticsStorageAccountType : storageAccountType
+BootDiagnostics -- UserManagedBootDiagnostics : userManaged
+class BootDiagnosticsStorageAccountType["BootDiagnosticsStorageAccountType"] 
+class UserManagedBootDiagnostics["UserManagedBootDiagnostics"] 
+
+```
+
 | Property           | Description                                                                                                                                                                       | Type                                                                                                |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | storageAccountType | StorageAccountType determines if the storage account for storing the diagnostics data should be disabled (Disabled), provisioned by Azure (Managed) or by the user (UserManaged). | [BootDiagnosticsStorageAccountType](#BootDiagnosticsStorageAccountType)<br/><small>Required</small> |
@@ -2177,9 +4490,25 @@ DiffDiskSettings describe ephemeral disk settings for the os disk.
 
 Used by: [OSDisk](#OSDisk).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class DiffDiskSettings["DiffDiskSettings"] {
+    option string
+}
+
+DiffDiskSettings -- DiffDiskPlacement : placement
+class DiffDiskPlacement["DiffDiskPlacement"] 
+
+```
+
 | Property  | Description                                                                                                                                | Type                                    |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
-| option    | Option enables ephemeral OS when set to "Local" See https://learn.microsoft.com/azure/virtual-machines/ephemeral-os-disks for full details | string                                  |
+| option    | Option enables ephemeral OS when set to "Local" See <https://learn.microsoft.com/azure/virtual-machines/ephemeral-os-disks> for full details | string                                  |
 | placement | Placement specifies the ephemeral disk placement for operating system disk. If placement is specified, Option must be set to "Local".      | [DiffDiskPlacement](#DiffDiskPlacement) |
 
 <a id="LoadBalancerSpec"></a>LoadBalancerSpec
@@ -2188,6 +4517,28 @@ Used by: [OSDisk](#OSDisk).
 LoadBalancerSpec defines an Azure load balancer.
 
 Used by: [NetworkSpec](#NetworkSpec), [NetworkSpec](#NetworkSpec), and [NetworkSpec](#NetworkSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class LoadBalancerSpec["LoadBalancerSpec"] {
+    frontendIPsCount int32
+    id string
+    name string
+}
+
+LoadBalancerSpec *-- LoadBalancerClassSpec
+class LoadBalancerClassSpec["LoadBalancerClassSpec"]
+LoadBalancerSpec -- BackendPool : backendPool
+LoadBalancerSpec -- FrontendIP : frontendIPs
+class BackendPool["BackendPool"] 
+class FrontendIP["FrontendIP"] 
+
+```
 
 | Property                                        | Description                                                                           | Type                        |
 |-------------------------------------------------|---------------------------------------------------------------------------------------|-----------------------------|
@@ -2204,6 +4555,24 @@ Used by: [NetworkSpec](#NetworkSpec), [NetworkSpec](#NetworkSpec), and [NetworkS
 ManagedDiskParameters defines the parameters of a managed disk.
 
 Used by: [DataDisk](#DataDisk), and [OSDisk](#OSDisk).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ManagedDiskParameters["ManagedDiskParameters"] {
+    storageAccountType string
+}
+
+ManagedDiskParameters -- DiskEncryptionSetParameters : diskEncryptionSet
+ManagedDiskParameters -- VMDiskSecurityProfile : securityProfile
+class DiskEncryptionSetParameters["DiskEncryptionSetParameters"] 
+class VMDiskSecurityProfile["VMDiskSecurityProfile"] 
+
+```
 
 | Property           | Description                                                                                            | Type                                                        |
 |--------------------|--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
@@ -2232,6 +4601,21 @@ UefiSettings specifies the security settings like secure boot and vTPM used whil
 
 Used by: [SecurityProfile](#SecurityProfile).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class UefiSettings["UefiSettings"] {
+    secureBootEnabled bool
+    vTpmEnabled bool
+}
+
+
+```
+
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Type |
 |-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
 | secureBootEnabled | SecureBootEnabled specifies whether secure boot should be enabled on the virtual machine. Secure Boot verifies the digital signature of all boot components and halts the boot process if signature verification fails. If omitted, the platform chooses a default, which is subject to change over time, currently that default is false.                                                                                                                                                                                                         | bool |
@@ -2243,6 +4627,25 @@ Used by: [SecurityProfile](#SecurityProfile).
 VnetSpec configures an Azure virtual network.
 
 Used by: [NetworkSpec](#NetworkSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VnetSpec["VnetSpec"] {
+    id string
+    name string
+    peerings VnetPeerings
+    resourceGroup string
+}
+
+VnetSpec *-- VnetClassSpec
+class VnetClassSpec["VnetClassSpec"]
+
+```
 
 | Property                        | Description                                                                                                                                              | Type         |
 |---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
@@ -2258,6 +4661,20 @@ Used by: [NetworkSpec](#NetworkSpec).
 BackendPool describes the backend pool of the load balancer.
 
 Used by: [LoadBalancerSpec](#LoadBalancerSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class BackendPool["BackendPool"] {
+    name string
+}
+
+
+```
 
 | Property | Description                                                                                                                                         | Type   |
 |----------|-----------------------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -2280,7 +4697,7 @@ Used by: [BootDiagnostics](#BootDiagnostics).
 <a id="DiffDiskPlacement"></a>DiffDiskPlacement
 -----------------------------------------------
 
-DiffDiskPlacement - Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk, resource disk or nvme disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+DiffDiskPlacement - Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk, resource disk or nvme disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at <https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements> and Linux VM at <https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements>.
 
 Used by: [DiffDiskSettings](#DiffDiskSettings).
 
@@ -2290,6 +4707,20 @@ Used by: [DiffDiskSettings](#DiffDiskSettings).
 DiskEncryptionSetParameters defines disk encryption options.
 
 Used by: [ManagedDiskParameters](#ManagedDiskParameters), and [VMDiskSecurityProfile](#VMDiskSecurityProfile).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class DiskEncryptionSetParameters["DiskEncryptionSetParameters"] {
+    id string
+}
+
+
+```
 
 | Property | Description                                                                               | Type   |
 |----------|-------------------------------------------------------------------------------------------|--------|
@@ -2301,6 +4732,24 @@ Used by: [ManagedDiskParameters](#ManagedDiskParameters), and [VMDiskSecurityPro
 FrontendIP defines a load balancer frontend IP configuration.
 
 Used by: [LoadBalancerSpec](#LoadBalancerSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class FrontendIP["FrontendIP"] {
+    name string
+}
+
+FrontendIP *-- FrontendIPClass
+class FrontendIPClass["FrontendIPClass"]
+FrontendIP -- PublicIPSpec : publicIP
+class PublicIPSpec["PublicIPSpec"] 
+
+```
 
 | Property                            | Description | Type                          |
 |-------------------------------------|-------------|-------------------------------|
@@ -2315,6 +4764,22 @@ ImagePlan contains plan information for marketplace images.
 
 Used by: [AzureComputeGalleryImage](#AzureComputeGalleryImage).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ImagePlan["ImagePlan"] {
+    offer string
+    publisher string
+    sku string
+}
+
+
+```
+
 | Property  | Description                                                                                                               | Type   |
 |-----------|---------------------------------------------------------------------------------------------------------------------------|--------|
 | offer     | Offer specifies the name of a group of related images created by the publisher. For example, UbuntuServer, WindowsServer  | string |
@@ -2328,6 +4793,23 @@ PublicIPSpec defines the inputs to create an Azure public IP address.
 
 Used by: [AzureBastion](#AzureBastion), [FrontendIP](#FrontendIP), and [NatGateway](#NatGateway).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class PublicIPSpec["PublicIPSpec"] {
+    dnsName string
+    name string
+}
+
+PublicIPSpec -- IPTag : ipTags
+class IPTag["IPTag"] 
+
+```
+
 | Property | Description | Type              |
 |----------|-------------|-------------------|
 | dnsName  |             | string            |
@@ -2340,6 +4822,28 @@ Used by: [AzureBastion](#AzureBastion), [FrontendIP](#FrontendIP), and [NatGatew
 SubnetSpec configures an Azure subnet.
 
 Used by: [AzureBastion](#AzureBastion).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SubnetSpec["SubnetSpec"] {
+    id string
+}
+
+SubnetSpec *-- SubnetClassSpec
+class SubnetClassSpec["SubnetClassSpec"]
+SubnetSpec -- NatGateway : natGateway
+SubnetSpec -- RouteTable : routeTable
+SubnetSpec -- SecurityGroup : securityGroup
+class NatGateway["NatGateway"] 
+class RouteTable["RouteTable"] 
+class SecurityGroup["SecurityGroup"] 
+
+```
 
 | Property                            | Description                                                                                    | Type                            |
 |-------------------------------------|------------------------------------------------------------------------------------------------|---------------------------------|
@@ -2356,6 +4860,20 @@ UserManagedBootDiagnostics provides a reference to a user-managed storage accoun
 
 Used by: [BootDiagnostics](#BootDiagnostics).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class UserManagedBootDiagnostics["UserManagedBootDiagnostics"] {
+    storageAccountURI string
+}
+
+
+```
+
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type                               |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
 | storageAccountURI | StorageAccountURI is the URI of the user-managed storage account. The URI typically will be `https://<mystorageaccountname>.blob.core.windows.net/` but may differ if you are using Azure DNS zone endpoints. You can find the correct endpoint by looking for the Blob Primary Endpoint in the endpoints tab in the Azure console or with the CLI by issuing `az storage account list --query='[].{name: name, "resource group": resourceGroup, "blob endpoint": primaryEndpoints.blob}'`. | string<br/><small>Required</small> |
@@ -2366,6 +4884,21 @@ Used by: [BootDiagnostics](#BootDiagnostics).
 VMDiskSecurityProfile specifies the security profile settings for the managed disk. It can be set only for Confidential VMs.
 
 Used by: [ManagedDiskParameters](#ManagedDiskParameters).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class VMDiskSecurityProfile["VMDiskSecurityProfile"]
+VMDiskSecurityProfile -- DiskEncryptionSetParameters : diskEncryptionSet
+VMDiskSecurityProfile -- SecurityEncryptionType : securityEncryptionType
+class DiskEncryptionSetParameters["DiskEncryptionSetParameters"] 
+class SecurityEncryptionType["SecurityEncryptionType"] 
+
+```
 
 | Property               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type                                                        |
 |------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
@@ -2379,6 +4912,21 @@ IPTag contains the IpTag associated with the object.
 
 Used by: [PublicIPSpec](#PublicIPSpec).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class IPTag["IPTag"] {
+    tag string
+    type string
+}
+
+
+```
+
 | Property | Description                                                                        | Type   |
 |----------|------------------------------------------------------------------------------------|--------|
 | tag      | Tag specifies the value of the IP tag associated with the public IP. Example: SQL. | string |
@@ -2390,6 +4938,24 @@ Used by: [PublicIPSpec](#PublicIPSpec).
 NatGateway defines an Azure NAT gateway. NAT gateway resources are part of Vnet NAT and provide outbound Internet connectivity for subnets of a virtual network.
 
 Used by: [SubnetSpec](#SubnetSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class NatGateway["NatGateway"] {
+    id string
+}
+
+NatGateway *-- NatGatewayClassSpec
+class NatGatewayClassSpec["NatGatewayClassSpec"]
+NatGateway -- PublicIPSpec : ip
+class PublicIPSpec["PublicIPSpec"] 
+
+```
 
 | Property                                    | Description                                               | Type                          |
 |---------------------------------------------|-----------------------------------------------------------|-------------------------------|
@@ -2403,6 +4969,21 @@ Used by: [SubnetSpec](#SubnetSpec).
 RouteTable defines an Azure route table.
 
 Used by: [SubnetSpec](#SubnetSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class RouteTable["RouteTable"] {
+    id string
+    name string
+}
+
+
+```
 
 | Property | Description                                               | Type   |
 |----------|-----------------------------------------------------------|--------|
@@ -2422,6 +5003,23 @@ Used by: [VMDiskSecurityProfile](#VMDiskSecurityProfile).
 SecurityGroup defines an Azure security group.
 
 Used by: [SubnetSpec](#SubnetSpec).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class SecurityGroup["SecurityGroup"] {
+    id string
+    name string
+}
+
+SecurityGroup *-- SecurityGroupClass
+class SecurityGroupClass["SecurityGroupClass"]
+
+```
 
 | Property                                  | Description                                                  | Type   |
 |-------------------------------------------|--------------------------------------------------------------|--------|

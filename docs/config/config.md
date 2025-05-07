@@ -11,8 +11,31 @@ config
 <a id="Config"></a>Config
 -------------------------
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Config["Config"] {
+    classDiagrams bool
+    prettyPrint bool
+    templatePath string
+}
+
+Config -- Editor : editors
+Config -- ExternalLink : externalLinks
+Config -- Filter : typeFilters
+class Editor["Editor"] 
+class ExternalLink["ExternalLink"] 
+class Filter["Filter"] 
+
+```
+
 | Property      | Description                                                                                                                                                  | Type                            |
 |---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
+| classDiagrams | ClassDiagrams allow you to add class diagrams to the documentation.                                                                                          | bool                            |
 | editors       | Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.                                         | [Editor[]](#Editor)             |
 | externalLinks | ExternalLinks allow you to add links to external documentation.                                                                                              | [ExternalLink[]](#ExternalLink) |
 | prettyPrint   | PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.                                                                 | bool                            |
@@ -26,6 +49,22 @@ Editor represents a point modification to make to exported documentation.
 
 Used by: [Config](#Config).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Editor["Editor"] {
+    context string
+    replace string
+    search string
+}
+
+
+```
+
 | Property | Description                                                                                                                                                     | Type   |
 |----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
 | context  | Context is a regex identifying a substring to modify, limiting the scope of the search and replace. If omitted, the entire string is eligible for modification. | string |
@@ -37,6 +76,21 @@ Used by: [Config](#Config).
 
 Used by: [Config](#Config).
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class ExternalLink["ExternalLink"] {
+    importPath string
+    urlTemplate string
+}
+
+
+```
+
 | Property    | Description                                                            | Type   |
 |-------------|------------------------------------------------------------------------|--------|
 | importPath  | ImportPath is the import path for the package that the link points to. | string |
@@ -46,6 +100,22 @@ Used by: [Config](#Config).
 -------------------------
 
 Used by: [Config](#Config).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class Filter["Filter"] {
+    because string
+    exclude string
+    include string
+}
+
+
+```
 
 | Property | Description                                                                     | Type   |
 |----------|---------------------------------------------------------------------------------|--------|
