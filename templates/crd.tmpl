@@ -20,9 +20,9 @@
 {{ if . | asPropertyContainer }}
 {{ template "class-diagram" . }}
 {{ end }}
+{{ end }}
 {{ with . | asPropertyContainer }}
 {{ template "properties" . }}
-{{ end }}
 {{ end }}
 
 

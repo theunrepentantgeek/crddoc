@@ -8,11 +8,12 @@ classDiagram
 
 {{- with . | asPropertyContainer }}
 class {{ $id }}["{{ $name }}"]
-{{- if . }} {
+{{- if .Properties | internalOnly }} {
 {{- range .Properties | internalOnly }}
     {{ .Name }} {{ .Type.Display }} 
 {{- end }}
 }
+{{ end }}
 {{ range .Embeds -}}
 {{- with $relatedType := .Type.ID | lookupDeclaration -}}
 {{ $id }} *-- {{ $relatedType.ID }}
@@ -31,7 +32,6 @@ class {{ $relatedType.ID }}["{{ $relatedType.Name }}"]
 {{- with $relatedType := .Type.ID | lookupDeclaration -}}
 class {{ $relatedType.ID }}["{{ $relatedType.Display }}"] 
 {{ end -}}
-{{- end -}}
 {{- end -}}
 {{- end }}
 {{ "```" }}
