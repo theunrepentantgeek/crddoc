@@ -30,7 +30,7 @@ type Config struct {
 	TypeFilters []*Filter `yaml:"typeFilters"`
 
 	// ClassDiagrams allow you to add class diagrams to the documentation.
-	ClassDiagrams *ClassDiagrams `yaml:"classDiagrams"`
+	ClassDiagrams *ClassDiagram `yaml:"classDiagrams"`
 }
 
 // Standard returns the standard, as a basis for loading other configuration,
@@ -105,7 +105,7 @@ func (c *Config) EnableClassDiagrams(value *bool) {
 
 	// Ensure we nested config exists
 	if c.ClassDiagrams == nil {
-		c.ClassDiagrams = &ClassDiagrams{}
+		c.ClassDiagrams = &ClassDiagram{}
 	}
 
 	c.ClassDiagrams.Enabled = value
