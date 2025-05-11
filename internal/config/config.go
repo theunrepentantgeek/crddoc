@@ -30,7 +30,7 @@ type Config struct {
 	TypeFilters []*Filter `yaml:"typeFilters"`
 
 	// ClassDiagrams allow you to add class diagrams to the documentation.
-	ClassDiagrams bool `yaml:"classDiagrams"`
+	ClassDiagrams *ClassDiagrams `yaml:"classDiagrams"`
 }
 
 // Standard returns the standard, as a basis for loading other configuration,
@@ -86,18 +86,29 @@ func (c *Config) Save(path string) error {
 	return c.writeTo(file)
 }
 
-func (c *Config) OverrideTemplatePath(path *string) {
-	if path != nil && *path != "" {
-		c.TemplatePath = *path
+func (c *Config) SetTemplatePath(path *string) {
+	if path == nil || *path == "" {
+		// No value passed, do nothing
+		return
 	}
+
+	c.TemplatePath = *path
 }
 
-// OverrideClassDiagrams sets the ClassDiagrams field to the provided value.
+// EnableClassDiagrams sets the ClassDiagrams field to the provided value.
 // If the value is nil, the field is not changed.
-func (c *Config) OverrideClassDiagrams(value *bool) {
-	if value != nil {
-		c.ClassDiagrams = *value
+func (c *Config) EnableClassDiagrams(value *bool) {
+	if value == nil {
+		// No value passed, do nothing
+		return
 	}
+
+	// Ensure we nested config exists
+	if c.ClassDiagrams == nil {
+		c.ClassDiagrams = &ClassDiagrams{}
+	}
+
+	c.ClassDiagrams.Enabled = value
 }
 
 func (c *Config) Validate() error {

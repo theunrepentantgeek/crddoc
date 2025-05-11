@@ -157,6 +157,6 @@ func (options *documentCRDsOptions) validate(
 
 // applyToConfig applies options we've received on the command line to the config.
 func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
-	cfg.OverrideTemplatePath(options.templatePath)
-	cfg.OverrideClassDiagrams(options.classDiagrams)
+	cfg.SetTemplatePath(options.templatePath)
+	cfg.EnableClassDiagrams(options.classDiagrams)
 }
