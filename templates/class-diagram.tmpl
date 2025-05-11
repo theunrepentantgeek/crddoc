@@ -19,6 +19,7 @@ class {{ $id }}["{{ $name }}"]
 {{- end }}
 }
 {{ end }}
+
 {{ range .Embeds -}}
 {{- with $relatedType := .Type.ID | lookupDeclaration -}}
 {{ $id }} *-- {{ $relatedType.ID }}
@@ -38,6 +39,6 @@ class {{ $relatedType.ID }}["{{ $relatedType.Name }}"]
 class {{ $relatedType.ID }}["{{ $relatedType.Display }}"] 
 {{ end -}}
 {{- end -}}
-{{- end }}
+{{- end -}}
 {{ "```" }}
 {{ end }}

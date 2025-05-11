@@ -18,7 +18,7 @@ v1api20210501
 <a id="ManagedCluster"></a>ManagedCluster
 -----------------------------------------
 
-Used by: [ManagedClusterList](#ManagedClusterList).
+Used by: [ManagedClusterList.items](#ManagedClusterList).
 
 ```mermaid
 ---
@@ -28,11 +28,11 @@ Used by: [ManagedClusterList](#ManagedClusterList).
 ---
 classDiagram
 class ManagedCluster["ManagedCluster"]
+
 ManagedCluster -- ManagedCluster_Spec : spec
 ManagedCluster -- ManagedCluster_STATUS : status
 class ManagedCluster_Spec["ManagedCluster_Spec"] 
 class ManagedCluster_STATUS["ManagedCluster_STATUS"] 
-
 ```
 
 | Property                                                                                | Description | Type                                                                        |
@@ -130,9 +130,9 @@ class ManagedCluster_STATUS["ManagedCluster_STATUS"]
 ---
 classDiagram
 class ManagedClusterList["ManagedClusterList"]
+
 ManagedClusterList -- ManagedCluster : items
 class ManagedCluster["ManagedCluster"] 
-
 ```
 
 | Property                                                                            | Description | Type                                                            |
@@ -146,7 +146,7 @@ class ManagedCluster["ManagedCluster"]
 
 Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2021-05-01/managedClusters.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
 
-Used by: [ManagedClustersAgentPoolList](#ManagedClustersAgentPoolList).
+Used by: [ManagedClustersAgentPoolList.items](#ManagedClustersAgentPoolList).
 
 ```mermaid
 ---
@@ -156,11 +156,11 @@ Used by: [ManagedClustersAgentPoolList](#ManagedClustersAgentPoolList).
 ---
 classDiagram
 class ManagedClustersAgentPool["ManagedClustersAgentPool"]
+
 ManagedClustersAgentPool -- ManagedClustersAgentPool_Spec : spec
 ManagedClustersAgentPool -- ManagedClustersAgentPool_STATUS : status
 class ManagedClustersAgentPool_Spec["ManagedClustersAgentPool_Spec"] 
 class ManagedClustersAgentPool_STATUS["ManagedClustersAgentPool_STATUS"] 
-
 ```
 
 | Property                                                                                | Description | Type                                                                                            |
@@ -269,9 +269,9 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
 ---
 classDiagram
 class ManagedClustersAgentPoolList["ManagedClustersAgentPoolList"]
+
 ManagedClustersAgentPoolList -- ManagedClustersAgentPool : items
 class ManagedClustersAgentPool["ManagedClustersAgentPool"] 
-
 ```
 
 | Property                                                                            | Description | Type                                                                                |
@@ -283,7 +283,7 @@ class ManagedClustersAgentPool["ManagedClustersAgentPool"]
 <a id="ManagedCluster_Spec"></a>ManagedCluster_Spec
 ---------------------------------------------------
 
-Used by: [ManagedCluster](#ManagedCluster).
+Used by: [ManagedCluster.spec](#ManagedCluster).
 
 ```mermaid
 ---
@@ -306,6 +306,7 @@ class ManagedCluster_Spec["ManagedCluster_Spec"] {
     owner genruntime.KnownResourceReference
     tags map[string]string
 }
+
 
 ManagedCluster_Spec -- ManagedClusterAADProfile : aadProfile
 ManagedCluster_Spec -- ManagedClusterAddonProfile : addonProfiles
@@ -343,7 +344,6 @@ class PrivateLinkResource["PrivateLinkResource"]
 class ManagedClusterServicePrincipalProfile["ManagedClusterServicePrincipalProfile"] 
 class ManagedClusterSKU["ManagedClusterSKU"] 
 class ManagedClusterWindowsProfile["ManagedClusterWindowsProfile"] 
-
 ```
 
 | Property                     | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
@@ -382,7 +382,7 @@ class ManagedClusterWindowsProfile["ManagedClusterWindowsProfile"]
 <a id="ManagedCluster_STATUS"></a>ManagedCluster_STATUS
 -------------------------------------------------------
 
-Used by: [ManagedCluster](#ManagedCluster).
+Used by: [ManagedCluster.status](#ManagedCluster).
 
 ```mermaid
 ---
@@ -412,6 +412,7 @@ class ManagedCluster_STATUS["ManagedCluster_STATUS"] {
     tags map[string]string
     type string
 }
+
 
 ManagedCluster_STATUS -- ManagedClusterAADProfile_STATUS : aadProfile
 ManagedCluster_STATUS -- ManagedClusterAddonProfile_STATUS : addonProfiles
@@ -449,7 +450,6 @@ class PrivateLinkResource_STATUS["PrivateLinkResource_STATUS"]
 class ManagedClusterServicePrincipalProfile_STATUS["ManagedClusterServicePrincipalProfile_STATUS"] 
 class ManagedClusterSKU_STATUS["ManagedClusterSKU_STATUS"] 
 class ManagedClusterWindowsProfile_STATUS["ManagedClusterWindowsProfile_STATUS"] 
-
 ```
 
 | Property                | Description                        | Type                                                                                                                                                    |
@@ -495,7 +495,7 @@ class ManagedClusterWindowsProfile_STATUS["ManagedClusterWindowsProfile_STATUS"]
 <a id="ManagedClustersAgentPool_Spec"></a>ManagedClustersAgentPool_Spec
 -----------------------------------------------------------------------
 
-Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
+Used by: [ManagedClustersAgentPool.spec](#ManagedClustersAgentPool).
 
 ```mermaid
 ---
@@ -529,6 +529,7 @@ class ManagedClustersAgentPool_Spec["ManagedClustersAgentPool_Spec"] {
     vnetSubnetIDReference genruntime.ResourceReference
 }
 
+
 ManagedClustersAgentPool_Spec -- GPUInstanceProfile : gpuInstanceProfile
 ManagedClustersAgentPool_Spec -- KubeletConfig : kubeletConfig
 ManagedClustersAgentPool_Spec -- KubeletDiskType : kubeletDiskType
@@ -557,7 +558,6 @@ class ScaleSetEvictionPolicy["ScaleSetEvictionPolicy"]
 class ScaleSetPriority["ScaleSetPriority"] 
 class AgentPoolType["AgentPoolType"] 
 class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"] 
-
 ```
 
 | Property                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
@@ -602,7 +602,7 @@ class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"]
 <a id="ManagedClustersAgentPool_STATUS"></a>ManagedClustersAgentPool_STATUS
 ---------------------------------------------------------------------------
 
-Used by: [ManagedClustersAgentPool](#ManagedClustersAgentPool).
+Used by: [ManagedClustersAgentPool.status](#ManagedClustersAgentPool).
 
 ```mermaid
 ---
@@ -641,6 +641,7 @@ class ManagedClustersAgentPool_STATUS["ManagedClustersAgentPool_STATUS"] {
     vnetSubnetID string
 }
 
+
 ManagedClustersAgentPool_STATUS -- GPUInstanceProfile_STATUS : gpuInstanceProfile
 ManagedClustersAgentPool_STATUS -- KubeletConfig_STATUS : kubeletConfig
 ManagedClustersAgentPool_STATUS -- KubeletDiskType_STATUS : kubeletDiskType
@@ -667,7 +668,6 @@ class AgentPoolType_STATUS["AgentPoolType_STATUS"]
 class ScaleSetEvictionPolicy_STATUS["ScaleSetEvictionPolicy_STATUS"] 
 class ScaleSetPriority_STATUS["ScaleSetPriority_STATUS"] 
 class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"] 
-
 ```
 
 | Property                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                    |
@@ -716,7 +716,7 @@ class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"]
 <a id="AgentPoolMode"></a>AgentPoolMode
 ---------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.mode](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.mode](#ManagedClustersAgentPool_Spec).
 
 | Value    | Description |
 |----------|-------------|
@@ -726,7 +726,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="AgentPoolMode_STATUS"></a>AgentPoolMode_STATUS
 -----------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.mode](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.mode](#ManagedClustersAgentPool_STATUS).
 
 | Value    | Description |
 |----------|-------------|
@@ -736,7 +736,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="AgentPoolType"></a>AgentPoolType
 ---------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.type](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.type](#ManagedClustersAgentPool_Spec).
 
 | Value                     | Description |
 |---------------------------|-------------|
@@ -746,7 +746,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="AgentPoolType_STATUS"></a>AgentPoolType_STATUS
 -----------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.type](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.properties_type](#ManagedClustersAgentPool_STATUS).
 
 | Value                     | Description |
 |---------------------------|-------------|
@@ -756,7 +756,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="AgentPoolUpgradeSettings"></a>AgentPoolUpgradeSettings
 -------------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.upgradeSettings](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.upgradeSettings](#ManagedClustersAgentPool_Spec).
 
 ```mermaid
 ---
@@ -779,7 +779,7 @@ class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"] {
 <a id="AgentPoolUpgradeSettings_STATUS"></a>AgentPoolUpgradeSettings_STATUS
 ---------------------------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.upgradeSettings](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.upgradeSettings](#ManagedClustersAgentPool_STATUS).
 
 ```mermaid
 ---
@@ -802,7 +802,7 @@ class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"] {
 <a id="ContainerServiceLinuxProfile"></a>ContainerServiceLinuxProfile
 ---------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.linuxProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -815,9 +815,9 @@ class ContainerServiceLinuxProfile["ContainerServiceLinuxProfile"] {
     adminUsername string
 }
 
+
 ContainerServiceLinuxProfile -- ContainerServiceSshConfiguration : ssh
 class ContainerServiceSshConfiguration["ContainerServiceSshConfiguration"] 
-
 ```
 
 | Property      | Description | Type                                                                                              |
@@ -828,7 +828,7 @@ class ContainerServiceSshConfiguration["ContainerServiceSshConfiguration"]
 <a id="ContainerServiceLinuxProfile_STATUS"></a>ContainerServiceLinuxProfile_STATUS
 -----------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.linuxProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -841,9 +841,9 @@ class ContainerServiceLinuxProfile_STATUS["ContainerServiceLinuxProfile_STATUS"]
     adminUsername string
 }
 
+
 ContainerServiceLinuxProfile_STATUS -- ContainerServiceSshConfiguration_STATUS : ssh
 class ContainerServiceSshConfiguration_STATUS["ContainerServiceSshConfiguration_STATUS"] 
-
 ```
 
 | Property      | Description | Type                                                                                                            |
@@ -854,7 +854,7 @@ class ContainerServiceSshConfiguration_STATUS["ContainerServiceSshConfiguration_
 <a id="ContainerServiceNetworkProfile"></a>ContainerServiceNetworkProfile
 -------------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.networkProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -870,6 +870,7 @@ class ContainerServiceNetworkProfile["ContainerServiceNetworkProfile"] {
     serviceCidr string
 }
 
+
 ContainerServiceNetworkProfile -- ManagedClusterLoadBalancerProfile : loadBalancerProfile
 ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_LoadBalancerSku : loadBalancerSku
 ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_NetworkMode : networkMode
@@ -882,7 +883,6 @@ class ContainerServiceNetworkProfile_NetworkMode["ContainerServiceNetworkProfile
 class ContainerServiceNetworkProfile_NetworkPlugin["ContainerServiceNetworkProfile_NetworkPlugin"] 
 class ContainerServiceNetworkProfile_NetworkPolicy["ContainerServiceNetworkProfile_NetworkPolicy"] 
 class ContainerServiceNetworkProfile_OutboundType["ContainerServiceNetworkProfile_OutboundType"] 
-
 ```
 
 | Property            | Description | Type                                                                                                                          |
@@ -901,7 +901,7 @@ class ContainerServiceNetworkProfile_OutboundType["ContainerServiceNetworkProfil
 <a id="ContainerServiceNetworkProfile_STATUS"></a>ContainerServiceNetworkProfile_STATUS
 ---------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.networkProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -917,6 +917,7 @@ class ContainerServiceNetworkProfile_STATUS["ContainerServiceNetworkProfile_STAT
     serviceCidr string
 }
 
+
 ContainerServiceNetworkProfile_STATUS -- ManagedClusterLoadBalancerProfile_STATUS : loadBalancerProfile
 ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_LoadBalancerSku_STATUS : loadBalancerSku
 ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_NetworkMode_STATUS : networkMode
@@ -929,7 +930,6 @@ class ContainerServiceNetworkProfile_NetworkMode_STATUS["ContainerServiceNetwork
 class ContainerServiceNetworkProfile_NetworkPlugin_STATUS["ContainerServiceNetworkProfile_NetworkPlugin_STATUS"] 
 class ContainerServiceNetworkProfile_NetworkPolicy_STATUS["ContainerServiceNetworkProfile_NetworkPolicy_STATUS"] 
 class ContainerServiceNetworkProfile_OutboundType_STATUS["ContainerServiceNetworkProfile_OutboundType_STATUS"] 
-
 ```
 
 | Property            | Description | Type                                                                                                                                        |
@@ -948,12 +948,12 @@ class ContainerServiceNetworkProfile_OutboundType_STATUS["ContainerServiceNetwor
 <a id="ContainerServiceOSDisk"></a>ContainerServiceOSDisk
 ---------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.osDiskSizeGB](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.osDiskSizeGB](#ManagedClustersAgentPool_Spec).
 
 <a id="ExtendedLocation"></a>ExtendedLocation
 ---------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.extendedLocation](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -966,9 +966,9 @@ class ExtendedLocation["ExtendedLocation"] {
     name string
 }
 
+
 ExtendedLocation -- ExtendedLocationType : type
 class ExtendedLocationType["ExtendedLocationType"] 
-
 ```
 
 | Property | Description | Type                                                                      |
@@ -979,7 +979,7 @@ class ExtendedLocationType["ExtendedLocationType"]
 <a id="ExtendedLocation_STATUS"></a>ExtendedLocation_STATUS
 -----------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.extendedLocation](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -992,9 +992,9 @@ class ExtendedLocation_STATUS["ExtendedLocation_STATUS"] {
     name string
 }
 
+
 ExtendedLocation_STATUS -- ExtendedLocationType_STATUS : type
 class ExtendedLocationType_STATUS["ExtendedLocationType_STATUS"] 
-
 ```
 
 | Property | Description | Type                                                                                    |
@@ -1005,7 +1005,7 @@ class ExtendedLocationType_STATUS["ExtendedLocationType_STATUS"]
 <a id="GPUInstanceProfile"></a>GPUInstanceProfile
 -------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.gpuInstanceProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.gpuInstanceProfile](#ManagedClustersAgentPool_Spec).
 
 | Value   | Description |
 |---------|-------------|
@@ -1018,7 +1018,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="GPUInstanceProfile_STATUS"></a>GPUInstanceProfile_STATUS
 ---------------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.gpuInstanceProfile](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.gpuInstanceProfile](#ManagedClustersAgentPool_STATUS).
 
 | Value   | Description |
 |---------|-------------|
@@ -1031,7 +1031,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="KubeletConfig"></a>KubeletConfig
 ---------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.kubeletConfig](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.kubeletConfig](#ManagedClustersAgentPool_Spec).
 
 ```mermaid
 ---
@@ -1074,7 +1074,7 @@ class KubeletConfig["KubeletConfig"] {
 <a id="KubeletConfig_STATUS"></a>KubeletConfig_STATUS
 -----------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.kubeletConfig](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.kubeletConfig](#ManagedClustersAgentPool_STATUS).
 
 ```mermaid
 ---
@@ -1117,7 +1117,7 @@ class KubeletConfig_STATUS["KubeletConfig_STATUS"] {
 <a id="KubeletDiskType"></a>KubeletDiskType
 -------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.kubeletDiskType](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.kubeletDiskType](#ManagedClustersAgentPool_Spec).
 
 | Value       | Description |
 |-------------|-------------|
@@ -1127,7 +1127,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="KubeletDiskType_STATUS"></a>KubeletDiskType_STATUS
 ---------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.kubeletDiskType](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.kubeletDiskType](#ManagedClustersAgentPool_STATUS).
 
 | Value       | Description |
 |-------------|-------------|
@@ -1137,7 +1137,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="LinuxOSConfig"></a>LinuxOSConfig
 ---------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.linuxOSConfig](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.linuxOSConfig](#ManagedClustersAgentPool_Spec).
 
 ```mermaid
 ---
@@ -1152,9 +1152,9 @@ class LinuxOSConfig["LinuxOSConfig"] {
     transparentHugePageEnabled string
 }
 
+
 LinuxOSConfig -- SysctlConfig : sysctls
 class SysctlConfig["SysctlConfig"] 
-
 ```
 
 | Property                   | Description | Type                                                      |
@@ -1167,7 +1167,7 @@ class SysctlConfig["SysctlConfig"]
 <a id="LinuxOSConfig_STATUS"></a>LinuxOSConfig_STATUS
 -----------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.linuxOSConfig](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.linuxOSConfig](#ManagedClustersAgentPool_STATUS).
 
 ```mermaid
 ---
@@ -1182,9 +1182,9 @@ class LinuxOSConfig_STATUS["LinuxOSConfig_STATUS"] {
     transparentHugePageEnabled string
 }
 
+
 LinuxOSConfig_STATUS -- SysctlConfig_STATUS : sysctls
 class SysctlConfig_STATUS["SysctlConfig_STATUS"] 
-
 ```
 
 | Property                   | Description | Type                                                                    |
@@ -1197,7 +1197,7 @@ class SysctlConfig_STATUS["SysctlConfig_STATUS"]
 <a id="ManagedClusterAADProfile"></a>ManagedClusterAADProfile
 -------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.aadProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1232,7 +1232,7 @@ class ManagedClusterAADProfile["ManagedClusterAADProfile"] {
 <a id="ManagedClusterAADProfile_STATUS"></a>ManagedClusterAADProfile_STATUS
 ---------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.aadProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1267,7 +1267,7 @@ class ManagedClusterAADProfile_STATUS["ManagedClusterAADProfile_STATUS"] {
 <a id="ManagedClusterAddonProfile"></a>ManagedClusterAddonProfile
 -----------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.addonProfiles](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1292,7 +1292,7 @@ class ManagedClusterAddonProfile["ManagedClusterAddonProfile"] {
 <a id="ManagedClusterAddonProfile_STATUS"></a>ManagedClusterAddonProfile_STATUS
 -------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.addonProfiles](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1306,9 +1306,9 @@ class ManagedClusterAddonProfile_STATUS["ManagedClusterAddonProfile_STATUS"] {
     enabled bool
 }
 
+
 ManagedClusterAddonProfile_STATUS -- UserAssignedIdentity_STATUS : identity
 class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"] 
-
 ```
 
 | Property | Description | Type                                                                                    |
@@ -1320,7 +1320,7 @@ class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"]
 <a id="ManagedClusterAgentPoolProfile"></a>ManagedClusterAgentPoolProfile
 -------------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.agentPoolProfiles](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1353,6 +1353,7 @@ class ManagedClusterAgentPoolProfile["ManagedClusterAgentPoolProfile"] {
     vnetSubnetIDReference genruntime.ResourceReference
 }
 
+
 ManagedClusterAgentPoolProfile -- GPUInstanceProfile : gpuInstanceProfile
 ManagedClusterAgentPoolProfile -- KubeletConfig : kubeletConfig
 ManagedClusterAgentPoolProfile -- KubeletDiskType : kubeletDiskType
@@ -1379,7 +1380,6 @@ class ScaleSetEvictionPolicy["ScaleSetEvictionPolicy"]
 class ScaleSetPriority["ScaleSetPriority"] 
 class AgentPoolType["AgentPoolType"] 
 class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"] 
-
 ```
 
 | Property                      | Description | Type                                                                                                                                                       |
@@ -1422,7 +1422,7 @@ class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"]
 <a id="ManagedClusterAgentPoolProfile_STATUS"></a>ManagedClusterAgentPoolProfile_STATUS
 ---------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.agentPoolProfiles](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1458,6 +1458,7 @@ class ManagedClusterAgentPoolProfile_STATUS["ManagedClusterAgentPoolProfile_STAT
     vnetSubnetID string
 }
 
+
 ManagedClusterAgentPoolProfile_STATUS -- GPUInstanceProfile_STATUS : gpuInstanceProfile
 ManagedClusterAgentPoolProfile_STATUS -- KubeletConfig_STATUS : kubeletConfig
 ManagedClusterAgentPoolProfile_STATUS -- KubeletDiskType_STATUS : kubeletDiskType
@@ -1484,7 +1485,6 @@ class ScaleSetEvictionPolicy_STATUS["ScaleSetEvictionPolicy_STATUS"]
 class ScaleSetPriority_STATUS["ScaleSetPriority_STATUS"] 
 class AgentPoolType_STATUS["AgentPoolType_STATUS"] 
 class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"] 
-
 ```
 
 | Property                  | Description | Type                                                                                            |
@@ -1530,7 +1530,7 @@ class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"]
 <a id="ManagedClusterAPIServerAccessProfile"></a>ManagedClusterAPIServerAccessProfile
 -------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.apiServerAccessProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1559,7 +1559,7 @@ class ManagedClusterAPIServerAccessProfile["ManagedClusterAPIServerAccessProfile
 <a id="ManagedClusterAPIServerAccessProfile_STATUS"></a>ManagedClusterAPIServerAccessProfile_STATUS
 ---------------------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.apiServerAccessProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1588,7 +1588,7 @@ class ManagedClusterAPIServerAccessProfile_STATUS["ManagedClusterAPIServerAccess
 <a id="ManagedClusterAutoUpgradeProfile"></a>ManagedClusterAutoUpgradeProfile
 -----------------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.autoUpgradeProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1598,9 +1598,9 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 ---
 classDiagram
 class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
+
 ManagedClusterAutoUpgradeProfile -- ManagedClusterAutoUpgradeProfile_UpgradeChannel : upgradeChannel
 class ManagedClusterAutoUpgradeProfile_UpgradeChannel["ManagedClusterAutoUpgradeProfile_UpgradeChannel"] 
-
 ```
 
 | Property       | Description | Type                                                                                                                            |
@@ -1610,7 +1610,7 @@ class ManagedClusterAutoUpgradeProfile_UpgradeChannel["ManagedClusterAutoUpgrade
 <a id="ManagedClusterAutoUpgradeProfile_STATUS"></a>ManagedClusterAutoUpgradeProfile_STATUS
 -------------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.autoUpgradeProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1620,9 +1620,9 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 ---
 classDiagram
 class ManagedClusterAutoUpgradeProfile_STATUS["ManagedClusterAutoUpgradeProfile_STATUS"]
+
 ManagedClusterAutoUpgradeProfile_STATUS -- ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS : upgradeChannel
 class ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS["ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS"] 
-
 ```
 
 | Property       | Description | Type                                                                                                                                          |
@@ -1632,7 +1632,7 @@ class ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS["ManagedClusterAuto
 <a id="ManagedClusterHTTPProxyConfig"></a>ManagedClusterHTTPProxyConfig
 -----------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.httpProxyConfig](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1661,7 +1661,7 @@ class ManagedClusterHTTPProxyConfig["ManagedClusterHTTPProxyConfig"] {
 <a id="ManagedClusterHTTPProxyConfig_STATUS"></a>ManagedClusterHTTPProxyConfig_STATUS
 -------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.httpProxyConfig](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1690,7 +1690,7 @@ class ManagedClusterHTTPProxyConfig_STATUS["ManagedClusterHTTPProxyConfig_STATUS
 <a id="ManagedClusterIdentity"></a>ManagedClusterIdentity
 ---------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.identity](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1700,11 +1700,11 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 ---
 classDiagram
 class ManagedClusterIdentity["ManagedClusterIdentity"]
+
 ManagedClusterIdentity -- ManagedClusterIdentity_Type : type
 ManagedClusterIdentity -- UserAssignedIdentityDetails : userAssignedIdentities
 class ManagedClusterIdentity_Type["ManagedClusterIdentity_Type"] 
 class UserAssignedIdentityDetails["UserAssignedIdentityDetails"] 
-
 ```
 
 | Property               | Description | Type                                                                                      |
@@ -1715,7 +1715,7 @@ class UserAssignedIdentityDetails["UserAssignedIdentityDetails"]
 <a id="ManagedClusterIdentity_STATUS"></a>ManagedClusterIdentity_STATUS
 -----------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.identity](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1729,11 +1729,11 @@ class ManagedClusterIdentity_STATUS["ManagedClusterIdentity_STATUS"] {
     tenantId string
 }
 
+
 ManagedClusterIdentity_STATUS -- ManagedClusterIdentity_Type_STATUS : type
 ManagedClusterIdentity_STATUS -- ManagedClusterIdentity_UserAssignedIdentities_STATUS : userAssignedIdentities
 class ManagedClusterIdentity_Type_STATUS["ManagedClusterIdentity_Type_STATUS"] 
 class ManagedClusterIdentity_UserAssignedIdentities_STATUS["ManagedClusterIdentity_UserAssignedIdentities_STATUS"] 
-
 ```
 
 | Property               | Description | Type                                                                                                                                                 |
@@ -1748,7 +1748,7 @@ class ManagedClusterIdentity_UserAssignedIdentities_STATUS["ManagedClusterIdenti
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.operatorSpec](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1762,9 +1762,9 @@ class ManagedClusterOperatorSpec["ManagedClusterOperatorSpec"] {
     secretExpressions core.DestinationExpression[]
 }
 
+
 ManagedClusterOperatorSpec -- ManagedClusterOperatorSecrets : secrets
 class ManagedClusterOperatorSecrets["ManagedClusterOperatorSecrets"] 
-
 ```
 
 | Property             | Description                                                                                   | Type                                                                                                                                                                |
@@ -1776,7 +1776,7 @@ class ManagedClusterOperatorSecrets["ManagedClusterOperatorSecrets"]
 <a id="ManagedClusterPodIdentityProfile"></a>ManagedClusterPodIdentityProfile
 -----------------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.podIdentityProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1790,11 +1790,11 @@ class ManagedClusterPodIdentityProfile["ManagedClusterPodIdentityProfile"] {
     enabled bool
 }
 
+
 ManagedClusterPodIdentityProfile -- ManagedClusterPodIdentity : userAssignedIdentities
 ManagedClusterPodIdentityProfile -- ManagedClusterPodIdentityException : userAssignedIdentityExceptions
 class ManagedClusterPodIdentity["ManagedClusterPodIdentity"] 
 class ManagedClusterPodIdentityException["ManagedClusterPodIdentityException"] 
-
 ```
 
 | Property                       | Description | Type                                                                                                    |
@@ -1807,7 +1807,7 @@ class ManagedClusterPodIdentityException["ManagedClusterPodIdentityException"]
 <a id="ManagedClusterPodIdentityProfile_STATUS"></a>ManagedClusterPodIdentityProfile_STATUS
 -------------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.podIdentityProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1821,11 +1821,11 @@ class ManagedClusterPodIdentityProfile_STATUS["ManagedClusterPodIdentityProfile_
     enabled bool
 }
 
+
 ManagedClusterPodIdentityProfile_STATUS -- ManagedClusterPodIdentity_STATUS : userAssignedIdentities
 ManagedClusterPodIdentityProfile_STATUS -- ManagedClusterPodIdentityException_STATUS : userAssignedIdentityExceptions
 class ManagedClusterPodIdentity_STATUS["ManagedClusterPodIdentity_STATUS"] 
 class ManagedClusterPodIdentityException_STATUS["ManagedClusterPodIdentityException_STATUS"] 
-
 ```
 
 | Property                       | Description | Type                                                                                                                  |
@@ -1838,7 +1838,7 @@ class ManagedClusterPodIdentityException_STATUS["ManagedClusterPodIdentityExcept
 <a id="ManagedClusterProperties_AutoScalerProfile"></a>ManagedClusterProperties_AutoScalerProfile
 -------------------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.autoScalerProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -1866,9 +1866,9 @@ class ManagedClusterProperties_AutoScalerProfile["ManagedClusterProperties_AutoS
     skip-nodes-with-system-pods string
 }
 
+
 ManagedClusterProperties_AutoScalerProfile -- ManagedClusterProperties_AutoScalerProfile_Expander : expander
 class ManagedClusterProperties_AutoScalerProfile_Expander["ManagedClusterProperties_AutoScalerProfile_Expander"] 
-
 ```
 
 | Property                         | Description | Type                                                                                                                                    |
@@ -1894,7 +1894,7 @@ class ManagedClusterProperties_AutoScalerProfile_Expander["ManagedClusterPropert
 <a id="ManagedClusterProperties_AutoScalerProfile_STATUS"></a>ManagedClusterProperties_AutoScalerProfile_STATUS
 ---------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.autoScalerProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -1922,9 +1922,9 @@ class ManagedClusterProperties_AutoScalerProfile_STATUS["ManagedClusterPropertie
     skip-nodes-with-system-pods string
 }
 
+
 ManagedClusterProperties_AutoScalerProfile_STATUS -- ManagedClusterProperties_AutoScalerProfile_Expander_STATUS : expander
 class ManagedClusterProperties_AutoScalerProfile_Expander_STATUS["ManagedClusterProperties_AutoScalerProfile_Expander_STATUS"] 
-
 ```
 
 | Property                         | Description | Type                                                                                                                                                  |
@@ -1952,7 +1952,7 @@ class ManagedClusterProperties_AutoScalerProfile_Expander_STATUS["ManagedCluster
 
 Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 
-Used by: [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClustersAgentPool_Spec.operatorSpec](#ManagedClustersAgentPool_Spec).
 
 ```mermaid
 ---
@@ -1977,7 +1977,7 @@ class ManagedClustersAgentPoolOperatorSpec["ManagedClustersAgentPoolOperatorSpec
 <a id="ManagedClusterServicePrincipalProfile"></a>ManagedClusterServicePrincipalProfile
 ---------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.servicePrincipalProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -2002,7 +2002,7 @@ class ManagedClusterServicePrincipalProfile["ManagedClusterServicePrincipalProfi
 <a id="ManagedClusterServicePrincipalProfile_STATUS"></a>ManagedClusterServicePrincipalProfile_STATUS
 -----------------------------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.servicePrincipalProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -2025,7 +2025,7 @@ class ManagedClusterServicePrincipalProfile_STATUS["ManagedClusterServicePrincip
 <a id="ManagedClusterSKU"></a>ManagedClusterSKU
 -----------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.sku](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -2035,11 +2035,11 @@ Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
 ---
 classDiagram
 class ManagedClusterSKU["ManagedClusterSKU"]
+
 ManagedClusterSKU -- ManagedClusterSKU_Name : name
 ManagedClusterSKU -- ManagedClusterSKU_Tier : tier
 class ManagedClusterSKU_Name["ManagedClusterSKU_Name"] 
 class ManagedClusterSKU_Tier["ManagedClusterSKU_Tier"] 
-
 ```
 
 | Property | Description | Type                                                                          |
@@ -2050,7 +2050,7 @@ class ManagedClusterSKU_Tier["ManagedClusterSKU_Tier"]
 <a id="ManagedClusterSKU_STATUS"></a>ManagedClusterSKU_STATUS
 -------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.sku](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -2060,11 +2060,11 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
 ---
 classDiagram
 class ManagedClusterSKU_STATUS["ManagedClusterSKU_STATUS"]
+
 ManagedClusterSKU_STATUS -- ManagedClusterSKU_Name_STATUS : name
 ManagedClusterSKU_STATUS -- ManagedClusterSKU_Tier_STATUS : tier
 class ManagedClusterSKU_Name_STATUS["ManagedClusterSKU_Name_STATUS"] 
 class ManagedClusterSKU_Tier_STATUS["ManagedClusterSKU_Tier_STATUS"] 
-
 ```
 
 | Property | Description | Type                                                                                        |
@@ -2075,7 +2075,7 @@ class ManagedClusterSKU_Tier_STATUS["ManagedClusterSKU_Tier_STATUS"]
 <a id="ManagedClusterWindowsProfile"></a>ManagedClusterWindowsProfile
 ---------------------------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.windowsProfile](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -2090,9 +2090,9 @@ class ManagedClusterWindowsProfile["ManagedClusterWindowsProfile"] {
     enableCSIProxy bool
 }
 
+
 ManagedClusterWindowsProfile -- ManagedClusterWindowsProfile_LicenseType : licenseType
 class ManagedClusterWindowsProfile_LicenseType["ManagedClusterWindowsProfile_LicenseType"] 
-
 ```
 
 | Property       | Description | Type                                                                                                                                                   |
@@ -2105,7 +2105,7 @@ class ManagedClusterWindowsProfile_LicenseType["ManagedClusterWindowsProfile_Lic
 <a id="ManagedClusterWindowsProfile_STATUS"></a>ManagedClusterWindowsProfile_STATUS
 -----------------------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.windowsProfile](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -2119,9 +2119,9 @@ class ManagedClusterWindowsProfile_STATUS["ManagedClusterWindowsProfile_STATUS"]
     enableCSIProxy bool
 }
 
+
 ManagedClusterWindowsProfile_STATUS -- ManagedClusterWindowsProfile_LicenseType_STATUS : licenseType
 class ManagedClusterWindowsProfile_LicenseType_STATUS["ManagedClusterWindowsProfile_LicenseType_STATUS"] 
-
 ```
 
 | Property       | Description | Type                                                                                                                            |
@@ -2133,7 +2133,7 @@ class ManagedClusterWindowsProfile_LicenseType_STATUS["ManagedClusterWindowsProf
 <a id="OSDiskType"></a>OSDiskType
 ---------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.osDiskType](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.osDiskType](#ManagedClustersAgentPool_Spec).
 
 | Value       | Description |
 |-------------|-------------|
@@ -2143,7 +2143,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="OSDiskType_STATUS"></a>OSDiskType_STATUS
 -----------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.osDiskType](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.osDiskType](#ManagedClustersAgentPool_STATUS).
 
 | Value       | Description |
 |-------------|-------------|
@@ -2153,7 +2153,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="OSSKU"></a>OSSKU
 -----------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.osSKU](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.osSKU](#ManagedClustersAgentPool_Spec).
 
 | Value        | Description |
 |--------------|-------------|
@@ -2163,7 +2163,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="OSSKU_STATUS"></a>OSSKU_STATUS
 -------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.osSKU](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.osSKU](#ManagedClustersAgentPool_STATUS).
 
 | Value        | Description |
 |--------------|-------------|
@@ -2173,7 +2173,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="OSType"></a>OSType
 -------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.osType](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.osType](#ManagedClustersAgentPool_Spec).
 
 | Value     | Description |
 |-----------|-------------|
@@ -2183,7 +2183,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="OSType_STATUS"></a>OSType_STATUS
 ---------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.osType](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.osType](#ManagedClustersAgentPool_STATUS).
 
 | Value     | Description |
 |-----------|-------------|
@@ -2193,7 +2193,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="PowerState_STATUS"></a>PowerState_STATUS
 -----------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedCluster_STATUS.powerState](#ManagedCluster_STATUS), [ManagedClusterAgentPoolProfile_STATUS.powerState](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.powerState](#ManagedClustersAgentPool_STATUS).
 
 ```mermaid
 ---
@@ -2203,9 +2203,9 @@ Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAgentPo
 ---
 classDiagram
 class PowerState_STATUS["PowerState_STATUS"]
+
 PowerState_STATUS -- PowerState_Code_STATUS : code
 class PowerState_Code_STATUS["PowerState_Code_STATUS"] 
-
 ```
 
 | Property | Description | Type                                                                          |
@@ -2215,7 +2215,7 @@ class PowerState_Code_STATUS["PowerState_Code_STATUS"]
 <a id="PrivateLinkResource"></a>PrivateLinkResource
 ---------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec).
+Used by: [ManagedCluster_Spec.privateLinkResources](#ManagedCluster_Spec).
 
 ```mermaid
 ---
@@ -2246,7 +2246,7 @@ class PrivateLinkResource["PrivateLinkResource"] {
 <a id="PrivateLinkResource_STATUS"></a>PrivateLinkResource_STATUS
 -----------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS).
+Used by: [ManagedCluster_STATUS.privateLinkResources](#ManagedCluster_STATUS).
 
 ```mermaid
 ---
@@ -2279,7 +2279,7 @@ class PrivateLinkResource_STATUS["PrivateLinkResource_STATUS"] {
 <a id="ScaleSetEvictionPolicy"></a>ScaleSetEvictionPolicy
 ---------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.scaleSetEvictionPolicy](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.scaleSetEvictionPolicy](#ManagedClustersAgentPool_Spec).
 
 | Value        | Description |
 |--------------|-------------|
@@ -2289,7 +2289,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="ScaleSetEvictionPolicy_STATUS"></a>ScaleSetEvictionPolicy_STATUS
 -----------------------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.scaleSetEvictionPolicy](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.scaleSetEvictionPolicy](#ManagedClustersAgentPool_STATUS).
 
 | Value        | Description |
 |--------------|-------------|
@@ -2299,7 +2299,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="ScaleSetPriority"></a>ScaleSetPriority
 ---------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec](#ManagedClustersAgentPool_Spec).
+Used by: [ManagedClusterAgentPoolProfile.scaleSetPriority](#ManagedClusterAgentPoolProfile), and [ManagedClustersAgentPool_Spec.scaleSetPriority](#ManagedClustersAgentPool_Spec).
 
 | Value     | Description |
 |-----------|-------------|
@@ -2309,7 +2309,7 @@ Used by: [ManagedClusterAgentPoolProfile](#ManagedClusterAgentPoolProfile), and 
 <a id="ScaleSetPriority_STATUS"></a>ScaleSetPriority_STATUS
 -----------------------------------------------------------
 
-Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS](#ManagedClustersAgentPool_STATUS).
+Used by: [ManagedClusterAgentPoolProfile_STATUS.scaleSetPriority](#ManagedClusterAgentPoolProfile_STATUS), and [ManagedClustersAgentPool_STATUS.scaleSetPriority](#ManagedClustersAgentPool_STATUS).
 
 | Value     | Description |
 |-----------|-------------|
@@ -2319,7 +2319,7 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS](#ManagedClusterAgentPoolProfile
 <a id="UserAssignedIdentity"></a>UserAssignedIdentity
 -----------------------------------------------------
 
-Used by: [ManagedCluster_Spec](#ManagedCluster_Spec), and [ManagedClusterPodIdentity](#ManagedClusterPodIdentity).
+Used by: [ManagedCluster_Spec.identityProfile](#ManagedCluster_Spec), and [ManagedClusterPodIdentity.identity](#ManagedClusterPodIdentity).
 
 ```mermaid
 ---
@@ -2346,7 +2346,7 @@ class UserAssignedIdentity["UserAssignedIdentity"] {
 <a id="UserAssignedIdentity_STATUS"></a>UserAssignedIdentity_STATUS
 -------------------------------------------------------------------
 
-Used by: [ManagedCluster_STATUS](#ManagedCluster_STATUS), [ManagedClusterAddonProfile_STATUS](#ManagedClusterAddonProfile_STATUS), and [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
+Used by: [ManagedCluster_STATUS.identityProfile](#ManagedCluster_STATUS), [ManagedClusterAddonProfile_STATUS.identity](#ManagedClusterAddonProfile_STATUS), and [ManagedClusterPodIdentity_STATUS.identity](#ManagedClusterPodIdentity_STATUS).
 
 ```mermaid
 ---
@@ -2373,7 +2373,7 @@ class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"] {
 <a id="ContainerServiceNetworkProfile_LoadBalancerSku"></a>ContainerServiceNetworkProfile_LoadBalancerSku
 ---------------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+Used by: [ContainerServiceNetworkProfile.loadBalancerSku](#ContainerServiceNetworkProfile).
 
 | Value      | Description |
 |------------|-------------|
@@ -2383,7 +2383,7 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 <a id="ContainerServiceNetworkProfile_LoadBalancerSku_STATUS"></a>ContainerServiceNetworkProfile_LoadBalancerSku_STATUS
 -----------------------------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+Used by: [ContainerServiceNetworkProfile_STATUS.loadBalancerSku](#ContainerServiceNetworkProfile_STATUS).
 
 | Value      | Description |
 |------------|-------------|
@@ -2393,7 +2393,7 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 <a id="ContainerServiceNetworkProfile_NetworkMode"></a>ContainerServiceNetworkProfile_NetworkMode
 -------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+Used by: [ContainerServiceNetworkProfile.networkMode](#ContainerServiceNetworkProfile).
 
 | Value         | Description |
 |---------------|-------------|
@@ -2403,7 +2403,7 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 <a id="ContainerServiceNetworkProfile_NetworkMode_STATUS"></a>ContainerServiceNetworkProfile_NetworkMode_STATUS
 ---------------------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+Used by: [ContainerServiceNetworkProfile_STATUS.networkMode](#ContainerServiceNetworkProfile_STATUS).
 
 | Value         | Description |
 |---------------|-------------|
@@ -2413,7 +2413,7 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 <a id="ContainerServiceNetworkProfile_NetworkPlugin"></a>ContainerServiceNetworkProfile_NetworkPlugin
 -----------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+Used by: [ContainerServiceNetworkProfile.networkPlugin](#ContainerServiceNetworkProfile).
 
 | Value     | Description |
 |-----------|-------------|
@@ -2423,7 +2423,7 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 <a id="ContainerServiceNetworkProfile_NetworkPlugin_STATUS"></a>ContainerServiceNetworkProfile_NetworkPlugin_STATUS
 -------------------------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+Used by: [ContainerServiceNetworkProfile_STATUS.networkPlugin](#ContainerServiceNetworkProfile_STATUS).
 
 | Value     | Description |
 |-----------|-------------|
@@ -2433,7 +2433,7 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 <a id="ContainerServiceNetworkProfile_NetworkPolicy"></a>ContainerServiceNetworkProfile_NetworkPolicy
 -----------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+Used by: [ContainerServiceNetworkProfile.networkPolicy](#ContainerServiceNetworkProfile).
 
 | Value    | Description |
 |----------|-------------|
@@ -2443,7 +2443,7 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 <a id="ContainerServiceNetworkProfile_NetworkPolicy_STATUS"></a>ContainerServiceNetworkProfile_NetworkPolicy_STATUS
 -------------------------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+Used by: [ContainerServiceNetworkProfile_STATUS.networkPolicy](#ContainerServiceNetworkProfile_STATUS).
 
 | Value    | Description |
 |----------|-------------|
@@ -2453,7 +2453,7 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 <a id="ContainerServiceNetworkProfile_OutboundType"></a>ContainerServiceNetworkProfile_OutboundType
 ---------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+Used by: [ContainerServiceNetworkProfile.outboundType](#ContainerServiceNetworkProfile).
 
 | Value                | Description |
 |----------------------|-------------|
@@ -2463,7 +2463,7 @@ Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
 <a id="ContainerServiceNetworkProfile_OutboundType_STATUS"></a>ContainerServiceNetworkProfile_OutboundType_STATUS
 -----------------------------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+Used by: [ContainerServiceNetworkProfile_STATUS.outboundType](#ContainerServiceNetworkProfile_STATUS).
 
 | Value                | Description |
 |----------------------|-------------|
@@ -2473,7 +2473,7 @@ Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile
 <a id="ContainerServiceSshConfiguration"></a>ContainerServiceSshConfiguration
 -----------------------------------------------------------------------------
 
-Used by: [ContainerServiceLinuxProfile](#ContainerServiceLinuxProfile).
+Used by: [ContainerServiceLinuxProfile.ssh](#ContainerServiceLinuxProfile).
 
 ```mermaid
 ---
@@ -2483,9 +2483,9 @@ Used by: [ContainerServiceLinuxProfile](#ContainerServiceLinuxProfile).
 ---
 classDiagram
 class ContainerServiceSshConfiguration["ContainerServiceSshConfiguration"]
+
 ContainerServiceSshConfiguration -- ContainerServiceSshPublicKey : publicKeys
 class ContainerServiceSshPublicKey["ContainerServiceSshPublicKey"] 
-
 ```
 
 | Property   | Description | Type                                                                                        |
@@ -2495,7 +2495,7 @@ class ContainerServiceSshPublicKey["ContainerServiceSshPublicKey"]
 <a id="ContainerServiceSshConfiguration_STATUS"></a>ContainerServiceSshConfiguration_STATUS
 -------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceLinuxProfile_STATUS](#ContainerServiceLinuxProfile_STATUS).
+Used by: [ContainerServiceLinuxProfile_STATUS.ssh](#ContainerServiceLinuxProfile_STATUS).
 
 ```mermaid
 ---
@@ -2505,9 +2505,9 @@ Used by: [ContainerServiceLinuxProfile_STATUS](#ContainerServiceLinuxProfile_STA
 ---
 classDiagram
 class ContainerServiceSshConfiguration_STATUS["ContainerServiceSshConfiguration_STATUS"]
+
 ContainerServiceSshConfiguration_STATUS -- ContainerServiceSshPublicKey_STATUS : publicKeys
 class ContainerServiceSshPublicKey_STATUS["ContainerServiceSshPublicKey_STATUS"] 
-
 ```
 
 | Property   | Description | Type                                                                                                      |
@@ -2517,7 +2517,7 @@ class ContainerServiceSshPublicKey_STATUS["ContainerServiceSshPublicKey_STATUS"]
 <a id="ExtendedLocationType"></a>ExtendedLocationType
 -----------------------------------------------------
 
-Used by: [ExtendedLocation](#ExtendedLocation).
+Used by: [ExtendedLocation.type](#ExtendedLocation).
 
 | Value      | Description |
 |------------|-------------|
@@ -2526,7 +2526,7 @@ Used by: [ExtendedLocation](#ExtendedLocation).
 <a id="ExtendedLocationType_STATUS"></a>ExtendedLocationType_STATUS
 -------------------------------------------------------------------
 
-Used by: [ExtendedLocation_STATUS](#ExtendedLocation_STATUS).
+Used by: [ExtendedLocation_STATUS.type](#ExtendedLocation_STATUS).
 
 | Value      | Description |
 |------------|-------------|
@@ -2535,7 +2535,7 @@ Used by: [ExtendedLocation_STATUS](#ExtendedLocation_STATUS).
 <a id="ManagedClusterAutoUpgradeProfile_UpgradeChannel"></a>ManagedClusterAutoUpgradeProfile_UpgradeChannel
 -----------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
+Used by: [ManagedClusterAutoUpgradeProfile.upgradeChannel](#ManagedClusterAutoUpgradeProfile).
 
 | Value        | Description |
 |--------------|-------------|
@@ -2548,7 +2548,7 @@ Used by: [ManagedClusterAutoUpgradeProfile](#ManagedClusterAutoUpgradeProfile).
 <a id="ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS"></a>ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS
 -------------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradeProfile_STATUS).
+Used by: [ManagedClusterAutoUpgradeProfile_STATUS.upgradeChannel](#ManagedClusterAutoUpgradeProfile_STATUS).
 
 | Value        | Description |
 |--------------|-------------|
@@ -2561,7 +2561,7 @@ Used by: [ManagedClusterAutoUpgradeProfile_STATUS](#ManagedClusterAutoUpgradePro
 <a id="ManagedClusterIdentity_Type"></a>ManagedClusterIdentity_Type
 -------------------------------------------------------------------
 
-Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
+Used by: [ManagedClusterIdentity.type](#ManagedClusterIdentity).
 
 | Value            | Description |
 |------------------|-------------|
@@ -2572,7 +2572,7 @@ Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
 <a id="ManagedClusterIdentity_Type_STATUS"></a>ManagedClusterIdentity_Type_STATUS
 ---------------------------------------------------------------------------------
 
-Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
+Used by: [ManagedClusterIdentity_STATUS.type](#ManagedClusterIdentity_STATUS).
 
 | Value            | Description |
 |------------------|-------------|
@@ -2583,7 +2583,7 @@ Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
 <a id="ManagedClusterIdentity_UserAssignedIdentities_STATUS"></a>ManagedClusterIdentity_UserAssignedIdentities_STATUS
 ---------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterIdentity_STATUS](#ManagedClusterIdentity_STATUS).
+Used by: [ManagedClusterIdentity_STATUS.userAssignedIdentities](#ManagedClusterIdentity_STATUS).
 
 ```mermaid
 ---
@@ -2608,7 +2608,7 @@ class ManagedClusterIdentity_UserAssignedIdentities_STATUS["ManagedClusterIdenti
 <a id="ManagedClusterLoadBalancerProfile"></a>ManagedClusterLoadBalancerProfile
 -------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile](#ContainerServiceNetworkProfile).
+Used by: [ContainerServiceNetworkProfile.loadBalancerProfile](#ContainerServiceNetworkProfile).
 
 ```mermaid
 ---
@@ -2622,6 +2622,7 @@ class ManagedClusterLoadBalancerProfile["ManagedClusterLoadBalancerProfile"] {
     idleTimeoutInMinutes int
 }
 
+
 ManagedClusterLoadBalancerProfile -- ResourceReference : effectiveOutboundIPs
 ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_ManagedOutboundIPs : managedOutboundIPs
 ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_OutboundIPPrefixes : outboundIPPrefixes
@@ -2630,7 +2631,6 @@ class ResourceReference["ResourceReference"]
 class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"] 
 class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"] 
 class ManagedClusterLoadBalancerProfile_OutboundIPs["ManagedClusterLoadBalancerProfile_OutboundIPs"] 
-
 ```
 
 | Property               | Description | Type                                                                                                                                      |
@@ -2645,7 +2645,7 @@ class ManagedClusterLoadBalancerProfile_OutboundIPs["ManagedClusterLoadBalancerP
 <a id="ManagedClusterLoadBalancerProfile_STATUS"></a>ManagedClusterLoadBalancerProfile_STATUS
 ---------------------------------------------------------------------------------------------
 
-Used by: [ContainerServiceNetworkProfile_STATUS](#ContainerServiceNetworkProfile_STATUS).
+Used by: [ContainerServiceNetworkProfile_STATUS.loadBalancerProfile](#ContainerServiceNetworkProfile_STATUS).
 
 ```mermaid
 ---
@@ -2659,6 +2659,7 @@ class ManagedClusterLoadBalancerProfile_STATUS["ManagedClusterLoadBalancerProfil
     idleTimeoutInMinutes int
 }
 
+
 ManagedClusterLoadBalancerProfile_STATUS -- ResourceReference_STATUS : effectiveOutboundIPs
 ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS : managedOutboundIPs
 ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS : outboundIPPrefixes
@@ -2667,7 +2668,6 @@ class ResourceReference_STATUS["ResourceReference_STATUS"]
 class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"] 
 class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"] 
 class ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"] 
-
 ```
 
 | Property               | Description | Type                                                                                                                                                    |
@@ -2682,7 +2682,7 @@ class ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS["ManagedClusterLoadBa
 <a id="ManagedClusterOperatorSecrets"></a>ManagedClusterOperatorSecrets
 -----------------------------------------------------------------------
 
-Used by: [ManagedClusterOperatorSpec](#ManagedClusterOperatorSpec).
+Used by: [ManagedClusterOperatorSpec.secrets](#ManagedClusterOperatorSpec).
 
 ```mermaid
 ---
@@ -2707,7 +2707,7 @@ class ManagedClusterOperatorSecrets["ManagedClusterOperatorSecrets"] {
 <a id="ManagedClusterPodIdentity"></a>ManagedClusterPodIdentity
 ---------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile).
+Used by: [ManagedClusterPodIdentityProfile.userAssignedIdentities](#ManagedClusterPodIdentityProfile).
 
 ```mermaid
 ---
@@ -2722,9 +2722,9 @@ class ManagedClusterPodIdentity["ManagedClusterPodIdentity"] {
     namespace string
 }
 
+
 ManagedClusterPodIdentity -- UserAssignedIdentity : identity
 class UserAssignedIdentity["UserAssignedIdentity"] 
-
 ```
 
 | Property        | Description | Type                                                                      |
@@ -2737,7 +2737,7 @@ class UserAssignedIdentity["UserAssignedIdentity"]
 <a id="ManagedClusterPodIdentity_STATUS"></a>ManagedClusterPodIdentity_STATUS
 -----------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityProfile_STATUS).
+Used by: [ManagedClusterPodIdentityProfile_STATUS.userAssignedIdentities](#ManagedClusterPodIdentityProfile_STATUS).
 
 ```mermaid
 ---
@@ -2752,13 +2752,13 @@ class ManagedClusterPodIdentity_STATUS["ManagedClusterPodIdentity_STATUS"] {
     namespace string
 }
 
+
 ManagedClusterPodIdentity_STATUS -- UserAssignedIdentity_STATUS : identity
 ManagedClusterPodIdentity_STATUS -- ManagedClusterPodIdentity_ProvisioningInfo_STATUS : provisioningInfo
 ManagedClusterPodIdentity_STATUS -- ManagedClusterPodIdentity_ProvisioningState_STATUS : provisioningState
 class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"] 
 class ManagedClusterPodIdentity_ProvisioningInfo_STATUS["ManagedClusterPodIdentity_ProvisioningInfo_STATUS"] 
 class ManagedClusterPodIdentity_ProvisioningState_STATUS["ManagedClusterPodIdentity_ProvisioningState_STATUS"] 
-
 ```
 
 | Property          | Description | Type                                                                                                                                  |
@@ -2773,7 +2773,7 @@ class ManagedClusterPodIdentity_ProvisioningState_STATUS["ManagedClusterPodIdent
 <a id="ManagedClusterPodIdentityException"></a>ManagedClusterPodIdentityException
 ---------------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentityProfile](#ManagedClusterPodIdentityProfile).
+Used by: [ManagedClusterPodIdentityProfile.userAssignedIdentityExceptions](#ManagedClusterPodIdentityProfile).
 
 ```mermaid
 ---
@@ -2800,7 +2800,7 @@ class ManagedClusterPodIdentityException["ManagedClusterPodIdentityException"] {
 <a id="ManagedClusterPodIdentityException_STATUS"></a>ManagedClusterPodIdentityException_STATUS
 -----------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentityProfile_STATUS](#ManagedClusterPodIdentityProfile_STATUS).
+Used by: [ManagedClusterPodIdentityProfile_STATUS.userAssignedIdentityExceptions](#ManagedClusterPodIdentityProfile_STATUS).
 
 ```mermaid
 ---
@@ -2827,7 +2827,7 @@ class ManagedClusterPodIdentityException_STATUS["ManagedClusterPodIdentityExcept
 <a id="ManagedClusterProperties_AutoScalerProfile_Expander"></a>ManagedClusterProperties_AutoScalerProfile_Expander
 -------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterProperties_AutoScalerProfile](#ManagedClusterProperties_AutoScalerProfile).
+Used by: [ManagedClusterProperties_AutoScalerProfile.expander](#ManagedClusterProperties_AutoScalerProfile).
 
 | Value         | Description |
 |---------------|-------------|
@@ -2839,7 +2839,7 @@ Used by: [ManagedClusterProperties_AutoScalerProfile](#ManagedClusterProperties_
 <a id="ManagedClusterProperties_AutoScalerProfile_Expander_STATUS"></a>ManagedClusterProperties_AutoScalerProfile_Expander_STATUS
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterProperties_AutoScalerProfile_STATUS](#ManagedClusterProperties_AutoScalerProfile_STATUS).
+Used by: [ManagedClusterProperties_AutoScalerProfile_STATUS.expander](#ManagedClusterProperties_AutoScalerProfile_STATUS).
 
 | Value         | Description |
 |---------------|-------------|
@@ -2851,7 +2851,7 @@ Used by: [ManagedClusterProperties_AutoScalerProfile_STATUS](#ManagedClusterProp
 <a id="ManagedClusterSKU_Name"></a>ManagedClusterSKU_Name
 ---------------------------------------------------------
 
-Used by: [ManagedClusterSKU](#ManagedClusterSKU).
+Used by: [ManagedClusterSKU.name](#ManagedClusterSKU).
 
 | Value   | Description |
 |---------|-------------|
@@ -2860,7 +2860,7 @@ Used by: [ManagedClusterSKU](#ManagedClusterSKU).
 <a id="ManagedClusterSKU_Name_STATUS"></a>ManagedClusterSKU_Name_STATUS
 -----------------------------------------------------------------------
 
-Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
+Used by: [ManagedClusterSKU_STATUS.name](#ManagedClusterSKU_STATUS).
 
 | Value   | Description |
 |---------|-------------|
@@ -2869,7 +2869,7 @@ Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
 <a id="ManagedClusterSKU_Tier"></a>ManagedClusterSKU_Tier
 ---------------------------------------------------------
 
-Used by: [ManagedClusterSKU](#ManagedClusterSKU).
+Used by: [ManagedClusterSKU.tier](#ManagedClusterSKU).
 
 | Value  | Description |
 |--------|-------------|
@@ -2879,7 +2879,7 @@ Used by: [ManagedClusterSKU](#ManagedClusterSKU).
 <a id="ManagedClusterSKU_Tier_STATUS"></a>ManagedClusterSKU_Tier_STATUS
 -----------------------------------------------------------------------
 
-Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
+Used by: [ManagedClusterSKU_STATUS.tier](#ManagedClusterSKU_STATUS).
 
 | Value  | Description |
 |--------|-------------|
@@ -2889,7 +2889,7 @@ Used by: [ManagedClusterSKU_STATUS](#ManagedClusterSKU_STATUS).
 <a id="ManagedClusterWindowsProfile_LicenseType"></a>ManagedClusterWindowsProfile_LicenseType
 ---------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile).
+Used by: [ManagedClusterWindowsProfile.licenseType](#ManagedClusterWindowsProfile).
 
 | Value            | Description |
 |------------------|-------------|
@@ -2899,7 +2899,7 @@ Used by: [ManagedClusterWindowsProfile](#ManagedClusterWindowsProfile).
 <a id="ManagedClusterWindowsProfile_LicenseType_STATUS"></a>ManagedClusterWindowsProfile_LicenseType_STATUS
 -----------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STATUS).
+Used by: [ManagedClusterWindowsProfile_STATUS.licenseType](#ManagedClusterWindowsProfile_STATUS).
 
 | Value            | Description |
 |------------------|-------------|
@@ -2909,7 +2909,7 @@ Used by: [ManagedClusterWindowsProfile_STATUS](#ManagedClusterWindowsProfile_STA
 <a id="PowerState_Code_STATUS"></a>PowerState_Code_STATUS
 ---------------------------------------------------------
 
-Used by: [PowerState_STATUS](#PowerState_STATUS).
+Used by: [PowerState_STATUS.code](#PowerState_STATUS).
 
 | Value     | Description |
 |-----------|-------------|
@@ -2919,7 +2919,7 @@ Used by: [PowerState_STATUS](#PowerState_STATUS).
 <a id="SysctlConfig"></a>SysctlConfig
 -------------------------------------
 
-Used by: [LinuxOSConfig](#LinuxOSConfig).
+Used by: [LinuxOSConfig.sysctls](#LinuxOSConfig).
 
 ```mermaid
 ---
@@ -2996,7 +2996,7 @@ class SysctlConfig["SysctlConfig"] {
 <a id="SysctlConfig_STATUS"></a>SysctlConfig_STATUS
 ---------------------------------------------------
 
-Used by: [LinuxOSConfig_STATUS](#LinuxOSConfig_STATUS).
+Used by: [LinuxOSConfig_STATUS.sysctls](#LinuxOSConfig_STATUS).
 
 ```mermaid
 ---
@@ -3073,7 +3073,7 @@ class SysctlConfig_STATUS["SysctlConfig_STATUS"] {
 <a id="UserAssignedIdentityDetails"></a>UserAssignedIdentityDetails
 -------------------------------------------------------------------
 
-Used by: [ManagedClusterIdentity](#ManagedClusterIdentity).
+Used by: [ManagedClusterIdentity.userAssignedIdentities](#ManagedClusterIdentity).
 
 ```mermaid
 ---
@@ -3096,7 +3096,7 @@ class UserAssignedIdentityDetails["UserAssignedIdentityDetails"] {
 <a id="ContainerServiceSshPublicKey"></a>ContainerServiceSshPublicKey
 ---------------------------------------------------------------------
 
-Used by: [ContainerServiceSshConfiguration](#ContainerServiceSshConfiguration).
+Used by: [ContainerServiceSshConfiguration.publicKeys](#ContainerServiceSshConfiguration).
 
 ```mermaid
 ---
@@ -3119,7 +3119,7 @@ class ContainerServiceSshPublicKey["ContainerServiceSshPublicKey"] {
 <a id="ContainerServiceSshPublicKey_STATUS"></a>ContainerServiceSshPublicKey_STATUS
 -----------------------------------------------------------------------------------
 
-Used by: [ContainerServiceSshConfiguration_STATUS](#ContainerServiceSshConfiguration_STATUS).
+Used by: [ContainerServiceSshConfiguration_STATUS.publicKeys](#ContainerServiceSshConfiguration_STATUS).
 
 ```mermaid
 ---
@@ -3142,7 +3142,7 @@ class ContainerServiceSshPublicKey_STATUS["ContainerServiceSshPublicKey_STATUS"]
 <a id="ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"></a>ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 ---------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
+Used by: [ManagedClusterLoadBalancerProfile.managedOutboundIPs](#ManagedClusterLoadBalancerProfile).
 
 ```mermaid
 ---
@@ -3165,7 +3165,7 @@ class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs["ManagedClusterLoadBa
 <a id="ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"></a>ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
 -----------------------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+Used by: [ManagedClusterLoadBalancerProfile_STATUS.managedOutboundIPs](#ManagedClusterLoadBalancerProfile_STATUS).
 
 ```mermaid
 ---
@@ -3188,7 +3188,7 @@ class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS["ManagedCluste
 <a id="ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"></a>ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
 ---------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
+Used by: [ManagedClusterLoadBalancerProfile.outboundIPPrefixes](#ManagedClusterLoadBalancerProfile).
 
 ```mermaid
 ---
@@ -3198,9 +3198,9 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 ---
 classDiagram
 class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"]
+
 ManagedClusterLoadBalancerProfile_OutboundIPPrefixes -- ResourceReference : publicIPPrefixes
 class ResourceReference["ResourceReference"] 
-
 ```
 
 | Property         | Description | Type                                                                  |
@@ -3210,7 +3210,7 @@ class ResourceReference["ResourceReference"]
 <a id="ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"></a>ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
 -----------------------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+Used by: [ManagedClusterLoadBalancerProfile_STATUS.outboundIPPrefixes](#ManagedClusterLoadBalancerProfile_STATUS).
 
 ```mermaid
 ---
@@ -3220,9 +3220,9 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerP
 ---
 classDiagram
 class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"]
+
 ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS -- ResourceReference_STATUS : publicIPPrefixes
 class ResourceReference_STATUS["ResourceReference_STATUS"] 
-
 ```
 
 | Property         | Description | Type                                                                                |
@@ -3232,7 +3232,7 @@ class ResourceReference_STATUS["ResourceReference_STATUS"]
 <a id="ManagedClusterLoadBalancerProfile_OutboundIPs"></a>ManagedClusterLoadBalancerProfile_OutboundIPs
 -------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile).
+Used by: [ManagedClusterLoadBalancerProfile.outboundIPs](#ManagedClusterLoadBalancerProfile).
 
 ```mermaid
 ---
@@ -3242,9 +3242,9 @@ Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile)
 ---
 classDiagram
 class ManagedClusterLoadBalancerProfile_OutboundIPs["ManagedClusterLoadBalancerProfile_OutboundIPs"]
+
 ManagedClusterLoadBalancerProfile_OutboundIPs -- ResourceReference : publicIPs
 class ResourceReference["ResourceReference"] 
-
 ```
 
 | Property  | Description | Type                                                                  |
@@ -3254,7 +3254,7 @@ class ResourceReference["ResourceReference"]
 <a id="ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"></a>ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 ---------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+Used by: [ManagedClusterLoadBalancerProfile_STATUS.outboundIPs](#ManagedClusterLoadBalancerProfile_STATUS).
 
 ```mermaid
 ---
@@ -3264,9 +3264,9 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerP
 ---
 classDiagram
 class ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"]
+
 ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS -- ResourceReference_STATUS : publicIPs
 class ResourceReference_STATUS["ResourceReference_STATUS"] 
-
 ```
 
 | Property  | Description | Type                                                                                |
@@ -3276,7 +3276,7 @@ class ResourceReference_STATUS["ResourceReference_STATUS"]
 <a id="ManagedClusterPodIdentity_ProvisioningInfo_STATUS"></a>ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 ---------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
+Used by: [ManagedClusterPodIdentity_STATUS.provisioningInfo](#ManagedClusterPodIdentity_STATUS).
 
 ```mermaid
 ---
@@ -3286,9 +3286,9 @@ Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
 ---
 classDiagram
 class ManagedClusterPodIdentity_ProvisioningInfo_STATUS["ManagedClusterPodIdentity_ProvisioningInfo_STATUS"]
+
 ManagedClusterPodIdentity_ProvisioningInfo_STATUS -- ManagedClusterPodIdentityProvisioningError_STATUS : error
 class ManagedClusterPodIdentityProvisioningError_STATUS["ManagedClusterPodIdentityProvisioningError_STATUS"] 
-
 ```
 
 | Property | Description | Type                                                                                                                                |
@@ -3298,7 +3298,7 @@ class ManagedClusterPodIdentityProvisioningError_STATUS["ManagedClusterPodIdenti
 <a id="ManagedClusterPodIdentity_ProvisioningState_STATUS"></a>ManagedClusterPodIdentity_ProvisioningState_STATUS
 -----------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
+Used by: [ManagedClusterPodIdentity_STATUS.provisioningState](#ManagedClusterPodIdentity_STATUS).
 
 | Value      | Description |
 |------------|-------------|
@@ -3310,7 +3310,7 @@ Used by: [ManagedClusterPodIdentity_STATUS](#ManagedClusterPodIdentity_STATUS).
 <a id="ResourceReference"></a>ResourceReference
 -----------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile](#ManagedClusterLoadBalancerProfile), [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes), and [ManagedClusterLoadBalancerProfile_OutboundIPs](#ManagedClusterLoadBalancerProfile_OutboundIPs).
+Used by: [ManagedClusterLoadBalancerProfile.effectiveOutboundIPs](#ManagedClusterLoadBalancerProfile), [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes.publicIPPrefixes](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes), and [ManagedClusterLoadBalancerProfile_OutboundIPs.publicIPs](#ManagedClusterLoadBalancerProfile_OutboundIPs).
 
 ```mermaid
 ---
@@ -3333,7 +3333,7 @@ class ResourceReference["ResourceReference"] {
 <a id="ResourceReference_STATUS"></a>ResourceReference_STATUS
 -------------------------------------------------------------
 
-Used by: [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS), [ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS](#ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS), and [ManagedClusterLoadBalancerProfile_STATUS](#ManagedClusterLoadBalancerProfile_STATUS).
+Used by: [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS.publicIPPrefixes](#ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS), [ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS.publicIPs](#ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS), and [ManagedClusterLoadBalancerProfile_STATUS.effectiveOutboundIPs](#ManagedClusterLoadBalancerProfile_STATUS).
 
 ```mermaid
 ---
@@ -3356,7 +3356,7 @@ class ResourceReference_STATUS["ResourceReference_STATUS"] {
 <a id="ManagedClusterPodIdentityProvisioningError_STATUS"></a>ManagedClusterPodIdentityProvisioningError_STATUS
 ---------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentity_ProvisioningInfo_STATUS](#ManagedClusterPodIdentity_ProvisioningInfo_STATUS).
+Used by: [ManagedClusterPodIdentity_ProvisioningInfo_STATUS.error](#ManagedClusterPodIdentity_ProvisioningInfo_STATUS).
 
 ```mermaid
 ---
@@ -3366,9 +3366,9 @@ Used by: [ManagedClusterPodIdentity_ProvisioningInfo_STATUS](#ManagedClusterPodI
 ---
 classDiagram
 class ManagedClusterPodIdentityProvisioningError_STATUS["ManagedClusterPodIdentityProvisioningError_STATUS"]
+
 ManagedClusterPodIdentityProvisioningError_STATUS -- ManagedClusterPodIdentityProvisioningErrorBody_STATUS : error
 class ManagedClusterPodIdentityProvisioningErrorBody_STATUS["ManagedClusterPodIdentityProvisioningErrorBody_STATUS"] 
-
 ```
 
 | Property | Description | Type                                                                                                                                        |
@@ -3378,7 +3378,7 @@ class ManagedClusterPodIdentityProvisioningErrorBody_STATUS["ManagedClusterPodId
 <a id="ManagedClusterPodIdentityProvisioningErrorBody_STATUS"></a>ManagedClusterPodIdentityProvisioningErrorBody_STATUS
 -----------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentityProvisioningError_STATUS](#ManagedClusterPodIdentityProvisioningError_STATUS).
+Used by: [ManagedClusterPodIdentityProvisioningError_STATUS.error](#ManagedClusterPodIdentityProvisioningError_STATUS).
 
 ```mermaid
 ---
@@ -3393,9 +3393,9 @@ class ManagedClusterPodIdentityProvisioningErrorBody_STATUS["ManagedClusterPodId
     target string
 }
 
+
 ManagedClusterPodIdentityProvisioningErrorBody_STATUS -- ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled : details
 class ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled["ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"] 
-
 ```
 
 | Property | Description | Type                                                                                                                                                            |
@@ -3408,7 +3408,7 @@ class ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled["ManagedClu
 <a id="ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"></a>ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-Used by: [ManagedClusterPodIdentityProvisioningErrorBody_STATUS](#ManagedClusterPodIdentityProvisioningErrorBody_STATUS).
+Used by: [ManagedClusterPodIdentityProvisioningErrorBody_STATUS.details](#ManagedClusterPodIdentityProvisioningErrorBody_STATUS).
 
 ```mermaid
 ---
