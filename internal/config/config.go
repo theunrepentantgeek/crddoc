@@ -61,8 +61,8 @@ func (c *Config) Load(path string) error {
 	return nil
 }
 
-// WriteTo writes the current config as YAML to the provided writer.
-func (c *Config) WriteTo(writer io.Writer) error {
+// writeTo writes the current config as YAML to the provided writer.
+func (c *Config) writeTo(writer io.Writer) error {
 	encoder := yaml.NewEncoder(writer)
 	encoder.SetIndent(2)
 
@@ -83,7 +83,7 @@ func (c *Config) Save(path string) error {
 
 	defer file.Close()
 
-	return c.WriteTo(file)
+	return c.writeTo(file)
 }
 
 func (c *Config) OverrideTemplatePath(path *string) {
