@@ -2,8 +2,8 @@ package functions
 
 import "github.com/theunrepentantgeek/crddoc/internal/model"
 
-// internalOnly selects only properties with types decared in the same package.
-func (f *Functions) internalOnly(properties []*model.Property) []*model.Property {
+// excludeInternal selects only properties with types not declared in the same package.
+func (f *Functions) excludeInternal(properties []*model.Property) []*model.Property {
 	result := make([]*model.Property, 0, len(properties))
 
 	for _, prop := range properties {
