@@ -22,10 +22,14 @@ Used by: [AzureManagedControlPlaneClassSpec.aadProfile](#AzureManagedControlPlan
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AADProfile["AADProfile"] {
-    adminGroupObjectIDs string[]
-    managed bool
-}
+
+class AADProfile["AADProfile"]{  
+      adminGroupObjectIDs string[]  
+      managed bool
+
+
+} 
+
 
 
 ```
@@ -49,11 +53,15 @@ Used by: [AzureManagedControlPlaneClassSpec.addonProfiles](#AzureManagedControlP
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AddonProfile["AddonProfile"] {
-    config map[string]string
-    enabled bool
-    name string
-}
+
+class AddonProfile["AddonProfile"]{  
+      config map[string]string  
+      enabled bool  
+      name string
+
+
+} 
+
 
 
 ```
@@ -76,10 +84,14 @@ AddressRecord specifies a DNS record mapping a hostname to an IPV4 or IPv6 addre
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AddressRecord["AddressRecord"] {
-    Hostname string
-    IP string
-}
+
+class AddressRecord["AddressRecord"]{  
+      Hostname string  
+      IP string
+
+
+} 
+
 
 
 ```
@@ -110,24 +122,28 @@ Used by: [AzureManagedControlPlaneClassSpec.extensions](#AzureManagedControlPlan
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AKSExtension["AKSExtension"] {
-    autoUpgradeMinorVersion bool
-    configurationSettings map[string]string
-    extensionType string
-    name string
-    releaseTrain string
-    version string
-}
+
+class AKSExtension["AKSExtension"]{  
+      autoUpgradeMinorVersion bool  
+      configurationSettings map[string]string  
+      extensionType string  
+      name string  
+      releaseTrain string  
+      version string
 
 
-AKSExtension -- AKSAssignedIdentity : aksAssignedIdentityType
-AKSExtension -- ExtensionIdentity : identity
-AKSExtension -- ExtensionPlan : plan
-AKSExtension -- ExtensionScope : scope
-class AKSAssignedIdentity["AKSAssignedIdentity"] 
-class ExtensionIdentity["ExtensionIdentity"] 
-class ExtensionPlan["ExtensionPlan"] 
-class ExtensionScope["ExtensionScope"] 
+} 
+
+AKSExtension -- AKSAssignedIdentity : aksAssignedIdentityType 
+AKSExtension -- ExtensionIdentity : identity 
+AKSExtension -- ExtensionPlan : plan 
+AKSExtension -- ExtensionScope : scope 
+
+class AKSAssignedIdentity["AKSAssignedIdentity"]
+class ExtensionIdentity["ExtensionIdentity"]
+class ExtensionPlan["ExtensionPlan"]
+class ExtensionScope["ExtensionScope"]
+
 ```
 
 | Property                | Description                                                                                                                                                                                           | Type                                        |
@@ -157,10 +173,12 @@ Used by: [AzureManagedControlPlaneClassSpec.sku](#AzureManagedControlPlaneClassS
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AKSSku["AKSSku"]
 
-AKSSku -- AzureManagedControlPlaneSkuTier : tier
-class AzureManagedControlPlaneSkuTier["AzureManagedControlPlaneSkuTier"] 
+class AKSSku["AKSSku"]
+AKSSku -- AzureManagedControlPlaneSkuTier : tier 
+
+class AzureManagedControlPlaneSkuTier["AzureManagedControlPlaneSkuTier"]
+
 ```
 
 | Property | Description                    | Type                                                                |
@@ -181,13 +199,15 @@ Used by: [AzureManagedControlPlaneClassSpec.apiServerAccessProfile](#AzureManage
       hideEmptyMembersBox: true
 ---
 classDiagram
-class APIServerAccessProfile["APIServerAccessProfile"] {
-    authorizedIPRanges string[]
-}
+
+class APIServerAccessProfile["APIServerAccessProfile"]{  
+      authorizedIPRanges string[]
 
 
-APIServerAccessProfile *-- APIServerAccessProfileClassSpec
-class APIServerAccessProfileClassSpec["APIServerAccessProfileClassSpec"]
+} 
+
+
+
 ```
 
 | Property                                                            | Description                                                         | Type     |
@@ -207,11 +227,15 @@ APIServerAccessProfileClassSpec defines the APIServerAccessProfile properties th
       hideEmptyMembersBox: true
 ---
 classDiagram
-class APIServerAccessProfileClassSpec["APIServerAccessProfileClassSpec"] {
-    enablePrivateCluster bool
-    enablePrivateClusterPublicFQDN bool
-    privateDNSZone string
-}
+
+class APIServerAccessProfileClassSpec["APIServerAccessProfileClassSpec"]{  
+      enablePrivateCluster bool  
+      enablePrivateClusterPublicFQDN bool  
+      privateDNSZone string
+
+
+} 
+
 
 
 ```
@@ -236,31 +260,35 @@ Used by: [AzureManagedControlPlaneClassSpec.autoscalerProfile](#AzureManagedCont
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AutoScalerProfile["AutoScalerProfile"] {
-    maxEmptyBulkDelete string
-    maxGracefulTerminationSec string
-    maxNodeProvisionTime string
-    maxTotalUnreadyPercentage string
-    newPodScaleUpDelay string
-    okTotalUnreadyCount string
-    scaleDownDelayAfterAdd string
-    scaleDownDelayAfterDelete string
-    scaleDownDelayAfterFailure string
-    scaleDownUnneededTime string
-    scaleDownUnreadyTime string
-    scaleDownUtilizationThreshold string
-    scanInterval string
-}
+
+class AutoScalerProfile["AutoScalerProfile"]{  
+      maxEmptyBulkDelete string  
+      maxGracefulTerminationSec string  
+      maxNodeProvisionTime string  
+      maxTotalUnreadyPercentage string  
+      newPodScaleUpDelay string  
+      okTotalUnreadyCount string  
+      scaleDownDelayAfterAdd string  
+      scaleDownDelayAfterDelete string  
+      scaleDownDelayAfterFailure string  
+      scaleDownUnneededTime string  
+      scaleDownUnreadyTime string  
+      scaleDownUtilizationThreshold string  
+      scanInterval string
 
 
-AutoScalerProfile -- BalanceSimilarNodeGroups : balanceSimilarNodeGroups
-AutoScalerProfile -- Expander : expander
-AutoScalerProfile -- SkipNodesWithLocalStorage : skipNodesWithLocalStorage
-AutoScalerProfile -- SkipNodesWithSystemPods : skipNodesWithSystemPods
-class BalanceSimilarNodeGroups["BalanceSimilarNodeGroups"] 
-class Expander["Expander"] 
-class SkipNodesWithLocalStorage["SkipNodesWithLocalStorage"] 
-class SkipNodesWithSystemPods["SkipNodesWithSystemPods"] 
+} 
+
+AutoScalerProfile -- BalanceSimilarNodeGroups : balanceSimilarNodeGroups 
+AutoScalerProfile -- Expander : expander 
+AutoScalerProfile -- SkipNodesWithLocalStorage : skipNodesWithLocalStorage 
+AutoScalerProfile -- SkipNodesWithSystemPods : skipNodesWithSystemPods 
+
+class BalanceSimilarNodeGroups["BalanceSimilarNodeGroups"]
+class Expander["Expander"]
+class SkipNodesWithLocalStorage["SkipNodesWithLocalStorage"]
+class SkipNodesWithSystemPods["SkipNodesWithSystemPods"]
+
 ```
 
 | Property                      | Description                                                                                                                                                                                                                                                                                                                                              | Type                                                    |
@@ -297,10 +325,12 @@ Used by: [BastionTemplateSpec.azureBastion](#BastionTemplateSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureBastionTemplateSpec["AzureBastionTemplateSpec"]
 
-AzureBastionTemplateSpec -- SubnetTemplateSpec : subnet
-class SubnetTemplateSpec["SubnetTemplateSpec"] 
+class AzureBastionTemplateSpec["AzureBastionTemplateSpec"]
+AzureBastionTemplateSpec -- SubnetTemplateSpec : subnet 
+
+class SubnetTemplateSpec["SubnetTemplateSpec"]
+
 ```
 
 | Property | Description | Type                                      |
@@ -321,12 +351,14 @@ Used by: [AzureClusterList.items](#AzureClusterList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureCluster["AzureCluster"]
 
-AzureCluster -- AzureClusterSpec : spec
-AzureCluster -- AzureClusterStatus : status
-class AzureClusterSpec["AzureClusterSpec"] 
-class AzureClusterStatus["AzureClusterStatus"] 
+class AzureCluster["AzureCluster"]
+AzureCluster -- AzureClusterSpec : spec 
+AzureCluster -- AzureClusterStatus : status 
+
+class AzureClusterSpec["AzureClusterSpec"]
+class AzureClusterStatus["AzureClusterStatus"]
+
 ```
 
 | Property                                                                                | Description | Type                                      |
@@ -367,20 +399,24 @@ AzureClusterClassSpec defines the AzureCluster properties that may be shared acr
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterClassSpec["AzureClusterClassSpec"] {
-    additionalTags Tags
-    azureEnvironment string
-    failureDomains clusterv1.FailureDomains
-    identityRef corev1.ObjectReference
-    location string
-    subscriptionID string
-}
+
+class AzureClusterClassSpec["AzureClusterClassSpec"]{  
+      additionalTags Tags  
+      azureEnvironment string  
+      failureDomains clusterv1.FailureDomains  
+      identityRef corev1.ObjectReference  
+      location string  
+      subscriptionID string
 
 
-AzureClusterClassSpec -- CloudProviderConfigOverrides : cloudProviderConfigOverrides
-AzureClusterClassSpec -- ExtendedLocationSpec : extendedLocation
-class CloudProviderConfigOverrides["CloudProviderConfigOverrides"] 
-class ExtendedLocationSpec["ExtendedLocationSpec"] 
+} 
+
+AzureClusterClassSpec -- CloudProviderConfigOverrides : cloudProviderConfigOverrides 
+AzureClusterClassSpec -- ExtendedLocationSpec : extendedLocation 
+
+class CloudProviderConfigOverrides["CloudProviderConfigOverrides"]
+class ExtendedLocationSpec["ExtendedLocationSpec"]
+
 ```
 
 | Property                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Type                                                                                               |
@@ -408,12 +444,14 @@ Used by: [AzureClusterIdentityList.items](#AzureClusterIdentityList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterIdentity["AzureClusterIdentity"]
 
-AzureClusterIdentity -- AzureClusterIdentitySpec : spec
-AzureClusterIdentity -- AzureClusterIdentityStatus : status
-class AzureClusterIdentitySpec["AzureClusterIdentitySpec"] 
-class AzureClusterIdentityStatus["AzureClusterIdentityStatus"] 
+class AzureClusterIdentity["AzureClusterIdentity"]
+AzureClusterIdentity -- AzureClusterIdentitySpec : spec 
+AzureClusterIdentity -- AzureClusterIdentityStatus : status 
+
+class AzureClusterIdentitySpec["AzureClusterIdentitySpec"]
+class AzureClusterIdentityStatus["AzureClusterIdentityStatus"]
+
 ```
 
 | Property                                                                                | Description | Type                                                      |
@@ -452,10 +490,12 @@ class AzureClusterIdentityStatus["AzureClusterIdentityStatus"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterIdentityList["AzureClusterIdentityList"]
 
-AzureClusterIdentityList -- AzureClusterIdentity : items
-class AzureClusterIdentity["AzureClusterIdentity"] 
+class AzureClusterIdentityList["AzureClusterIdentityList"]
+AzureClusterIdentityList -- AzureClusterIdentity : items 
+
+class AzureClusterIdentity["AzureClusterIdentity"]
+
 ```
 
 | Property                                                                            | Description | Type                                            |
@@ -476,10 +516,12 @@ class AzureClusterIdentity["AzureClusterIdentity"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterList["AzureClusterList"]
 
-AzureClusterList -- AzureCluster : items
-class AzureCluster["AzureCluster"] 
+class AzureClusterList["AzureClusterList"]
+AzureClusterList -- AzureCluster : items 
+
+class AzureCluster["AzureCluster"]
+
 ```
 
 | Property                                                                            | Description | Type                            |
@@ -502,10 +544,12 @@ Used by: [AzureClusterTemplateList.items](#AzureClusterTemplateList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterTemplate["AzureClusterTemplate"]
 
-AzureClusterTemplate -- AzureClusterTemplateSpec : spec
-class AzureClusterTemplateSpec["AzureClusterTemplateSpec"] 
+class AzureClusterTemplate["AzureClusterTemplate"]
+AzureClusterTemplate -- AzureClusterTemplateSpec : spec 
+
+class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
+
 ```
 
 | Property                                                                                | Description | Type                                                  |
@@ -526,10 +570,12 @@ class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterTemplateList["AzureClusterTemplateList"]
 
-AzureClusterTemplateList -- AzureClusterTemplate : items
-class AzureClusterTemplate["AzureClusterTemplate"] 
+class AzureClusterTemplateList["AzureClusterTemplateList"]
+AzureClusterTemplateList -- AzureClusterTemplate : items 
+
+class AzureClusterTemplate["AzureClusterTemplate"]
+
 ```
 
 | Property                                                                            | Description | Type                                            |
@@ -552,10 +598,12 @@ Used by: [AzureClusterTemplateSpec.template](#AzureClusterTemplateSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterTemplateResource["AzureClusterTemplateResource"]
 
-AzureClusterTemplateResource -- AzureClusterTemplateResourceSpec : spec
-class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"] 
+class AzureClusterTemplateResource["AzureClusterTemplateResource"]
+AzureClusterTemplateResource -- AzureClusterTemplateResourceSpec : spec 
+
+class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"]
+
 ```
 
 | Property | Description | Type                                                                  |
@@ -576,14 +624,14 @@ Used by: [AzureClusterTemplateResource.spec](#AzureClusterTemplateResource).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"]
 
-AzureClusterTemplateResourceSpec *-- AzureClusterClassSpec
-class AzureClusterClassSpec["AzureClusterClassSpec"]
-AzureClusterTemplateResourceSpec -- BastionTemplateSpec : bastionSpec
-AzureClusterTemplateResourceSpec -- NetworkTemplateSpec : networkSpec
-class BastionTemplateSpec["BastionTemplateSpec"] 
-class NetworkTemplateSpec["NetworkTemplateSpec"] 
+class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"]
+AzureClusterTemplateResourceSpec -- BastionTemplateSpec : bastionSpec 
+AzureClusterTemplateResourceSpec -- NetworkTemplateSpec : networkSpec 
+
+class BastionTemplateSpec["BastionTemplateSpec"]
+class NetworkTemplateSpec["NetworkTemplateSpec"]
+
 ```
 
 | Property                                        | Description                                                                 | Type                                        |
@@ -606,10 +654,12 @@ Used by: [AzureClusterTemplate.spec](#AzureClusterTemplate).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
 
-AzureClusterTemplateSpec -- AzureClusterTemplateResource : template
-class AzureClusterTemplateResource["AzureClusterTemplateResource"] 
+class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
+AzureClusterTemplateSpec -- AzureClusterTemplateResource : template 
+
+class AzureClusterTemplateResource["AzureClusterTemplateResource"]
+
 ```
 
 | Property | Description | Type                                                          |
@@ -630,15 +680,19 @@ Used by: [ManagedClusterSecurityProfile.azureKeyVaultKms](#ManagedClusterSecurit
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureKeyVaultKms["AzureKeyVaultKms"] {
-    enabled bool
-    keyID string
-    keyVaultResourceID string
-}
+
+class AzureKeyVaultKms["AzureKeyVaultKms"]{  
+      enabled bool  
+      keyID string  
+      keyVaultResourceID string
 
 
-AzureKeyVaultKms -- KeyVaultNetworkAccessTypes : keyVaultNetworkAccess
-class KeyVaultNetworkAccessTypes["KeyVaultNetworkAccessTypes"] 
+} 
+
+AzureKeyVaultKms -- KeyVaultNetworkAccessTypes : keyVaultNetworkAccess 
+
+class KeyVaultNetworkAccessTypes["KeyVaultNetworkAccessTypes"]
+
 ```
 
 | Property              | Description                                                                                                                                                                                                                                                                             | Type                                                      |
@@ -662,12 +716,14 @@ Used by: [AzureMachineList.items](#AzureMachineList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachine["AzureMachine"]
 
-AzureMachine -- AzureMachineSpec : spec
-AzureMachine -- AzureMachineStatus : status
-class AzureMachineSpec["AzureMachineSpec"] 
-class AzureMachineStatus["AzureMachineStatus"] 
+class AzureMachine["AzureMachine"]
+AzureMachine -- AzureMachineSpec : spec 
+AzureMachine -- AzureMachineStatus : status 
+
+class AzureMachineSpec["AzureMachineSpec"]
+class AzureMachineStatus["AzureMachineStatus"]
+
 ```
 
 | Property                                                                                | Description | Type                                      |
@@ -731,10 +787,12 @@ class AzureMachineStatus["AzureMachineStatus"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachineList["AzureMachineList"]
 
-AzureMachineList -- AzureMachine : items
-class AzureMachine["AzureMachine"] 
+class AzureMachineList["AzureMachineList"]
+AzureMachineList -- AzureMachine : items 
+
+class AzureMachine["AzureMachine"]
+
 ```
 
 | Property                                                                            | Description | Type                            |
@@ -757,10 +815,12 @@ Used by: [AzureMachineTemplateList.items](#AzureMachineTemplateList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachineTemplate["AzureMachineTemplate"]
 
-AzureMachineTemplate -- AzureMachineTemplateSpec : spec
-class AzureMachineTemplateSpec["AzureMachineTemplateSpec"] 
+class AzureMachineTemplate["AzureMachineTemplate"]
+AzureMachineTemplate -- AzureMachineTemplateSpec : spec 
+
+class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
+
 ```
 
 | Property                                                                                | Description | Type                                                  |
@@ -781,10 +841,12 @@ class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachineTemplateList["AzureMachineTemplateList"]
 
-AzureMachineTemplateList -- AzureMachineTemplate : items
-class AzureMachineTemplate["AzureMachineTemplate"] 
+class AzureMachineTemplateList["AzureMachineTemplateList"]
+AzureMachineTemplateList -- AzureMachineTemplate : items 
+
+class AzureMachineTemplate["AzureMachineTemplate"]
+
 ```
 
 | Property                                                                            | Description | Type                                            |
@@ -807,13 +869,17 @@ Used by: [AzureMachineTemplateSpec.template](#AzureMachineTemplateSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachineTemplateResource["AzureMachineTemplateResource"] {
-    metadata clusterv1.ObjectMeta
-}
+
+class AzureMachineTemplateResource["AzureMachineTemplateResource"]{  
+      metadata clusterv1.ObjectMeta
 
 
-AzureMachineTemplateResource -- AzureMachineSpec : spec
-class AzureMachineSpec["AzureMachineSpec"] 
+} 
+
+AzureMachineTemplateResource -- AzureMachineSpec : spec 
+
+class AzureMachineSpec["AzureMachineSpec"]
+
 ```
 
 | Property | Description                                                       | Type                                                                                       |
@@ -835,10 +901,12 @@ Used by: [AzureMachineTemplate.spec](#AzureMachineTemplate).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
 
-AzureMachineTemplateSpec -- AzureMachineTemplateResource : template
-class AzureMachineTemplateResource["AzureMachineTemplateResource"] 
+class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
+AzureMachineTemplateSpec -- AzureMachineTemplateResource : template 
+
+class AzureMachineTemplateResource["AzureMachineTemplateResource"]
+
 ```
 
 | Property | Description | Type                                                          |
@@ -857,9 +925,13 @@ class AzureMachineTemplateResource["AzureMachineTemplateResource"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class azureMachineWebhook["azureMachineWebhook"] {
-    Client client.Client
-}
+
+class azureMachineWebhook["azureMachineWebhook"]{  
+      Client client.Client
+
+
+} 
+
 
 
 ```
@@ -882,12 +954,14 @@ Used by: [AzureManagedClusterList.items](#AzureManagedClusterList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedCluster["AzureManagedCluster"]
 
-AzureManagedCluster -- AzureManagedClusterSpec : spec
-AzureManagedCluster -- AzureManagedClusterStatus : status
-class AzureManagedClusterSpec["AzureManagedClusterSpec"] 
-class AzureManagedClusterStatus["AzureManagedClusterStatus"] 
+class AzureManagedCluster["AzureManagedCluster"]
+AzureManagedCluster -- AzureManagedClusterSpec : spec 
+AzureManagedCluster -- AzureManagedClusterStatus : status 
+
+class AzureManagedClusterSpec["AzureManagedClusterSpec"]
+class AzureManagedClusterStatus["AzureManagedClusterStatus"]
+
 ```
 
 | Property                                                                                | Description | Type                                                    |
@@ -921,10 +995,12 @@ class AzureManagedClusterStatus["AzureManagedClusterStatus"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedClusterList["AzureManagedClusterList"]
 
-AzureManagedClusterList -- AzureManagedCluster : items
-class AzureManagedCluster["AzureManagedCluster"] 
+class AzureManagedClusterList["AzureManagedClusterList"]
+AzureManagedClusterList -- AzureManagedCluster : items 
+
+class AzureManagedCluster["AzureManagedCluster"]
+
 ```
 
 | Property                                                                            | Description | Type                                          |
@@ -947,10 +1023,12 @@ Used by: [AzureManagedClusterTemplateList.items](#AzureManagedClusterTemplateLis
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedClusterTemplate["AzureManagedClusterTemplate"]
 
-AzureManagedClusterTemplate -- AzureManagedClusterTemplateSpec : spec
-class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"] 
+class AzureManagedClusterTemplate["AzureManagedClusterTemplate"]
+AzureManagedClusterTemplate -- AzureManagedClusterTemplateSpec : spec 
+
+class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
+
 ```
 
 | Property                                                                                | Description | Type                                                                |
@@ -971,10 +1049,12 @@ class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedClusterTemplateList["AzureManagedClusterTemplateList"]
 
-AzureManagedClusterTemplateList -- AzureManagedClusterTemplate : items
-class AzureManagedClusterTemplate["AzureManagedClusterTemplate"] 
+class AzureManagedClusterTemplateList["AzureManagedClusterTemplateList"]
+AzureManagedClusterTemplateList -- AzureManagedClusterTemplate : items 
+
+class AzureManagedClusterTemplate["AzureManagedClusterTemplate"]
+
 ```
 
 | Property                                                                            | Description | Type                                                          |
@@ -997,9 +1077,13 @@ Used by: [AzureManagedClusterTemplateSpec.template](#AzureManagedClusterTemplate
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"] {
-    spec AzureManagedClusterTemplateResourceSpec
-}
+
+class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"]{  
+      spec AzureManagedClusterTemplateResourceSpec
+
+
+} 
+
 
 
 ```
@@ -1022,10 +1106,12 @@ Used by: [AzureManagedClusterTemplate.spec](#AzureManagedClusterTemplate).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
 
-AzureManagedClusterTemplateSpec -- AzureManagedClusterTemplateResource : template
-class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"] 
+class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
+AzureManagedClusterTemplateSpec -- AzureManagedClusterTemplateResource : template 
+
+class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"]
+
 ```
 
 | Property | Description | Type                                                                        |
@@ -1046,12 +1132,14 @@ Used by: [AzureManagedControlPlaneList.items](#AzureManagedControlPlaneList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlane["AzureManagedControlPlane"]
 
-AzureManagedControlPlane -- AzureManagedControlPlaneSpec : spec
-AzureManagedControlPlane -- AzureManagedControlPlaneStatus : status
-class AzureManagedControlPlaneSpec["AzureManagedControlPlaneSpec"] 
-class AzureManagedControlPlaneStatus["AzureManagedControlPlaneStatus"] 
+class AzureManagedControlPlane["AzureManagedControlPlane"]
+AzureManagedControlPlane -- AzureManagedControlPlaneSpec : spec 
+AzureManagedControlPlane -- AzureManagedControlPlaneStatus : status 
+
+class AzureManagedControlPlaneSpec["AzureManagedControlPlaneSpec"]
+class AzureManagedControlPlaneStatus["AzureManagedControlPlaneStatus"]
+
 ```
 
 | Property                                                                                | Description | Type                                                              |
@@ -1096,60 +1184,64 @@ AzureManagedControlPlaneClassSpec defines the AzureManagedControlPlane propertie
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"] {
-    additionalTags Tags
-    asoManagedClusterPatches string[]
-    azureEnvironment string
-    disableLocalAccounts bool
-    dnsServiceIP string
-    enablePreviewFeatures bool
-    identityRef corev1.ObjectReference
-    kubeletUserAssignedIdentity string
-    loadBalancerSKU string
-    location string
-    machineTemplate AzureManagedControlPlaneTemplateMachineTemplate
-    networkPlugin string
-    networkPolicy string
-    resourceGroupName string
-    subscriptionID string
-    version string
-}
+
+class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"]{  
+      additionalTags Tags  
+      asoManagedClusterPatches string[]  
+      azureEnvironment string  
+      disableLocalAccounts bool  
+      dnsServiceIP string  
+      enablePreviewFeatures bool  
+      identityRef corev1.ObjectReference  
+      kubeletUserAssignedIdentity string  
+      loadBalancerSKU string  
+      location string  
+      machineTemplate AzureManagedControlPlaneTemplateMachineTemplate  
+      networkPlugin string  
+      networkPolicy string  
+      resourceGroupName string  
+      subscriptionID string  
+      version string
 
 
-AzureManagedControlPlaneClassSpec -- AADProfile : aadProfile
-AzureManagedControlPlaneClassSpec -- AddonProfile : addonProfiles
-AzureManagedControlPlaneClassSpec -- APIServerAccessProfile : apiServerAccessProfile
-AzureManagedControlPlaneClassSpec -- AutoScalerProfile : autoscalerProfile
-AzureManagedControlPlaneClassSpec -- ManagedClusterAutoUpgradeProfile : autoUpgradeProfile
-AzureManagedControlPlaneClassSpec -- AKSExtension : extensions
-AzureManagedControlPlaneClassSpec -- FleetsMemberClassSpec : fleetsMember
-AzureManagedControlPlaneClassSpec -- HTTPProxyConfig : httpProxyConfig
-AzureManagedControlPlaneClassSpec -- Identity : identity
-AzureManagedControlPlaneClassSpec -- LoadBalancerProfile : loadBalancerProfile
-AzureManagedControlPlaneClassSpec -- NetworkDataplaneType : networkDataplane
-AzureManagedControlPlaneClassSpec -- NetworkPluginMode : networkPluginMode
-AzureManagedControlPlaneClassSpec -- OIDCIssuerProfile : oidcIssuerProfile
-AzureManagedControlPlaneClassSpec -- ManagedControlPlaneOutboundType : outboundType
-AzureManagedControlPlaneClassSpec -- ManagedClusterSecurityProfile : securityProfile
-AzureManagedControlPlaneClassSpec -- AKSSku : sku
-AzureManagedControlPlaneClassSpec -- ManagedControlPlaneVirtualNetwork : virtualNetwork
-class AADProfile["AADProfile"] 
-class AddonProfile["AddonProfile"] 
-class APIServerAccessProfile["APIServerAccessProfile"] 
-class AutoScalerProfile["AutoScalerProfile"] 
-class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"] 
-class AKSExtension["AKSExtension"] 
-class FleetsMemberClassSpec["FleetsMemberClassSpec"] 
-class HTTPProxyConfig["HTTPProxyConfig"] 
-class Identity["Identity"] 
-class LoadBalancerProfile["LoadBalancerProfile"] 
-class NetworkDataplaneType["NetworkDataplaneType"] 
-class NetworkPluginMode["NetworkPluginMode"] 
-class OIDCIssuerProfile["OIDCIssuerProfile"] 
-class ManagedControlPlaneOutboundType["ManagedControlPlaneOutboundType"] 
-class ManagedClusterSecurityProfile["ManagedClusterSecurityProfile"] 
-class AKSSku["AKSSku"] 
-class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"] 
+} 
+
+AzureManagedControlPlaneClassSpec -- AADProfile : aadProfile 
+AzureManagedControlPlaneClassSpec -- AddonProfile : addonProfiles 
+AzureManagedControlPlaneClassSpec -- APIServerAccessProfile : apiServerAccessProfile 
+AzureManagedControlPlaneClassSpec -- AutoScalerProfile : autoscalerProfile 
+AzureManagedControlPlaneClassSpec -- ManagedClusterAutoUpgradeProfile : autoUpgradeProfile 
+AzureManagedControlPlaneClassSpec -- AKSExtension : extensions 
+AzureManagedControlPlaneClassSpec -- FleetsMemberClassSpec : fleetsMember 
+AzureManagedControlPlaneClassSpec -- HTTPProxyConfig : httpProxyConfig 
+AzureManagedControlPlaneClassSpec -- Identity : identity 
+AzureManagedControlPlaneClassSpec -- LoadBalancerProfile : loadBalancerProfile 
+AzureManagedControlPlaneClassSpec -- NetworkDataplaneType : networkDataplane 
+AzureManagedControlPlaneClassSpec -- NetworkPluginMode : networkPluginMode 
+AzureManagedControlPlaneClassSpec -- OIDCIssuerProfile : oidcIssuerProfile 
+AzureManagedControlPlaneClassSpec -- ManagedControlPlaneOutboundType : outboundType 
+AzureManagedControlPlaneClassSpec -- ManagedClusterSecurityProfile : securityProfile 
+AzureManagedControlPlaneClassSpec -- AKSSku : sku 
+AzureManagedControlPlaneClassSpec -- ManagedControlPlaneVirtualNetwork : virtualNetwork 
+
+class AADProfile["AADProfile"]
+class AddonProfile["AddonProfile"]
+class APIServerAccessProfile["APIServerAccessProfile"]
+class AutoScalerProfile["AutoScalerProfile"]
+class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
+class AKSExtension["AKSExtension"]
+class FleetsMemberClassSpec["FleetsMemberClassSpec"]
+class HTTPProxyConfig["HTTPProxyConfig"]
+class Identity["Identity"]
+class LoadBalancerProfile["LoadBalancerProfile"]
+class NetworkDataplaneType["NetworkDataplaneType"]
+class NetworkPluginMode["NetworkPluginMode"]
+class OIDCIssuerProfile["OIDCIssuerProfile"]
+class ManagedControlPlaneOutboundType["ManagedControlPlaneOutboundType"]
+class ManagedClusterSecurityProfile["ManagedClusterSecurityProfile"]
+class AKSSku["AKSSku"]
+class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"]
+
 ```
 
 | Property                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Type                                                                            |
@@ -1200,10 +1292,12 @@ class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneList["AzureManagedControlPlaneList"]
 
-AzureManagedControlPlaneList -- AzureManagedControlPlane : items
-class AzureManagedControlPlane["AzureManagedControlPlane"] 
+class AzureManagedControlPlaneList["AzureManagedControlPlaneList"]
+AzureManagedControlPlaneList -- AzureManagedControlPlane : items 
+
+class AzureManagedControlPlane["AzureManagedControlPlane"]
+
 ```
 
 | Property                                                                            | Description | Type                                                    |
@@ -1233,10 +1327,12 @@ Used by: [AzureManagedControlPlaneTemplateList.items](#AzureManagedControlPlaneT
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"]
 
-AzureManagedControlPlaneTemplate -- AzureManagedControlPlaneTemplateSpec : spec
-class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"] 
+class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"]
+AzureManagedControlPlaneTemplate -- AzureManagedControlPlaneTemplateSpec : spec 
+
+class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"]
+
 ```
 
 | Property                                                                                | Description | Type                                                                          |
@@ -1257,10 +1353,12 @@ class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneTemplateList["AzureManagedControlPlaneTemplateList"]
 
-AzureManagedControlPlaneTemplateList -- AzureManagedControlPlaneTemplate : items
-class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"] 
+class AzureManagedControlPlaneTemplateList["AzureManagedControlPlaneTemplateList"]
+AzureManagedControlPlaneTemplateList -- AzureManagedControlPlaneTemplate : items 
+
+class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"]
+
 ```
 
 | Property                                                                            | Description | Type                                                                    |
@@ -1283,10 +1381,12 @@ Used by: [AzureManagedControlPlaneTemplateSpec.template](#AzureManagedControlPla
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"]
 
-AzureManagedControlPlaneTemplateResource -- AzureManagedControlPlaneTemplateResourceSpec : spec
-class AzureManagedControlPlaneTemplateResourceSpec["AzureManagedControlPlaneTemplateResourceSpec"] 
+class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"]
+AzureManagedControlPlaneTemplateResource -- AzureManagedControlPlaneTemplateResourceSpec : spec 
+
+class AzureManagedControlPlaneTemplateResourceSpec["AzureManagedControlPlaneTemplateResourceSpec"]
+
 ```
 
 | Property | Description | Type                                                                                          |
@@ -1307,10 +1407,10 @@ Used by: [AzureManagedControlPlaneTemplateResource.spec](#AzureManagedControlPla
       hideEmptyMembersBox: true
 ---
 classDiagram
+
 class AzureManagedControlPlaneTemplateResourceSpec["AzureManagedControlPlaneTemplateResourceSpec"]
 
-AzureManagedControlPlaneTemplateResourceSpec *-- AzureManagedControlPlaneClassSpec
-class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"]
+
 ```
 
 <a id="AzureManagedControlPlaneTemplateSpec"></a>AzureManagedControlPlaneTemplateSpec
@@ -1327,10 +1427,12 @@ Used by: [AzureManagedControlPlaneTemplate.spec](#AzureManagedControlPlaneTempla
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"]
 
-AzureManagedControlPlaneTemplateSpec -- AzureManagedControlPlaneTemplateResource : template
-class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"] 
+class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"]
+AzureManagedControlPlaneTemplateSpec -- AzureManagedControlPlaneTemplateResource : template 
+
+class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"]
+
 ```
 
 | Property | Description | Type                                                                                  |
@@ -1349,9 +1451,13 @@ class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplate
       hideEmptyMembersBox: true
 ---
 classDiagram
-class azureManagedControlPlaneTemplateWebhook["azureManagedControlPlaneTemplateWebhook"] {
-    Client client.Client
-}
+
+class azureManagedControlPlaneTemplateWebhook["azureManagedControlPlaneTemplateWebhook"]{  
+      Client client.Client
+
+
+} 
+
 
 
 ```
@@ -1372,9 +1478,13 @@ class azureManagedControlPlaneTemplateWebhook["azureManagedControlPlaneTemplateW
       hideEmptyMembersBox: true
 ---
 classDiagram
-class azureManagedControlPlaneWebhook["azureManagedControlPlaneWebhook"] {
-    Client client.Client
-}
+
+class azureManagedControlPlaneWebhook["azureManagedControlPlaneWebhook"]{  
+      Client client.Client
+
+
+} 
+
 
 
 ```
@@ -1397,12 +1507,14 @@ Used by: [AzureManagedMachinePoolList.items](#AzureManagedMachinePoolList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePool["AzureManagedMachinePool"]
 
-AzureManagedMachinePool -- AzureManagedMachinePoolSpec : spec
-AzureManagedMachinePool -- AzureManagedMachinePoolStatus : status
-class AzureManagedMachinePoolSpec["AzureManagedMachinePoolSpec"] 
-class AzureManagedMachinePoolStatus["AzureManagedMachinePoolStatus"] 
+class AzureManagedMachinePool["AzureManagedMachinePool"]
+AzureManagedMachinePool -- AzureManagedMachinePoolSpec : spec 
+AzureManagedMachinePool -- AzureManagedMachinePoolStatus : status 
+
+class AzureManagedMachinePoolSpec["AzureManagedMachinePoolSpec"]
+class AzureManagedMachinePoolStatus["AzureManagedMachinePoolStatus"]
+
 ```
 
 | Property                                                                                | Description | Type                                                            |
@@ -1442,39 +1554,43 @@ AzureManagedMachinePoolClassSpec defines the AzureManagedMachinePool properties 
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"] {
-    additionalTags Tags
-    asoManagedClustersAgentPoolPatches string[]
-    availabilityZones string[]
-    enableEncryptionAtHost bool
-    enableFIPS bool
-    enableNodePublicIP bool
-    enableUltraSSD bool
-    maxPods int
-    mode string
-    name string
-    nodeLabels map[string]string
-    nodePublicIPPrefixID string
-    osDiskSizeGB int
-    osDiskType string
-    osType string
-    scaleDownMode string
-    scaleSetPriority string
-    sku string
-    spotMaxPrice resource.Quantity
-    subnetName string
-    taints Taints
-}
+
+class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"]{  
+      additionalTags Tags  
+      asoManagedClustersAgentPoolPatches string[]  
+      availabilityZones string[]  
+      enableEncryptionAtHost bool  
+      enableFIPS bool  
+      enableNodePublicIP bool  
+      enableUltraSSD bool  
+      maxPods int  
+      mode string  
+      name string  
+      nodeLabels map[string]string  
+      nodePublicIPPrefixID string  
+      osDiskSizeGB int  
+      osDiskType string  
+      osType string  
+      scaleDownMode string  
+      scaleSetPriority string  
+      sku string  
+      spotMaxPrice resource.Quantity  
+      subnetName string  
+      taints Taints
 
 
-AzureManagedMachinePoolClassSpec -- KubeletConfig : kubeletConfig
-AzureManagedMachinePoolClassSpec -- KubeletDiskType : kubeletDiskType
-AzureManagedMachinePoolClassSpec -- LinuxOSConfig : linuxOSConfig
-AzureManagedMachinePoolClassSpec -- ManagedMachinePoolScaling : scaling
-class KubeletConfig["KubeletConfig"] 
-class KubeletDiskType["KubeletDiskType"] 
-class LinuxOSConfig["LinuxOSConfig"] 
-class ManagedMachinePoolScaling["ManagedMachinePoolScaling"] 
+} 
+
+AzureManagedMachinePoolClassSpec -- KubeletConfig : kubeletConfig 
+AzureManagedMachinePoolClassSpec -- KubeletDiskType : kubeletDiskType 
+AzureManagedMachinePoolClassSpec -- LinuxOSConfig : linuxOSConfig 
+AzureManagedMachinePoolClassSpec -- ManagedMachinePoolScaling : scaling 
+
+class KubeletConfig["KubeletConfig"]
+class KubeletDiskType["KubeletDiskType"]
+class LinuxOSConfig["LinuxOSConfig"]
+class ManagedMachinePoolScaling["ManagedMachinePoolScaling"]
+
 ```
 
 | Property                           | Description                                                                                                                                                                                                                                                                                                                                                          | Type                                                                                  |
@@ -1517,10 +1633,12 @@ class ManagedMachinePoolScaling["ManagedMachinePoolScaling"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolList["AzureManagedMachinePoolList"]
 
-AzureManagedMachinePoolList -- AzureManagedMachinePool : items
-class AzureManagedMachinePool["AzureManagedMachinePool"] 
+class AzureManagedMachinePoolList["AzureManagedMachinePoolList"]
+AzureManagedMachinePoolList -- AzureManagedMachinePool : items 
+
+class AzureManagedMachinePool["AzureManagedMachinePool"]
+
 ```
 
 | Property                                                                            | Description | Type                                                  |
@@ -1543,10 +1661,12 @@ Used by: [AzureManagedMachinePoolTemplateList.items](#AzureManagedMachinePoolTem
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"]
 
-AzureManagedMachinePoolTemplate -- AzureManagedMachinePoolTemplateSpec : spec
-class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"] 
+class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"]
+AzureManagedMachinePoolTemplate -- AzureManagedMachinePoolTemplateSpec : spec 
+
+class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
+
 ```
 
 | Property                                                                                | Description | Type                                                                        |
@@ -1567,10 +1687,12 @@ class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolTemplateList["AzureManagedMachinePoolTemplateList"]
 
-AzureManagedMachinePoolTemplateList -- AzureManagedMachinePoolTemplate : items
-class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"] 
+class AzureManagedMachinePoolTemplateList["AzureManagedMachinePoolTemplateList"]
+AzureManagedMachinePoolTemplateList -- AzureManagedMachinePoolTemplate : items 
+
+class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"]
+
 ```
 
 | Property                                                                            | Description | Type                                                                  |
@@ -1593,10 +1715,12 @@ Used by: [AzureManagedMachinePoolTemplateSpec.template](#AzureManagedMachinePool
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"]
 
-AzureManagedMachinePoolTemplateResource -- AzureManagedMachinePoolTemplateResourceSpec : spec
-class AzureManagedMachinePoolTemplateResourceSpec["AzureManagedMachinePoolTemplateResourceSpec"] 
+class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"]
+AzureManagedMachinePoolTemplateResource -- AzureManagedMachinePoolTemplateResourceSpec : spec 
+
+class AzureManagedMachinePoolTemplateResourceSpec["AzureManagedMachinePoolTemplateResourceSpec"]
+
 ```
 
 | Property | Description | Type                                                                                        |
@@ -1617,10 +1741,10 @@ Used by: [AzureManagedMachinePoolTemplateResource.spec](#AzureManagedMachinePool
       hideEmptyMembersBox: true
 ---
 classDiagram
+
 class AzureManagedMachinePoolTemplateResourceSpec["AzureManagedMachinePoolTemplateResourceSpec"]
 
-AzureManagedMachinePoolTemplateResourceSpec *-- AzureManagedMachinePoolClassSpec
-class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"]
+
 ```
 
 <a id="AzureManagedMachinePoolTemplateSpec"></a>AzureManagedMachinePoolTemplateSpec
@@ -1637,10 +1761,12 @@ Used by: [AzureManagedMachinePoolTemplate.spec](#AzureManagedMachinePoolTemplate
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
 
-AzureManagedMachinePoolTemplateSpec -- AzureManagedMachinePoolTemplateResource : template
-class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"] 
+class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
+AzureManagedMachinePoolTemplateSpec -- AzureManagedMachinePoolTemplateResource : template 
+
+class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"]
+
 ```
 
 | Property | Description | Type                                                                                |
@@ -1659,9 +1785,13 @@ class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateRe
       hideEmptyMembersBox: true
 ---
 classDiagram
-class azureManagedMachinePoolTemplateWebhook["azureManagedMachinePoolTemplateWebhook"] {
-    Client client.Client
-}
+
+class azureManagedMachinePoolTemplateWebhook["azureManagedMachinePoolTemplateWebhook"]{  
+      Client client.Client
+
+
+} 
+
 
 
 ```
@@ -1682,9 +1812,13 @@ class azureManagedMachinePoolTemplateWebhook["azureManagedMachinePoolTemplateWeb
       hideEmptyMembersBox: true
 ---
 classDiagram
-class azureManagedMachinePoolWebhook["azureManagedMachinePoolWebhook"] {
-    Client client.Client
-}
+
+class azureManagedMachinePoolWebhook["azureManagedMachinePoolWebhook"]{  
+      Client client.Client
+
+
+} 
+
 
 
 ```
@@ -1707,13 +1841,17 @@ Used by: [CloudProviderConfigOverrides.backOffs](#CloudProviderConfigOverrides).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class BackOffConfig["BackOffConfig"] {
-    cloudProviderBackoff bool
-    cloudProviderBackoffDuration int
-    cloudProviderBackoffExponent resource.Quantity
-    cloudProviderBackoffJitter resource.Quantity
-    cloudProviderBackoffRetries int
-}
+
+class BackOffConfig["BackOffConfig"]{  
+      cloudProviderBackoff bool  
+      cloudProviderBackoffDuration int  
+      cloudProviderBackoffExponent resource.Quantity  
+      cloudProviderBackoffJitter resource.Quantity  
+      cloudProviderBackoffRetries int
+
+
+} 
+
 
 
 ```
@@ -1747,10 +1885,12 @@ Used by: [AzureClusterTemplateResourceSpec.bastionSpec](#AzureClusterTemplateRes
       hideEmptyMembersBox: true
 ---
 classDiagram
-class BastionTemplateSpec["BastionTemplateSpec"]
 
-BastionTemplateSpec -- AzureBastionTemplateSpec : azureBastion
-class AzureBastionTemplateSpec["AzureBastionTemplateSpec"] 
+class BastionTemplateSpec["BastionTemplateSpec"]
+BastionTemplateSpec -- AzureBastionTemplateSpec : azureBastion 
+
+class AzureBastionTemplateSpec["AzureBastionTemplateSpec"]
+
 ```
 
 | Property     | Description | Type                                                  |
@@ -1769,17 +1909,21 @@ BuildParams is used to build tags around an azure resource.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class BuildParams["BuildParams"] {
-    Additional Tags
-    ClusterName string
-    Name string
-    ResourceID string
-    Role string
-}
+
+class BuildParams["BuildParams"]{  
+      Additional Tags  
+      ClusterName string  
+      Name string  
+      ResourceID string  
+      Role string
 
 
-BuildParams -- ResourceLifecycle : Lifecycle
-class ResourceLifecycle["ResourceLifecycle"] 
+} 
+
+BuildParams -- ResourceLifecycle : Lifecycle 
+
+class ResourceLifecycle["ResourceLifecycle"]
+
 ```
 
 | Property    | Description                                                                | Type                                    |
@@ -1805,12 +1949,14 @@ Used by: [AzureClusterClassSpec.cloudProviderConfigOverrides](#AzureClusterClass
       hideEmptyMembersBox: true
 ---
 classDiagram
-class CloudProviderConfigOverrides["CloudProviderConfigOverrides"]
 
-CloudProviderConfigOverrides -- BackOffConfig : backOffs
-CloudProviderConfigOverrides -- RateLimitSpec : rateLimits
-class BackOffConfig["BackOffConfig"] 
-class RateLimitSpec["RateLimitSpec"] 
+class CloudProviderConfigOverrides["CloudProviderConfigOverrides"]
+CloudProviderConfigOverrides -- BackOffConfig : backOffs 
+CloudProviderConfigOverrides -- RateLimitSpec : rateLimits 
+
+class BackOffConfig["BackOffConfig"]
+class RateLimitSpec["RateLimitSpec"]
+
 ```
 
 | Property   | Description | Type                              |
@@ -1846,10 +1992,14 @@ Used by: [AzureClusterClassSpec.extendedLocation](#AzureClusterClassSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ExtendedLocationSpec["ExtendedLocationSpec"] {
-    name string
-    type string
-}
+
+class ExtendedLocationSpec["ExtendedLocationSpec"]{  
+      name string  
+      type string
+
+
+} 
+
 
 
 ```
@@ -1880,13 +2030,17 @@ Used by: [AKSExtension.plan](#AKSExtension).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ExtensionPlan["ExtensionPlan"] {
-    name string
-    product string
-    promotionCode string
-    publisher string
-    version string
-}
+
+class ExtensionPlan["ExtensionPlan"]{  
+      name string  
+      product string  
+      promotionCode string  
+      publisher string  
+      version string
+
+
+} 
+
 
 
 ```
@@ -1913,14 +2067,18 @@ Used by: [AKSExtension.scope](#AKSExtension).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ExtensionScope["ExtensionScope"] {
-    releaseNamespace string
-    targetNamespace string
-}
+
+class ExtensionScope["ExtensionScope"]{  
+      releaseNamespace string  
+      targetNamespace string
 
 
-ExtensionScope -- ExtensionScopeType : scopeType
-class ExtensionScopeType["ExtensionScopeType"] 
+} 
+
+ExtensionScope -- ExtensionScopeType : scopeType 
+
+class ExtensionScopeType["ExtensionScopeType"]
+
 ```
 
 | Property         | Description                                                                                                                                           | Type                                      |
@@ -1950,11 +2108,15 @@ Used by: [AzureManagedControlPlaneClassSpec.fleetsMember](#AzureManagedControlPl
       hideEmptyMembersBox: true
 ---
 classDiagram
-class FleetsMemberClassSpec["FleetsMemberClassSpec"] {
-    group string
-    managerName string
-    managerResourceGroup string
-}
+
+class FleetsMemberClassSpec["FleetsMemberClassSpec"]{  
+      group string  
+      managerName string  
+      managerResourceGroup string
+
+
+} 
+
 
 
 ```
@@ -1977,9 +2139,13 @@ FrontendIPClass defines the FrontendIP properties that may be shared across seve
       hideEmptyMembersBox: true
 ---
 classDiagram
-class FrontendIPClass["FrontendIPClass"] {
-    privateIP string
-}
+
+class FrontendIPClass["FrontendIPClass"]{  
+      privateIP string
+
+
+} 
+
 
 
 ```
@@ -2000,13 +2166,17 @@ Future contains the data needed for an Azure long-running operation to continue 
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Future["Future"] {
-    data string
-    name string
-    resourceGroup string
-    serviceName string
-    type string
-}
+
+class Future["Future"]{  
+      data string  
+      name string  
+      resourceGroup string  
+      serviceName string  
+      type string
+
+
+} 
+
 
 
 ```
@@ -2033,12 +2203,16 @@ Used by: [AzureManagedControlPlaneClassSpec.httpProxyConfig](#AzureManagedContro
       hideEmptyMembersBox: true
 ---
 classDiagram
-class HTTPProxyConfig["HTTPProxyConfig"] {
-    httpProxy string
-    httpsProxy string
-    noProxy string[]
-    trustedCa string
-}
+
+class HTTPProxyConfig["HTTPProxyConfig"]{  
+      httpProxy string  
+      httpsProxy string  
+      noProxy string[]  
+      trustedCa string
+
+
+} 
+
 
 
 ```
@@ -2064,13 +2238,17 @@ Used by: [AzureManagedControlPlaneClassSpec.identity](#AzureManagedControlPlaneC
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Identity["Identity"] {
-    userAssignedIdentityResourceID string
-}
+
+class Identity["Identity"]{  
+      userAssignedIdentityResourceID string
 
 
-Identity -- ManagedControlPlaneIdentityType : type
-class ManagedControlPlaneIdentityType["ManagedControlPlaneIdentityType"] 
+} 
+
+Identity -- ManagedControlPlaneIdentityType : type 
+
+class ManagedControlPlaneIdentityType["ManagedControlPlaneIdentityType"]
+
 ```
 
 | Property                       | Description                                                                                  | Type                                                                |
@@ -2099,23 +2277,27 @@ Used by: [AzureManagedMachinePoolClassSpec.kubeletConfig](#AzureManagedMachinePo
       hideEmptyMembersBox: true
 ---
 classDiagram
-class KubeletConfig["KubeletConfig"] {
-    allowedUnsafeSysctls string[]
-    containerLogMaxFiles int
-    containerLogMaxSizeMB int
-    cpuCfsQuota bool
-    cpuCfsQuotaPeriod string
-    failSwapOn bool
-    imageGcHighThreshold int
-    imageGcLowThreshold int
-    podMaxPids int
-}
+
+class KubeletConfig["KubeletConfig"]{  
+      allowedUnsafeSysctls string[]  
+      containerLogMaxFiles int  
+      containerLogMaxSizeMB int  
+      cpuCfsQuota bool  
+      cpuCfsQuotaPeriod string  
+      failSwapOn bool  
+      imageGcHighThreshold int  
+      imageGcLowThreshold int  
+      podMaxPids int
 
 
-KubeletConfig -- CPUManagerPolicy : cpuManagerPolicy
-KubeletConfig -- TopologyManagerPolicy : topologyManagerPolicy
-class CPUManagerPolicy["CPUManagerPolicy"] 
-class TopologyManagerPolicy["TopologyManagerPolicy"] 
+} 
+
+KubeletConfig -- CPUManagerPolicy : cpuManagerPolicy 
+KubeletConfig -- TopologyManagerPolicy : topologyManagerPolicy 
+
+class CPUManagerPolicy["CPUManagerPolicy"]
+class TopologyManagerPolicy["TopologyManagerPolicy"]
+
 ```
 
 | Property              | Description                                                                                                                                                                             | Type                                            |
@@ -2165,17 +2347,21 @@ Used by: [AzureManagedMachinePoolClassSpec.linuxOSConfig](#AzureManagedMachinePo
       hideEmptyMembersBox: true
 ---
 classDiagram
-class LinuxOSConfig["LinuxOSConfig"] {
-    swapFileSizeMB int
-}
+
+class LinuxOSConfig["LinuxOSConfig"]{  
+      swapFileSizeMB int
 
 
-LinuxOSConfig -- SysctlConfig : sysctls
-LinuxOSConfig -- TransparentHugePageOption : transparentHugePageDefrag
-LinuxOSConfig -- TransparentHugePageOption : transparentHugePageEnabled
-class SysctlConfig["SysctlConfig"] 
-class TransparentHugePageOption["TransparentHugePageOption"] 
-class TransparentHugePageOption["TransparentHugePageOption"] 
+} 
+
+LinuxOSConfig -- SysctlConfig : sysctls 
+LinuxOSConfig -- TransparentHugePageOption : transparentHugePageDefrag 
+LinuxOSConfig -- TransparentHugePageOption : transparentHugePageEnabled 
+
+class SysctlConfig["SysctlConfig"]
+class TransparentHugePageOption["TransparentHugePageOption"]
+class TransparentHugePageOption["TransparentHugePageOption"]
+
 ```
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                    | Type                                                    |
@@ -2199,15 +2385,19 @@ Used by: [NetworkTemplateSpec.apiServerLB](#NetworkTemplateSpec), [NetworkTempla
       hideEmptyMembersBox: true
 ---
 classDiagram
-class LoadBalancerClassSpec["LoadBalancerClassSpec"] {
-    idleTimeoutInMinutes int32
-}
+
+class LoadBalancerClassSpec["LoadBalancerClassSpec"]{  
+      idleTimeoutInMinutes int32
 
 
-LoadBalancerClassSpec -- SKU : sku
-LoadBalancerClassSpec -- LBType : type
-class SKU["SKU"] 
-class LBType["LBType"] 
+} 
+
+LoadBalancerClassSpec -- SKU : sku 
+LoadBalancerClassSpec -- LBType : type 
+
+class SKU["SKU"]
+class LBType["LBType"]
+
 ```
 
 | Property             | Description                                                             | Type              |
@@ -2230,13 +2420,17 @@ Used by: [AzureManagedControlPlaneClassSpec.loadBalancerProfile](#AzureManagedCo
       hideEmptyMembersBox: true
 ---
 classDiagram
-class LoadBalancerProfile["LoadBalancerProfile"] {
-    allocatedOutboundPorts int
-    idleTimeoutInMinutes int
-    managedOutboundIPs int
-    outboundIPPrefixes string[]
-    outboundIPs string[]
-}
+
+class LoadBalancerProfile["LoadBalancerProfile"]{  
+      allocatedOutboundPorts int  
+      idleTimeoutInMinutes int  
+      managedOutboundIPs int  
+      outboundIPPrefixes string[]  
+      outboundIPs string[]
+
+
+} 
+
 
 
 ```
@@ -2263,10 +2457,12 @@ Used by: [AzureManagedControlPlaneClassSpec.autoUpgradeProfile](#AzureManagedCon
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
 
-ManagedClusterAutoUpgradeProfile -- UpgradeChannel : upgradeChannel
-class UpgradeChannel["UpgradeChannel"] 
+class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
+ManagedClusterAutoUpgradeProfile -- UpgradeChannel : upgradeChannel 
+
+class UpgradeChannel["UpgradeChannel"]
+
 ```
 
 | Property       | Description                                                                                    | Type                              |
@@ -2287,16 +2483,18 @@ Used by: [AzureManagedControlPlaneClassSpec.securityProfile](#AzureManagedContro
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterSecurityProfile["ManagedClusterSecurityProfile"]
 
-ManagedClusterSecurityProfile -- AzureKeyVaultKms : azureKeyVaultKms
-ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileDefender : defender
-ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileImageCleaner : imageCleaner
-ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileWorkloadIdentity : workloadIdentity
-class AzureKeyVaultKms["AzureKeyVaultKms"] 
-class ManagedClusterSecurityProfileDefender["ManagedClusterSecurityProfileDefender"] 
-class ManagedClusterSecurityProfileImageCleaner["ManagedClusterSecurityProfileImageCleaner"] 
-class ManagedClusterSecurityProfileWorkloadIdentity["ManagedClusterSecurityProfileWorkloadIdentity"] 
+class ManagedClusterSecurityProfile["ManagedClusterSecurityProfile"]
+ManagedClusterSecurityProfile -- AzureKeyVaultKms : azureKeyVaultKms 
+ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileDefender : defender 
+ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileImageCleaner : imageCleaner 
+ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileWorkloadIdentity : workloadIdentity 
+
+class AzureKeyVaultKms["AzureKeyVaultKms"]
+class ManagedClusterSecurityProfileDefender["ManagedClusterSecurityProfileDefender"]
+class ManagedClusterSecurityProfileImageCleaner["ManagedClusterSecurityProfileImageCleaner"]
+class ManagedClusterSecurityProfileWorkloadIdentity["ManagedClusterSecurityProfileWorkloadIdentity"]
+
 ```
 
 | Property         | Description                                                                                                                                                            | Type                                                                                            |
@@ -2320,13 +2518,17 @@ Used by: [ManagedClusterSecurityProfile.defender](#ManagedClusterSecurityProfile
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterSecurityProfileDefender["ManagedClusterSecurityProfileDefender"] {
-    logAnalyticsWorkspaceResourceID string
-}
+
+class ManagedClusterSecurityProfileDefender["ManagedClusterSecurityProfileDefender"]{  
+      logAnalyticsWorkspaceResourceID string
 
 
-ManagedClusterSecurityProfileDefender -- ManagedClusterSecurityProfileDefenderSecurityMonitoring : securityMonitoring
-class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSecurityProfileDefenderSecurityMonitoring"] 
+} 
+
+ManagedClusterSecurityProfileDefender -- ManagedClusterSecurityProfileDefenderSecurityMonitoring : securityMonitoring 
+
+class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSecurityProfileDefenderSecurityMonitoring"]
+
 ```
 
 | Property                        | Description                                                                                                                                                                                                                       | Type                                                                                                                                            |
@@ -2348,9 +2550,13 @@ Used by: [ManagedClusterSecurityProfileDefender.securityMonitoring](#ManagedClus
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSecurityProfileDefenderSecurityMonitoring"] {
-    enabled bool
-}
+
+class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSecurityProfileDefenderSecurityMonitoring"]{  
+      enabled bool
+
+
+} 
+
 
 
 ```
@@ -2373,10 +2579,14 @@ Used by: [ManagedClusterSecurityProfile.imageCleaner](#ManagedClusterSecurityPro
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterSecurityProfileImageCleaner["ManagedClusterSecurityProfileImageCleaner"] {
-    enabled bool
-    intervalHours int
-}
+
+class ManagedClusterSecurityProfileImageCleaner["ManagedClusterSecurityProfileImageCleaner"]{  
+      enabled bool  
+      intervalHours int
+
+
+} 
+
 
 
 ```
@@ -2400,9 +2610,13 @@ Used by: [ManagedClusterSecurityProfile.workloadIdentity](#ManagedClusterSecurit
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterSecurityProfileWorkloadIdentity["ManagedClusterSecurityProfileWorkloadIdentity"] {
-    enabled bool
-}
+
+class ManagedClusterSecurityProfileWorkloadIdentity["ManagedClusterSecurityProfileWorkloadIdentity"]{  
+      enabled bool
+
+
+} 
+
 
 
 ```
@@ -2439,12 +2653,16 @@ Used by: [ManagedControlPlaneVirtualNetworkClassSpec.subnet](#ManagedControlPlan
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedControlPlaneSubnet["ManagedControlPlaneSubnet"] {
-    cidrBlock string
-    name string
-    privateEndpoints PrivateEndpoints
-    serviceEndpoints ServiceEndpoints
-}
+
+class ManagedControlPlaneSubnet["ManagedControlPlaneSubnet"]{  
+      cidrBlock string  
+      name string  
+      privateEndpoints PrivateEndpoints  
+      serviceEndpoints ServiceEndpoints
+
+
+} 
+
 
 
 ```
@@ -2470,14 +2688,16 @@ Used by: [AzureManagedControlPlaneClassSpec.virtualNetwork](#AzureManagedControl
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"] {
-    name string
-    resourceGroup string
-}
+
+class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"]{  
+      name string  
+      resourceGroup string
 
 
-ManagedControlPlaneVirtualNetwork *-- ManagedControlPlaneVirtualNetworkClassSpec
-class ManagedControlPlaneVirtualNetworkClassSpec["ManagedControlPlaneVirtualNetworkClassSpec"]
+} 
+
+
+
 ```
 
 | Property                                                                                  | Description                                                                    | Type   |
@@ -2498,13 +2718,17 @@ ManagedControlPlaneVirtualNetworkClassSpec defines the ManagedControlPlaneVirtua
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedControlPlaneVirtualNetworkClassSpec["ManagedControlPlaneVirtualNetworkClassSpec"] {
-    cidrBlock string
-}
+
+class ManagedControlPlaneVirtualNetworkClassSpec["ManagedControlPlaneVirtualNetworkClassSpec"]{  
+      cidrBlock string
 
 
-ManagedControlPlaneVirtualNetworkClassSpec -- ManagedControlPlaneSubnet : subnet
-class ManagedControlPlaneSubnet["ManagedControlPlaneSubnet"] 
+} 
+
+ManagedControlPlaneVirtualNetworkClassSpec -- ManagedControlPlaneSubnet : subnet 
+
+class ManagedControlPlaneSubnet["ManagedControlPlaneSubnet"]
+
 ```
 
 | Property  | Description | Type                                                    |
@@ -2526,10 +2750,14 @@ Used by: [AzureManagedMachinePoolClassSpec.scaling](#AzureManagedMachinePoolClas
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedMachinePoolScaling["ManagedMachinePoolScaling"] {
-    maxSize int
-    minSize int
-}
+
+class ManagedMachinePoolScaling["ManagedMachinePoolScaling"]{  
+      maxSize int  
+      minSize int
+
+
+} 
+
 
 
 ```
@@ -2549,9 +2777,13 @@ class ManagedMachinePoolScaling["ManagedMachinePoolScaling"] {
       hideEmptyMembersBox: true
 ---
 classDiagram
-class mockClient["mockClient"] {
-    ReturnError bool
-}
+
+class mockClient["mockClient"]{  
+      ReturnError bool
+
+
+} 
+
 
 
 ```
@@ -2571,9 +2803,13 @@ class mockClient["mockClient"] {
       hideEmptyMembersBox: true
 ---
 classDiagram
-class mockDefaultClient["mockDefaultClient"] {
-    SubscriptionID string
-}
+
+class mockDefaultClient["mockDefaultClient"]{  
+      SubscriptionID string
+
+
+} 
+
 
 
 ```
@@ -2597,9 +2833,13 @@ Used by: [SubnetTemplateSpec.natGateway](#SubnetTemplateSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class NatGatewayClassSpec["NatGatewayClassSpec"] {
-    name string
-}
+
+class NatGatewayClassSpec["NatGatewayClassSpec"]{  
+      name string
+
+
+} 
+
 
 
 ```
@@ -2620,9 +2860,13 @@ NetworkClassSpec defines the NetworkSpec properties that may be shared across se
       hideEmptyMembersBox: true
 ---
 classDiagram
-class NetworkClassSpec["NetworkClassSpec"] {
-    privateDNSZoneName string
-}
+
+class NetworkClassSpec["NetworkClassSpec"]{  
+      privateDNSZoneName string
+
+
+} 
+
 
 
 ```
@@ -2659,21 +2903,23 @@ Used by: [AzureClusterTemplateResourceSpec.networkSpec](#AzureClusterTemplateRes
       hideEmptyMembersBox: true
 ---
 classDiagram
-class NetworkTemplateSpec["NetworkTemplateSpec"] {
-    subnets SubnetTemplatesSpec
-}
+
+class NetworkTemplateSpec["NetworkTemplateSpec"]{  
+      subnets SubnetTemplatesSpec
 
 
-NetworkTemplateSpec *-- NetworkClassSpec
-class NetworkClassSpec["NetworkClassSpec"]
-NetworkTemplateSpec -- LoadBalancerClassSpec : apiServerLB
-NetworkTemplateSpec -- LoadBalancerClassSpec : controlPlaneOutboundLB
-NetworkTemplateSpec -- LoadBalancerClassSpec : nodeOutboundLB
-NetworkTemplateSpec -- VnetTemplateSpec : vnet
-class LoadBalancerClassSpec["LoadBalancerClassSpec"] 
-class LoadBalancerClassSpec["LoadBalancerClassSpec"] 
-class LoadBalancerClassSpec["LoadBalancerClassSpec"] 
-class VnetTemplateSpec["VnetTemplateSpec"] 
+} 
+
+NetworkTemplateSpec -- LoadBalancerClassSpec : apiServerLB 
+NetworkTemplateSpec -- LoadBalancerClassSpec : controlPlaneOutboundLB 
+NetworkTemplateSpec -- LoadBalancerClassSpec : nodeOutboundLB 
+NetworkTemplateSpec -- VnetTemplateSpec : vnet 
+
+class LoadBalancerClassSpec["LoadBalancerClassSpec"]
+class LoadBalancerClassSpec["LoadBalancerClassSpec"]
+class LoadBalancerClassSpec["LoadBalancerClassSpec"]
+class VnetTemplateSpec["VnetTemplateSpec"]
+
 ```
 
 | Property                              | Description                                                                                                                                                                                                    | Type                                            |
@@ -2704,9 +2950,13 @@ Used by: [AzureManagedControlPlaneClassSpec.oidcIssuerProfile](#AzureManagedCont
       hideEmptyMembersBox: true
 ---
 classDiagram
-class OIDCIssuerProfile["OIDCIssuerProfile"] {
-    enabled bool
-}
+
+class OIDCIssuerProfile["OIDCIssuerProfile"]{  
+      enabled bool
+
+
+} 
+
 
 
 ```
@@ -2730,14 +2980,18 @@ OrchestrationModeType represents the orchestration mode for a Virtual Machine Sc
       hideEmptyMembersBox: true
 ---
 classDiagram
-class osDiskTestInput["osDiskTestInput"] {
-    name string
-    wantErr bool
-}
+
+class osDiskTestInput["osDiskTestInput"]{  
+      name string  
+      wantErr bool
 
 
-osDiskTestInput -- OSDisk : osDisk
-class OSDisk["OSDisk"] 
+} 
+
+osDiskTestInput -- OSDisk : osDisk 
+
+class OSDisk["OSDisk"]
+
 ```
 
 | Property | Description | Type              |
@@ -2758,18 +3012,22 @@ PrivateEndpointSpec configures an Azure Private Endpoint.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PrivateEndpointSpec["PrivateEndpointSpec"] {
-    applicationSecurityGroups string[]
-    customNetworkInterfaceName string
-    location string
-    manualApproval bool
-    name string
-    privateIPAddresses string[]
-}
+
+class PrivateEndpointSpec["PrivateEndpointSpec"]{  
+      applicationSecurityGroups string[]  
+      customNetworkInterfaceName string  
+      location string  
+      manualApproval bool  
+      name string  
+      privateIPAddresses string[]
 
 
-PrivateEndpointSpec -- PrivateLinkServiceConnection : privateLinkServiceConnections
-class PrivateLinkServiceConnection["PrivateLinkServiceConnection"] 
+} 
+
+PrivateEndpointSpec -- PrivateLinkServiceConnection : privateLinkServiceConnections 
+
+class PrivateLinkServiceConnection["PrivateLinkServiceConnection"]
+
 ```
 
 | Property                      | Description                                                                                                                                                                                                     | Type                                                            |
@@ -2796,12 +3054,16 @@ Used by: [PrivateEndpointSpec.privateLinkServiceConnections](#PrivateEndpointSpe
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PrivateLinkServiceConnection["PrivateLinkServiceConnection"] {
-    groupIDs string[]
-    name string
-    privateLinkServiceID string
-    requestMessage string
-}
+
+class PrivateLinkServiceConnection["PrivateLinkServiceConnection"]{  
+      groupIDs string[]  
+      name string  
+      privateLinkServiceID string  
+      requestMessage string
+
+
+} 
+
 
 
 ```
@@ -2827,13 +3089,17 @@ Used by: [RateLimitSpec.config](#RateLimitSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class RateLimitConfig["RateLimitConfig"] {
-    cloudProviderRateLimit bool
-    cloudProviderRateLimitBucket int
-    cloudProviderRateLimitBucketWrite int
-    cloudProviderRateLimitQPS resource.Quantity
-    cloudProviderRateLimitQPSWrite resource.Quantity
-}
+
+class RateLimitConfig["RateLimitConfig"]{  
+      cloudProviderRateLimit bool  
+      cloudProviderRateLimitBucket int  
+      cloudProviderRateLimitBucketWrite int  
+      cloudProviderRateLimitQPS resource.Quantity  
+      cloudProviderRateLimitQPSWrite resource.Quantity
+
+
+} 
+
 
 
 ```
@@ -2860,13 +3126,17 @@ Used by: [CloudProviderConfigOverrides.rateLimits](#CloudProviderConfigOverrides
       hideEmptyMembersBox: true
 ---
 classDiagram
-class RateLimitSpec["RateLimitSpec"] {
-    name string
-}
+
+class RateLimitSpec["RateLimitSpec"]{  
+      name string
 
 
-RateLimitSpec -- RateLimitConfig : config
-class RateLimitConfig["RateLimitConfig"] 
+} 
+
+RateLimitSpec -- RateLimitConfig : config 
+
+class RateLimitConfig["RateLimitConfig"]
+
 ```
 
 | Property | Description                              | Type                                |
@@ -2900,10 +3170,14 @@ Used by: [SubnetTemplateSpec.securityGroup](#SubnetTemplateSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SecurityGroupClass["SecurityGroupClass"] {
-    securityRules SecurityRules
-    tags Tags
-}
+
+class SecurityGroupClass["SecurityGroupClass"]{  
+      securityRules SecurityRules  
+      tags Tags
+
+
+} 
+
 
 
 ```
@@ -2939,24 +3213,28 @@ SecurityRule defines an Azure security rule for security groups.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SecurityRule["SecurityRule"] {
-    description string
-    destination string
-    destinationPorts string
-    name string
-    priority int32
-    source string
-    sourcePorts string
-    sources string[]
-}
+
+class SecurityRule["SecurityRule"]{  
+      description string  
+      destination string  
+      destinationPorts string  
+      name string  
+      priority int32  
+      source string  
+      sourcePorts string  
+      sources string[]
 
 
-SecurityRule -- SecurityRuleAccess : action
-SecurityRule -- SecurityRuleDirection : direction
-SecurityRule -- SecurityGroupProtocol : protocol
-class SecurityRuleAccess["SecurityRuleAccess"] 
-class SecurityRuleDirection["SecurityRuleDirection"] 
-class SecurityGroupProtocol["SecurityGroupProtocol"] 
+} 
+
+SecurityRule -- SecurityRuleAccess : action 
+SecurityRule -- SecurityRuleDirection : direction 
+SecurityRule -- SecurityGroupProtocol : protocol 
+
+class SecurityRuleAccess["SecurityRuleAccess"]
+class SecurityRuleDirection["SecurityRuleDirection"]
+class SecurityGroupProtocol["SecurityGroupProtocol"]
+
 ```
 
 | Property         | Description                                                                                                                                                                                                                                                                  | Type                                            |
@@ -3004,10 +3282,14 @@ ServiceEndpointSpec configures an Azure Service Endpoint.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ServiceEndpointSpec["ServiceEndpointSpec"] {
-    locations string[]
-    service string
-}
+
+class ServiceEndpointSpec["ServiceEndpointSpec"]{  
+      locations string[]  
+      service string
+
+
+} 
+
 
 
 ```
@@ -3054,16 +3336,20 @@ SubnetClassSpec defines the SubnetSpec properties that may be shared across seve
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SubnetClassSpec["SubnetClassSpec"] {
-    cidrBlocks string[]
-    name string
-    privateEndpoints PrivateEndpoints
-    serviceEndpoints ServiceEndpoints
-}
+
+class SubnetClassSpec["SubnetClassSpec"]{  
+      cidrBlocks string[]  
+      name string  
+      privateEndpoints PrivateEndpoints  
+      serviceEndpoints ServiceEndpoints
 
 
-SubnetClassSpec -- SubnetRole : role
-class SubnetRole["SubnetRole"] 
+} 
+
+SubnetClassSpec -- SubnetRole : role 
+
+class SubnetRole["SubnetRole"]
+
 ```
 
 | Property         | Description                                                                                                | Type                      |
@@ -3095,14 +3381,14 @@ Used by: [AzureBastionTemplateSpec.subnet](#AzureBastionTemplateSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SubnetTemplateSpec["SubnetTemplateSpec"]
 
-SubnetTemplateSpec *-- SubnetClassSpec
-class SubnetClassSpec["SubnetClassSpec"]
-SubnetTemplateSpec -- NatGatewayClassSpec : natGateway
-SubnetTemplateSpec -- SecurityGroupClass : securityGroup
-class NatGatewayClassSpec["NatGatewayClassSpec"] 
-class SecurityGroupClass["SecurityGroupClass"] 
+class SubnetTemplateSpec["SubnetTemplateSpec"]
+SubnetTemplateSpec -- NatGatewayClassSpec : natGateway 
+SubnetTemplateSpec -- SecurityGroupClass : securityGroup 
+
+class NatGatewayClassSpec["NatGatewayClassSpec"]
+class SecurityGroupClass["SecurityGroupClass"]
+
 ```
 
 | Property                            | Description                                                                                    | Type                                        |
@@ -3125,36 +3411,40 @@ Used by: [LinuxOSConfig.sysctls](#LinuxOSConfig).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SysctlConfig["SysctlConfig"] {
-    fsAioMaxNr int
-    fsFileMax int
-    fsInotifyMaxUserWatches int
-    fsNrOpen int
-    kernelThreadsMax int
-    netCoreNetdevMaxBacklog int
-    netCoreOptmemMax int
-    netCoreRmemDefault int
-    netCoreRmemMax int
-    netCoreSomaxconn int
-    netCoreWmemDefault int
-    netCoreWmemMax int
-    netIpv4IPLocalPortRange string
-    netIpv4NeighDefaultGcThresh1 int
-    netIpv4NeighDefaultGcThresh2 int
-    netIpv4NeighDefaultGcThresh3 int
-    netIpv4TCPFinTimeout int
-    netIpv4TCPkeepaliveIntvl int
-    netIpv4TCPKeepaliveProbes int
-    netIpv4TCPKeepaliveTime int
-    netIpv4TCPMaxSynBacklog int
-    netIpv4TCPMaxTwBuckets int
-    netIpv4TCPTwReuse bool
-    netNetfilterNfConntrackBuckets int
-    netNetfilterNfConntrackMax int
-    vmMaxMapCount int
-    vmSwappiness int
-    vmVfsCachePressure int
-}
+
+class SysctlConfig["SysctlConfig"]{  
+      fsAioMaxNr int  
+      fsFileMax int  
+      fsInotifyMaxUserWatches int  
+      fsNrOpen int  
+      kernelThreadsMax int  
+      netCoreNetdevMaxBacklog int  
+      netCoreOptmemMax int  
+      netCoreRmemDefault int  
+      netCoreRmemMax int  
+      netCoreSomaxconn int  
+      netCoreWmemDefault int  
+      netCoreWmemMax int  
+      netIpv4IPLocalPortRange string  
+      netIpv4NeighDefaultGcThresh1 int  
+      netIpv4NeighDefaultGcThresh2 int  
+      netIpv4NeighDefaultGcThresh3 int  
+      netIpv4TCPFinTimeout int  
+      netIpv4TCPkeepaliveIntvl int  
+      netIpv4TCPKeepaliveProbes int  
+      netIpv4TCPKeepaliveTime int  
+      netIpv4TCPMaxSynBacklog int  
+      netIpv4TCPMaxTwBuckets int  
+      netIpv4TCPTwReuse bool  
+      netNetfilterNfConntrackBuckets int  
+      netNetfilterNfConntrackMax int  
+      vmMaxMapCount int  
+      vmSwappiness int  
+      vmVfsCachePressure int
+
+
+} 
+
 
 
 ```
@@ -3202,14 +3492,18 @@ Taint represents a Kubernetes taint.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Taint["Taint"] {
-    key string
-    value string
-}
+
+class Taint["Taint"]{  
+      key string  
+      value string
 
 
-Taint -- TaintEffect : effect
-class TaintEffect["TaintEffect"] 
+} 
+
+Taint -- TaintEffect : effect 
+
+class TaintEffect["TaintEffect"]
+
 ```
 
 | Property | Description                               | Type                        |
@@ -3263,10 +3557,14 @@ VnetClassSpec defines the VnetSpec properties that may be shared across several 
       hideEmptyMembersBox: true
 ---
 classDiagram
-class VnetClassSpec["VnetClassSpec"] {
-    cidrBlocks string[]
-    tags Tags
-}
+
+class VnetClassSpec["VnetClassSpec"]{  
+      cidrBlocks string[]  
+      tags Tags
+
+
+} 
+
 
 
 ```
@@ -3288,16 +3586,20 @@ VnetPeeringClassSpec specifies a virtual network peering class.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class VnetPeeringClassSpec["VnetPeeringClassSpec"] {
-    remoteVnetName string
-    resourceGroup string
-}
+
+class VnetPeeringClassSpec["VnetPeeringClassSpec"]{  
+      remoteVnetName string  
+      resourceGroup string
 
 
-VnetPeeringClassSpec -- VnetPeeringProperties : forwardPeeringProperties
-VnetPeeringClassSpec -- VnetPeeringProperties : reversePeeringProperties
-class VnetPeeringProperties["VnetPeeringProperties"] 
-class VnetPeeringProperties["VnetPeeringProperties"] 
+} 
+
+VnetPeeringClassSpec -- VnetPeeringProperties : forwardPeeringProperties 
+VnetPeeringClassSpec -- VnetPeeringProperties : reversePeeringProperties 
+
+class VnetPeeringProperties["VnetPeeringProperties"]
+class VnetPeeringProperties["VnetPeeringProperties"]
+
 ```
 
 | Property                 | Description                                                                                                                            | Type                                            |
@@ -3321,12 +3623,16 @@ Used by: [VnetPeeringClassSpec.forwardPeeringProperties](#VnetPeeringClassSpec),
       hideEmptyMembersBox: true
 ---
 classDiagram
-class VnetPeeringProperties["VnetPeeringProperties"] {
-    allowForwardedTraffic bool
-    allowGatewayTransit bool
-    allowVirtualNetworkAccess bool
-    useRemoteGateways bool
-}
+
+class VnetPeeringProperties["VnetPeeringProperties"]{  
+      allowForwardedTraffic bool  
+      allowGatewayTransit bool  
+      allowVirtualNetworkAccess bool  
+      useRemoteGateways bool
+
+
+} 
+
 
 
 ```
@@ -3350,10 +3656,10 @@ VnetPeeringSpec specifies an existing remote virtual network to peer with the Az
       hideEmptyMembersBox: true
 ---
 classDiagram
+
 class VnetPeeringSpec["VnetPeeringSpec"]
 
-VnetPeeringSpec *-- VnetPeeringClassSpec
-class VnetPeeringClassSpec["VnetPeeringClassSpec"]
+
 ```
 
 <a id="VnetTemplateSpec"></a>VnetTemplateSpec
@@ -3370,13 +3676,15 @@ Used by: [NetworkTemplateSpec.vnet](#NetworkTemplateSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class VnetTemplateSpec["VnetTemplateSpec"] {
-    peerings VnetPeeringsTemplateSpec
-}
+
+class VnetTemplateSpec["VnetTemplateSpec"]{  
+      peerings VnetPeeringsTemplateSpec
 
 
-VnetTemplateSpec *-- VnetClassSpec
-class VnetClassSpec["VnetClassSpec"]
+} 
+
+
+
 ```
 
 | Property                        | Description                                                                                              | Type                     |
@@ -3398,18 +3706,22 @@ Used by: [AzureClusterIdentity.spec](#AzureClusterIdentity).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterIdentitySpec["AzureClusterIdentitySpec"] {
-    clientID string
-    clientSecret corev1.SecretReference
-    resourceID string
-    tenantID string
-}
+
+class AzureClusterIdentitySpec["AzureClusterIdentitySpec"]{  
+      clientID string  
+      clientSecret corev1.SecretReference  
+      resourceID string  
+      tenantID string
 
 
-AzureClusterIdentitySpec -- AllowedNamespaces : allowedNamespaces
-AzureClusterIdentitySpec -- IdentityType : type
-class AllowedNamespaces["AllowedNamespaces"] 
-class IdentityType["IdentityType"] 
+} 
+
+AzureClusterIdentitySpec -- AllowedNamespaces : allowedNamespaces 
+AzureClusterIdentitySpec -- IdentityType : type 
+
+class AllowedNamespaces["AllowedNamespaces"]
+class IdentityType["IdentityType"]
+
 ```
 
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Type                                                                            |
@@ -3435,9 +3747,13 @@ Used by: [AzureClusterIdentity.status](#AzureClusterIdentity).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterIdentityStatus["AzureClusterIdentityStatus"] {
-    conditions clusterv1.Conditions
-}
+
+class AzureClusterIdentityStatus["AzureClusterIdentityStatus"]{  
+      conditions clusterv1.Conditions
+
+
+} 
+
 
 
 ```
@@ -3460,18 +3776,20 @@ Used by: [AzureCluster.spec](#AzureCluster).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterSpec["AzureClusterSpec"] {
-    controlPlaneEndpoint clusterv1.APIEndpoint
-    resourceGroup string
-}
+
+class AzureClusterSpec["AzureClusterSpec"]{  
+      controlPlaneEndpoint clusterv1.APIEndpoint  
+      resourceGroup string
 
 
-AzureClusterSpec *-- AzureClusterClassSpec
-class AzureClusterClassSpec["AzureClusterClassSpec"]
-AzureClusterSpec -- BastionSpec : bastionSpec
-AzureClusterSpec -- NetworkSpec : networkSpec
-class BastionSpec["BastionSpec"] 
-class NetworkSpec["NetworkSpec"] 
+} 
+
+AzureClusterSpec -- BastionSpec : bastionSpec 
+AzureClusterSpec -- NetworkSpec : networkSpec 
+
+class BastionSpec["BastionSpec"]
+class NetworkSpec["NetworkSpec"]
+
 ```
 
 | Property                                        | Description                                                                                                                                                                                                                             | Type                                                                                         |
@@ -3496,12 +3814,16 @@ Used by: [AzureCluster.status](#AzureCluster).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureClusterStatus["AzureClusterStatus"] {
-    conditions clusterv1.Conditions
-    failureDomains clusterv1.FailureDomains
-    longRunningOperationStates Futures
-    ready bool
-}
+
+class AzureClusterStatus["AzureClusterStatus"]{  
+      conditions clusterv1.Conditions  
+      failureDomains clusterv1.FailureDomains  
+      longRunningOperationStates Futures  
+      ready bool
+
+
+} 
+
 
 
 ```
@@ -3527,47 +3849,51 @@ Used by: [AzureMachine.spec](#AzureMachine), and [AzureMachineTemplateResource.s
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachineSpec["AzureMachineSpec"] {
-    acceleratedNetworking bool
-    additionalTags Tags
-    allocatePublicIP bool
-    capacityReservationGroupID string
-    disableExtensionOperations bool
-    dnsServers string[]
-    enableIPForwarding bool
-    failureDomain string
-    providerID string
-    roleAssignmentName string
-    sshPublicKey string
-    subnetName string
-    vmSize string
-}
+
+class AzureMachineSpec["AzureMachineSpec"]{  
+      acceleratedNetworking bool  
+      additionalTags Tags  
+      allocatePublicIP bool  
+      capacityReservationGroupID string  
+      disableExtensionOperations bool  
+      dnsServers string[]  
+      enableIPForwarding bool  
+      failureDomain string  
+      providerID string  
+      roleAssignmentName string  
+      sshPublicKey string  
+      subnetName string  
+      vmSize string
 
 
-AzureMachineSpec -- AdditionalCapabilities : additionalCapabilities
-AzureMachineSpec -- DataDisk : dataDisks
-AzureMachineSpec -- Diagnostics : diagnostics
-AzureMachineSpec -- VMIdentity : identity
-AzureMachineSpec -- Image : image
-AzureMachineSpec -- NetworkInterface : networkInterfaces
-AzureMachineSpec -- OSDisk : osDisk
-AzureMachineSpec -- SecurityProfile : securityProfile
-AzureMachineSpec -- SpotVMOptions : spotVMOptions
-AzureMachineSpec -- SystemAssignedIdentityRole : systemAssignedIdentityRole
-AzureMachineSpec -- UserAssignedIdentity : userAssignedIdentities
-AzureMachineSpec -- VMExtension : vmExtensions
-class AdditionalCapabilities["AdditionalCapabilities"] 
-class DataDisk["DataDisk"] 
-class Diagnostics["Diagnostics"] 
-class VMIdentity["VMIdentity"] 
-class Image["Image"] 
-class NetworkInterface["NetworkInterface"] 
-class OSDisk["OSDisk"] 
-class SecurityProfile["SecurityProfile"] 
-class SpotVMOptions["SpotVMOptions"] 
-class SystemAssignedIdentityRole["SystemAssignedIdentityRole"] 
-class UserAssignedIdentity["UserAssignedIdentity"] 
-class VMExtension["VMExtension"] 
+} 
+
+AzureMachineSpec -- AdditionalCapabilities : additionalCapabilities 
+AzureMachineSpec -- DataDisk : dataDisks 
+AzureMachineSpec -- Diagnostics : diagnostics 
+AzureMachineSpec -- VMIdentity : identity 
+AzureMachineSpec -- Image : image 
+AzureMachineSpec -- NetworkInterface : networkInterfaces 
+AzureMachineSpec -- OSDisk : osDisk 
+AzureMachineSpec -- SecurityProfile : securityProfile 
+AzureMachineSpec -- SpotVMOptions : spotVMOptions 
+AzureMachineSpec -- SystemAssignedIdentityRole : systemAssignedIdentityRole 
+AzureMachineSpec -- UserAssignedIdentity : userAssignedIdentities 
+AzureMachineSpec -- VMExtension : vmExtensions 
+
+class AdditionalCapabilities["AdditionalCapabilities"]
+class DataDisk["DataDisk"]
+class Diagnostics["Diagnostics"]
+class VMIdentity["VMIdentity"]
+class Image["Image"]
+class NetworkInterface["NetworkInterface"]
+class OSDisk["OSDisk"]
+class SecurityProfile["SecurityProfile"]
+class SpotVMOptions["SpotVMOptions"]
+class SystemAssignedIdentityRole["SystemAssignedIdentityRole"]
+class UserAssignedIdentity["UserAssignedIdentity"]
+class VMExtension["VMExtension"]
+
 ```
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Type                                                      |
@@ -3612,18 +3938,22 @@ Used by: [AzureMachine.status](#AzureMachine).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMachineStatus["AzureMachineStatus"] {
-    addresses corev1.NodeAddress[]
-    conditions clusterv1.Conditions
-    failureMessage string
-    failureReason errors.MachineStatusError
-    longRunningOperationStates Futures
-    ready bool
-}
+
+class AzureMachineStatus["AzureMachineStatus"]{  
+      addresses corev1.NodeAddress[]  
+      conditions clusterv1.Conditions  
+      failureMessage string  
+      failureReason errors.MachineStatusError  
+      longRunningOperationStates Futures  
+      ready bool
 
 
-AzureMachineStatus -- ProvisioningState : vmState
-class ProvisioningState["ProvisioningState"] 
+} 
+
+AzureMachineStatus -- ProvisioningState : vmState 
+
+class ProvisioningState["ProvisioningState"]
+
 ```
 
 | Property                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Type                                                                                              |
@@ -3650,9 +3980,13 @@ Used by: [AzureManagedCluster.spec](#AzureManagedCluster).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedClusterSpec["AzureManagedClusterSpec"] {
-    controlPlaneEndpoint clusterv1.APIEndpoint
-}
+
+class AzureManagedClusterSpec["AzureManagedClusterSpec"]{  
+      controlPlaneEndpoint clusterv1.APIEndpoint
+
+
+} 
+
 
 
 ```
@@ -3675,9 +4009,13 @@ Used by: [AzureManagedCluster.status](#AzureManagedCluster).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedClusterStatus["AzureManagedClusterStatus"] {
-    ready bool
-}
+
+class AzureManagedClusterStatus["AzureManagedClusterStatus"]{  
+      ready bool
+
+
+} 
+
 
 
 ```
@@ -3700,18 +4038,20 @@ Used by: [AzureManagedControlPlane.spec](#AzureManagedControlPlane).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneSpec["AzureManagedControlPlaneSpec"] {
-    controlPlaneEndpoint clusterv1.APIEndpoint
-    dnsPrefix string
-    nodeResourceGroupName string
-    sshPublicKey string
-}
+
+class AzureManagedControlPlaneSpec["AzureManagedControlPlaneSpec"]{  
+      controlPlaneEndpoint clusterv1.APIEndpoint  
+      dnsPrefix string  
+      nodeResourceGroupName string  
+      sshPublicKey string
 
 
-AzureManagedControlPlaneSpec *-- AzureManagedControlPlaneClassSpec
-class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"]
-AzureManagedControlPlaneSpec -- FleetsMember : fleetsMember
-class FleetsMember["FleetsMember"] 
+} 
+
+AzureManagedControlPlaneSpec -- FleetsMember : fleetsMember 
+
+class FleetsMember["FleetsMember"]
+
 ```
 
 | Property                                                                | Description                                                                                                                                                                                                   | Type                                                                                         |
@@ -3737,18 +4077,22 @@ Used by: [AzureManagedControlPlane.status](#AzureManagedControlPlane).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedControlPlaneStatus["AzureManagedControlPlaneStatus"] {
-    autoUpgradeVersion string
-    conditions clusterv1.Conditions
-    initialized bool
-    longRunningOperationStates Futures
-    ready bool
-    version string
-}
+
+class AzureManagedControlPlaneStatus["AzureManagedControlPlaneStatus"]{  
+      autoUpgradeVersion string  
+      conditions clusterv1.Conditions  
+      initialized bool  
+      longRunningOperationStates Futures  
+      ready bool  
+      version string
 
 
-AzureManagedControlPlaneStatus -- OIDCIssuerProfileStatus : oidcIssuerProfile
-class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"] 
+} 
+
+AzureManagedControlPlaneStatus -- OIDCIssuerProfileStatus : oidcIssuerProfile 
+
+class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"]
+
 ```
 
 | Property                   | Description                                                                                                                                                                                               | Type                                                                                       |
@@ -3775,13 +4119,15 @@ Used by: [AzureManagedMachinePool.spec](#AzureManagedMachinePool).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolSpec["AzureManagedMachinePoolSpec"] {
-    providerIDList string[]
-}
+
+class AzureManagedMachinePoolSpec["AzureManagedMachinePoolSpec"]{  
+      providerIDList string[]
 
 
-AzureManagedMachinePoolSpec *-- AzureManagedMachinePoolClassSpec
-class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"]
+} 
+
+
+
 ```
 
 | Property                                                              | Description                                                                 | Type     |
@@ -3803,14 +4149,18 @@ Used by: [AzureManagedMachinePool.status](#AzureManagedMachinePool).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureManagedMachinePoolStatus["AzureManagedMachinePoolStatus"] {
-    conditions clusterv1.Conditions
-    errorMessage string
-    errorReason capierrors.MachineStatusError
-    longRunningOperationStates Futures
-    ready bool
-    replicas int32
-}
+
+class AzureManagedMachinePoolStatus["AzureManagedMachinePoolStatus"]{  
+      conditions clusterv1.Conditions  
+      errorMessage string  
+      errorReason capierrors.MachineStatusError  
+      longRunningOperationStates Futures  
+      ready bool  
+      replicas int32
+
+
+} 
+
 
 
 ```
@@ -3838,9 +4188,13 @@ Used by: [AzureMachineSpec.additionalCapabilities](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AdditionalCapabilities["AdditionalCapabilities"] {
-    ultraSSDEnabled bool
-}
+
+class AdditionalCapabilities["AdditionalCapabilities"]{  
+      ultraSSDEnabled bool
+
+
+} 
+
 
 
 ```
@@ -3863,10 +4217,14 @@ Used by: [AzureClusterIdentitySpec.allowedNamespaces](#AzureClusterIdentitySpec)
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AllowedNamespaces["AllowedNamespaces"] {
-    list string[]
-    selector metav1.LabelSelector
-}
+
+class AllowedNamespaces["AllowedNamespaces"]{  
+      list string[]  
+      selector metav1.LabelSelector
+
+
+} 
+
 
 
 ```
@@ -3890,10 +4248,12 @@ Used by: [AzureClusterSpec.bastionSpec](#AzureClusterSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class BastionSpec["BastionSpec"]
 
-BastionSpec -- AzureBastion : azureBastion
-class AzureBastion["AzureBastion"] 
+class BastionSpec["BastionSpec"]
+BastionSpec -- AzureBastion : azureBastion 
+
+class AzureBastion["AzureBastion"]
+
 ```
 
 | Property     | Description | Type                          |
@@ -3914,16 +4274,20 @@ Used by: [AzureMachineSpec.dataDisks](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class DataDisk["DataDisk"] {
-    cachingType string
-    diskSizeGB int32
-    lun int32
-    nameSuffix string
-}
+
+class DataDisk["DataDisk"]{  
+      cachingType string  
+      diskSizeGB int32  
+      lun int32  
+      nameSuffix string
 
 
-DataDisk -- ManagedDiskParameters : managedDisk
-class ManagedDiskParameters["ManagedDiskParameters"] 
+} 
+
+DataDisk -- ManagedDiskParameters : managedDisk 
+
+class ManagedDiskParameters["ManagedDiskParameters"]
+
 ```
 
 | Property    | Description                                                                                                                                                                                                           | Type                                            |
@@ -3948,10 +4312,12 @@ Used by: [AzureMachineSpec.diagnostics](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Diagnostics["Diagnostics"]
 
-Diagnostics -- BootDiagnostics : boot
-class BootDiagnostics["BootDiagnostics"] 
+class Diagnostics["Diagnostics"]
+Diagnostics -- BootDiagnostics : boot 
+
+class BootDiagnostics["BootDiagnostics"]
+
 ```
 
 | Property | Description                                                                                                                                                                                                                                                                            | Type                                |
@@ -3972,13 +4338,15 @@ Used by: [AzureManagedControlPlaneSpec.fleetsMember](#AzureManagedControlPlaneSp
       hideEmptyMembersBox: true
 ---
 classDiagram
-class FleetsMember["FleetsMember"] {
-    name string
-}
+
+class FleetsMember["FleetsMember"]{  
+      name string
 
 
-FleetsMember *-- FleetsMemberClassSpec
-class FleetsMemberClassSpec["FleetsMemberClassSpec"]
+} 
+
+
+
 ```
 
 | Property                                        | Description                     | Type   |
@@ -4007,17 +4375,21 @@ Used by: [AzureMachineSpec.image](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Image["Image"] {
-    id string
-}
+
+class Image["Image"]{  
+      id string
 
 
-Image -- AzureComputeGalleryImage : computeGallery
-Image -- AzureMarketplaceImage : marketplace
-Image -- AzureSharedGalleryImage : sharedGallery
-class AzureComputeGalleryImage["AzureComputeGalleryImage"] 
-class AzureMarketplaceImage["AzureMarketplaceImage"] 
-class AzureSharedGalleryImage["AzureSharedGalleryImage"] 
+} 
+
+Image -- AzureComputeGalleryImage : computeGallery 
+Image -- AzureMarketplaceImage : marketplace 
+Image -- AzureSharedGalleryImage : sharedGallery 
+
+class AzureComputeGalleryImage["AzureComputeGalleryImage"]
+class AzureMarketplaceImage["AzureMarketplaceImage"]
+class AzureSharedGalleryImage["AzureSharedGalleryImage"]
+
 ```
 
 | Property       | Description                                                                                                        | Type                                                  |
@@ -4041,11 +4413,15 @@ Used by: [AzureMachineSpec.networkInterfaces](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class NetworkInterface["NetworkInterface"] {
-    acceleratedNetworking bool
-    privateIPConfigs int
-    subnetName string
-}
+
+class NetworkInterface["NetworkInterface"]{  
+      acceleratedNetworking bool  
+      privateIPConfigs int  
+      subnetName string
+
+
+} 
+
 
 
 ```
@@ -4070,21 +4446,23 @@ Used by: [AzureClusterSpec.networkSpec](#AzureClusterSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class NetworkSpec["NetworkSpec"] {
-    subnets Subnets
-}
+
+class NetworkSpec["NetworkSpec"]{  
+      subnets Subnets
 
 
-NetworkSpec *-- NetworkClassSpec
-class NetworkClassSpec["NetworkClassSpec"]
-NetworkSpec -- LoadBalancerSpec : apiServerLB
-NetworkSpec -- LoadBalancerSpec : controlPlaneOutboundLB
-NetworkSpec -- LoadBalancerSpec : nodeOutboundLB
-NetworkSpec -- VnetSpec : vnet
-class LoadBalancerSpec["LoadBalancerSpec"] 
-class LoadBalancerSpec["LoadBalancerSpec"] 
-class LoadBalancerSpec["LoadBalancerSpec"] 
-class VnetSpec["VnetSpec"] 
+} 
+
+NetworkSpec -- LoadBalancerSpec : apiServerLB 
+NetworkSpec -- LoadBalancerSpec : controlPlaneOutboundLB 
+NetworkSpec -- LoadBalancerSpec : nodeOutboundLB 
+NetworkSpec -- VnetSpec : vnet 
+
+class LoadBalancerSpec["LoadBalancerSpec"]
+class LoadBalancerSpec["LoadBalancerSpec"]
+class LoadBalancerSpec["LoadBalancerSpec"]
+class VnetSpec["VnetSpec"]
+
 ```
 
 | Property                              | Description                                                                                                                                                                                                    | Type                                  |
@@ -4110,9 +4488,13 @@ Used by: [AzureManagedControlPlaneStatus.oidcIssuerProfile](#AzureManagedControl
       hideEmptyMembersBox: true
 ---
 classDiagram
-class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"] {
-    issuerURL string
-}
+
+class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"]{  
+      issuerURL string
+
+
+} 
+
 
 
 ```
@@ -4135,17 +4517,21 @@ Used by: [AzureMachineSpec.osDisk](#AzureMachineSpec), and [osDiskTestInput.osDi
       hideEmptyMembersBox: true
 ---
 classDiagram
-class OSDisk["OSDisk"] {
-    cachingType string
-    diskSizeGB int32
-    osType string
-}
+
+class OSDisk["OSDisk"]{  
+      cachingType string  
+      diskSizeGB int32  
+      osType string
 
 
-OSDisk -- DiffDiskSettings : diffDiskSettings
-OSDisk -- ManagedDiskParameters : managedDisk
-class DiffDiskSettings["DiffDiskSettings"] 
-class ManagedDiskParameters["ManagedDiskParameters"] 
+} 
+
+OSDisk -- DiffDiskSettings : diffDiskSettings 
+OSDisk -- ManagedDiskParameters : managedDisk 
+
+class DiffDiskSettings["DiffDiskSettings"]
+class ManagedDiskParameters["ManagedDiskParameters"]
+
 ```
 
 | Property         | Description                                                                                        | Type                                            |
@@ -4177,15 +4563,19 @@ Used by: [AzureMachineSpec.securityProfile](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SecurityProfile["SecurityProfile"] {
-    encryptionAtHost bool
-}
+
+class SecurityProfile["SecurityProfile"]{  
+      encryptionAtHost bool
 
 
-SecurityProfile -- SecurityTypes : securityType
-SecurityProfile -- UefiSettings : uefiSettings
-class SecurityTypes["SecurityTypes"] 
-class UefiSettings["UefiSettings"] 
+} 
+
+SecurityProfile -- SecurityTypes : securityType 
+SecurityProfile -- UefiSettings : uefiSettings 
+
+class SecurityTypes["SecurityTypes"]
+class UefiSettings["UefiSettings"]
+
 ```
 
 | Property         | Description                                                                                                                                                                                                                             | Type                            |
@@ -4208,13 +4598,17 @@ Used by: [AzureMachineSpec.spotVMOptions](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SpotVMOptions["SpotVMOptions"] {
-    maxPrice resource.Quantity
-}
+
+class SpotVMOptions["SpotVMOptions"]{  
+      maxPrice resource.Quantity
 
 
-SpotVMOptions -- SpotEvictionPolicy : evictionPolicy
-class SpotEvictionPolicy["SpotEvictionPolicy"] 
+} 
+
+SpotVMOptions -- SpotEvictionPolicy : evictionPolicy 
+
+class SpotEvictionPolicy["SpotEvictionPolicy"]
+
 ```
 
 | Property       | Description                                                                                                           | Type                                                                                  |
@@ -4236,11 +4630,15 @@ Used by: [AzureMachineSpec.systemAssignedIdentityRole](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SystemAssignedIdentityRole["SystemAssignedIdentityRole"] {
-    definitionID string
-    name string
-    scope string
-}
+
+class SystemAssignedIdentityRole["SystemAssignedIdentityRole"]{  
+      definitionID string  
+      name string  
+      scope string
+
+
+} 
+
 
 
 ```
@@ -4265,9 +4663,13 @@ Used by: [AzureMachineSpec.userAssignedIdentities](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class UserAssignedIdentity["UserAssignedIdentity"] {
-    providerID string
-}
+
+class UserAssignedIdentity["UserAssignedIdentity"]{  
+      providerID string
+
+
+} 
+
 
 
 ```
@@ -4290,13 +4692,17 @@ Used by: [AzureMachineSpec.vmExtensions](#AzureMachineSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class VMExtension["VMExtension"] {
-    name string
-    protectedSettings Tags
-    publisher string
-    settings Tags
-    version string
-}
+
+class VMExtension["VMExtension"]{  
+      name string  
+      protectedSettings Tags  
+      publisher string  
+      settings Tags  
+      version string
+
+
+} 
+
 
 
 ```
@@ -4330,18 +4736,22 @@ Used by: [BastionSpec.azureBastion](#BastionSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureBastion["AzureBastion"] {
-    enableTunneling bool
-    name string
-}
+
+class AzureBastion["AzureBastion"]{  
+      enableTunneling bool  
+      name string
 
 
-AzureBastion -- PublicIPSpec : publicIP
-AzureBastion -- BastionHostSkuName : sku
-AzureBastion -- SubnetSpec : subnet
-class PublicIPSpec["PublicIPSpec"] 
-class BastionHostSkuName["BastionHostSkuName"] 
-class SubnetSpec["SubnetSpec"] 
+} 
+
+AzureBastion -- PublicIPSpec : publicIP 
+AzureBastion -- BastionHostSkuName : sku 
+AzureBastion -- SubnetSpec : subnet 
+
+class PublicIPSpec["PublicIPSpec"]
+class BastionHostSkuName["BastionHostSkuName"]
+class SubnetSpec["SubnetSpec"]
+
 ```
 
 | Property        | Description                                                                                                           | Type                                      |
@@ -4366,17 +4776,21 @@ Used by: [Image.computeGallery](#Image).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureComputeGalleryImage["AzureComputeGalleryImage"] {
-    gallery string
-    name string
-    resourceGroup string
-    subscriptionID string
-    version string
-}
+
+class AzureComputeGalleryImage["AzureComputeGalleryImage"]{  
+      gallery string  
+      name string  
+      resourceGroup string  
+      subscriptionID string  
+      version string
 
 
-AzureComputeGalleryImage -- ImagePlan : plan
-class ImagePlan["ImagePlan"] 
+} 
+
+AzureComputeGalleryImage -- ImagePlan : plan 
+
+class ImagePlan["ImagePlan"]
+
 ```
 
 | Property       | Description                                                                                                                                                                                                                                                                                                                                                                  | Type                    |
@@ -4402,14 +4816,16 @@ Used by: [Image.marketplace](#Image).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureMarketplaceImage["AzureMarketplaceImage"] {
-    thirdPartyImage bool
-    version string
-}
+
+class AzureMarketplaceImage["AzureMarketplaceImage"]{  
+      thirdPartyImage bool  
+      version string
 
 
-AzureMarketplaceImage *-- ImagePlan
-class ImagePlan["ImagePlan"]
+} 
+
+
+
 ```
 
 | Property                | Description                                                                                                                                                                                                                                                                                                                                                         | Type   |
@@ -4432,16 +4848,20 @@ Used by: [Image.sharedGallery](#Image).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AzureSharedGalleryImage["AzureSharedGalleryImage"] {
-    gallery string
-    name string
-    offer string
-    publisher string
-    resourceGroup string
-    sku string
-    subscriptionID string
-    version string
-}
+
+class AzureSharedGalleryImage["AzureSharedGalleryImage"]{  
+      gallery string  
+      name string  
+      offer string  
+      publisher string  
+      resourceGroup string  
+      sku string  
+      subscriptionID string  
+      version string
+
+
+} 
+
 
 
 ```
@@ -4471,12 +4891,14 @@ Used by: [Diagnostics.boot](#Diagnostics).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class BootDiagnostics["BootDiagnostics"]
 
-BootDiagnostics -- BootDiagnosticsStorageAccountType : storageAccountType
-BootDiagnostics -- UserManagedBootDiagnostics : userManaged
-class BootDiagnosticsStorageAccountType["BootDiagnosticsStorageAccountType"] 
-class UserManagedBootDiagnostics["UserManagedBootDiagnostics"] 
+class BootDiagnostics["BootDiagnostics"]
+BootDiagnostics -- BootDiagnosticsStorageAccountType : storageAccountType 
+BootDiagnostics -- UserManagedBootDiagnostics : userManaged 
+
+class BootDiagnosticsStorageAccountType["BootDiagnosticsStorageAccountType"]
+class UserManagedBootDiagnostics["UserManagedBootDiagnostics"]
+
 ```
 
 | Property           | Description                                                                                                                                                                       | Type                                                                                                |
@@ -4498,13 +4920,17 @@ Used by: [OSDisk.diffDiskSettings](#OSDisk).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class DiffDiskSettings["DiffDiskSettings"] {
-    option string
-}
+
+class DiffDiskSettings["DiffDiskSettings"]{  
+      option string
 
 
-DiffDiskSettings -- DiffDiskPlacement : placement
-class DiffDiskPlacement["DiffDiskPlacement"] 
+} 
+
+DiffDiskSettings -- DiffDiskPlacement : placement 
+
+class DiffDiskPlacement["DiffDiskPlacement"]
+
 ```
 
 | Property  | Description                                                                                                                                | Type                                    |
@@ -4526,19 +4952,21 @@ Used by: [NetworkSpec.apiServerLB](#NetworkSpec), [NetworkSpec.controlPlaneOutbo
       hideEmptyMembersBox: true
 ---
 classDiagram
-class LoadBalancerSpec["LoadBalancerSpec"] {
-    frontendIPsCount int32
-    id string
-    name string
-}
+
+class LoadBalancerSpec["LoadBalancerSpec"]{  
+      frontendIPsCount int32  
+      id string  
+      name string
 
 
-LoadBalancerSpec *-- LoadBalancerClassSpec
-class LoadBalancerClassSpec["LoadBalancerClassSpec"]
-LoadBalancerSpec -- BackendPool : backendPool
-LoadBalancerSpec -- FrontendIP : frontendIPs
-class BackendPool["BackendPool"] 
-class FrontendIP["FrontendIP"] 
+} 
+
+LoadBalancerSpec -- BackendPool : backendPool 
+LoadBalancerSpec -- FrontendIP : frontendIPs 
+
+class BackendPool["BackendPool"]
+class FrontendIP["FrontendIP"]
+
 ```
 
 | Property                                        | Description                                                                           | Type                        |
@@ -4564,15 +4992,19 @@ Used by: [DataDisk.managedDisk](#DataDisk), and [OSDisk.managedDisk](#OSDisk).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedDiskParameters["ManagedDiskParameters"] {
-    storageAccountType string
-}
+
+class ManagedDiskParameters["ManagedDiskParameters"]{  
+      storageAccountType string
 
 
-ManagedDiskParameters -- DiskEncryptionSetParameters : diskEncryptionSet
-ManagedDiskParameters -- VMDiskSecurityProfile : securityProfile
-class DiskEncryptionSetParameters["DiskEncryptionSetParameters"] 
-class VMDiskSecurityProfile["VMDiskSecurityProfile"] 
+} 
+
+ManagedDiskParameters -- DiskEncryptionSetParameters : diskEncryptionSet 
+ManagedDiskParameters -- VMDiskSecurityProfile : securityProfile 
+
+class DiskEncryptionSetParameters["DiskEncryptionSetParameters"]
+class VMDiskSecurityProfile["VMDiskSecurityProfile"]
+
 ```
 
 | Property           | Description                                                                                            | Type                                                        |
@@ -4609,10 +5041,14 @@ Used by: [SecurityProfile.uefiSettings](#SecurityProfile).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class UefiSettings["UefiSettings"] {
-    secureBootEnabled bool
-    vTpmEnabled bool
-}
+
+class UefiSettings["UefiSettings"]{  
+      secureBootEnabled bool  
+      vTpmEnabled bool
+
+
+} 
+
 
 
 ```
@@ -4636,16 +5072,18 @@ Used by: [NetworkSpec.vnet](#NetworkSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class VnetSpec["VnetSpec"] {
-    id string
-    name string
-    peerings VnetPeerings
-    resourceGroup string
-}
+
+class VnetSpec["VnetSpec"]{  
+      id string  
+      name string  
+      peerings VnetPeerings  
+      resourceGroup string
 
 
-VnetSpec *-- VnetClassSpec
-class VnetClassSpec["VnetClassSpec"]
+} 
+
+
+
 ```
 
 | Property                        | Description                                                                                                                                              | Type         |
@@ -4670,9 +5108,13 @@ Used by: [LoadBalancerSpec.backendPool](#LoadBalancerSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class BackendPool["BackendPool"] {
-    name string
-}
+
+class BackendPool["BackendPool"]{  
+      name string
+
+
+} 
+
 
 
 ```
@@ -4716,9 +5158,13 @@ Used by: [ManagedDiskParameters.diskEncryptionSet](#ManagedDiskParameters), and 
       hideEmptyMembersBox: true
 ---
 classDiagram
-class DiskEncryptionSetParameters["DiskEncryptionSetParameters"] {
-    id string
-}
+
+class DiskEncryptionSetParameters["DiskEncryptionSetParameters"]{  
+      id string
+
+
+} 
+
 
 
 ```
@@ -4741,15 +5187,17 @@ Used by: [LoadBalancerSpec.frontendIPs](#LoadBalancerSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class FrontendIP["FrontendIP"] {
-    name string
-}
+
+class FrontendIP["FrontendIP"]{  
+      name string
 
 
-FrontendIP *-- FrontendIPClass
-class FrontendIPClass["FrontendIPClass"]
-FrontendIP -- PublicIPSpec : publicIP
-class PublicIPSpec["PublicIPSpec"] 
+} 
+
+FrontendIP -- PublicIPSpec : publicIP 
+
+class PublicIPSpec["PublicIPSpec"]
+
 ```
 
 | Property                            | Description | Type                          |
@@ -4772,11 +5220,15 @@ Used by: [AzureComputeGalleryImage.plan](#AzureComputeGalleryImage).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ImagePlan["ImagePlan"] {
-    offer string
-    publisher string
-    sku string
-}
+
+class ImagePlan["ImagePlan"]{  
+      offer string  
+      publisher string  
+      sku string
+
+
+} 
+
 
 
 ```
@@ -4801,14 +5253,18 @@ Used by: [AzureBastion.publicIP](#AzureBastion), [FrontendIP.publicIP](#Frontend
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PublicIPSpec["PublicIPSpec"] {
-    dnsName string
-    name string
-}
+
+class PublicIPSpec["PublicIPSpec"]{  
+      dnsName string  
+      name string
 
 
-PublicIPSpec -- IPTag : ipTags
-class IPTag["IPTag"] 
+} 
+
+PublicIPSpec -- IPTag : ipTags 
+
+class IPTag["IPTag"]
+
 ```
 
 | Property | Description | Type              |
@@ -4831,19 +5287,21 @@ Used by: [AzureBastion.subnet](#AzureBastion).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SubnetSpec["SubnetSpec"] {
-    id string
-}
+
+class SubnetSpec["SubnetSpec"]{  
+      id string
 
 
-SubnetSpec *-- SubnetClassSpec
-class SubnetClassSpec["SubnetClassSpec"]
-SubnetSpec -- NatGateway : natGateway
-SubnetSpec -- RouteTable : routeTable
-SubnetSpec -- SecurityGroup : securityGroup
-class NatGateway["NatGateway"] 
-class RouteTable["RouteTable"] 
-class SecurityGroup["SecurityGroup"] 
+} 
+
+SubnetSpec -- NatGateway : natGateway 
+SubnetSpec -- RouteTable : routeTable 
+SubnetSpec -- SecurityGroup : securityGroup 
+
+class NatGateway["NatGateway"]
+class RouteTable["RouteTable"]
+class SecurityGroup["SecurityGroup"]
+
 ```
 
 | Property                            | Description                                                                                    | Type                            |
@@ -4868,9 +5326,13 @@ Used by: [BootDiagnostics.userManaged](#BootDiagnostics).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class UserManagedBootDiagnostics["UserManagedBootDiagnostics"] {
-    storageAccountURI string
-}
+
+class UserManagedBootDiagnostics["UserManagedBootDiagnostics"]{  
+      storageAccountURI string
+
+
+} 
+
 
 
 ```
@@ -4893,12 +5355,14 @@ Used by: [ManagedDiskParameters.securityProfile](#ManagedDiskParameters).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class VMDiskSecurityProfile["VMDiskSecurityProfile"]
 
-VMDiskSecurityProfile -- DiskEncryptionSetParameters : diskEncryptionSet
-VMDiskSecurityProfile -- SecurityEncryptionType : securityEncryptionType
-class DiskEncryptionSetParameters["DiskEncryptionSetParameters"] 
-class SecurityEncryptionType["SecurityEncryptionType"] 
+class VMDiskSecurityProfile["VMDiskSecurityProfile"]
+VMDiskSecurityProfile -- DiskEncryptionSetParameters : diskEncryptionSet 
+VMDiskSecurityProfile -- SecurityEncryptionType : securityEncryptionType 
+
+class DiskEncryptionSetParameters["DiskEncryptionSetParameters"]
+class SecurityEncryptionType["SecurityEncryptionType"]
+
 ```
 
 | Property               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type                                                        |
@@ -4920,10 +5384,14 @@ Used by: [PublicIPSpec.ipTags](#PublicIPSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class IPTag["IPTag"] {
-    tag string
-    type string
-}
+
+class IPTag["IPTag"]{  
+      tag string  
+      type string
+
+
+} 
+
 
 
 ```
@@ -4947,15 +5415,17 @@ Used by: [SubnetSpec.natGateway](#SubnetSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class NatGateway["NatGateway"] {
-    id string
-}
+
+class NatGateway["NatGateway"]{  
+      id string
 
 
-NatGateway *-- NatGatewayClassSpec
-class NatGatewayClassSpec["NatGatewayClassSpec"]
-NatGateway -- PublicIPSpec : ip
-class PublicIPSpec["PublicIPSpec"] 
+} 
+
+NatGateway -- PublicIPSpec : ip 
+
+class PublicIPSpec["PublicIPSpec"]
+
 ```
 
 | Property                                    | Description                                               | Type                          |
@@ -4978,10 +5448,14 @@ Used by: [SubnetSpec.routeTable](#SubnetSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class RouteTable["RouteTable"] {
-    id string
-    name string
-}
+
+class RouteTable["RouteTable"]{  
+      id string  
+      name string
+
+
+} 
+
 
 
 ```
@@ -5012,14 +5486,16 @@ Used by: [SubnetSpec.securityGroup](#SubnetSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SecurityGroup["SecurityGroup"] {
-    id string
-    name string
-}
+
+class SecurityGroup["SecurityGroup"]{  
+      id string  
+      name string
 
 
-SecurityGroup *-- SecurityGroupClass
-class SecurityGroupClass["SecurityGroupClass"]
+} 
+
+
+
 ```
 
 | Property                                  | Description                                                  | Type   |

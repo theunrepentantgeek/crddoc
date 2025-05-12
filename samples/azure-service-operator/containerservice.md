@@ -27,12 +27,14 @@ Used by: [ManagedClusterList.items](#ManagedClusterList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedCluster["ManagedCluster"]
 
-ManagedCluster -- ManagedCluster_Spec : spec
-ManagedCluster -- ManagedCluster_STATUS : status
-class ManagedCluster_Spec["ManagedCluster_Spec"] 
-class ManagedCluster_STATUS["ManagedCluster_STATUS"] 
+class ManagedCluster["ManagedCluster"]
+ManagedCluster -- ManagedCluster_Spec : spec 
+ManagedCluster -- ManagedCluster_STATUS : status 
+
+class ManagedCluster_Spec["ManagedCluster_Spec"]
+class ManagedCluster_STATUS["ManagedCluster_STATUS"]
+
 ```
 
 | Property                                                                                | Description | Type                                                                        |
@@ -129,10 +131,12 @@ class ManagedCluster_STATUS["ManagedCluster_STATUS"]
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterList["ManagedClusterList"]
 
-ManagedClusterList -- ManagedCluster : items
-class ManagedCluster["ManagedCluster"] 
+class ManagedClusterList["ManagedClusterList"]
+ManagedClusterList -- ManagedCluster : items 
+
+class ManagedCluster["ManagedCluster"]
+
 ```
 
 | Property                                                                            | Description | Type                                                            |
@@ -155,12 +159,14 @@ Used by: [ManagedClustersAgentPoolList.items](#ManagedClustersAgentPoolList).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClustersAgentPool["ManagedClustersAgentPool"]
 
-ManagedClustersAgentPool -- ManagedClustersAgentPool_Spec : spec
-ManagedClustersAgentPool -- ManagedClustersAgentPool_STATUS : status
-class ManagedClustersAgentPool_Spec["ManagedClustersAgentPool_Spec"] 
-class ManagedClustersAgentPool_STATUS["ManagedClustersAgentPool_STATUS"] 
+class ManagedClustersAgentPool["ManagedClustersAgentPool"]
+ManagedClustersAgentPool -- ManagedClustersAgentPool_Spec : spec 
+ManagedClustersAgentPool -- ManagedClustersAgentPool_STATUS : status 
+
+class ManagedClustersAgentPool_Spec["ManagedClustersAgentPool_Spec"]
+class ManagedClustersAgentPool_STATUS["ManagedClustersAgentPool_STATUS"]
+
 ```
 
 | Property                                                                                | Description | Type                                                                                            |
@@ -268,10 +274,12 @@ Generator information: - Generated from: /containerservice/resource-manager/Micr
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClustersAgentPoolList["ManagedClustersAgentPoolList"]
 
-ManagedClustersAgentPoolList -- ManagedClustersAgentPool : items
-class ManagedClustersAgentPool["ManagedClustersAgentPool"] 
+class ManagedClustersAgentPoolList["ManagedClustersAgentPoolList"]
+ManagedClustersAgentPoolList -- ManagedClustersAgentPool : items 
+
+class ManagedClustersAgentPool["ManagedClustersAgentPool"]
+
 ```
 
 | Property                                                                            | Description | Type                                                                                |
@@ -292,58 +300,62 @@ Used by: [ManagedCluster.spec](#ManagedCluster).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedCluster_Spec["ManagedCluster_Spec"] {
-    azureName string
-    disableLocalAccounts bool
-    diskEncryptionSetIDReference genruntime.ResourceReference
-    dnsPrefix string
-    enablePodSecurityPolicy bool
-    enableRBAC bool
-    fqdnSubdomain string
-    kubernetesVersion string
-    location string
-    nodeResourceGroup string
-    owner genruntime.KnownResourceReference
-    tags map[string]string
-}
+
+class ManagedCluster_Spec["ManagedCluster_Spec"]{  
+      azureName string  
+      disableLocalAccounts bool  
+      diskEncryptionSetIDReference genruntime.ResourceReference  
+      dnsPrefix string  
+      enablePodSecurityPolicy bool  
+      enableRBAC bool  
+      fqdnSubdomain string  
+      kubernetesVersion string  
+      location string  
+      nodeResourceGroup string  
+      owner genruntime.KnownResourceReference  
+      tags map[string]string
 
 
-ManagedCluster_Spec -- ManagedClusterAADProfile : aadProfile
-ManagedCluster_Spec -- ManagedClusterAddonProfile : addonProfiles
-ManagedCluster_Spec -- ManagedClusterAgentPoolProfile : agentPoolProfiles
-ManagedCluster_Spec -- ManagedClusterAPIServerAccessProfile : apiServerAccessProfile
-ManagedCluster_Spec -- ManagedClusterProperties_AutoScalerProfile : autoScalerProfile
-ManagedCluster_Spec -- ManagedClusterAutoUpgradeProfile : autoUpgradeProfile
-ManagedCluster_Spec -- ExtendedLocation : extendedLocation
-ManagedCluster_Spec -- ManagedClusterHTTPProxyConfig : httpProxyConfig
-ManagedCluster_Spec -- ManagedClusterIdentity : identity
-ManagedCluster_Spec -- UserAssignedIdentity : identityProfile
-ManagedCluster_Spec -- ContainerServiceLinuxProfile : linuxProfile
-ManagedCluster_Spec -- ContainerServiceNetworkProfile : networkProfile
-ManagedCluster_Spec -- ManagedClusterOperatorSpec : operatorSpec
-ManagedCluster_Spec -- ManagedClusterPodIdentityProfile : podIdentityProfile
-ManagedCluster_Spec -- PrivateLinkResource : privateLinkResources
-ManagedCluster_Spec -- ManagedClusterServicePrincipalProfile : servicePrincipalProfile
-ManagedCluster_Spec -- ManagedClusterSKU : sku
-ManagedCluster_Spec -- ManagedClusterWindowsProfile : windowsProfile
-class ManagedClusterAADProfile["ManagedClusterAADProfile"] 
-class ManagedClusterAddonProfile["ManagedClusterAddonProfile"] 
-class ManagedClusterAgentPoolProfile["ManagedClusterAgentPoolProfile"] 
-class ManagedClusterAPIServerAccessProfile["ManagedClusterAPIServerAccessProfile"] 
-class ManagedClusterProperties_AutoScalerProfile["ManagedClusterProperties_AutoScalerProfile"] 
-class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"] 
-class ExtendedLocation["ExtendedLocation"] 
-class ManagedClusterHTTPProxyConfig["ManagedClusterHTTPProxyConfig"] 
-class ManagedClusterIdentity["ManagedClusterIdentity"] 
-class UserAssignedIdentity["UserAssignedIdentity"] 
-class ContainerServiceLinuxProfile["ContainerServiceLinuxProfile"] 
-class ContainerServiceNetworkProfile["ContainerServiceNetworkProfile"] 
-class ManagedClusterOperatorSpec["ManagedClusterOperatorSpec"] 
-class ManagedClusterPodIdentityProfile["ManagedClusterPodIdentityProfile"] 
-class PrivateLinkResource["PrivateLinkResource"] 
-class ManagedClusterServicePrincipalProfile["ManagedClusterServicePrincipalProfile"] 
-class ManagedClusterSKU["ManagedClusterSKU"] 
-class ManagedClusterWindowsProfile["ManagedClusterWindowsProfile"] 
+} 
+
+ManagedCluster_Spec -- ManagedClusterAADProfile : aadProfile 
+ManagedCluster_Spec -- ManagedClusterAddonProfile : addonProfiles 
+ManagedCluster_Spec -- ManagedClusterAgentPoolProfile : agentPoolProfiles 
+ManagedCluster_Spec -- ManagedClusterAPIServerAccessProfile : apiServerAccessProfile 
+ManagedCluster_Spec -- ManagedClusterProperties_AutoScalerProfile : autoScalerProfile 
+ManagedCluster_Spec -- ManagedClusterAutoUpgradeProfile : autoUpgradeProfile 
+ManagedCluster_Spec -- ExtendedLocation : extendedLocation 
+ManagedCluster_Spec -- ManagedClusterHTTPProxyConfig : httpProxyConfig 
+ManagedCluster_Spec -- ManagedClusterIdentity : identity 
+ManagedCluster_Spec -- UserAssignedIdentity : identityProfile 
+ManagedCluster_Spec -- ContainerServiceLinuxProfile : linuxProfile 
+ManagedCluster_Spec -- ContainerServiceNetworkProfile : networkProfile 
+ManagedCluster_Spec -- ManagedClusterOperatorSpec : operatorSpec 
+ManagedCluster_Spec -- ManagedClusterPodIdentityProfile : podIdentityProfile 
+ManagedCluster_Spec -- PrivateLinkResource : privateLinkResources 
+ManagedCluster_Spec -- ManagedClusterServicePrincipalProfile : servicePrincipalProfile 
+ManagedCluster_Spec -- ManagedClusterSKU : sku 
+ManagedCluster_Spec -- ManagedClusterWindowsProfile : windowsProfile 
+
+class ManagedClusterAADProfile["ManagedClusterAADProfile"]
+class ManagedClusterAddonProfile["ManagedClusterAddonProfile"]
+class ManagedClusterAgentPoolProfile["ManagedClusterAgentPoolProfile"]
+class ManagedClusterAPIServerAccessProfile["ManagedClusterAPIServerAccessProfile"]
+class ManagedClusterProperties_AutoScalerProfile["ManagedClusterProperties_AutoScalerProfile"]
+class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
+class ExtendedLocation["ExtendedLocation"]
+class ManagedClusterHTTPProxyConfig["ManagedClusterHTTPProxyConfig"]
+class ManagedClusterIdentity["ManagedClusterIdentity"]
+class UserAssignedIdentity["UserAssignedIdentity"]
+class ContainerServiceLinuxProfile["ContainerServiceLinuxProfile"]
+class ContainerServiceNetworkProfile["ContainerServiceNetworkProfile"]
+class ManagedClusterOperatorSpec["ManagedClusterOperatorSpec"]
+class ManagedClusterPodIdentityProfile["ManagedClusterPodIdentityProfile"]
+class PrivateLinkResource["PrivateLinkResource"]
+class ManagedClusterServicePrincipalProfile["ManagedClusterServicePrincipalProfile"]
+class ManagedClusterSKU["ManagedClusterSKU"]
+class ManagedClusterWindowsProfile["ManagedClusterWindowsProfile"]
+
 ```
 
 | Property                     | Description                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
@@ -391,65 +403,69 @@ Used by: [ManagedCluster.status](#ManagedCluster).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedCluster_STATUS["ManagedCluster_STATUS"] {
-    azurePortalFQDN string
-    conditions conditions.Condition[]
-    disableLocalAccounts bool
-    diskEncryptionSetID string
-    dnsPrefix string
-    enablePodSecurityPolicy bool
-    enableRBAC bool
-    fqdn string
-    fqdnSubdomain string
-    id string
-    kubernetesVersion string
-    location string
-    maxAgentPools int
-    name string
-    nodeResourceGroup string
-    privateFQDN string
-    provisioningState string
-    tags map[string]string
-    type string
-}
+
+class ManagedCluster_STATUS["ManagedCluster_STATUS"]{  
+      azurePortalFQDN string  
+      conditions conditions.Condition[]  
+      disableLocalAccounts bool  
+      diskEncryptionSetID string  
+      dnsPrefix string  
+      enablePodSecurityPolicy bool  
+      enableRBAC bool  
+      fqdn string  
+      fqdnSubdomain string  
+      id string  
+      kubernetesVersion string  
+      location string  
+      maxAgentPools int  
+      name string  
+      nodeResourceGroup string  
+      privateFQDN string  
+      provisioningState string  
+      tags map[string]string  
+      type string
 
 
-ManagedCluster_STATUS -- ManagedClusterAADProfile_STATUS : aadProfile
-ManagedCluster_STATUS -- ManagedClusterAddonProfile_STATUS : addonProfiles
-ManagedCluster_STATUS -- ManagedClusterAgentPoolProfile_STATUS : agentPoolProfiles
-ManagedCluster_STATUS -- ManagedClusterAPIServerAccessProfile_STATUS : apiServerAccessProfile
-ManagedCluster_STATUS -- ManagedClusterProperties_AutoScalerProfile_STATUS : autoScalerProfile
-ManagedCluster_STATUS -- ManagedClusterAutoUpgradeProfile_STATUS : autoUpgradeProfile
-ManagedCluster_STATUS -- ExtendedLocation_STATUS : extendedLocation
-ManagedCluster_STATUS -- ManagedClusterHTTPProxyConfig_STATUS : httpProxyConfig
-ManagedCluster_STATUS -- ManagedClusterIdentity_STATUS : identity
-ManagedCluster_STATUS -- UserAssignedIdentity_STATUS : identityProfile
-ManagedCluster_STATUS -- ContainerServiceLinuxProfile_STATUS : linuxProfile
-ManagedCluster_STATUS -- ContainerServiceNetworkProfile_STATUS : networkProfile
-ManagedCluster_STATUS -- ManagedClusterPodIdentityProfile_STATUS : podIdentityProfile
-ManagedCluster_STATUS -- PowerState_STATUS : powerState
-ManagedCluster_STATUS -- PrivateLinkResource_STATUS : privateLinkResources
-ManagedCluster_STATUS -- ManagedClusterServicePrincipalProfile_STATUS : servicePrincipalProfile
-ManagedCluster_STATUS -- ManagedClusterSKU_STATUS : sku
-ManagedCluster_STATUS -- ManagedClusterWindowsProfile_STATUS : windowsProfile
-class ManagedClusterAADProfile_STATUS["ManagedClusterAADProfile_STATUS"] 
-class ManagedClusterAddonProfile_STATUS["ManagedClusterAddonProfile_STATUS"] 
-class ManagedClusterAgentPoolProfile_STATUS["ManagedClusterAgentPoolProfile_STATUS"] 
-class ManagedClusterAPIServerAccessProfile_STATUS["ManagedClusterAPIServerAccessProfile_STATUS"] 
-class ManagedClusterProperties_AutoScalerProfile_STATUS["ManagedClusterProperties_AutoScalerProfile_STATUS"] 
-class ManagedClusterAutoUpgradeProfile_STATUS["ManagedClusterAutoUpgradeProfile_STATUS"] 
-class ExtendedLocation_STATUS["ExtendedLocation_STATUS"] 
-class ManagedClusterHTTPProxyConfig_STATUS["ManagedClusterHTTPProxyConfig_STATUS"] 
-class ManagedClusterIdentity_STATUS["ManagedClusterIdentity_STATUS"] 
-class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"] 
-class ContainerServiceLinuxProfile_STATUS["ContainerServiceLinuxProfile_STATUS"] 
-class ContainerServiceNetworkProfile_STATUS["ContainerServiceNetworkProfile_STATUS"] 
-class ManagedClusterPodIdentityProfile_STATUS["ManagedClusterPodIdentityProfile_STATUS"] 
-class PowerState_STATUS["PowerState_STATUS"] 
-class PrivateLinkResource_STATUS["PrivateLinkResource_STATUS"] 
-class ManagedClusterServicePrincipalProfile_STATUS["ManagedClusterServicePrincipalProfile_STATUS"] 
-class ManagedClusterSKU_STATUS["ManagedClusterSKU_STATUS"] 
-class ManagedClusterWindowsProfile_STATUS["ManagedClusterWindowsProfile_STATUS"] 
+} 
+
+ManagedCluster_STATUS -- ManagedClusterAADProfile_STATUS : aadProfile 
+ManagedCluster_STATUS -- ManagedClusterAddonProfile_STATUS : addonProfiles 
+ManagedCluster_STATUS -- ManagedClusterAgentPoolProfile_STATUS : agentPoolProfiles 
+ManagedCluster_STATUS -- ManagedClusterAPIServerAccessProfile_STATUS : apiServerAccessProfile 
+ManagedCluster_STATUS -- ManagedClusterProperties_AutoScalerProfile_STATUS : autoScalerProfile 
+ManagedCluster_STATUS -- ManagedClusterAutoUpgradeProfile_STATUS : autoUpgradeProfile 
+ManagedCluster_STATUS -- ExtendedLocation_STATUS : extendedLocation 
+ManagedCluster_STATUS -- ManagedClusterHTTPProxyConfig_STATUS : httpProxyConfig 
+ManagedCluster_STATUS -- ManagedClusterIdentity_STATUS : identity 
+ManagedCluster_STATUS -- UserAssignedIdentity_STATUS : identityProfile 
+ManagedCluster_STATUS -- ContainerServiceLinuxProfile_STATUS : linuxProfile 
+ManagedCluster_STATUS -- ContainerServiceNetworkProfile_STATUS : networkProfile 
+ManagedCluster_STATUS -- ManagedClusterPodIdentityProfile_STATUS : podIdentityProfile 
+ManagedCluster_STATUS -- PowerState_STATUS : powerState 
+ManagedCluster_STATUS -- PrivateLinkResource_STATUS : privateLinkResources 
+ManagedCluster_STATUS -- ManagedClusterServicePrincipalProfile_STATUS : servicePrincipalProfile 
+ManagedCluster_STATUS -- ManagedClusterSKU_STATUS : sku 
+ManagedCluster_STATUS -- ManagedClusterWindowsProfile_STATUS : windowsProfile 
+
+class ManagedClusterAADProfile_STATUS["ManagedClusterAADProfile_STATUS"]
+class ManagedClusterAddonProfile_STATUS["ManagedClusterAddonProfile_STATUS"]
+class ManagedClusterAgentPoolProfile_STATUS["ManagedClusterAgentPoolProfile_STATUS"]
+class ManagedClusterAPIServerAccessProfile_STATUS["ManagedClusterAPIServerAccessProfile_STATUS"]
+class ManagedClusterProperties_AutoScalerProfile_STATUS["ManagedClusterProperties_AutoScalerProfile_STATUS"]
+class ManagedClusterAutoUpgradeProfile_STATUS["ManagedClusterAutoUpgradeProfile_STATUS"]
+class ExtendedLocation_STATUS["ExtendedLocation_STATUS"]
+class ManagedClusterHTTPProxyConfig_STATUS["ManagedClusterHTTPProxyConfig_STATUS"]
+class ManagedClusterIdentity_STATUS["ManagedClusterIdentity_STATUS"]
+class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"]
+class ContainerServiceLinuxProfile_STATUS["ContainerServiceLinuxProfile_STATUS"]
+class ContainerServiceNetworkProfile_STATUS["ContainerServiceNetworkProfile_STATUS"]
+class ManagedClusterPodIdentityProfile_STATUS["ManagedClusterPodIdentityProfile_STATUS"]
+class PowerState_STATUS["PowerState_STATUS"]
+class PrivateLinkResource_STATUS["PrivateLinkResource_STATUS"]
+class ManagedClusterServicePrincipalProfile_STATUS["ManagedClusterServicePrincipalProfile_STATUS"]
+class ManagedClusterSKU_STATUS["ManagedClusterSKU_STATUS"]
+class ManagedClusterWindowsProfile_STATUS["ManagedClusterWindowsProfile_STATUS"]
+
 ```
 
 | Property                | Description                        | Type                                                                                                                                                    |
@@ -504,60 +520,64 @@ Used by: [ManagedClustersAgentPool.spec](#ManagedClustersAgentPool).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClustersAgentPool_Spec["ManagedClustersAgentPool_Spec"] {
-    availabilityZones string[]
-    azureName string
-    count int
-    enableAutoScaling bool
-    enableEncryptionAtHost bool
-    enableFIPS bool
-    enableNodePublicIP bool
-    enableUltraSSD bool
-    maxCount int
-    maxPods int
-    minCount int
-    nodeLabels map[string]string
-    nodePublicIPPrefixIDReference genruntime.ResourceReference
-    nodeTaints string[]
-    orchestratorVersion string
-    owner genruntime.KnownResourceReference
-    podSubnetIDReference genruntime.ResourceReference
-    proximityPlacementGroupID string
-    spotMaxPrice float64
-    tags map[string]string
-    vmSize string
-    vnetSubnetIDReference genruntime.ResourceReference
-}
+
+class ManagedClustersAgentPool_Spec["ManagedClustersAgentPool_Spec"]{  
+      availabilityZones string[]  
+      azureName string  
+      count int  
+      enableAutoScaling bool  
+      enableEncryptionAtHost bool  
+      enableFIPS bool  
+      enableNodePublicIP bool  
+      enableUltraSSD bool  
+      maxCount int  
+      maxPods int  
+      minCount int  
+      nodeLabels map[string]string  
+      nodePublicIPPrefixIDReference genruntime.ResourceReference  
+      nodeTaints string[]  
+      orchestratorVersion string  
+      owner genruntime.KnownResourceReference  
+      podSubnetIDReference genruntime.ResourceReference  
+      proximityPlacementGroupID string  
+      spotMaxPrice float64  
+      tags map[string]string  
+      vmSize string  
+      vnetSubnetIDReference genruntime.ResourceReference
 
 
-ManagedClustersAgentPool_Spec -- GPUInstanceProfile : gpuInstanceProfile
-ManagedClustersAgentPool_Spec -- KubeletConfig : kubeletConfig
-ManagedClustersAgentPool_Spec -- KubeletDiskType : kubeletDiskType
-ManagedClustersAgentPool_Spec -- LinuxOSConfig : linuxOSConfig
-ManagedClustersAgentPool_Spec -- AgentPoolMode : mode
-ManagedClustersAgentPool_Spec -- ManagedClustersAgentPoolOperatorSpec : operatorSpec
-ManagedClustersAgentPool_Spec -- ContainerServiceOSDisk : osDiskSizeGB
-ManagedClustersAgentPool_Spec -- OSDiskType : osDiskType
-ManagedClustersAgentPool_Spec -- OSSKU : osSKU
-ManagedClustersAgentPool_Spec -- OSType : osType
-ManagedClustersAgentPool_Spec -- ScaleSetEvictionPolicy : scaleSetEvictionPolicy
-ManagedClustersAgentPool_Spec -- ScaleSetPriority : scaleSetPriority
-ManagedClustersAgentPool_Spec -- AgentPoolType : type
-ManagedClustersAgentPool_Spec -- AgentPoolUpgradeSettings : upgradeSettings
-class GPUInstanceProfile["GPUInstanceProfile"] 
-class KubeletConfig["KubeletConfig"] 
-class KubeletDiskType["KubeletDiskType"] 
-class LinuxOSConfig["LinuxOSConfig"] 
-class AgentPoolMode["AgentPoolMode"] 
-class ManagedClustersAgentPoolOperatorSpec["ManagedClustersAgentPoolOperatorSpec"] 
-class ContainerServiceOSDisk["ContainerServiceOSDisk"] 
-class OSDiskType["OSDiskType"] 
-class OSSKU["OSSKU"] 
-class OSType["OSType"] 
-class ScaleSetEvictionPolicy["ScaleSetEvictionPolicy"] 
-class ScaleSetPriority["ScaleSetPriority"] 
-class AgentPoolType["AgentPoolType"] 
-class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"] 
+} 
+
+ManagedClustersAgentPool_Spec -- GPUInstanceProfile : gpuInstanceProfile 
+ManagedClustersAgentPool_Spec -- KubeletConfig : kubeletConfig 
+ManagedClustersAgentPool_Spec -- KubeletDiskType : kubeletDiskType 
+ManagedClustersAgentPool_Spec -- LinuxOSConfig : linuxOSConfig 
+ManagedClustersAgentPool_Spec -- AgentPoolMode : mode 
+ManagedClustersAgentPool_Spec -- ManagedClustersAgentPoolOperatorSpec : operatorSpec 
+ManagedClustersAgentPool_Spec -- ContainerServiceOSDisk : osDiskSizeGB 
+ManagedClustersAgentPool_Spec -- OSDiskType : osDiskType 
+ManagedClustersAgentPool_Spec -- OSSKU : osSKU 
+ManagedClustersAgentPool_Spec -- OSType : osType 
+ManagedClustersAgentPool_Spec -- ScaleSetEvictionPolicy : scaleSetEvictionPolicy 
+ManagedClustersAgentPool_Spec -- ScaleSetPriority : scaleSetPriority 
+ManagedClustersAgentPool_Spec -- AgentPoolType : type 
+ManagedClustersAgentPool_Spec -- AgentPoolUpgradeSettings : upgradeSettings 
+
+class GPUInstanceProfile["GPUInstanceProfile"]
+class KubeletConfig["KubeletConfig"]
+class KubeletDiskType["KubeletDiskType"]
+class LinuxOSConfig["LinuxOSConfig"]
+class AgentPoolMode["AgentPoolMode"]
+class ManagedClustersAgentPoolOperatorSpec["ManagedClustersAgentPoolOperatorSpec"]
+class ContainerServiceOSDisk["ContainerServiceOSDisk"]
+class OSDiskType["OSDiskType"]
+class OSSKU["OSSKU"]
+class OSType["OSType"]
+class ScaleSetEvictionPolicy["ScaleSetEvictionPolicy"]
+class ScaleSetPriority["ScaleSetPriority"]
+class AgentPoolType["AgentPoolType"]
+class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"]
+
 ```
 
 | Property                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                 |
@@ -611,63 +631,67 @@ Used by: [ManagedClustersAgentPool.status](#ManagedClustersAgentPool).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClustersAgentPool_STATUS["ManagedClustersAgentPool_STATUS"] {
-    availabilityZones string[]
-    conditions conditions.Condition[]
-    count int
-    enableAutoScaling bool
-    enableEncryptionAtHost bool
-    enableFIPS bool
-    enableNodePublicIP bool
-    enableUltraSSD bool
-    id string
-    maxCount int
-    maxPods int
-    minCount int
-    name string
-    nodeImageVersion string
-    nodeLabels map[string]string
-    nodePublicIPPrefixID string
-    nodeTaints string[]
-    orchestratorVersion string
-    osDiskSizeGB int
-    podSubnetID string
-    provisioningState string
-    proximityPlacementGroupID string
-    spotMaxPrice float64
-    tags map[string]string
-    type string
-    vmSize string
-    vnetSubnetID string
-}
+
+class ManagedClustersAgentPool_STATUS["ManagedClustersAgentPool_STATUS"]{  
+      availabilityZones string[]  
+      conditions conditions.Condition[]  
+      count int  
+      enableAutoScaling bool  
+      enableEncryptionAtHost bool  
+      enableFIPS bool  
+      enableNodePublicIP bool  
+      enableUltraSSD bool  
+      id string  
+      maxCount int  
+      maxPods int  
+      minCount int  
+      name string  
+      nodeImageVersion string  
+      nodeLabels map[string]string  
+      nodePublicIPPrefixID string  
+      nodeTaints string[]  
+      orchestratorVersion string  
+      osDiskSizeGB int  
+      podSubnetID string  
+      provisioningState string  
+      proximityPlacementGroupID string  
+      spotMaxPrice float64  
+      tags map[string]string  
+      type string  
+      vmSize string  
+      vnetSubnetID string
 
 
-ManagedClustersAgentPool_STATUS -- GPUInstanceProfile_STATUS : gpuInstanceProfile
-ManagedClustersAgentPool_STATUS -- KubeletConfig_STATUS : kubeletConfig
-ManagedClustersAgentPool_STATUS -- KubeletDiskType_STATUS : kubeletDiskType
-ManagedClustersAgentPool_STATUS -- LinuxOSConfig_STATUS : linuxOSConfig
-ManagedClustersAgentPool_STATUS -- AgentPoolMode_STATUS : mode
-ManagedClustersAgentPool_STATUS -- OSDiskType_STATUS : osDiskType
-ManagedClustersAgentPool_STATUS -- OSSKU_STATUS : osSKU
-ManagedClustersAgentPool_STATUS -- OSType_STATUS : osType
-ManagedClustersAgentPool_STATUS -- PowerState_STATUS : powerState
-ManagedClustersAgentPool_STATUS -- AgentPoolType_STATUS : properties_type
-ManagedClustersAgentPool_STATUS -- ScaleSetEvictionPolicy_STATUS : scaleSetEvictionPolicy
-ManagedClustersAgentPool_STATUS -- ScaleSetPriority_STATUS : scaleSetPriority
-ManagedClustersAgentPool_STATUS -- AgentPoolUpgradeSettings_STATUS : upgradeSettings
-class GPUInstanceProfile_STATUS["GPUInstanceProfile_STATUS"] 
-class KubeletConfig_STATUS["KubeletConfig_STATUS"] 
-class KubeletDiskType_STATUS["KubeletDiskType_STATUS"] 
-class LinuxOSConfig_STATUS["LinuxOSConfig_STATUS"] 
-class AgentPoolMode_STATUS["AgentPoolMode_STATUS"] 
-class OSDiskType_STATUS["OSDiskType_STATUS"] 
-class OSSKU_STATUS["OSSKU_STATUS"] 
-class OSType_STATUS["OSType_STATUS"] 
-class PowerState_STATUS["PowerState_STATUS"] 
-class AgentPoolType_STATUS["AgentPoolType_STATUS"] 
-class ScaleSetEvictionPolicy_STATUS["ScaleSetEvictionPolicy_STATUS"] 
-class ScaleSetPriority_STATUS["ScaleSetPriority_STATUS"] 
-class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"] 
+} 
+
+ManagedClustersAgentPool_STATUS -- GPUInstanceProfile_STATUS : gpuInstanceProfile 
+ManagedClustersAgentPool_STATUS -- KubeletConfig_STATUS : kubeletConfig 
+ManagedClustersAgentPool_STATUS -- KubeletDiskType_STATUS : kubeletDiskType 
+ManagedClustersAgentPool_STATUS -- LinuxOSConfig_STATUS : linuxOSConfig 
+ManagedClustersAgentPool_STATUS -- AgentPoolMode_STATUS : mode 
+ManagedClustersAgentPool_STATUS -- OSDiskType_STATUS : osDiskType 
+ManagedClustersAgentPool_STATUS -- OSSKU_STATUS : osSKU 
+ManagedClustersAgentPool_STATUS -- OSType_STATUS : osType 
+ManagedClustersAgentPool_STATUS -- PowerState_STATUS : powerState 
+ManagedClustersAgentPool_STATUS -- AgentPoolType_STATUS : properties_type 
+ManagedClustersAgentPool_STATUS -- ScaleSetEvictionPolicy_STATUS : scaleSetEvictionPolicy 
+ManagedClustersAgentPool_STATUS -- ScaleSetPriority_STATUS : scaleSetPriority 
+ManagedClustersAgentPool_STATUS -- AgentPoolUpgradeSettings_STATUS : upgradeSettings 
+
+class GPUInstanceProfile_STATUS["GPUInstanceProfile_STATUS"]
+class KubeletConfig_STATUS["KubeletConfig_STATUS"]
+class KubeletDiskType_STATUS["KubeletDiskType_STATUS"]
+class LinuxOSConfig_STATUS["LinuxOSConfig_STATUS"]
+class AgentPoolMode_STATUS["AgentPoolMode_STATUS"]
+class OSDiskType_STATUS["OSDiskType_STATUS"]
+class OSSKU_STATUS["OSSKU_STATUS"]
+class OSType_STATUS["OSType_STATUS"]
+class PowerState_STATUS["PowerState_STATUS"]
+class AgentPoolType_STATUS["AgentPoolType_STATUS"]
+class ScaleSetEvictionPolicy_STATUS["ScaleSetEvictionPolicy_STATUS"]
+class ScaleSetPriority_STATUS["ScaleSetPriority_STATUS"]
+class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"]
+
 ```
 
 | Property                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                    |
@@ -765,9 +789,13 @@ Used by: [ManagedClusterAgentPoolProfile.upgradeSettings](#ManagedClusterAgentPo
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"] {
-    maxSurge string
-}
+
+class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"]{  
+      maxSurge string
+
+
+} 
+
 
 
 ```
@@ -788,9 +816,13 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS.upgradeSettings](#ManagedCluster
       hideEmptyMembersBox: true
 ---
 classDiagram
-class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"] {
-    maxSurge string
-}
+
+class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"]{  
+      maxSurge string
+
+
+} 
+
 
 
 ```
@@ -811,13 +843,17 @@ Used by: [ManagedCluster_Spec.linuxProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceLinuxProfile["ContainerServiceLinuxProfile"] {
-    adminUsername string
-}
+
+class ContainerServiceLinuxProfile["ContainerServiceLinuxProfile"]{  
+      adminUsername string
 
 
-ContainerServiceLinuxProfile -- ContainerServiceSshConfiguration : ssh
-class ContainerServiceSshConfiguration["ContainerServiceSshConfiguration"] 
+} 
+
+ContainerServiceLinuxProfile -- ContainerServiceSshConfiguration : ssh 
+
+class ContainerServiceSshConfiguration["ContainerServiceSshConfiguration"]
+
 ```
 
 | Property      | Description | Type                                                                                              |
@@ -837,13 +873,17 @@ Used by: [ManagedCluster_STATUS.linuxProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceLinuxProfile_STATUS["ContainerServiceLinuxProfile_STATUS"] {
-    adminUsername string
-}
+
+class ContainerServiceLinuxProfile_STATUS["ContainerServiceLinuxProfile_STATUS"]{  
+      adminUsername string
 
 
-ContainerServiceLinuxProfile_STATUS -- ContainerServiceSshConfiguration_STATUS : ssh
-class ContainerServiceSshConfiguration_STATUS["ContainerServiceSshConfiguration_STATUS"] 
+} 
+
+ContainerServiceLinuxProfile_STATUS -- ContainerServiceSshConfiguration_STATUS : ssh 
+
+class ContainerServiceSshConfiguration_STATUS["ContainerServiceSshConfiguration_STATUS"]
+
 ```
 
 | Property      | Description | Type                                                                                                            |
@@ -863,26 +903,30 @@ Used by: [ManagedCluster_Spec.networkProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceNetworkProfile["ContainerServiceNetworkProfile"] {
-    dnsServiceIP string
-    dockerBridgeCidr string
-    podCidr string
-    serviceCidr string
-}
+
+class ContainerServiceNetworkProfile["ContainerServiceNetworkProfile"]{  
+      dnsServiceIP string  
+      dockerBridgeCidr string  
+      podCidr string  
+      serviceCidr string
 
 
-ContainerServiceNetworkProfile -- ManagedClusterLoadBalancerProfile : loadBalancerProfile
-ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_LoadBalancerSku : loadBalancerSku
-ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_NetworkMode : networkMode
-ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_NetworkPlugin : networkPlugin
-ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_NetworkPolicy : networkPolicy
-ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_OutboundType : outboundType
-class ManagedClusterLoadBalancerProfile["ManagedClusterLoadBalancerProfile"] 
-class ContainerServiceNetworkProfile_LoadBalancerSku["ContainerServiceNetworkProfile_LoadBalancerSku"] 
-class ContainerServiceNetworkProfile_NetworkMode["ContainerServiceNetworkProfile_NetworkMode"] 
-class ContainerServiceNetworkProfile_NetworkPlugin["ContainerServiceNetworkProfile_NetworkPlugin"] 
-class ContainerServiceNetworkProfile_NetworkPolicy["ContainerServiceNetworkProfile_NetworkPolicy"] 
-class ContainerServiceNetworkProfile_OutboundType["ContainerServiceNetworkProfile_OutboundType"] 
+} 
+
+ContainerServiceNetworkProfile -- ManagedClusterLoadBalancerProfile : loadBalancerProfile 
+ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_LoadBalancerSku : loadBalancerSku 
+ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_NetworkMode : networkMode 
+ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_NetworkPlugin : networkPlugin 
+ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_NetworkPolicy : networkPolicy 
+ContainerServiceNetworkProfile -- ContainerServiceNetworkProfile_OutboundType : outboundType 
+
+class ManagedClusterLoadBalancerProfile["ManagedClusterLoadBalancerProfile"]
+class ContainerServiceNetworkProfile_LoadBalancerSku["ContainerServiceNetworkProfile_LoadBalancerSku"]
+class ContainerServiceNetworkProfile_NetworkMode["ContainerServiceNetworkProfile_NetworkMode"]
+class ContainerServiceNetworkProfile_NetworkPlugin["ContainerServiceNetworkProfile_NetworkPlugin"]
+class ContainerServiceNetworkProfile_NetworkPolicy["ContainerServiceNetworkProfile_NetworkPolicy"]
+class ContainerServiceNetworkProfile_OutboundType["ContainerServiceNetworkProfile_OutboundType"]
+
 ```
 
 | Property            | Description | Type                                                                                                                          |
@@ -910,26 +954,30 @@ Used by: [ManagedCluster_STATUS.networkProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceNetworkProfile_STATUS["ContainerServiceNetworkProfile_STATUS"] {
-    dnsServiceIP string
-    dockerBridgeCidr string
-    podCidr string
-    serviceCidr string
-}
+
+class ContainerServiceNetworkProfile_STATUS["ContainerServiceNetworkProfile_STATUS"]{  
+      dnsServiceIP string  
+      dockerBridgeCidr string  
+      podCidr string  
+      serviceCidr string
 
 
-ContainerServiceNetworkProfile_STATUS -- ManagedClusterLoadBalancerProfile_STATUS : loadBalancerProfile
-ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_LoadBalancerSku_STATUS : loadBalancerSku
-ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_NetworkMode_STATUS : networkMode
-ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_NetworkPlugin_STATUS : networkPlugin
-ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_NetworkPolicy_STATUS : networkPolicy
-ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_OutboundType_STATUS : outboundType
-class ManagedClusterLoadBalancerProfile_STATUS["ManagedClusterLoadBalancerProfile_STATUS"] 
-class ContainerServiceNetworkProfile_LoadBalancerSku_STATUS["ContainerServiceNetworkProfile_LoadBalancerSku_STATUS"] 
-class ContainerServiceNetworkProfile_NetworkMode_STATUS["ContainerServiceNetworkProfile_NetworkMode_STATUS"] 
-class ContainerServiceNetworkProfile_NetworkPlugin_STATUS["ContainerServiceNetworkProfile_NetworkPlugin_STATUS"] 
-class ContainerServiceNetworkProfile_NetworkPolicy_STATUS["ContainerServiceNetworkProfile_NetworkPolicy_STATUS"] 
-class ContainerServiceNetworkProfile_OutboundType_STATUS["ContainerServiceNetworkProfile_OutboundType_STATUS"] 
+} 
+
+ContainerServiceNetworkProfile_STATUS -- ManagedClusterLoadBalancerProfile_STATUS : loadBalancerProfile 
+ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_LoadBalancerSku_STATUS : loadBalancerSku 
+ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_NetworkMode_STATUS : networkMode 
+ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_NetworkPlugin_STATUS : networkPlugin 
+ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_NetworkPolicy_STATUS : networkPolicy 
+ContainerServiceNetworkProfile_STATUS -- ContainerServiceNetworkProfile_OutboundType_STATUS : outboundType 
+
+class ManagedClusterLoadBalancerProfile_STATUS["ManagedClusterLoadBalancerProfile_STATUS"]
+class ContainerServiceNetworkProfile_LoadBalancerSku_STATUS["ContainerServiceNetworkProfile_LoadBalancerSku_STATUS"]
+class ContainerServiceNetworkProfile_NetworkMode_STATUS["ContainerServiceNetworkProfile_NetworkMode_STATUS"]
+class ContainerServiceNetworkProfile_NetworkPlugin_STATUS["ContainerServiceNetworkProfile_NetworkPlugin_STATUS"]
+class ContainerServiceNetworkProfile_NetworkPolicy_STATUS["ContainerServiceNetworkProfile_NetworkPolicy_STATUS"]
+class ContainerServiceNetworkProfile_OutboundType_STATUS["ContainerServiceNetworkProfile_OutboundType_STATUS"]
+
 ```
 
 | Property            | Description | Type                                                                                                                                        |
@@ -962,13 +1010,17 @@ Used by: [ManagedCluster_Spec.extendedLocation](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ExtendedLocation["ExtendedLocation"] {
-    name string
-}
+
+class ExtendedLocation["ExtendedLocation"]{  
+      name string
 
 
-ExtendedLocation -- ExtendedLocationType : type
-class ExtendedLocationType["ExtendedLocationType"] 
+} 
+
+ExtendedLocation -- ExtendedLocationType : type 
+
+class ExtendedLocationType["ExtendedLocationType"]
+
 ```
 
 | Property | Description | Type                                                                      |
@@ -988,13 +1040,17 @@ Used by: [ManagedCluster_STATUS.extendedLocation](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ExtendedLocation_STATUS["ExtendedLocation_STATUS"] {
-    name string
-}
+
+class ExtendedLocation_STATUS["ExtendedLocation_STATUS"]{  
+      name string
 
 
-ExtendedLocation_STATUS -- ExtendedLocationType_STATUS : type
-class ExtendedLocationType_STATUS["ExtendedLocationType_STATUS"] 
+} 
+
+ExtendedLocation_STATUS -- ExtendedLocationType_STATUS : type 
+
+class ExtendedLocationType_STATUS["ExtendedLocationType_STATUS"]
+
 ```
 
 | Property | Description | Type                                                                                    |
@@ -1040,19 +1096,23 @@ Used by: [ManagedClusterAgentPoolProfile.kubeletConfig](#ManagedClusterAgentPool
       hideEmptyMembersBox: true
 ---
 classDiagram
-class KubeletConfig["KubeletConfig"] {
-    allowedUnsafeSysctls string[]
-    containerLogMaxFiles int
-    containerLogMaxSizeMB int
-    cpuCfsQuota bool
-    cpuCfsQuotaPeriod string
-    cpuManagerPolicy string
-    failSwapOn bool
-    imageGcHighThreshold int
-    imageGcLowThreshold int
-    podMaxPids int
-    topologyManagerPolicy string
-}
+
+class KubeletConfig["KubeletConfig"]{  
+      allowedUnsafeSysctls string[]  
+      containerLogMaxFiles int  
+      containerLogMaxSizeMB int  
+      cpuCfsQuota bool  
+      cpuCfsQuotaPeriod string  
+      cpuManagerPolicy string  
+      failSwapOn bool  
+      imageGcHighThreshold int  
+      imageGcLowThreshold int  
+      podMaxPids int  
+      topologyManagerPolicy string
+
+
+} 
+
 
 
 ```
@@ -1083,19 +1143,23 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS.kubeletConfig](#ManagedClusterAg
       hideEmptyMembersBox: true
 ---
 classDiagram
-class KubeletConfig_STATUS["KubeletConfig_STATUS"] {
-    allowedUnsafeSysctls string[]
-    containerLogMaxFiles int
-    containerLogMaxSizeMB int
-    cpuCfsQuota bool
-    cpuCfsQuotaPeriod string
-    cpuManagerPolicy string
-    failSwapOn bool
-    imageGcHighThreshold int
-    imageGcLowThreshold int
-    podMaxPids int
-    topologyManagerPolicy string
-}
+
+class KubeletConfig_STATUS["KubeletConfig_STATUS"]{  
+      allowedUnsafeSysctls string[]  
+      containerLogMaxFiles int  
+      containerLogMaxSizeMB int  
+      cpuCfsQuota bool  
+      cpuCfsQuotaPeriod string  
+      cpuManagerPolicy string  
+      failSwapOn bool  
+      imageGcHighThreshold int  
+      imageGcLowThreshold int  
+      podMaxPids int  
+      topologyManagerPolicy string
+
+
+} 
+
 
 
 ```
@@ -1146,15 +1210,19 @@ Used by: [ManagedClusterAgentPoolProfile.linuxOSConfig](#ManagedClusterAgentPool
       hideEmptyMembersBox: true
 ---
 classDiagram
-class LinuxOSConfig["LinuxOSConfig"] {
-    swapFileSizeMB int
-    transparentHugePageDefrag string
-    transparentHugePageEnabled string
-}
+
+class LinuxOSConfig["LinuxOSConfig"]{  
+      swapFileSizeMB int  
+      transparentHugePageDefrag string  
+      transparentHugePageEnabled string
 
 
-LinuxOSConfig -- SysctlConfig : sysctls
-class SysctlConfig["SysctlConfig"] 
+} 
+
+LinuxOSConfig -- SysctlConfig : sysctls 
+
+class SysctlConfig["SysctlConfig"]
+
 ```
 
 | Property                   | Description | Type                                                      |
@@ -1176,15 +1244,19 @@ Used by: [ManagedClusterAgentPoolProfile_STATUS.linuxOSConfig](#ManagedClusterAg
       hideEmptyMembersBox: true
 ---
 classDiagram
-class LinuxOSConfig_STATUS["LinuxOSConfig_STATUS"] {
-    swapFileSizeMB int
-    transparentHugePageDefrag string
-    transparentHugePageEnabled string
-}
+
+class LinuxOSConfig_STATUS["LinuxOSConfig_STATUS"]{  
+      swapFileSizeMB int  
+      transparentHugePageDefrag string  
+      transparentHugePageEnabled string
 
 
-LinuxOSConfig_STATUS -- SysctlConfig_STATUS : sysctls
-class SysctlConfig_STATUS["SysctlConfig_STATUS"] 
+} 
+
+LinuxOSConfig_STATUS -- SysctlConfig_STATUS : sysctls 
+
+class SysctlConfig_STATUS["SysctlConfig_STATUS"]
+
 ```
 
 | Property                   | Description | Type                                                                    |
@@ -1206,15 +1278,19 @@ Used by: [ManagedCluster_Spec.aadProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAADProfile["ManagedClusterAADProfile"] {
-    adminGroupObjectIDs string[]
-    clientAppID string
-    enableAzureRBAC bool
-    managed bool
-    serverAppID string
-    serverAppSecret string
-    tenantID string
-}
+
+class ManagedClusterAADProfile["ManagedClusterAADProfile"]{  
+      adminGroupObjectIDs string[]  
+      clientAppID string  
+      enableAzureRBAC bool  
+      managed bool  
+      serverAppID string  
+      serverAppSecret string  
+      tenantID string
+
+
+} 
+
 
 
 ```
@@ -1241,15 +1317,19 @@ Used by: [ManagedCluster_STATUS.aadProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAADProfile_STATUS["ManagedClusterAADProfile_STATUS"] {
-    adminGroupObjectIDs string[]
-    clientAppID string
-    enableAzureRBAC bool
-    managed bool
-    serverAppID string
-    serverAppSecret string
-    tenantID string
-}
+
+class ManagedClusterAADProfile_STATUS["ManagedClusterAADProfile_STATUS"]{  
+      adminGroupObjectIDs string[]  
+      clientAppID string  
+      enableAzureRBAC bool  
+      managed bool  
+      serverAppID string  
+      serverAppSecret string  
+      tenantID string
+
+
+} 
+
 
 
 ```
@@ -1276,10 +1356,14 @@ Used by: [ManagedCluster_Spec.addonProfiles](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAddonProfile["ManagedClusterAddonProfile"] {
-    config map[string]string
-    enabled bool
-}
+
+class ManagedClusterAddonProfile["ManagedClusterAddonProfile"]{  
+      config map[string]string  
+      enabled bool
+
+
+} 
+
 
 
 ```
@@ -1301,14 +1385,18 @@ Used by: [ManagedCluster_STATUS.addonProfiles](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAddonProfile_STATUS["ManagedClusterAddonProfile_STATUS"] {
-    config map[string]string
-    enabled bool
-}
+
+class ManagedClusterAddonProfile_STATUS["ManagedClusterAddonProfile_STATUS"]{  
+      config map[string]string  
+      enabled bool
 
 
-ManagedClusterAddonProfile_STATUS -- UserAssignedIdentity_STATUS : identity
-class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"] 
+} 
+
+ManagedClusterAddonProfile_STATUS -- UserAssignedIdentity_STATUS : identity 
+
+class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"]
+
 ```
 
 | Property | Description | Type                                                                                    |
@@ -1329,57 +1417,61 @@ Used by: [ManagedCluster_Spec.agentPoolProfiles](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAgentPoolProfile["ManagedClusterAgentPoolProfile"] {
-    availabilityZones string[]
-    count int
-    enableAutoScaling bool
-    enableEncryptionAtHost bool
-    enableFIPS bool
-    enableNodePublicIP bool
-    enableUltraSSD bool
-    maxCount int
-    maxPods int
-    minCount int
-    name string
-    nodeLabels map[string]string
-    nodePublicIPPrefixIDReference genruntime.ResourceReference
-    nodeTaints string[]
-    orchestratorVersion string
-    podSubnetIDReference genruntime.ResourceReference
-    proximityPlacementGroupID string
-    spotMaxPrice float64
-    tags map[string]string
-    vmSize string
-    vnetSubnetIDReference genruntime.ResourceReference
-}
+
+class ManagedClusterAgentPoolProfile["ManagedClusterAgentPoolProfile"]{  
+      availabilityZones string[]  
+      count int  
+      enableAutoScaling bool  
+      enableEncryptionAtHost bool  
+      enableFIPS bool  
+      enableNodePublicIP bool  
+      enableUltraSSD bool  
+      maxCount int  
+      maxPods int  
+      minCount int  
+      name string  
+      nodeLabels map[string]string  
+      nodePublicIPPrefixIDReference genruntime.ResourceReference  
+      nodeTaints string[]  
+      orchestratorVersion string  
+      podSubnetIDReference genruntime.ResourceReference  
+      proximityPlacementGroupID string  
+      spotMaxPrice float64  
+      tags map[string]string  
+      vmSize string  
+      vnetSubnetIDReference genruntime.ResourceReference
 
 
-ManagedClusterAgentPoolProfile -- GPUInstanceProfile : gpuInstanceProfile
-ManagedClusterAgentPoolProfile -- KubeletConfig : kubeletConfig
-ManagedClusterAgentPoolProfile -- KubeletDiskType : kubeletDiskType
-ManagedClusterAgentPoolProfile -- LinuxOSConfig : linuxOSConfig
-ManagedClusterAgentPoolProfile -- AgentPoolMode : mode
-ManagedClusterAgentPoolProfile -- ContainerServiceOSDisk : osDiskSizeGB
-ManagedClusterAgentPoolProfile -- OSDiskType : osDiskType
-ManagedClusterAgentPoolProfile -- OSSKU : osSKU
-ManagedClusterAgentPoolProfile -- OSType : osType
-ManagedClusterAgentPoolProfile -- ScaleSetEvictionPolicy : scaleSetEvictionPolicy
-ManagedClusterAgentPoolProfile -- ScaleSetPriority : scaleSetPriority
-ManagedClusterAgentPoolProfile -- AgentPoolType : type
-ManagedClusterAgentPoolProfile -- AgentPoolUpgradeSettings : upgradeSettings
-class GPUInstanceProfile["GPUInstanceProfile"] 
-class KubeletConfig["KubeletConfig"] 
-class KubeletDiskType["KubeletDiskType"] 
-class LinuxOSConfig["LinuxOSConfig"] 
-class AgentPoolMode["AgentPoolMode"] 
-class ContainerServiceOSDisk["ContainerServiceOSDisk"] 
-class OSDiskType["OSDiskType"] 
-class OSSKU["OSSKU"] 
-class OSType["OSType"] 
-class ScaleSetEvictionPolicy["ScaleSetEvictionPolicy"] 
-class ScaleSetPriority["ScaleSetPriority"] 
-class AgentPoolType["AgentPoolType"] 
-class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"] 
+} 
+
+ManagedClusterAgentPoolProfile -- GPUInstanceProfile : gpuInstanceProfile 
+ManagedClusterAgentPoolProfile -- KubeletConfig : kubeletConfig 
+ManagedClusterAgentPoolProfile -- KubeletDiskType : kubeletDiskType 
+ManagedClusterAgentPoolProfile -- LinuxOSConfig : linuxOSConfig 
+ManagedClusterAgentPoolProfile -- AgentPoolMode : mode 
+ManagedClusterAgentPoolProfile -- ContainerServiceOSDisk : osDiskSizeGB 
+ManagedClusterAgentPoolProfile -- OSDiskType : osDiskType 
+ManagedClusterAgentPoolProfile -- OSSKU : osSKU 
+ManagedClusterAgentPoolProfile -- OSType : osType 
+ManagedClusterAgentPoolProfile -- ScaleSetEvictionPolicy : scaleSetEvictionPolicy 
+ManagedClusterAgentPoolProfile -- ScaleSetPriority : scaleSetPriority 
+ManagedClusterAgentPoolProfile -- AgentPoolType : type 
+ManagedClusterAgentPoolProfile -- AgentPoolUpgradeSettings : upgradeSettings 
+
+class GPUInstanceProfile["GPUInstanceProfile"]
+class KubeletConfig["KubeletConfig"]
+class KubeletDiskType["KubeletDiskType"]
+class LinuxOSConfig["LinuxOSConfig"]
+class AgentPoolMode["AgentPoolMode"]
+class ContainerServiceOSDisk["ContainerServiceOSDisk"]
+class OSDiskType["OSDiskType"]
+class OSSKU["OSSKU"]
+class OSType["OSType"]
+class ScaleSetEvictionPolicy["ScaleSetEvictionPolicy"]
+class ScaleSetPriority["ScaleSetPriority"]
+class AgentPoolType["AgentPoolType"]
+class AgentPoolUpgradeSettings["AgentPoolUpgradeSettings"]
+
 ```
 
 | Property                      | Description | Type                                                                                                                                                       |
@@ -1431,60 +1523,64 @@ Used by: [ManagedCluster_STATUS.agentPoolProfiles](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAgentPoolProfile_STATUS["ManagedClusterAgentPoolProfile_STATUS"] {
-    availabilityZones string[]
-    count int
-    enableAutoScaling bool
-    enableEncryptionAtHost bool
-    enableFIPS bool
-    enableNodePublicIP bool
-    enableUltraSSD bool
-    maxCount int
-    maxPods int
-    minCount int
-    name string
-    nodeImageVersion string
-    nodeLabels map[string]string
-    nodePublicIPPrefixID string
-    nodeTaints string[]
-    orchestratorVersion string
-    osDiskSizeGB int
-    podSubnetID string
-    provisioningState string
-    proximityPlacementGroupID string
-    spotMaxPrice float64
-    tags map[string]string
-    vmSize string
-    vnetSubnetID string
-}
+
+class ManagedClusterAgentPoolProfile_STATUS["ManagedClusterAgentPoolProfile_STATUS"]{  
+      availabilityZones string[]  
+      count int  
+      enableAutoScaling bool  
+      enableEncryptionAtHost bool  
+      enableFIPS bool  
+      enableNodePublicIP bool  
+      enableUltraSSD bool  
+      maxCount int  
+      maxPods int  
+      minCount int  
+      name string  
+      nodeImageVersion string  
+      nodeLabels map[string]string  
+      nodePublicIPPrefixID string  
+      nodeTaints string[]  
+      orchestratorVersion string  
+      osDiskSizeGB int  
+      podSubnetID string  
+      provisioningState string  
+      proximityPlacementGroupID string  
+      spotMaxPrice float64  
+      tags map[string]string  
+      vmSize string  
+      vnetSubnetID string
 
 
-ManagedClusterAgentPoolProfile_STATUS -- GPUInstanceProfile_STATUS : gpuInstanceProfile
-ManagedClusterAgentPoolProfile_STATUS -- KubeletConfig_STATUS : kubeletConfig
-ManagedClusterAgentPoolProfile_STATUS -- KubeletDiskType_STATUS : kubeletDiskType
-ManagedClusterAgentPoolProfile_STATUS -- LinuxOSConfig_STATUS : linuxOSConfig
-ManagedClusterAgentPoolProfile_STATUS -- AgentPoolMode_STATUS : mode
-ManagedClusterAgentPoolProfile_STATUS -- OSDiskType_STATUS : osDiskType
-ManagedClusterAgentPoolProfile_STATUS -- OSSKU_STATUS : osSKU
-ManagedClusterAgentPoolProfile_STATUS -- OSType_STATUS : osType
-ManagedClusterAgentPoolProfile_STATUS -- PowerState_STATUS : powerState
-ManagedClusterAgentPoolProfile_STATUS -- ScaleSetEvictionPolicy_STATUS : scaleSetEvictionPolicy
-ManagedClusterAgentPoolProfile_STATUS -- ScaleSetPriority_STATUS : scaleSetPriority
-ManagedClusterAgentPoolProfile_STATUS -- AgentPoolType_STATUS : type
-ManagedClusterAgentPoolProfile_STATUS -- AgentPoolUpgradeSettings_STATUS : upgradeSettings
-class GPUInstanceProfile_STATUS["GPUInstanceProfile_STATUS"] 
-class KubeletConfig_STATUS["KubeletConfig_STATUS"] 
-class KubeletDiskType_STATUS["KubeletDiskType_STATUS"] 
-class LinuxOSConfig_STATUS["LinuxOSConfig_STATUS"] 
-class AgentPoolMode_STATUS["AgentPoolMode_STATUS"] 
-class OSDiskType_STATUS["OSDiskType_STATUS"] 
-class OSSKU_STATUS["OSSKU_STATUS"] 
-class OSType_STATUS["OSType_STATUS"] 
-class PowerState_STATUS["PowerState_STATUS"] 
-class ScaleSetEvictionPolicy_STATUS["ScaleSetEvictionPolicy_STATUS"] 
-class ScaleSetPriority_STATUS["ScaleSetPriority_STATUS"] 
-class AgentPoolType_STATUS["AgentPoolType_STATUS"] 
-class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"] 
+} 
+
+ManagedClusterAgentPoolProfile_STATUS -- GPUInstanceProfile_STATUS : gpuInstanceProfile 
+ManagedClusterAgentPoolProfile_STATUS -- KubeletConfig_STATUS : kubeletConfig 
+ManagedClusterAgentPoolProfile_STATUS -- KubeletDiskType_STATUS : kubeletDiskType 
+ManagedClusterAgentPoolProfile_STATUS -- LinuxOSConfig_STATUS : linuxOSConfig 
+ManagedClusterAgentPoolProfile_STATUS -- AgentPoolMode_STATUS : mode 
+ManagedClusterAgentPoolProfile_STATUS -- OSDiskType_STATUS : osDiskType 
+ManagedClusterAgentPoolProfile_STATUS -- OSSKU_STATUS : osSKU 
+ManagedClusterAgentPoolProfile_STATUS -- OSType_STATUS : osType 
+ManagedClusterAgentPoolProfile_STATUS -- PowerState_STATUS : powerState 
+ManagedClusterAgentPoolProfile_STATUS -- ScaleSetEvictionPolicy_STATUS : scaleSetEvictionPolicy 
+ManagedClusterAgentPoolProfile_STATUS -- ScaleSetPriority_STATUS : scaleSetPriority 
+ManagedClusterAgentPoolProfile_STATUS -- AgentPoolType_STATUS : type 
+ManagedClusterAgentPoolProfile_STATUS -- AgentPoolUpgradeSettings_STATUS : upgradeSettings 
+
+class GPUInstanceProfile_STATUS["GPUInstanceProfile_STATUS"]
+class KubeletConfig_STATUS["KubeletConfig_STATUS"]
+class KubeletDiskType_STATUS["KubeletDiskType_STATUS"]
+class LinuxOSConfig_STATUS["LinuxOSConfig_STATUS"]
+class AgentPoolMode_STATUS["AgentPoolMode_STATUS"]
+class OSDiskType_STATUS["OSDiskType_STATUS"]
+class OSSKU_STATUS["OSSKU_STATUS"]
+class OSType_STATUS["OSType_STATUS"]
+class PowerState_STATUS["PowerState_STATUS"]
+class ScaleSetEvictionPolicy_STATUS["ScaleSetEvictionPolicy_STATUS"]
+class ScaleSetPriority_STATUS["ScaleSetPriority_STATUS"]
+class AgentPoolType_STATUS["AgentPoolType_STATUS"]
+class AgentPoolUpgradeSettings_STATUS["AgentPoolUpgradeSettings_STATUS"]
+
 ```
 
 | Property                  | Description | Type                                                                                            |
@@ -1539,12 +1635,16 @@ Used by: [ManagedCluster_Spec.apiServerAccessProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAPIServerAccessProfile["ManagedClusterAPIServerAccessProfile"] {
-    authorizedIPRanges string[]
-    enablePrivateCluster bool
-    enablePrivateClusterPublicFQDN bool
-    privateDNSZone string
-}
+
+class ManagedClusterAPIServerAccessProfile["ManagedClusterAPIServerAccessProfile"]{  
+      authorizedIPRanges string[]  
+      enablePrivateCluster bool  
+      enablePrivateClusterPublicFQDN bool  
+      privateDNSZone string
+
+
+} 
+
 
 
 ```
@@ -1568,12 +1668,16 @@ Used by: [ManagedCluster_STATUS.apiServerAccessProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAPIServerAccessProfile_STATUS["ManagedClusterAPIServerAccessProfile_STATUS"] {
-    authorizedIPRanges string[]
-    enablePrivateCluster bool
-    enablePrivateClusterPublicFQDN bool
-    privateDNSZone string
-}
+
+class ManagedClusterAPIServerAccessProfile_STATUS["ManagedClusterAPIServerAccessProfile_STATUS"]{  
+      authorizedIPRanges string[]  
+      enablePrivateCluster bool  
+      enablePrivateClusterPublicFQDN bool  
+      privateDNSZone string
+
+
+} 
+
 
 
 ```
@@ -1597,10 +1701,12 @@ Used by: [ManagedCluster_Spec.autoUpgradeProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
 
-ManagedClusterAutoUpgradeProfile -- ManagedClusterAutoUpgradeProfile_UpgradeChannel : upgradeChannel
-class ManagedClusterAutoUpgradeProfile_UpgradeChannel["ManagedClusterAutoUpgradeProfile_UpgradeChannel"] 
+class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
+ManagedClusterAutoUpgradeProfile -- ManagedClusterAutoUpgradeProfile_UpgradeChannel : upgradeChannel 
+
+class ManagedClusterAutoUpgradeProfile_UpgradeChannel["ManagedClusterAutoUpgradeProfile_UpgradeChannel"]
+
 ```
 
 | Property       | Description | Type                                                                                                                            |
@@ -1619,10 +1725,12 @@ Used by: [ManagedCluster_STATUS.autoUpgradeProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterAutoUpgradeProfile_STATUS["ManagedClusterAutoUpgradeProfile_STATUS"]
 
-ManagedClusterAutoUpgradeProfile_STATUS -- ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS : upgradeChannel
-class ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS["ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS"] 
+class ManagedClusterAutoUpgradeProfile_STATUS["ManagedClusterAutoUpgradeProfile_STATUS"]
+ManagedClusterAutoUpgradeProfile_STATUS -- ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS : upgradeChannel 
+
+class ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS["ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS"]
+
 ```
 
 | Property       | Description | Type                                                                                                                                          |
@@ -1641,12 +1749,16 @@ Used by: [ManagedCluster_Spec.httpProxyConfig](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterHTTPProxyConfig["ManagedClusterHTTPProxyConfig"] {
-    httpProxy string
-    httpsProxy string
-    noProxy string[]
-    trustedCa string
-}
+
+class ManagedClusterHTTPProxyConfig["ManagedClusterHTTPProxyConfig"]{  
+      httpProxy string  
+      httpsProxy string  
+      noProxy string[]  
+      trustedCa string
+
+
+} 
+
 
 
 ```
@@ -1670,12 +1782,16 @@ Used by: [ManagedCluster_STATUS.httpProxyConfig](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterHTTPProxyConfig_STATUS["ManagedClusterHTTPProxyConfig_STATUS"] {
-    httpProxy string
-    httpsProxy string
-    noProxy string[]
-    trustedCa string
-}
+
+class ManagedClusterHTTPProxyConfig_STATUS["ManagedClusterHTTPProxyConfig_STATUS"]{  
+      httpProxy string  
+      httpsProxy string  
+      noProxy string[]  
+      trustedCa string
+
+
+} 
+
 
 
 ```
@@ -1699,12 +1815,14 @@ Used by: [ManagedCluster_Spec.identity](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterIdentity["ManagedClusterIdentity"]
 
-ManagedClusterIdentity -- ManagedClusterIdentity_Type : type
-ManagedClusterIdentity -- UserAssignedIdentityDetails : userAssignedIdentities
-class ManagedClusterIdentity_Type["ManagedClusterIdentity_Type"] 
-class UserAssignedIdentityDetails["UserAssignedIdentityDetails"] 
+class ManagedClusterIdentity["ManagedClusterIdentity"]
+ManagedClusterIdentity -- ManagedClusterIdentity_Type : type 
+ManagedClusterIdentity -- UserAssignedIdentityDetails : userAssignedIdentities 
+
+class ManagedClusterIdentity_Type["ManagedClusterIdentity_Type"]
+class UserAssignedIdentityDetails["UserAssignedIdentityDetails"]
+
 ```
 
 | Property               | Description | Type                                                                                      |
@@ -1724,16 +1842,20 @@ Used by: [ManagedCluster_STATUS.identity](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterIdentity_STATUS["ManagedClusterIdentity_STATUS"] {
-    principalId string
-    tenantId string
-}
+
+class ManagedClusterIdentity_STATUS["ManagedClusterIdentity_STATUS"]{  
+      principalId string  
+      tenantId string
 
 
-ManagedClusterIdentity_STATUS -- ManagedClusterIdentity_Type_STATUS : type
-ManagedClusterIdentity_STATUS -- ManagedClusterIdentity_UserAssignedIdentities_STATUS : userAssignedIdentities
-class ManagedClusterIdentity_Type_STATUS["ManagedClusterIdentity_Type_STATUS"] 
-class ManagedClusterIdentity_UserAssignedIdentities_STATUS["ManagedClusterIdentity_UserAssignedIdentities_STATUS"] 
+} 
+
+ManagedClusterIdentity_STATUS -- ManagedClusterIdentity_Type_STATUS : type 
+ManagedClusterIdentity_STATUS -- ManagedClusterIdentity_UserAssignedIdentities_STATUS : userAssignedIdentities 
+
+class ManagedClusterIdentity_Type_STATUS["ManagedClusterIdentity_Type_STATUS"]
+class ManagedClusterIdentity_UserAssignedIdentities_STATUS["ManagedClusterIdentity_UserAssignedIdentities_STATUS"]
+
 ```
 
 | Property               | Description | Type                                                                                                                                                 |
@@ -1757,14 +1879,18 @@ Used by: [ManagedCluster_Spec.operatorSpec](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterOperatorSpec["ManagedClusterOperatorSpec"] {
-    configMapExpressions core.DestinationExpression[]
-    secretExpressions core.DestinationExpression[]
-}
+
+class ManagedClusterOperatorSpec["ManagedClusterOperatorSpec"]{  
+      configMapExpressions core.DestinationExpression[]  
+      secretExpressions core.DestinationExpression[]
 
 
-ManagedClusterOperatorSpec -- ManagedClusterOperatorSecrets : secrets
-class ManagedClusterOperatorSecrets["ManagedClusterOperatorSecrets"] 
+} 
+
+ManagedClusterOperatorSpec -- ManagedClusterOperatorSecrets : secrets 
+
+class ManagedClusterOperatorSecrets["ManagedClusterOperatorSecrets"]
+
 ```
 
 | Property             | Description                                                                                   | Type                                                                                                                                                                |
@@ -1785,16 +1911,20 @@ Used by: [ManagedCluster_Spec.podIdentityProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentityProfile["ManagedClusterPodIdentityProfile"] {
-    allowNetworkPluginKubenet bool
-    enabled bool
-}
+
+class ManagedClusterPodIdentityProfile["ManagedClusterPodIdentityProfile"]{  
+      allowNetworkPluginKubenet bool  
+      enabled bool
 
 
-ManagedClusterPodIdentityProfile -- ManagedClusterPodIdentity : userAssignedIdentities
-ManagedClusterPodIdentityProfile -- ManagedClusterPodIdentityException : userAssignedIdentityExceptions
-class ManagedClusterPodIdentity["ManagedClusterPodIdentity"] 
-class ManagedClusterPodIdentityException["ManagedClusterPodIdentityException"] 
+} 
+
+ManagedClusterPodIdentityProfile -- ManagedClusterPodIdentity : userAssignedIdentities 
+ManagedClusterPodIdentityProfile -- ManagedClusterPodIdentityException : userAssignedIdentityExceptions 
+
+class ManagedClusterPodIdentity["ManagedClusterPodIdentity"]
+class ManagedClusterPodIdentityException["ManagedClusterPodIdentityException"]
+
 ```
 
 | Property                       | Description | Type                                                                                                    |
@@ -1816,16 +1946,20 @@ Used by: [ManagedCluster_STATUS.podIdentityProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentityProfile_STATUS["ManagedClusterPodIdentityProfile_STATUS"] {
-    allowNetworkPluginKubenet bool
-    enabled bool
-}
+
+class ManagedClusterPodIdentityProfile_STATUS["ManagedClusterPodIdentityProfile_STATUS"]{  
+      allowNetworkPluginKubenet bool  
+      enabled bool
 
 
-ManagedClusterPodIdentityProfile_STATUS -- ManagedClusterPodIdentity_STATUS : userAssignedIdentities
-ManagedClusterPodIdentityProfile_STATUS -- ManagedClusterPodIdentityException_STATUS : userAssignedIdentityExceptions
-class ManagedClusterPodIdentity_STATUS["ManagedClusterPodIdentity_STATUS"] 
-class ManagedClusterPodIdentityException_STATUS["ManagedClusterPodIdentityException_STATUS"] 
+} 
+
+ManagedClusterPodIdentityProfile_STATUS -- ManagedClusterPodIdentity_STATUS : userAssignedIdentities 
+ManagedClusterPodIdentityProfile_STATUS -- ManagedClusterPodIdentityException_STATUS : userAssignedIdentityExceptions 
+
+class ManagedClusterPodIdentity_STATUS["ManagedClusterPodIdentity_STATUS"]
+class ManagedClusterPodIdentityException_STATUS["ManagedClusterPodIdentityException_STATUS"]
+
 ```
 
 | Property                       | Description | Type                                                                                                                  |
@@ -1847,28 +1981,32 @@ Used by: [ManagedCluster_Spec.autoScalerProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterProperties_AutoScalerProfile["ManagedClusterProperties_AutoScalerProfile"] {
-    balance-similar-node-groups string
-    max-empty-bulk-delete string
-    max-graceful-termination-sec string
-    max-node-provision-time string
-    max-total-unready-percentage string
-    new-pod-scale-up-delay string
-    ok-total-unready-count string
-    scale-down-delay-after-add string
-    scale-down-delay-after-delete string
-    scale-down-delay-after-failure string
-    scale-down-unneeded-time string
-    scale-down-unready-time string
-    scale-down-utilization-threshold string
-    scan-interval string
-    skip-nodes-with-local-storage string
-    skip-nodes-with-system-pods string
-}
+
+class ManagedClusterProperties_AutoScalerProfile["ManagedClusterProperties_AutoScalerProfile"]{  
+      balance-similar-node-groups string  
+      max-empty-bulk-delete string  
+      max-graceful-termination-sec string  
+      max-node-provision-time string  
+      max-total-unready-percentage string  
+      new-pod-scale-up-delay string  
+      ok-total-unready-count string  
+      scale-down-delay-after-add string  
+      scale-down-delay-after-delete string  
+      scale-down-delay-after-failure string  
+      scale-down-unneeded-time string  
+      scale-down-unready-time string  
+      scale-down-utilization-threshold string  
+      scan-interval string  
+      skip-nodes-with-local-storage string  
+      skip-nodes-with-system-pods string
 
 
-ManagedClusterProperties_AutoScalerProfile -- ManagedClusterProperties_AutoScalerProfile_Expander : expander
-class ManagedClusterProperties_AutoScalerProfile_Expander["ManagedClusterProperties_AutoScalerProfile_Expander"] 
+} 
+
+ManagedClusterProperties_AutoScalerProfile -- ManagedClusterProperties_AutoScalerProfile_Expander : expander 
+
+class ManagedClusterProperties_AutoScalerProfile_Expander["ManagedClusterProperties_AutoScalerProfile_Expander"]
+
 ```
 
 | Property                         | Description | Type                                                                                                                                    |
@@ -1903,28 +2041,32 @@ Used by: [ManagedCluster_STATUS.autoScalerProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterProperties_AutoScalerProfile_STATUS["ManagedClusterProperties_AutoScalerProfile_STATUS"] {
-    balance-similar-node-groups string
-    max-empty-bulk-delete string
-    max-graceful-termination-sec string
-    max-node-provision-time string
-    max-total-unready-percentage string
-    new-pod-scale-up-delay string
-    ok-total-unready-count string
-    scale-down-delay-after-add string
-    scale-down-delay-after-delete string
-    scale-down-delay-after-failure string
-    scale-down-unneeded-time string
-    scale-down-unready-time string
-    scale-down-utilization-threshold string
-    scan-interval string
-    skip-nodes-with-local-storage string
-    skip-nodes-with-system-pods string
-}
+
+class ManagedClusterProperties_AutoScalerProfile_STATUS["ManagedClusterProperties_AutoScalerProfile_STATUS"]{  
+      balance-similar-node-groups string  
+      max-empty-bulk-delete string  
+      max-graceful-termination-sec string  
+      max-node-provision-time string  
+      max-total-unready-percentage string  
+      new-pod-scale-up-delay string  
+      ok-total-unready-count string  
+      scale-down-delay-after-add string  
+      scale-down-delay-after-delete string  
+      scale-down-delay-after-failure string  
+      scale-down-unneeded-time string  
+      scale-down-unready-time string  
+      scale-down-utilization-threshold string  
+      scan-interval string  
+      skip-nodes-with-local-storage string  
+      skip-nodes-with-system-pods string
 
 
-ManagedClusterProperties_AutoScalerProfile_STATUS -- ManagedClusterProperties_AutoScalerProfile_Expander_STATUS : expander
-class ManagedClusterProperties_AutoScalerProfile_Expander_STATUS["ManagedClusterProperties_AutoScalerProfile_Expander_STATUS"] 
+} 
+
+ManagedClusterProperties_AutoScalerProfile_STATUS -- ManagedClusterProperties_AutoScalerProfile_Expander_STATUS : expander 
+
+class ManagedClusterProperties_AutoScalerProfile_Expander_STATUS["ManagedClusterProperties_AutoScalerProfile_Expander_STATUS"]
+
 ```
 
 | Property                         | Description | Type                                                                                                                                                  |
@@ -1961,10 +2103,14 @@ Used by: [ManagedClustersAgentPool_Spec.operatorSpec](#ManagedClustersAgentPool_
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClustersAgentPoolOperatorSpec["ManagedClustersAgentPoolOperatorSpec"] {
-    configMapExpressions core.DestinationExpression[]
-    secretExpressions core.DestinationExpression[]
-}
+
+class ManagedClustersAgentPoolOperatorSpec["ManagedClustersAgentPoolOperatorSpec"]{  
+      configMapExpressions core.DestinationExpression[]  
+      secretExpressions core.DestinationExpression[]
+
+
+} 
+
 
 
 ```
@@ -1986,10 +2132,14 @@ Used by: [ManagedCluster_Spec.servicePrincipalProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterServicePrincipalProfile["ManagedClusterServicePrincipalProfile"] {
-    clientId string
-    secret genruntime.SecretReference
-}
+
+class ManagedClusterServicePrincipalProfile["ManagedClusterServicePrincipalProfile"]{  
+      clientId string  
+      secret genruntime.SecretReference
+
+
+} 
+
 
 
 ```
@@ -2011,9 +2161,13 @@ Used by: [ManagedCluster_STATUS.servicePrincipalProfile](#ManagedCluster_STATUS)
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterServicePrincipalProfile_STATUS["ManagedClusterServicePrincipalProfile_STATUS"] {
-    clientId string
-}
+
+class ManagedClusterServicePrincipalProfile_STATUS["ManagedClusterServicePrincipalProfile_STATUS"]{  
+      clientId string
+
+
+} 
+
 
 
 ```
@@ -2034,12 +2188,14 @@ Used by: [ManagedCluster_Spec.sku](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterSKU["ManagedClusterSKU"]
 
-ManagedClusterSKU -- ManagedClusterSKU_Name : name
-ManagedClusterSKU -- ManagedClusterSKU_Tier : tier
-class ManagedClusterSKU_Name["ManagedClusterSKU_Name"] 
-class ManagedClusterSKU_Tier["ManagedClusterSKU_Tier"] 
+class ManagedClusterSKU["ManagedClusterSKU"]
+ManagedClusterSKU -- ManagedClusterSKU_Name : name 
+ManagedClusterSKU -- ManagedClusterSKU_Tier : tier 
+
+class ManagedClusterSKU_Name["ManagedClusterSKU_Name"]
+class ManagedClusterSKU_Tier["ManagedClusterSKU_Tier"]
+
 ```
 
 | Property | Description | Type                                                                          |
@@ -2059,12 +2215,14 @@ Used by: [ManagedCluster_STATUS.sku](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterSKU_STATUS["ManagedClusterSKU_STATUS"]
 
-ManagedClusterSKU_STATUS -- ManagedClusterSKU_Name_STATUS : name
-ManagedClusterSKU_STATUS -- ManagedClusterSKU_Tier_STATUS : tier
-class ManagedClusterSKU_Name_STATUS["ManagedClusterSKU_Name_STATUS"] 
-class ManagedClusterSKU_Tier_STATUS["ManagedClusterSKU_Tier_STATUS"] 
+class ManagedClusterSKU_STATUS["ManagedClusterSKU_STATUS"]
+ManagedClusterSKU_STATUS -- ManagedClusterSKU_Name_STATUS : name 
+ManagedClusterSKU_STATUS -- ManagedClusterSKU_Tier_STATUS : tier 
+
+class ManagedClusterSKU_Name_STATUS["ManagedClusterSKU_Name_STATUS"]
+class ManagedClusterSKU_Tier_STATUS["ManagedClusterSKU_Tier_STATUS"]
+
 ```
 
 | Property | Description | Type                                                                                        |
@@ -2084,15 +2242,19 @@ Used by: [ManagedCluster_Spec.windowsProfile](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterWindowsProfile["ManagedClusterWindowsProfile"] {
-    adminPassword genruntime.SecretReference
-    adminUsername string
-    enableCSIProxy bool
-}
+
+class ManagedClusterWindowsProfile["ManagedClusterWindowsProfile"]{  
+      adminPassword genruntime.SecretReference  
+      adminUsername string  
+      enableCSIProxy bool
 
 
-ManagedClusterWindowsProfile -- ManagedClusterWindowsProfile_LicenseType : licenseType
-class ManagedClusterWindowsProfile_LicenseType["ManagedClusterWindowsProfile_LicenseType"] 
+} 
+
+ManagedClusterWindowsProfile -- ManagedClusterWindowsProfile_LicenseType : licenseType 
+
+class ManagedClusterWindowsProfile_LicenseType["ManagedClusterWindowsProfile_LicenseType"]
+
 ```
 
 | Property       | Description | Type                                                                                                                                                   |
@@ -2114,14 +2276,18 @@ Used by: [ManagedCluster_STATUS.windowsProfile](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterWindowsProfile_STATUS["ManagedClusterWindowsProfile_STATUS"] {
-    adminUsername string
-    enableCSIProxy bool
-}
+
+class ManagedClusterWindowsProfile_STATUS["ManagedClusterWindowsProfile_STATUS"]{  
+      adminUsername string  
+      enableCSIProxy bool
 
 
-ManagedClusterWindowsProfile_STATUS -- ManagedClusterWindowsProfile_LicenseType_STATUS : licenseType
-class ManagedClusterWindowsProfile_LicenseType_STATUS["ManagedClusterWindowsProfile_LicenseType_STATUS"] 
+} 
+
+ManagedClusterWindowsProfile_STATUS -- ManagedClusterWindowsProfile_LicenseType_STATUS : licenseType 
+
+class ManagedClusterWindowsProfile_LicenseType_STATUS["ManagedClusterWindowsProfile_LicenseType_STATUS"]
+
 ```
 
 | Property       | Description | Type                                                                                                                            |
@@ -2202,10 +2368,12 @@ Used by: [ManagedCluster_STATUS.powerState](#ManagedCluster_STATUS), [ManagedClu
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PowerState_STATUS["PowerState_STATUS"]
 
-PowerState_STATUS -- PowerState_Code_STATUS : code
-class PowerState_Code_STATUS["PowerState_Code_STATUS"] 
+class PowerState_STATUS["PowerState_STATUS"]
+PowerState_STATUS -- PowerState_Code_STATUS : code 
+
+class PowerState_Code_STATUS["PowerState_Code_STATUS"]
+
 ```
 
 | Property | Description | Type                                                                          |
@@ -2224,13 +2392,17 @@ Used by: [ManagedCluster_Spec.privateLinkResources](#ManagedCluster_Spec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PrivateLinkResource["PrivateLinkResource"] {
-    groupId string
-    name string
-    reference genruntime.ResourceReference
-    requiredMembers string[]
-    type string
-}
+
+class PrivateLinkResource["PrivateLinkResource"]{  
+      groupId string  
+      name string  
+      reference genruntime.ResourceReference  
+      requiredMembers string[]  
+      type string
+
+
+} 
+
 
 
 ```
@@ -2255,14 +2427,18 @@ Used by: [ManagedCluster_STATUS.privateLinkResources](#ManagedCluster_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PrivateLinkResource_STATUS["PrivateLinkResource_STATUS"] {
-    groupId string
-    id string
-    name string
-    privateLinkServiceID string
-    requiredMembers string[]
-    type string
-}
+
+class PrivateLinkResource_STATUS["PrivateLinkResource_STATUS"]{  
+      groupId string  
+      id string  
+      name string  
+      privateLinkServiceID string  
+      requiredMembers string[]  
+      type string
+
+
+} 
+
 
 
 ```
@@ -2328,11 +2504,15 @@ Used by: [ManagedCluster_Spec.identityProfile](#ManagedCluster_Spec), and [Manag
       hideEmptyMembersBox: true
 ---
 classDiagram
-class UserAssignedIdentity["UserAssignedIdentity"] {
-    clientId string
-    objectId string
-    resourceReference genruntime.ResourceReference
-}
+
+class UserAssignedIdentity["UserAssignedIdentity"]{  
+      clientId string  
+      objectId string  
+      resourceReference genruntime.ResourceReference
+
+
+} 
+
 
 
 ```
@@ -2355,11 +2535,15 @@ Used by: [ManagedCluster_STATUS.identityProfile](#ManagedCluster_STATUS), [Manag
       hideEmptyMembersBox: true
 ---
 classDiagram
-class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"] {
-    clientId string
-    objectId string
-    resourceId string
-}
+
+class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"]{  
+      clientId string  
+      objectId string  
+      resourceId string
+
+
+} 
+
 
 
 ```
@@ -2482,10 +2666,12 @@ Used by: [ContainerServiceLinuxProfile.ssh](#ContainerServiceLinuxProfile).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceSshConfiguration["ContainerServiceSshConfiguration"]
 
-ContainerServiceSshConfiguration -- ContainerServiceSshPublicKey : publicKeys
-class ContainerServiceSshPublicKey["ContainerServiceSshPublicKey"] 
+class ContainerServiceSshConfiguration["ContainerServiceSshConfiguration"]
+ContainerServiceSshConfiguration -- ContainerServiceSshPublicKey : publicKeys 
+
+class ContainerServiceSshPublicKey["ContainerServiceSshPublicKey"]
+
 ```
 
 | Property   | Description | Type                                                                                        |
@@ -2504,10 +2690,12 @@ Used by: [ContainerServiceLinuxProfile_STATUS.ssh](#ContainerServiceLinuxProfile
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceSshConfiguration_STATUS["ContainerServiceSshConfiguration_STATUS"]
 
-ContainerServiceSshConfiguration_STATUS -- ContainerServiceSshPublicKey_STATUS : publicKeys
-class ContainerServiceSshPublicKey_STATUS["ContainerServiceSshPublicKey_STATUS"] 
+class ContainerServiceSshConfiguration_STATUS["ContainerServiceSshConfiguration_STATUS"]
+ContainerServiceSshConfiguration_STATUS -- ContainerServiceSshPublicKey_STATUS : publicKeys 
+
+class ContainerServiceSshPublicKey_STATUS["ContainerServiceSshPublicKey_STATUS"]
+
 ```
 
 | Property   | Description | Type                                                                                                      |
@@ -2592,10 +2780,14 @@ Used by: [ManagedClusterIdentity_STATUS.userAssignedIdentities](#ManagedClusterI
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterIdentity_UserAssignedIdentities_STATUS["ManagedClusterIdentity_UserAssignedIdentities_STATUS"] {
-    clientId string
-    principalId string
-}
+
+class ManagedClusterIdentity_UserAssignedIdentities_STATUS["ManagedClusterIdentity_UserAssignedIdentities_STATUS"]{  
+      clientId string  
+      principalId string
+
+
+} 
+
 
 
 ```
@@ -2617,20 +2809,24 @@ Used by: [ContainerServiceNetworkProfile.loadBalancerProfile](#ContainerServiceN
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile["ManagedClusterLoadBalancerProfile"] {
-    allocatedOutboundPorts int
-    idleTimeoutInMinutes int
-}
+
+class ManagedClusterLoadBalancerProfile["ManagedClusterLoadBalancerProfile"]{  
+      allocatedOutboundPorts int  
+      idleTimeoutInMinutes int
 
 
-ManagedClusterLoadBalancerProfile -- ResourceReference : effectiveOutboundIPs
-ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_ManagedOutboundIPs : managedOutboundIPs
-ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_OutboundIPPrefixes : outboundIPPrefixes
-ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_OutboundIPs : outboundIPs
-class ResourceReference["ResourceReference"] 
-class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"] 
-class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"] 
-class ManagedClusterLoadBalancerProfile_OutboundIPs["ManagedClusterLoadBalancerProfile_OutboundIPs"] 
+} 
+
+ManagedClusterLoadBalancerProfile -- ResourceReference : effectiveOutboundIPs 
+ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_ManagedOutboundIPs : managedOutboundIPs 
+ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_OutboundIPPrefixes : outboundIPPrefixes 
+ManagedClusterLoadBalancerProfile -- ManagedClusterLoadBalancerProfile_OutboundIPs : outboundIPs 
+
+class ResourceReference["ResourceReference"]
+class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"]
+class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"]
+class ManagedClusterLoadBalancerProfile_OutboundIPs["ManagedClusterLoadBalancerProfile_OutboundIPs"]
+
 ```
 
 | Property               | Description | Type                                                                                                                                      |
@@ -2654,20 +2850,24 @@ Used by: [ContainerServiceNetworkProfile_STATUS.loadBalancerProfile](#ContainerS
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile_STATUS["ManagedClusterLoadBalancerProfile_STATUS"] {
-    allocatedOutboundPorts int
-    idleTimeoutInMinutes int
-}
+
+class ManagedClusterLoadBalancerProfile_STATUS["ManagedClusterLoadBalancerProfile_STATUS"]{  
+      allocatedOutboundPorts int  
+      idleTimeoutInMinutes int
 
 
-ManagedClusterLoadBalancerProfile_STATUS -- ResourceReference_STATUS : effectiveOutboundIPs
-ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS : managedOutboundIPs
-ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS : outboundIPPrefixes
-ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS : outboundIPs
-class ResourceReference_STATUS["ResourceReference_STATUS"] 
-class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"] 
-class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"] 
-class ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"] 
+} 
+
+ManagedClusterLoadBalancerProfile_STATUS -- ResourceReference_STATUS : effectiveOutboundIPs 
+ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS : managedOutboundIPs 
+ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS : outboundIPPrefixes 
+ManagedClusterLoadBalancerProfile_STATUS -- ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS : outboundIPs 
+
+class ResourceReference_STATUS["ResourceReference_STATUS"]
+class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"]
+class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"]
+class ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"]
+
 ```
 
 | Property               | Description | Type                                                                                                                                                    |
@@ -2691,10 +2891,14 @@ Used by: [ManagedClusterOperatorSpec.secrets](#ManagedClusterOperatorSpec).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterOperatorSecrets["ManagedClusterOperatorSecrets"] {
-    adminCredentials genruntime.SecretDestination
-    userCredentials genruntime.SecretDestination
-}
+
+class ManagedClusterOperatorSecrets["ManagedClusterOperatorSecrets"]{  
+      adminCredentials genruntime.SecretDestination  
+      userCredentials genruntime.SecretDestination
+
+
+} 
+
 
 
 ```
@@ -2716,15 +2920,19 @@ Used by: [ManagedClusterPodIdentityProfile.userAssignedIdentities](#ManagedClust
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentity["ManagedClusterPodIdentity"] {
-    bindingSelector string
-    name string
-    namespace string
-}
+
+class ManagedClusterPodIdentity["ManagedClusterPodIdentity"]{  
+      bindingSelector string  
+      name string  
+      namespace string
 
 
-ManagedClusterPodIdentity -- UserAssignedIdentity : identity
-class UserAssignedIdentity["UserAssignedIdentity"] 
+} 
+
+ManagedClusterPodIdentity -- UserAssignedIdentity : identity 
+
+class UserAssignedIdentity["UserAssignedIdentity"]
+
 ```
 
 | Property        | Description | Type                                                                      |
@@ -2746,19 +2954,23 @@ Used by: [ManagedClusterPodIdentityProfile_STATUS.userAssignedIdentities](#Manag
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentity_STATUS["ManagedClusterPodIdentity_STATUS"] {
-    bindingSelector string
-    name string
-    namespace string
-}
+
+class ManagedClusterPodIdentity_STATUS["ManagedClusterPodIdentity_STATUS"]{  
+      bindingSelector string  
+      name string  
+      namespace string
 
 
-ManagedClusterPodIdentity_STATUS -- UserAssignedIdentity_STATUS : identity
-ManagedClusterPodIdentity_STATUS -- ManagedClusterPodIdentity_ProvisioningInfo_STATUS : provisioningInfo
-ManagedClusterPodIdentity_STATUS -- ManagedClusterPodIdentity_ProvisioningState_STATUS : provisioningState
-class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"] 
-class ManagedClusterPodIdentity_ProvisioningInfo_STATUS["ManagedClusterPodIdentity_ProvisioningInfo_STATUS"] 
-class ManagedClusterPodIdentity_ProvisioningState_STATUS["ManagedClusterPodIdentity_ProvisioningState_STATUS"] 
+} 
+
+ManagedClusterPodIdentity_STATUS -- UserAssignedIdentity_STATUS : identity 
+ManagedClusterPodIdentity_STATUS -- ManagedClusterPodIdentity_ProvisioningInfo_STATUS : provisioningInfo 
+ManagedClusterPodIdentity_STATUS -- ManagedClusterPodIdentity_ProvisioningState_STATUS : provisioningState 
+
+class UserAssignedIdentity_STATUS["UserAssignedIdentity_STATUS"]
+class ManagedClusterPodIdentity_ProvisioningInfo_STATUS["ManagedClusterPodIdentity_ProvisioningInfo_STATUS"]
+class ManagedClusterPodIdentity_ProvisioningState_STATUS["ManagedClusterPodIdentity_ProvisioningState_STATUS"]
+
 ```
 
 | Property          | Description | Type                                                                                                                                  |
@@ -2782,11 +2994,15 @@ Used by: [ManagedClusterPodIdentityProfile.userAssignedIdentityExceptions](#Mana
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentityException["ManagedClusterPodIdentityException"] {
-    name string
-    namespace string
-    podLabels map[string]string
-}
+
+class ManagedClusterPodIdentityException["ManagedClusterPodIdentityException"]{  
+      name string  
+      namespace string  
+      podLabels map[string]string
+
+
+} 
+
 
 
 ```
@@ -2809,11 +3025,15 @@ Used by: [ManagedClusterPodIdentityProfile_STATUS.userAssignedIdentityExceptions
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentityException_STATUS["ManagedClusterPodIdentityException_STATUS"] {
-    name string
-    namespace string
-    podLabels map[string]string
-}
+
+class ManagedClusterPodIdentityException_STATUS["ManagedClusterPodIdentityException_STATUS"]{  
+      name string  
+      namespace string  
+      podLabels map[string]string
+
+
+} 
+
 
 
 ```
@@ -2928,36 +3148,40 @@ Used by: [LinuxOSConfig.sysctls](#LinuxOSConfig).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SysctlConfig["SysctlConfig"] {
-    fsAioMaxNr int
-    fsFileMax int
-    fsInotifyMaxUserWatches int
-    fsNrOpen int
-    kernelThreadsMax int
-    netCoreNetdevMaxBacklog int
-    netCoreOptmemMax int
-    netCoreRmemDefault int
-    netCoreRmemMax int
-    netCoreSomaxconn int
-    netCoreWmemDefault int
-    netCoreWmemMax int
-    netIpv4IpLocalPortRange string
-    netIpv4NeighDefaultGcThresh1 int
-    netIpv4NeighDefaultGcThresh2 int
-    netIpv4NeighDefaultGcThresh3 int
-    netIpv4TcpFinTimeout int
-    netIpv4TcpkeepaliveIntvl int
-    netIpv4TcpKeepaliveProbes int
-    netIpv4TcpKeepaliveTime int
-    netIpv4TcpMaxSynBacklog int
-    netIpv4TcpMaxTwBuckets int
-    netIpv4TcpTwReuse bool
-    netNetfilterNfConntrackBuckets int
-    netNetfilterNfConntrackMax int
-    vmMaxMapCount int
-    vmSwappiness int
-    vmVfsCachePressure int
-}
+
+class SysctlConfig["SysctlConfig"]{  
+      fsAioMaxNr int  
+      fsFileMax int  
+      fsInotifyMaxUserWatches int  
+      fsNrOpen int  
+      kernelThreadsMax int  
+      netCoreNetdevMaxBacklog int  
+      netCoreOptmemMax int  
+      netCoreRmemDefault int  
+      netCoreRmemMax int  
+      netCoreSomaxconn int  
+      netCoreWmemDefault int  
+      netCoreWmemMax int  
+      netIpv4IpLocalPortRange string  
+      netIpv4NeighDefaultGcThresh1 int  
+      netIpv4NeighDefaultGcThresh2 int  
+      netIpv4NeighDefaultGcThresh3 int  
+      netIpv4TcpFinTimeout int  
+      netIpv4TcpkeepaliveIntvl int  
+      netIpv4TcpKeepaliveProbes int  
+      netIpv4TcpKeepaliveTime int  
+      netIpv4TcpMaxSynBacklog int  
+      netIpv4TcpMaxTwBuckets int  
+      netIpv4TcpTwReuse bool  
+      netNetfilterNfConntrackBuckets int  
+      netNetfilterNfConntrackMax int  
+      vmMaxMapCount int  
+      vmSwappiness int  
+      vmVfsCachePressure int
+
+
+} 
+
 
 
 ```
@@ -3005,36 +3229,40 @@ Used by: [LinuxOSConfig_STATUS.sysctls](#LinuxOSConfig_STATUS).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class SysctlConfig_STATUS["SysctlConfig_STATUS"] {
-    fsAioMaxNr int
-    fsFileMax int
-    fsInotifyMaxUserWatches int
-    fsNrOpen int
-    kernelThreadsMax int
-    netCoreNetdevMaxBacklog int
-    netCoreOptmemMax int
-    netCoreRmemDefault int
-    netCoreRmemMax int
-    netCoreSomaxconn int
-    netCoreWmemDefault int
-    netCoreWmemMax int
-    netIpv4IpLocalPortRange string
-    netIpv4NeighDefaultGcThresh1 int
-    netIpv4NeighDefaultGcThresh2 int
-    netIpv4NeighDefaultGcThresh3 int
-    netIpv4TcpFinTimeout int
-    netIpv4TcpkeepaliveIntvl int
-    netIpv4TcpKeepaliveProbes int
-    netIpv4TcpKeepaliveTime int
-    netIpv4TcpMaxSynBacklog int
-    netIpv4TcpMaxTwBuckets int
-    netIpv4TcpTwReuse bool
-    netNetfilterNfConntrackBuckets int
-    netNetfilterNfConntrackMax int
-    vmMaxMapCount int
-    vmSwappiness int
-    vmVfsCachePressure int
-}
+
+class SysctlConfig_STATUS["SysctlConfig_STATUS"]{  
+      fsAioMaxNr int  
+      fsFileMax int  
+      fsInotifyMaxUserWatches int  
+      fsNrOpen int  
+      kernelThreadsMax int  
+      netCoreNetdevMaxBacklog int  
+      netCoreOptmemMax int  
+      netCoreRmemDefault int  
+      netCoreRmemMax int  
+      netCoreSomaxconn int  
+      netCoreWmemDefault int  
+      netCoreWmemMax int  
+      netIpv4IpLocalPortRange string  
+      netIpv4NeighDefaultGcThresh1 int  
+      netIpv4NeighDefaultGcThresh2 int  
+      netIpv4NeighDefaultGcThresh3 int  
+      netIpv4TcpFinTimeout int  
+      netIpv4TcpkeepaliveIntvl int  
+      netIpv4TcpKeepaliveProbes int  
+      netIpv4TcpKeepaliveTime int  
+      netIpv4TcpMaxSynBacklog int  
+      netIpv4TcpMaxTwBuckets int  
+      netIpv4TcpTwReuse bool  
+      netNetfilterNfConntrackBuckets int  
+      netNetfilterNfConntrackMax int  
+      vmMaxMapCount int  
+      vmSwappiness int  
+      vmVfsCachePressure int
+
+
+} 
+
 
 
 ```
@@ -3082,9 +3310,13 @@ Used by: [ManagedClusterIdentity.userAssignedIdentities](#ManagedClusterIdentity
       hideEmptyMembersBox: true
 ---
 classDiagram
-class UserAssignedIdentityDetails["UserAssignedIdentityDetails"] {
-    reference genruntime.ResourceReference
-}
+
+class UserAssignedIdentityDetails["UserAssignedIdentityDetails"]{  
+      reference genruntime.ResourceReference
+
+
+} 
+
 
 
 ```
@@ -3105,9 +3337,13 @@ Used by: [ContainerServiceSshConfiguration.publicKeys](#ContainerServiceSshConfi
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceSshPublicKey["ContainerServiceSshPublicKey"] {
-    keyData string
-}
+
+class ContainerServiceSshPublicKey["ContainerServiceSshPublicKey"]{  
+      keyData string
+
+
+} 
+
 
 
 ```
@@ -3128,9 +3364,13 @@ Used by: [ContainerServiceSshConfiguration_STATUS.publicKeys](#ContainerServiceS
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ContainerServiceSshPublicKey_STATUS["ContainerServiceSshPublicKey_STATUS"] {
-    keyData string
-}
+
+class ContainerServiceSshPublicKey_STATUS["ContainerServiceSshPublicKey_STATUS"]{  
+      keyData string
+
+
+} 
+
 
 
 ```
@@ -3151,9 +3391,13 @@ Used by: [ManagedClusterLoadBalancerProfile.managedOutboundIPs](#ManagedClusterL
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"] {
-    count int
-}
+
+class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs"]{  
+      count int
+
+
+} 
+
 
 
 ```
@@ -3174,9 +3418,13 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS.managedOutboundIPs](#ManagedC
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"] {
-    count int
-}
+
+class ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS"]{  
+      count int
+
+
+} 
+
 
 
 ```
@@ -3197,10 +3445,12 @@ Used by: [ManagedClusterLoadBalancerProfile.outboundIPPrefixes](#ManagedClusterL
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"]
 
-ManagedClusterLoadBalancerProfile_OutboundIPPrefixes -- ResourceReference : publicIPPrefixes
-class ResourceReference["ResourceReference"] 
+class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes"]
+ManagedClusterLoadBalancerProfile_OutboundIPPrefixes -- ResourceReference : publicIPPrefixes 
+
+class ResourceReference["ResourceReference"]
+
 ```
 
 | Property         | Description | Type                                                                  |
@@ -3219,10 +3469,12 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS.outboundIPPrefixes](#ManagedC
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"]
 
-ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS -- ResourceReference_STATUS : publicIPPrefixes
-class ResourceReference_STATUS["ResourceReference_STATUS"] 
+class ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS"]
+ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS -- ResourceReference_STATUS : publicIPPrefixes 
+
+class ResourceReference_STATUS["ResourceReference_STATUS"]
+
 ```
 
 | Property         | Description | Type                                                                                |
@@ -3241,10 +3493,12 @@ Used by: [ManagedClusterLoadBalancerProfile.outboundIPs](#ManagedClusterLoadBala
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile_OutboundIPs["ManagedClusterLoadBalancerProfile_OutboundIPs"]
 
-ManagedClusterLoadBalancerProfile_OutboundIPs -- ResourceReference : publicIPs
-class ResourceReference["ResourceReference"] 
+class ManagedClusterLoadBalancerProfile_OutboundIPs["ManagedClusterLoadBalancerProfile_OutboundIPs"]
+ManagedClusterLoadBalancerProfile_OutboundIPs -- ResourceReference : publicIPs 
+
+class ResourceReference["ResourceReference"]
+
 ```
 
 | Property  | Description | Type                                                                  |
@@ -3263,10 +3517,12 @@ Used by: [ManagedClusterLoadBalancerProfile_STATUS.outboundIPs](#ManagedClusterL
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"]
 
-ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS -- ResourceReference_STATUS : publicIPs
-class ResourceReference_STATUS["ResourceReference_STATUS"] 
+class ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS["ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS"]
+ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS -- ResourceReference_STATUS : publicIPs 
+
+class ResourceReference_STATUS["ResourceReference_STATUS"]
+
 ```
 
 | Property  | Description | Type                                                                                |
@@ -3285,10 +3541,12 @@ Used by: [ManagedClusterPodIdentity_STATUS.provisioningInfo](#ManagedClusterPodI
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentity_ProvisioningInfo_STATUS["ManagedClusterPodIdentity_ProvisioningInfo_STATUS"]
 
-ManagedClusterPodIdentity_ProvisioningInfo_STATUS -- ManagedClusterPodIdentityProvisioningError_STATUS : error
-class ManagedClusterPodIdentityProvisioningError_STATUS["ManagedClusterPodIdentityProvisioningError_STATUS"] 
+class ManagedClusterPodIdentity_ProvisioningInfo_STATUS["ManagedClusterPodIdentity_ProvisioningInfo_STATUS"]
+ManagedClusterPodIdentity_ProvisioningInfo_STATUS -- ManagedClusterPodIdentityProvisioningError_STATUS : error 
+
+class ManagedClusterPodIdentityProvisioningError_STATUS["ManagedClusterPodIdentityProvisioningError_STATUS"]
+
 ```
 
 | Property | Description | Type                                                                                                                                |
@@ -3319,9 +3577,13 @@ Used by: [ManagedClusterLoadBalancerProfile.effectiveOutboundIPs](#ManagedCluste
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ResourceReference["ResourceReference"] {
-    reference genruntime.ResourceReference
-}
+
+class ResourceReference["ResourceReference"]{  
+      reference genruntime.ResourceReference
+
+
+} 
+
 
 
 ```
@@ -3342,9 +3604,13 @@ Used by: [ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS.publicIPPr
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ResourceReference_STATUS["ResourceReference_STATUS"] {
-    id string
-}
+
+class ResourceReference_STATUS["ResourceReference_STATUS"]{  
+      id string
+
+
+} 
+
 
 
 ```
@@ -3365,10 +3631,12 @@ Used by: [ManagedClusterPodIdentity_ProvisioningInfo_STATUS.error](#ManagedClust
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentityProvisioningError_STATUS["ManagedClusterPodIdentityProvisioningError_STATUS"]
 
-ManagedClusterPodIdentityProvisioningError_STATUS -- ManagedClusterPodIdentityProvisioningErrorBody_STATUS : error
-class ManagedClusterPodIdentityProvisioningErrorBody_STATUS["ManagedClusterPodIdentityProvisioningErrorBody_STATUS"] 
+class ManagedClusterPodIdentityProvisioningError_STATUS["ManagedClusterPodIdentityProvisioningError_STATUS"]
+ManagedClusterPodIdentityProvisioningError_STATUS -- ManagedClusterPodIdentityProvisioningErrorBody_STATUS : error 
+
+class ManagedClusterPodIdentityProvisioningErrorBody_STATUS["ManagedClusterPodIdentityProvisioningErrorBody_STATUS"]
+
 ```
 
 | Property | Description | Type                                                                                                                                        |
@@ -3387,15 +3655,19 @@ Used by: [ManagedClusterPodIdentityProvisioningError_STATUS.error](#ManagedClust
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentityProvisioningErrorBody_STATUS["ManagedClusterPodIdentityProvisioningErrorBody_STATUS"] {
-    code string
-    message string
-    target string
-}
+
+class ManagedClusterPodIdentityProvisioningErrorBody_STATUS["ManagedClusterPodIdentityProvisioningErrorBody_STATUS"]{  
+      code string  
+      message string  
+      target string
 
 
-ManagedClusterPodIdentityProvisioningErrorBody_STATUS -- ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled : details
-class ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled["ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"] 
+} 
+
+ManagedClusterPodIdentityProvisioningErrorBody_STATUS -- ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled : details 
+
+class ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled["ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"]
+
 ```
 
 | Property | Description | Type                                                                                                                                                            |
@@ -3417,11 +3689,15 @@ Used by: [ManagedClusterPodIdentityProvisioningErrorBody_STATUS.details](#Manage
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled["ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"] {
-    code string
-    message string
-    target string
-}
+
+class ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled["ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled"]{  
+      code string  
+      message string  
+      target string
+
+
+} 
+
 
 
 ```

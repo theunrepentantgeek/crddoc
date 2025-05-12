@@ -20,6 +20,8 @@ model
 <a id="Enum"></a>Enum
 ---------------------
 
+Used by: [Package.enums](#Package), and [PackageBuilder.Enums](#PackageBuilder).
+
 ```mermaid
 ---
   config:
@@ -163,6 +165,8 @@ class MarkerValue["MarkerValue"] {
 <a id="Object"></a>Object
 -------------------------
 
+Used by: [Package.objects](#Package), and [PackageBuilder.Objects](#PackageBuilder).
+
 ```mermaid
 ---
   config:
@@ -172,16 +176,15 @@ class MarkerValue["MarkerValue"] {
 classDiagram
 class Object["Object"] {
     description string[]
+    embeds PropertyList
 }
 
 
 Object *-- TypeReference
 class TypeReference["TypeReference"]
-Object -- Property : embeds
 Object -- Package : pkg
 Object -- Property : properties
 Object -- PropertyReference : usage
-class Property["Property"] 
 class Package["Package"] 
 class Property["Property"] 
 class PropertyReference["PropertyReference"] 
@@ -191,7 +194,7 @@ class PropertyReference["PropertyReference"]
 |---------------------------------|-------------|-------------------------------------------|
 | [TypeReference](#TypeReference) |             |                                           |
 | description                     |             | string[]                                  |
-| embeds                          |             | [Property[]](#Property)                   |
+| embeds                          |             | PropertyList                              |
 | pkg                             |             | [Package](#Package)                       |
 | properties                      |             | [map[string]Property](#Property)          |
 | usage                           |             | [PropertyReference[]](#PropertyReference) |
@@ -215,30 +218,74 @@ Used by: [Enum.pkg](#Enum), and [Object.pkg](#Object).
 classDiagram
 class Package["Package"] {
     cfg config.Config
-    declarations map[string]Declaration
     log logr.Logger
     ranks map[string]int
 }
 
 
+Package -- Enum : enums
 Package -- PackageMarkers : metadata
+Package -- Object : objects
+Package -- Resource : resources
+class Enum["Enum"] 
 class PackageMarkers["PackageMarkers"] 
+class Object["Object"] 
+class Resource["Resource"] 
 ```
 
-| Property     | Description | Type                              |
-|--------------|-------------|-----------------------------------|
-| cfg          |             | config.Config                     |
-| declarations |             | map[string]Declaration            |
-| log          |             | logr.Logger                       |
-| metadata     |             | [PackageMarkers](#PackageMarkers) |
-| ranks        |             | map[string]int                    |
+| Property  | Description | Type                              |
+|-----------|-------------|-----------------------------------|
+| cfg       |             | config.Config                     |
+| enums     |             | [map[string]Enum](#Enum)          |
+| log       |             | logr.Logger                       |
+| metadata  |             | [PackageMarkers](#PackageMarkers) |
+| objects   |             | [map[string]Object](#Object)      |
+| ranks     |             | map[string]int                    |
+| resources |             | [map[string]Resource](#Resource)  |
+
+<a id="PackageBuilder"></a>PackageBuilder
+-----------------------------------------
+
+PackageBuilder is a builder for Package instances.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+class PackageBuilder["PackageBuilder"] {
+    Config config.Config
+    Log logr.Logger
+}
+
+
+PackageBuilder -- Enum : Enums
+PackageBuilder -- PackageMarkers : Metadata
+PackageBuilder -- Object : Objects
+PackageBuilder -- Resource : Resources
+class Enum["Enum"] 
+class PackageMarkers["PackageMarkers"] 
+class Object["Object"] 
+class Resource["Resource"] 
+```
+
+| Property  | Description | Type                              |
+|-----------|-------------|-----------------------------------|
+| Config    |             | config.Config                     |
+| Enums     |             | [Enum[]](#Enum)                   |
+| Log       |             | logr.Logger                       |
+| Metadata  |             | [PackageMarkers](#PackageMarkers) |
+| Objects   |             | [Object[]](#Object)               |
+| Resources |             | [Resource[]](#Resource)           |
 
 <a id="PackageMarkers"></a>PackageMarkers
 -----------------------------------------
 
 PackageMarkers captures specific package markers read from the source code.
 
-Used by: [Package.metadata](#Package).
+Used by: [Package.metadata](#Package), and [PackageBuilder.Metadata](#PackageBuilder).
 
 ```mermaid
 ---
@@ -306,6 +353,8 @@ class PropertyReference["PropertyReference"] {
 <a id="Resource"></a>Resource
 -----------------------------
 
+Used by: [Package.resources](#Package), and [PackageBuilder.Resources](#PackageBuilder).
+
 ```mermaid
 ---
   config:
@@ -354,7 +403,7 @@ class Property["Property"]
 <a id="Property"></a>Property
 -----------------------------
 
-Used by: [Object.embeds](#Object), [Object.properties](#Object), [Resource.Spec](#Resource), and [Resource.Status](#Resource).
+Used by: [Object.properties](#Object), [Resource.Spec](#Resource), and [Resource.Status](#Resource).
 
 ```mermaid
 ---

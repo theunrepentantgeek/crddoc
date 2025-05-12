@@ -22,9 +22,13 @@ Used by: [Config.classDiagrams](#Config).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ClassDiagram["ClassDiagram"] {
-    enabled bool
-}
+
+class ClassDiagram["ClassDiagram"]{  
+      enabled bool
+
+
+} 
+
 
 
 ```
@@ -43,20 +47,24 @@ class ClassDiagram["ClassDiagram"] {
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Config["Config"] {
-    prettyPrint bool
-    templatePath string
-}
+
+class Config["Config"]{  
+      prettyPrint bool  
+      templatePath string
 
 
-Config -- ClassDiagram : classDiagrams
-Config -- Editor : editors
-Config -- ExternalLink : externalLinks
-Config -- Filter : typeFilters
-class ClassDiagram["ClassDiagram"] 
-class Editor["Editor"] 
-class ExternalLink["ExternalLink"] 
-class Filter["Filter"] 
+} 
+
+Config -- ClassDiagram : classDiagrams 
+Config -- Editor : editors 
+Config -- ExternalLink : externalLinks 
+Config -- Filter : typeFilters 
+
+class ClassDiagram["ClassDiagram"]
+class Editor["Editor"]
+class ExternalLink["ExternalLink"]
+class Filter["Filter"]
+
 ```
 
 | Property      | Description                                                                                                                                                  | Type                            |
@@ -82,11 +90,15 @@ Used by: [Config.editors](#Config).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Editor["Editor"] {
-    context string
-    replace string
-    search string
-}
+
+class Editor["Editor"]{  
+      context string  
+      replace string  
+      search string
+
+
+} 
+
 
 
 ```
@@ -109,10 +121,14 @@ Used by: [Config.externalLinks](#Config).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ExternalLink["ExternalLink"] {
-    importPath string
-    urlTemplate string
-}
+
+class ExternalLink["ExternalLink"]{  
+      importPath string  
+      urlTemplate string
+
+
+} 
+
 
 
 ```
@@ -134,11 +150,15 @@ Used by: [Config.typeFilters](#Config).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Filter["Filter"] {
-    because string
-    exclude string
-    include string
-}
+
+class Filter["Filter"]{  
+      because string  
+      exclude string  
+      include string
+
+
+} 
+
 
 
 ```
