@@ -1,6 +1,7 @@
 package model
 
 type PropertyContainer interface {
-	Properties() []*Property
+	Embeds() PropertyList
+	Properties() PropertyList
 	Package() *Package
 }
