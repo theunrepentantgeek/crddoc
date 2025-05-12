@@ -11,7 +11,7 @@ import (
 type Object struct {
 	TypeReference
 	properties  map[string]*Property
-	embeds      []*Property
+	embeds      PropertyList
 	description []string
 	pkg         *Package
 	usage       []PropertyReference // List of other properties that reference this object
@@ -94,7 +94,7 @@ func (o *Object) SetPackage(p *Package) {
 }
 
 // Properties returns all the properties of the object, in alphabetical order.
-func (o *Object) Properties() []*Property {
+func (o *Object) Properties() PropertyList {
 	result := slices.SortedFunc(
 		maps.Values(o.properties),
 		alphabeticalPropertyComparison)
@@ -111,7 +111,7 @@ func (o *Object) Property(name string) (*Property, bool) {
 }
 
 // Embeds returns all of the embeds of the object, in alphabetical order.
-func (o *Object) Embeds() []*Property {
+func (o *Object) Embeds() PropertyList {
 	result := slices.Clone(o.embeds)
 	slices.SortFunc(result, alphabeticalPropertyComparison)
 
@@ -151,8 +151,8 @@ func (o *Object) findProperties(structType *dst.StructType) map[string]*Property
 	return result
 }
 
-func (*Object) findEmbeddedStructs(structType *dst.StructType) []*Property {
-	var result []*Property
+func (*Object) findEmbeddedStructs(structType *dst.StructType) PropertyList {
+	var result PropertyList
 
 	// Iterate over the fields in the struct type and try to create a property for each one.
 	for _, field := range structType.Fields.List {

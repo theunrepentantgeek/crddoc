@@ -16,6 +16,8 @@ type Property struct {
 	markers     *PropertyMarkers
 }
 
+type PropertyList []*Property
+
 func TryNewProperty(
 	name string,
 	field *dst.Field,
