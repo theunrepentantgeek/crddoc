@@ -8,37 +8,44 @@
 ---
 classDiagram
 
-{{- $id := .ID -}}
+{{ $id := .ID -}}
 {{- $name := .Name -}}
 
-{{- with . | asPropertyContainer }}
+{{/* Create class declaration */}}
+{{- with . | asPropertyContainer -}}
 class {{ $id }}["{{ $name }}"]
-{{- if .Properties | internalOnly }} {
-{{- range .Properties | internalOnly }}
-    {{ .Name }} {{ .Type.Display }} 
-{{- end }}
-}
-{{ end }}
+{{- if .Properties | excludeInternal -}} {
+  {{- range .Properties -}}
+    {{- if not (.Type | isInternalType) }}  
+      {{ .Name }} {{ .Type.Display }}
+    {{- end -}}
+  {{- end }}
+{{ "\n" -}} {{/* Have to have a blank line here to avoid parsing errors when there are no properties */}}
+} {{ "\n" -}}
+{{- end -}}
+{{- end -}}
+{{ "\n" -}}
 
-{{ range .Embeds -}}
-{{- with $relatedType := .Type.ID | lookupDeclaration -}}
-{{ $id }} *-- {{ $relatedType.ID }}
-class {{ $relatedType.ID }}["{{ $relatedType.Name }}"]
-{{ end -}}
+{{/* Add links to other types declared in this package */}}
+{{- range .Properties -}}
+  {{- if .Type | isInternalType -}}
+    {{- $propertyName := .Name -}}
+    {{- with $relatedType := .Type.ID | lookupDeclaration -}}
+      {{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }} {{ "\n" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{ "\n" -}}
+
+{{/* Add class nodes for other types declared in this package */}}
+{{- range .Properties -}}
+  {{- if .Type | isInternalType -}}
+    {{- with $relatedType := .Type.ID | lookupDeclaration -}}
+class {{ $relatedType.ID }}["{{ $relatedType.Display }}"]
+    {{- "\n" -}} 
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
-{{- range .Properties | externalOnly -}}
-{{- $propertyName := .Name -}}
-{{- with $relatedType := .Type.ID | lookupDeclaration -}}
-{{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }}
-{{ end -}}
-{{- end -}}
-
-{{- range .Properties | externalOnly -}}
-{{- with $relatedType := .Type.ID | lookupDeclaration -}}
-class {{ $relatedType.ID }}["{{ $relatedType.Display }}"] 
-{{ end -}}
-{{- end -}}
-{{- end -}}
-{{ "```" }}
+{{- "\n```" }}
 {{ end }}
