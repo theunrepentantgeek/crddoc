@@ -82,13 +82,14 @@ tasks:
       - docs.config
       - docs.aso
       - docs.capz
+      - docs.model
 
   docs.config:
     desc: Build documentation of config options
     deps:
       - build
     cmds:
-      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}"
+      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}} --class-diagrams"
     vars:
       DST_DIR: '{{joinPath .ROOT_DIR "docs" "config"}}'
       PACKAGE: '{{joinPath .ROOT_DIR "internal" "config" | shellQuote}}'
@@ -103,7 +104,7 @@ tasks:
       # Skip if the package isn't available
       - test ! -d {{.PACKAGE}}
     cmds:
-      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}"
+      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}} --class-diagrams"
     vars:
       DST_DIR: '{{joinPath .SAMPLES_DIR "azure-service-operator"}}'
       PACKAGE: '{{joinPath .ROOT_DIR "../azure-service-operator/v2/api/containerservice/v1api20210501" | shellQuote}}'
@@ -118,13 +119,28 @@ tasks:
       # Skip if the package isn't available
       - test ! -d {{.PACKAGE}}
     cmds:
-      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}}"
+      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}} --class-diagrams"
     vars:
       CRD: "containerservice"
       DST_DIR: '{{joinPath .SAMPLES_DIR "cluster-api-provider-azure"}}'
       PACKAGE: '{{joinPath .ROOT_DIR "../cluster-api-provider-azure/api/v1beta1" | shellQuote}}'
       OUTPUT: '{{joinPath .DST_DIR "capz.md" | shellQuote}}'
       CONFIG: '{{joinPath .DST_DIR "capz.yaml" | shellQuote}}'
+
+  docs.model:
+    desc: Build example showing documentation for CRD model
+    deps:
+      - build
+    status:
+      # Skip if the package isn't available
+      - test ! -d {{.PACKAGE}}
+    cmds:
+      - ./crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}} --class-diagrams
+    vars:
+      DST_DIR: '{{joinPath .ROOT_DIR "docs" "model" | shellQuote}}'
+      PACKAGE: '{{joinPath .ROOT_DIR "internal" "model" | shellQuote}}'
+      OUTPUT: '{{joinPath .DST_DIR "model.md" | shellQuote}}'
+      CONFIG: '{{joinPath .DST_DIR "crddoc-model.yaml" | shellQuote}}'
 
   tidy:
     desc: "Tidy up source"

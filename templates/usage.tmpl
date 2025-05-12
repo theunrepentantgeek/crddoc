@@ -3,7 +3,7 @@
 {{ if .Usage -}}
 Used by: {{ range .Usage | asPropertyReferenceList -}}
 {{- if not .First}}{{ if .Last }}, and {{ else }}, {{ end }}{{ end -}}
-[{{ .Item.HostName }}](#{{ .Item.HostID }})
+[{{ .Item.HostName }}.{{ .Item.Property }}](#{{ .Item.HostID }})
 {{- end -}}.
 {{- end -}}
 

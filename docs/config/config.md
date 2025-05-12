@@ -8,11 +8,68 @@ config
 | Module               | github.com/theunrepentantgeek/crddoc/internal/config |
 | Property Optionality |                                                      |
 
+<a id="ClassDiagram"></a>ClassDiagram
+-------------------------------------
+
+ClassDiagram captures all the configuration available for class diagrams.
+
+Used by: [Config.classDiagrams](#Config).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+
+class ClassDiagram["ClassDiagram"]{  
+      enabled bool
+
+
+} 
+
+
+
+```
+
+| Property | Description                                                                                                        | Type |
+|----------|--------------------------------------------------------------------------------------------------------------------|------|
+| enabled  | Enabled turns class diagram generation on. Defaults to true if any class diagram options are set, false otherwise. | bool |
+
 <a id="Config"></a>Config
 -------------------------
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+
+class Config["Config"]{  
+      prettyPrint bool  
+      templatePath string
+
+
+} 
+
+Config -- ClassDiagram : classDiagrams 
+Config -- Editor : editors 
+Config -- ExternalLink : externalLinks 
+Config -- Filter : typeFilters 
+
+class ClassDiagram["ClassDiagram"]
+class Editor["Editor"]
+class ExternalLink["ExternalLink"]
+class Filter["Filter"]
+
+```
+
 | Property      | Description                                                                                                                                                  | Type                            |
 |---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
+| classDiagrams | ClassDiagrams allow you to add class diagrams to the documentation.                                                                                          | [ClassDiagram](#ClassDiagram)   |
 | editors       | Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.                                         | [Editor[]](#Editor)             |
 | externalLinks | ExternalLinks allow you to add links to external documentation.                                                                                              | [ExternalLink[]](#ExternalLink) |
 | prettyPrint   | PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.                                                                 | bool                            |
@@ -24,7 +81,27 @@ config
 
 Editor represents a point modification to make to exported documentation.
 
-Used by: [Config](#Config).
+Used by: [Config.editors](#Config).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+
+class Editor["Editor"]{  
+      context string  
+      replace string  
+      search string
+
+
+} 
+
+
+
+```
 
 | Property | Description                                                                                                                                                     | Type   |
 |----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -35,7 +112,26 @@ Used by: [Config](#Config).
 <a id="ExternalLink"></a>ExternalLink
 -------------------------------------
 
-Used by: [Config](#Config).
+Used by: [Config.externalLinks](#Config).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+
+class ExternalLink["ExternalLink"]{  
+      importPath string  
+      urlTemplate string
+
+
+} 
+
+
+
+```
 
 | Property    | Description                                                            | Type   |
 |-------------|------------------------------------------------------------------------|--------|
@@ -45,7 +141,27 @@ Used by: [Config](#Config).
 <a id="Filter"></a>Filter
 -------------------------
 
-Used by: [Config](#Config).
+Used by: [Config.typeFilters](#Config).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+
+class Filter["Filter"]{  
+      because string  
+      exclude string  
+      include string
+
+
+} 
+
+
+
+```
 
 | Property | Description                                                                     | Type   |
 |----------|---------------------------------------------------------------------------------|--------|
