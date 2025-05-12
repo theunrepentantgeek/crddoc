@@ -6,9 +6,7 @@ type Declaration interface {
 	ID() string
 	Kind() DeclarationType
 	Usage() []PropertyReference
-	SetUsage(refs []PropertyReference)
 	Package() *Package
-	SetPackage(pkg *Package)
 	Description() []string
 }
 

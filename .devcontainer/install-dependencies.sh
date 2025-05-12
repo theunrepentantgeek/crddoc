@@ -171,7 +171,7 @@ if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.64.7 2>&1
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.1.2 2>&1
 fi
 
 # Install Task
@@ -186,6 +186,13 @@ if should-install "$TOOL_DEST/oh-my-posh"; then
     write-info "Installing oh-my-posh"
     curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$TOOL_DEST"   
     cp oh-my-posh.json "$TOOL_DEST/"
+fi
+
+# Install sbom-tool
+if should-install "$TOOL_DEST/sbom-tool"; then
+    write-info "Installing sbom-tool"
+    curl -Lo "$TOOL_DEST/sbom-tool" https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-linux-x64
+    chmod +x "$TOOL_DEST/sbom-tool"
 fi
 
 if [ "$VERBOSE" == true ]; then 

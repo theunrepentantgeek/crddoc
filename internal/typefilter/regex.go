@@ -8,7 +8,7 @@ import (
 func createGlobber(glob string) *regexp.Regexp {
 	// Convert from wildcards into case insensitive regex
 	regex := "(?i)" + regexp.QuoteMeta(glob)
-	regex = strings.Replace(regex, "\\*", ".*", -1)
+	regex = strings.ReplaceAll(regex, "\\*", ".*")
 
 	return regexp.MustCompile(regex)
 }
