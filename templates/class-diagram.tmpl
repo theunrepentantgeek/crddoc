@@ -27,12 +27,28 @@ class {{ $id }}["{{ $name }}"]
 {{ "\n" -}}
 
 {{/* Add links to other types declared in this package */}}
+{{/* First collect related types so we can count them */}}
+{{- $relatedTypes := list -}}
+{{- range .Properties -}}
+  {{- if .Type | isInternalType -}}
+    {{- $relatedTypes = append $relatedTypes .Name -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Add links with adjusted direction based on count */}}
+{{- $counter := 0 -}}
+{{- $halfCount := div (len $relatedTypes) 2 -}}
 {{- range .Properties -}}
   {{- if .Type | isInternalType -}}
     {{- $propertyName := .Name -}}
     {{- with $relatedType := .Type.ID | lookupDeclaration -}}
-      {{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }} {{ "\n" -}}
+      {{- if and (gt (len $relatedTypes) 6) (lt $counter $halfCount) -}}
+        {{ $relatedType.ID }} -- {{ $id }} : {{ $propertyName }} {{ "\n" -}}
+      {{- else -}}
+        {{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }} {{ "\n" -}}
+      {{- end -}}
     {{- end -}}
+    {{- $counter = add $counter 1 -}}
   {{- end -}}
 {{- end -}}
 {{ "\n" -}}
