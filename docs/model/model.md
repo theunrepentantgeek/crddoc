@@ -29,21 +29,24 @@ Used by: [Package.enums](#Package), and [PackageBuilder.Enums](#PackageBuilder).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Enum["Enum"] {
-    description string[]
-}
+
+class Enum["Enum"]{  
+      description string[]
 
 
-Enum *-- TypeReference
+} 
+
+
+Enum -- TypeReference : base 
+Enum -- Package : pkg 
+Enum -- PropertyReference : usage 
+Enum -- EnumValue : values 
+
 class TypeReference["TypeReference"]
-Enum -- TypeReference : base
-Enum -- Package : pkg
-Enum -- PropertyReference : usage
-Enum -- EnumValue : values
-class TypeReference["TypeReference"] 
-class Package["Package"] 
-class PropertyReference["PropertyReference"] 
-class EnumValue["EnumValue"] 
+class Package["Package"]
+class PropertyReference["PropertyReference"]
+class EnumValue["EnumValue"]
+
 ```
 
 | Property                        | Description | Type                                      |
@@ -67,12 +70,17 @@ Used by: [Enum.values](#Enum).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class EnumValue["EnumValue"] {
-    description string[]
-    kind string
-    name string
-    value dst.BasicLit
-}
+
+class EnumValue["EnumValue"]{  
+      description string[]  
+      kind string  
+      name string  
+      value dst.BasicLit
+
+
+} 
+
+
 
 
 ```
@@ -94,10 +102,15 @@ class EnumValue["EnumValue"] {
       hideEmptyMembersBox: true
 ---
 classDiagram
-class ImportReference["ImportReference"] {
-    Alias string
-    ImportPath string
-}
+
+class ImportReference["ImportReference"]{  
+      Alias string  
+      ImportPath string
+
+
+} 
+
+
 
 
 ```
@@ -119,14 +132,19 @@ Used by: [Markers.children](#Markers).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Markers["Markers"] {
-    name string
-    value string
-}
+
+class Markers["Markers"]{  
+      name string  
+      value string
 
 
-Markers -- Markers : children
-class Markers["Markers"] 
+} 
+
+
+Markers -- Markers : children 
+
+class Markers["Markers"]
+
 ```
 
 | Property | Description | Type                           |
@@ -149,10 +167,15 @@ Used by: [PackageMarkers.group](#PackageMarkers), and [PackageMarkers.version](#
       hideEmptyMembersBox: true
 ---
 classDiagram
-class MarkerValue["MarkerValue"] {
-    path string[]
-    value string
-}
+
+class MarkerValue["MarkerValue"]{  
+      path string[]  
+      value string
+
+
+} 
+
+
 
 
 ```
@@ -174,20 +197,23 @@ Used by: [Package.objects](#Package), and [PackageBuilder.Objects](#PackageBuild
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Object["Object"] {
-    description string[]
-    embeds PropertyList
-}
+
+class Object["Object"]{  
+      description string[]  
+      embeds PropertyList
 
 
-Object *-- TypeReference
-class TypeReference["TypeReference"]
-Object -- Package : pkg
-Object -- Property : properties
-Object -- PropertyReference : usage
-class Package["Package"] 
-class Property["Property"] 
-class PropertyReference["PropertyReference"] 
+} 
+
+
+Object -- Package : pkg 
+Object -- Property : properties 
+Object -- PropertyReference : usage 
+
+class Package["Package"]
+class Property["Property"]
+class PropertyReference["PropertyReference"]
+
 ```
 
 | Property                        | Description | Type                                      |
@@ -216,21 +242,26 @@ Used by: [Enum.pkg](#Enum), and [Object.pkg](#Object).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Package["Package"] {
-    cfg config.Config
-    log logr.Logger
-    ranks map[string]int
-}
+
+class Package["Package"]{  
+      cfg config.Config  
+      log logr.Logger  
+      ranks map[string]int
 
 
-Package -- Enum : enums
-Package -- PackageMarkers : metadata
-Package -- Object : objects
-Package -- Resource : resources
-class Enum["Enum"] 
-class PackageMarkers["PackageMarkers"] 
-class Object["Object"] 
-class Resource["Resource"] 
+} 
+
+
+Package -- Enum : enums 
+Package -- PackageMarkers : metadata 
+Package -- Object : objects 
+Package -- Resource : resources 
+
+class Enum["Enum"]
+class PackageMarkers["PackageMarkers"]
+class Object["Object"]
+class Resource["Resource"]
+
 ```
 
 | Property  | Description | Type                              |
@@ -255,20 +286,25 @@ PackageBuilder is a builder for Package instances.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PackageBuilder["PackageBuilder"] {
-    Config config.Config
-    Log logr.Logger
-}
+
+class PackageBuilder["PackageBuilder"]{  
+      Config config.Config  
+      Log logr.Logger
 
 
-PackageBuilder -- Enum : Enums
-PackageBuilder -- PackageMarkers : Metadata
-PackageBuilder -- Object : Objects
-PackageBuilder -- Resource : Resources
-class Enum["Enum"] 
-class PackageMarkers["PackageMarkers"] 
-class Object["Object"] 
-class Resource["Resource"] 
+} 
+
+
+PackageBuilder -- Enum : Enums 
+PackageBuilder -- PackageMarkers : Metadata 
+PackageBuilder -- Object : Objects 
+PackageBuilder -- Resource : Resources 
+
+class Enum["Enum"]
+class PackageMarkers["PackageMarkers"]
+class Object["Object"]
+class Resource["Resource"]
+
 ```
 
 | Property  | Description | Type                              |
@@ -294,22 +330,27 @@ Used by: [Package.metadata](#Package), and [PackageBuilder.Metadata](#PackageBui
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PackageMarkers["PackageMarkers"] {
-    DefaultGroup string
-    DefaultVersion string
-    Module string
-    Name string
-}
+
+class PackageMarkers["PackageMarkers"]{  
+      DefaultGroup string  
+      DefaultVersion string  
+      Module string  
+      Name string
 
 
-PackageMarkers -- MarkerValue : group
-PackageMarkers -- MarkerSwitch : optional
-PackageMarkers -- MarkerSwitch : required
-PackageMarkers -- MarkerValue : version
-class MarkerValue["MarkerValue"] 
-class MarkerSwitch["MarkerSwitch"] 
-class MarkerSwitch["MarkerSwitch"] 
-class MarkerValue["MarkerValue"] 
+} 
+
+
+PackageMarkers -- MarkerValue : group 
+PackageMarkers -- MarkerSwitch : optional 
+PackageMarkers -- MarkerSwitch : required 
+PackageMarkers -- MarkerValue : version 
+
+class MarkerValue["MarkerValue"]
+class MarkerSwitch["MarkerSwitch"]
+class MarkerSwitch["MarkerSwitch"]
+class MarkerValue["MarkerValue"]
+
 ```
 
 | Property       | Description | Type                          |
@@ -335,11 +376,16 @@ Used by: [Enum.usage](#Enum), and [Object.usage](#Object).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class PropertyReference["PropertyReference"] {
-    HostID string
-    HostName string
-    Property string
-}
+
+class PropertyReference["PropertyReference"]{  
+      HostID string  
+      HostName string  
+      Property string
+
+
+} 
+
+
 
 
 ```
@@ -362,14 +408,15 @@ Used by: [Package.resources](#Package), and [PackageBuilder.Resources](#PackageB
       hideEmptyMembersBox: true
 ---
 classDiagram
+
 class Resource["Resource"]
 
-Resource *-- Object
-class Object["Object"]
-Resource -- Property : Spec
-Resource -- Property : Status
-class Property["Property"] 
-class Property["Property"] 
+Resource -- Property : Spec 
+Resource -- Property : Status 
+
+class Property["Property"]
+class Property["Property"]
+
 ```
 
 | Property          | Description | Type                  |
@@ -412,18 +459,23 @@ Used by: [Object.properties](#Object), [Resource.Spec](#Resource), and [Resource
       hideEmptyMembersBox: true
 ---
 classDiagram
-class Property["Property"] {
-    DeclaredOn PropertyContainer
-    description string[]
-    Field string
-    Name string
-}
+
+class Property["Property"]{  
+      DeclaredOn PropertyContainer  
+      description string[]  
+      Field string  
+      Name string
 
 
-Property -- PropertyMarkers : markers
-Property -- TypeReference : Type
-class PropertyMarkers["PropertyMarkers"] 
-class TypeReference["TypeReference"] 
+} 
+
+
+Property -- PropertyMarkers : markers 
+Property -- TypeReference : Type 
+
+class PropertyMarkers["PropertyMarkers"]
+class TypeReference["TypeReference"]
+
 ```
 
 | Property    | Description | Type                                |
@@ -447,12 +499,15 @@ Used by: [Property.markers](#Property).
       hideEmptyMembersBox: true
 ---
 classDiagram
+
 class PropertyMarkers["PropertyMarkers"]
 
-PropertyMarkers -- MarkerSwitch : optional
-PropertyMarkers -- MarkerSwitch : required
-class MarkerSwitch["MarkerSwitch"] 
-class MarkerSwitch["MarkerSwitch"] 
+PropertyMarkers -- MarkerSwitch : optional 
+PropertyMarkers -- MarkerSwitch : required 
+
+class MarkerSwitch["MarkerSwitch"]
+class MarkerSwitch["MarkerSwitch"]
+
 ```
 
 | Property | Description | Type                          |
@@ -472,13 +527,18 @@ Used by: [Enum.base](#Enum), and [Property.Type](#Property).
       hideEmptyMembersBox: true
 ---
 classDiagram
-class TypeReference["TypeReference"] {
-    display string
-    id string
-    impPath string
-    name string
-    pkg string
-}
+
+class TypeReference["TypeReference"]{  
+      display string  
+      id string  
+      impPath string  
+      name string  
+      pkg string
+
+
+} 
+
+
 
 
 ```
@@ -505,10 +565,15 @@ Used by: [PackageMarkers.optional](#PackageMarkers), [PackageMarkers.required](#
       hideEmptyMembersBox: true
 ---
 classDiagram
-class MarkerSwitch["MarkerSwitch"] {
-    path string[]
-    seen bool
-}
+
+class MarkerSwitch["MarkerSwitch"]{  
+      path string[]  
+      seen bool
+
+
+} 
+
+
 
 
 ```
