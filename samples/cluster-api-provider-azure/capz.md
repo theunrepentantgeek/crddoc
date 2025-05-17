@@ -32,6 +32,7 @@ class AADProfile["AADProfile"]{
 
 
 
+
 ```
 
 | Property            | Description                                                                          | Type                                 |
@@ -64,6 +65,7 @@ class AddonProfile["AddonProfile"]{
 
 
 
+
 ```
 
 | Property | Description                                          | Type              |
@@ -91,6 +93,7 @@ class AddressRecord["AddressRecord"]{
 
 
 } 
+
 
 
 
@@ -134,6 +137,7 @@ class AKSExtension["AKSExtension"]{
 
 } 
 
+
 AKSExtension -- AKSAssignedIdentity : aksAssignedIdentityType 
 AKSExtension -- ExtensionIdentity : identity 
 AKSExtension -- ExtensionPlan : plan 
@@ -175,6 +179,7 @@ Used by: [AzureManagedControlPlaneClassSpec.sku](#AzureManagedControlPlaneClassS
 classDiagram
 
 class AKSSku["AKSSku"]
+
 AKSSku -- AzureManagedControlPlaneSkuTier : tier 
 
 class AzureManagedControlPlaneSkuTier["AzureManagedControlPlaneSkuTier"]
@@ -208,6 +213,7 @@ class APIServerAccessProfile["APIServerAccessProfile"]{
 
 
 
+
 ```
 
 | Property                                                            | Description                                                         | Type     |
@@ -235,6 +241,7 @@ class APIServerAccessProfileClassSpec["APIServerAccessProfileClassSpec"]{
 
 
 } 
+
 
 
 
@@ -278,6 +285,7 @@ class AutoScalerProfile["AutoScalerProfile"]{
 
 
 } 
+
 
 AutoScalerProfile -- BalanceSimilarNodeGroups : balanceSimilarNodeGroups 
 AutoScalerProfile -- Expander : expander 
@@ -327,6 +335,7 @@ Used by: [BastionTemplateSpec.azureBastion](#BastionTemplateSpec).
 classDiagram
 
 class AzureBastionTemplateSpec["AzureBastionTemplateSpec"]
+
 AzureBastionTemplateSpec -- SubnetTemplateSpec : subnet 
 
 class SubnetTemplateSpec["SubnetTemplateSpec"]
@@ -353,6 +362,7 @@ Used by: [AzureClusterList.items](#AzureClusterList).
 classDiagram
 
 class AzureCluster["AzureCluster"]
+
 AzureCluster -- AzureClusterSpec : spec 
 AzureCluster -- AzureClusterStatus : status 
 
@@ -411,6 +421,7 @@ class AzureClusterClassSpec["AzureClusterClassSpec"]{
 
 } 
 
+
 AzureClusterClassSpec -- CloudProviderConfigOverrides : cloudProviderConfigOverrides 
 AzureClusterClassSpec -- ExtendedLocationSpec : extendedLocation 
 
@@ -446,6 +457,7 @@ Used by: [AzureClusterIdentityList.items](#AzureClusterIdentityList).
 classDiagram
 
 class AzureClusterIdentity["AzureClusterIdentity"]
+
 AzureClusterIdentity -- AzureClusterIdentitySpec : spec 
 AzureClusterIdentity -- AzureClusterIdentityStatus : status 
 
@@ -492,6 +504,7 @@ class AzureClusterIdentityStatus["AzureClusterIdentityStatus"]
 classDiagram
 
 class AzureClusterIdentityList["AzureClusterIdentityList"]
+
 AzureClusterIdentityList -- AzureClusterIdentity : items 
 
 class AzureClusterIdentity["AzureClusterIdentity"]
@@ -518,6 +531,7 @@ class AzureClusterIdentity["AzureClusterIdentity"]
 classDiagram
 
 class AzureClusterList["AzureClusterList"]
+
 AzureClusterList -- AzureCluster : items 
 
 class AzureCluster["AzureCluster"]
@@ -546,6 +560,7 @@ Used by: [AzureClusterTemplateList.items](#AzureClusterTemplateList).
 classDiagram
 
 class AzureClusterTemplate["AzureClusterTemplate"]
+
 AzureClusterTemplate -- AzureClusterTemplateSpec : spec 
 
 class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
@@ -572,6 +587,7 @@ class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
 classDiagram
 
 class AzureClusterTemplateList["AzureClusterTemplateList"]
+
 AzureClusterTemplateList -- AzureClusterTemplate : items 
 
 class AzureClusterTemplate["AzureClusterTemplate"]
@@ -600,6 +616,7 @@ Used by: [AzureClusterTemplateSpec.template](#AzureClusterTemplateSpec).
 classDiagram
 
 class AzureClusterTemplateResource["AzureClusterTemplateResource"]
+
 AzureClusterTemplateResource -- AzureClusterTemplateResourceSpec : spec 
 
 class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"]
@@ -626,6 +643,7 @@ Used by: [AzureClusterTemplateResource.spec](#AzureClusterTemplateResource).
 classDiagram
 
 class AzureClusterTemplateResourceSpec["AzureClusterTemplateResourceSpec"]
+
 AzureClusterTemplateResourceSpec -- BastionTemplateSpec : bastionSpec 
 AzureClusterTemplateResourceSpec -- NetworkTemplateSpec : networkSpec 
 
@@ -656,6 +674,7 @@ Used by: [AzureClusterTemplate.spec](#AzureClusterTemplate).
 classDiagram
 
 class AzureClusterTemplateSpec["AzureClusterTemplateSpec"]
+
 AzureClusterTemplateSpec -- AzureClusterTemplateResource : template 
 
 class AzureClusterTemplateResource["AzureClusterTemplateResource"]
@@ -689,6 +708,7 @@ class AzureKeyVaultKms["AzureKeyVaultKms"]{
 
 } 
 
+
 AzureKeyVaultKms -- KeyVaultNetworkAccessTypes : keyVaultNetworkAccess 
 
 class KeyVaultNetworkAccessTypes["KeyVaultNetworkAccessTypes"]
@@ -718,6 +738,7 @@ Used by: [AzureMachineList.items](#AzureMachineList).
 classDiagram
 
 class AzureMachine["AzureMachine"]
+
 AzureMachine -- AzureMachineSpec : spec 
 AzureMachine -- AzureMachineStatus : status 
 
@@ -789,6 +810,7 @@ class AzureMachineStatus["AzureMachineStatus"]
 classDiagram
 
 class AzureMachineList["AzureMachineList"]
+
 AzureMachineList -- AzureMachine : items 
 
 class AzureMachine["AzureMachine"]
@@ -817,6 +839,7 @@ Used by: [AzureMachineTemplateList.items](#AzureMachineTemplateList).
 classDiagram
 
 class AzureMachineTemplate["AzureMachineTemplate"]
+
 AzureMachineTemplate -- AzureMachineTemplateSpec : spec 
 
 class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
@@ -843,6 +866,7 @@ class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
 classDiagram
 
 class AzureMachineTemplateList["AzureMachineTemplateList"]
+
 AzureMachineTemplateList -- AzureMachineTemplate : items 
 
 class AzureMachineTemplate["AzureMachineTemplate"]
@@ -876,6 +900,7 @@ class AzureMachineTemplateResource["AzureMachineTemplateResource"]{
 
 } 
 
+
 AzureMachineTemplateResource -- AzureMachineSpec : spec 
 
 class AzureMachineSpec["AzureMachineSpec"]
@@ -903,6 +928,7 @@ Used by: [AzureMachineTemplate.spec](#AzureMachineTemplate).
 classDiagram
 
 class AzureMachineTemplateSpec["AzureMachineTemplateSpec"]
+
 AzureMachineTemplateSpec -- AzureMachineTemplateResource : template 
 
 class AzureMachineTemplateResource["AzureMachineTemplateResource"]
@@ -934,6 +960,7 @@ class azureMachineWebhook["azureMachineWebhook"]{
 
 
 
+
 ```
 
 | Property | Description | Type                                                                                 |
@@ -956,6 +983,7 @@ Used by: [AzureManagedClusterList.items](#AzureManagedClusterList).
 classDiagram
 
 class AzureManagedCluster["AzureManagedCluster"]
+
 AzureManagedCluster -- AzureManagedClusterSpec : spec 
 AzureManagedCluster -- AzureManagedClusterStatus : status 
 
@@ -997,6 +1025,7 @@ class AzureManagedClusterStatus["AzureManagedClusterStatus"]
 classDiagram
 
 class AzureManagedClusterList["AzureManagedClusterList"]
+
 AzureManagedClusterList -- AzureManagedCluster : items 
 
 class AzureManagedCluster["AzureManagedCluster"]
@@ -1025,6 +1054,7 @@ Used by: [AzureManagedClusterTemplateList.items](#AzureManagedClusterTemplateLis
 classDiagram
 
 class AzureManagedClusterTemplate["AzureManagedClusterTemplate"]
+
 AzureManagedClusterTemplate -- AzureManagedClusterTemplateSpec : spec 
 
 class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
@@ -1051,6 +1081,7 @@ class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
 classDiagram
 
 class AzureManagedClusterTemplateList["AzureManagedClusterTemplateList"]
+
 AzureManagedClusterTemplateList -- AzureManagedClusterTemplate : items 
 
 class AzureManagedClusterTemplate["AzureManagedClusterTemplate"]
@@ -1086,6 +1117,7 @@ class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"]
 
 
 
+
 ```
 
 | Property | Description | Type                                    |
@@ -1108,6 +1140,7 @@ Used by: [AzureManagedClusterTemplate.spec](#AzureManagedClusterTemplate).
 classDiagram
 
 class AzureManagedClusterTemplateSpec["AzureManagedClusterTemplateSpec"]
+
 AzureManagedClusterTemplateSpec -- AzureManagedClusterTemplateResource : template 
 
 class AzureManagedClusterTemplateResource["AzureManagedClusterTemplateResource"]
@@ -1134,6 +1167,7 @@ Used by: [AzureManagedControlPlaneList.items](#AzureManagedControlPlaneList).
 classDiagram
 
 class AzureManagedControlPlane["AzureManagedControlPlane"]
+
 AzureManagedControlPlane -- AzureManagedControlPlaneSpec : spec 
 AzureManagedControlPlane -- AzureManagedControlPlaneStatus : status 
 
@@ -1206,14 +1240,15 @@ class AzureManagedControlPlaneClassSpec["AzureManagedControlPlaneClassSpec"]{
 
 } 
 
-AzureManagedControlPlaneClassSpec -- AADProfile : aadProfile 
-AzureManagedControlPlaneClassSpec -- AddonProfile : addonProfiles 
-AzureManagedControlPlaneClassSpec -- APIServerAccessProfile : apiServerAccessProfile 
-AzureManagedControlPlaneClassSpec -- AutoScalerProfile : autoscalerProfile 
-AzureManagedControlPlaneClassSpec -- ManagedClusterAutoUpgradeProfile : autoUpgradeProfile 
-AzureManagedControlPlaneClassSpec -- AKSExtension : extensions 
-AzureManagedControlPlaneClassSpec -- FleetsMemberClassSpec : fleetsMember 
-AzureManagedControlPlaneClassSpec -- HTTPProxyConfig : httpProxyConfig 
+
+AADProfile -- AzureManagedControlPlaneClassSpec : aadProfile 
+AddonProfile -- AzureManagedControlPlaneClassSpec : addonProfiles 
+APIServerAccessProfile -- AzureManagedControlPlaneClassSpec : apiServerAccessProfile 
+AutoScalerProfile -- AzureManagedControlPlaneClassSpec : autoscalerProfile 
+ManagedClusterAutoUpgradeProfile -- AzureManagedControlPlaneClassSpec : autoUpgradeProfile 
+AKSExtension -- AzureManagedControlPlaneClassSpec : extensions 
+FleetsMemberClassSpec -- AzureManagedControlPlaneClassSpec : fleetsMember 
+HTTPProxyConfig -- AzureManagedControlPlaneClassSpec : httpProxyConfig 
 AzureManagedControlPlaneClassSpec -- Identity : identity 
 AzureManagedControlPlaneClassSpec -- LoadBalancerProfile : loadBalancerProfile 
 AzureManagedControlPlaneClassSpec -- NetworkDataplaneType : networkDataplane 
@@ -1294,6 +1329,7 @@ class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"]
 classDiagram
 
 class AzureManagedControlPlaneList["AzureManagedControlPlaneList"]
+
 AzureManagedControlPlaneList -- AzureManagedControlPlane : items 
 
 class AzureManagedControlPlane["AzureManagedControlPlane"]
@@ -1329,6 +1365,7 @@ Used by: [AzureManagedControlPlaneTemplateList.items](#AzureManagedControlPlaneT
 classDiagram
 
 class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"]
+
 AzureManagedControlPlaneTemplate -- AzureManagedControlPlaneTemplateSpec : spec 
 
 class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"]
@@ -1355,6 +1392,7 @@ class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec
 classDiagram
 
 class AzureManagedControlPlaneTemplateList["AzureManagedControlPlaneTemplateList"]
+
 AzureManagedControlPlaneTemplateList -- AzureManagedControlPlaneTemplate : items 
 
 class AzureManagedControlPlaneTemplate["AzureManagedControlPlaneTemplate"]
@@ -1383,6 +1421,7 @@ Used by: [AzureManagedControlPlaneTemplateSpec.template](#AzureManagedControlPla
 classDiagram
 
 class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"]
+
 AzureManagedControlPlaneTemplateResource -- AzureManagedControlPlaneTemplateResourceSpec : spec 
 
 class AzureManagedControlPlaneTemplateResourceSpec["AzureManagedControlPlaneTemplateResourceSpec"]
@@ -1411,6 +1450,7 @@ classDiagram
 class AzureManagedControlPlaneTemplateResourceSpec["AzureManagedControlPlaneTemplateResourceSpec"]
 
 
+
 ```
 
 <a id="AzureManagedControlPlaneTemplateSpec"></a>AzureManagedControlPlaneTemplateSpec
@@ -1429,6 +1469,7 @@ Used by: [AzureManagedControlPlaneTemplate.spec](#AzureManagedControlPlaneTempla
 classDiagram
 
 class AzureManagedControlPlaneTemplateSpec["AzureManagedControlPlaneTemplateSpec"]
+
 AzureManagedControlPlaneTemplateSpec -- AzureManagedControlPlaneTemplateResource : template 
 
 class AzureManagedControlPlaneTemplateResource["AzureManagedControlPlaneTemplateResource"]
@@ -1460,6 +1501,7 @@ class azureManagedControlPlaneTemplateWebhook["azureManagedControlPlaneTemplateW
 
 
 
+
 ```
 
 | Property | Description | Type                                                                                 |
@@ -1487,6 +1529,7 @@ class azureManagedControlPlaneWebhook["azureManagedControlPlaneWebhook"]{
 
 
 
+
 ```
 
 | Property | Description | Type                                                                                 |
@@ -1509,6 +1552,7 @@ Used by: [AzureManagedMachinePoolList.items](#AzureManagedMachinePoolList).
 classDiagram
 
 class AzureManagedMachinePool["AzureManagedMachinePool"]
+
 AzureManagedMachinePool -- AzureManagedMachinePoolSpec : spec 
 AzureManagedMachinePool -- AzureManagedMachinePoolStatus : status 
 
@@ -1581,6 +1625,7 @@ class AzureManagedMachinePoolClassSpec["AzureManagedMachinePoolClassSpec"]{
 
 } 
 
+
 AzureManagedMachinePoolClassSpec -- KubeletConfig : kubeletConfig 
 AzureManagedMachinePoolClassSpec -- KubeletDiskType : kubeletDiskType 
 AzureManagedMachinePoolClassSpec -- LinuxOSConfig : linuxOSConfig 
@@ -1635,6 +1680,7 @@ class ManagedMachinePoolScaling["ManagedMachinePoolScaling"]
 classDiagram
 
 class AzureManagedMachinePoolList["AzureManagedMachinePoolList"]
+
 AzureManagedMachinePoolList -- AzureManagedMachinePool : items 
 
 class AzureManagedMachinePool["AzureManagedMachinePool"]
@@ -1663,6 +1709,7 @@ Used by: [AzureManagedMachinePoolTemplateList.items](#AzureManagedMachinePoolTem
 classDiagram
 
 class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"]
+
 AzureManagedMachinePoolTemplate -- AzureManagedMachinePoolTemplateSpec : spec 
 
 class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
@@ -1689,6 +1736,7 @@ class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
 classDiagram
 
 class AzureManagedMachinePoolTemplateList["AzureManagedMachinePoolTemplateList"]
+
 AzureManagedMachinePoolTemplateList -- AzureManagedMachinePoolTemplate : items 
 
 class AzureManagedMachinePoolTemplate["AzureManagedMachinePoolTemplate"]
@@ -1717,6 +1765,7 @@ Used by: [AzureManagedMachinePoolTemplateSpec.template](#AzureManagedMachinePool
 classDiagram
 
 class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"]
+
 AzureManagedMachinePoolTemplateResource -- AzureManagedMachinePoolTemplateResourceSpec : spec 
 
 class AzureManagedMachinePoolTemplateResourceSpec["AzureManagedMachinePoolTemplateResourceSpec"]
@@ -1745,6 +1794,7 @@ classDiagram
 class AzureManagedMachinePoolTemplateResourceSpec["AzureManagedMachinePoolTemplateResourceSpec"]
 
 
+
 ```
 
 <a id="AzureManagedMachinePoolTemplateSpec"></a>AzureManagedMachinePoolTemplateSpec
@@ -1763,6 +1813,7 @@ Used by: [AzureManagedMachinePoolTemplate.spec](#AzureManagedMachinePoolTemplate
 classDiagram
 
 class AzureManagedMachinePoolTemplateSpec["AzureManagedMachinePoolTemplateSpec"]
+
 AzureManagedMachinePoolTemplateSpec -- AzureManagedMachinePoolTemplateResource : template 
 
 class AzureManagedMachinePoolTemplateResource["AzureManagedMachinePoolTemplateResource"]
@@ -1794,6 +1845,7 @@ class azureManagedMachinePoolTemplateWebhook["azureManagedMachinePoolTemplateWeb
 
 
 
+
 ```
 
 | Property | Description | Type                                                                                 |
@@ -1818,6 +1870,7 @@ class azureManagedMachinePoolWebhook["azureManagedMachinePoolWebhook"]{
 
 
 } 
+
 
 
 
@@ -1854,6 +1907,7 @@ class BackOffConfig["BackOffConfig"]{
 
 
 
+
 ```
 
 | Property                     | Description | Type                                                                                  |
@@ -1887,6 +1941,7 @@ Used by: [AzureClusterTemplateResourceSpec.bastionSpec](#AzureClusterTemplateRes
 classDiagram
 
 class BastionTemplateSpec["BastionTemplateSpec"]
+
 BastionTemplateSpec -- AzureBastionTemplateSpec : azureBastion 
 
 class AzureBastionTemplateSpec["AzureBastionTemplateSpec"]
@@ -1920,6 +1975,7 @@ class BuildParams["BuildParams"]{
 
 } 
 
+
 BuildParams -- ResourceLifecycle : Lifecycle 
 
 class ResourceLifecycle["ResourceLifecycle"]
@@ -1951,6 +2007,7 @@ Used by: [AzureClusterClassSpec.cloudProviderConfigOverrides](#AzureClusterClass
 classDiagram
 
 class CloudProviderConfigOverrides["CloudProviderConfigOverrides"]
+
 CloudProviderConfigOverrides -- BackOffConfig : backOffs 
 CloudProviderConfigOverrides -- RateLimitSpec : rateLimits 
 
@@ -2002,6 +2059,7 @@ class ExtendedLocationSpec["ExtendedLocationSpec"]{
 
 
 
+
 ```
 
 | Property | Description                                      | Type   |
@@ -2043,6 +2101,7 @@ class ExtensionPlan["ExtensionPlan"]{
 
 
 
+
 ```
 
 | Property      | Description                                                                                                       | Type   |
@@ -2074,6 +2133,7 @@ class ExtensionScope["ExtensionScope"]{
 
 
 } 
+
 
 ExtensionScope -- ExtensionScopeType : scopeType 
 
@@ -2119,6 +2179,7 @@ class FleetsMemberClassSpec["FleetsMemberClassSpec"]{
 
 
 
+
 ```
 
 | Property             | Description                                                                    | Type   |
@@ -2145,6 +2206,7 @@ class FrontendIPClass["FrontendIPClass"]{
 
 
 } 
+
 
 
 
@@ -2176,6 +2238,7 @@ class Future["Future"]{
 
 
 } 
+
 
 
 
@@ -2215,6 +2278,7 @@ class HTTPProxyConfig["HTTPProxyConfig"]{
 
 
 
+
 ```
 
 | Property   | Description                                                                  | Type     |
@@ -2244,6 +2308,7 @@ class Identity["Identity"]{
 
 
 } 
+
 
 Identity -- ManagedControlPlaneIdentityType : type 
 
@@ -2291,6 +2356,7 @@ class KubeletConfig["KubeletConfig"]{
 
 
 } 
+
 
 KubeletConfig -- CPUManagerPolicy : cpuManagerPolicy 
 KubeletConfig -- TopologyManagerPolicy : topologyManagerPolicy 
@@ -2354,6 +2420,7 @@ class LinuxOSConfig["LinuxOSConfig"]{
 
 } 
 
+
 LinuxOSConfig -- SysctlConfig : sysctls 
 LinuxOSConfig -- TransparentHugePageOption : transparentHugePageDefrag 
 LinuxOSConfig -- TransparentHugePageOption : transparentHugePageEnabled 
@@ -2391,6 +2458,7 @@ class LoadBalancerClassSpec["LoadBalancerClassSpec"]{
 
 
 } 
+
 
 LoadBalancerClassSpec -- SKU : sku 
 LoadBalancerClassSpec -- LBType : type 
@@ -2433,6 +2501,7 @@ class LoadBalancerProfile["LoadBalancerProfile"]{
 
 
 
+
 ```
 
 | Property               | Description                                                                                                                                                                                                        | Type     |
@@ -2459,6 +2528,7 @@ Used by: [AzureManagedControlPlaneClassSpec.autoUpgradeProfile](#AzureManagedCon
 classDiagram
 
 class ManagedClusterAutoUpgradeProfile["ManagedClusterAutoUpgradeProfile"]
+
 ManagedClusterAutoUpgradeProfile -- UpgradeChannel : upgradeChannel 
 
 class UpgradeChannel["UpgradeChannel"]
@@ -2485,6 +2555,7 @@ Used by: [AzureManagedControlPlaneClassSpec.securityProfile](#AzureManagedContro
 classDiagram
 
 class ManagedClusterSecurityProfile["ManagedClusterSecurityProfile"]
+
 ManagedClusterSecurityProfile -- AzureKeyVaultKms : azureKeyVaultKms 
 ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileDefender : defender 
 ManagedClusterSecurityProfile -- ManagedClusterSecurityProfileImageCleaner : imageCleaner 
@@ -2525,6 +2596,7 @@ class ManagedClusterSecurityProfileDefender["ManagedClusterSecurityProfileDefend
 
 } 
 
+
 ManagedClusterSecurityProfileDefender -- ManagedClusterSecurityProfileDefenderSecurityMonitoring : securityMonitoring 
 
 class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSecurityProfileDefenderSecurityMonitoring"]
@@ -2559,6 +2631,7 @@ class ManagedClusterSecurityProfileDefenderSecurityMonitoring["ManagedClusterSec
 
 
 
+
 ```
 
 | Property | Description                               | Type                             |
@@ -2589,6 +2662,7 @@ class ManagedClusterSecurityProfileImageCleaner["ManagedClusterSecurityProfileIm
 
 
 
+
 ```
 
 | Property      | Description                                                                                | Type                             |
@@ -2616,6 +2690,7 @@ class ManagedClusterSecurityProfileWorkloadIdentity["ManagedClusterSecurityProfi
 
 
 } 
+
 
 
 
@@ -2665,6 +2740,7 @@ class ManagedControlPlaneSubnet["ManagedControlPlaneSubnet"]{
 
 
 
+
 ```
 
 | Property         | Description                                                                                 | Type             |
@@ -2698,6 +2774,7 @@ class ManagedControlPlaneVirtualNetwork["ManagedControlPlaneVirtualNetwork"]{
 
 
 
+
 ```
 
 | Property                                                                                  | Description                                                                    | Type   |
@@ -2724,6 +2801,7 @@ class ManagedControlPlaneVirtualNetworkClassSpec["ManagedControlPlaneVirtualNetw
 
 
 } 
+
 
 ManagedControlPlaneVirtualNetworkClassSpec -- ManagedControlPlaneSubnet : subnet 
 
@@ -2760,6 +2838,7 @@ class ManagedMachinePoolScaling["ManagedMachinePoolScaling"]{
 
 
 
+
 ```
 
 | Property | Description                                              | Type |
@@ -2786,6 +2865,7 @@ class mockClient["mockClient"]{
 
 
 
+
 ```
 
 | Property                                                                             | Description | Type |
@@ -2809,6 +2889,7 @@ class mockDefaultClient["mockDefaultClient"]{
 
 
 } 
+
 
 
 
@@ -2842,6 +2923,7 @@ class NatGatewayClassSpec["NatGatewayClassSpec"]{
 
 
 
+
 ```
 
 | Property | Description | Type   |
@@ -2866,6 +2948,7 @@ class NetworkClassSpec["NetworkClassSpec"]{
 
 
 } 
+
 
 
 
@@ -2909,6 +2992,7 @@ class NetworkTemplateSpec["NetworkTemplateSpec"]{
 
 
 } 
+
 
 NetworkTemplateSpec -- LoadBalancerClassSpec : apiServerLB 
 NetworkTemplateSpec -- LoadBalancerClassSpec : controlPlaneOutboundLB 
@@ -2959,6 +3043,7 @@ class OIDCIssuerProfile["OIDCIssuerProfile"]{
 
 
 
+
 ```
 
 | Property | Description                                    | Type |
@@ -2987,6 +3072,7 @@ class osDiskTestInput["osDiskTestInput"]{
 
 
 } 
+
 
 osDiskTestInput -- OSDisk : osDisk 
 
@@ -3023,6 +3109,7 @@ class PrivateEndpointSpec["PrivateEndpointSpec"]{
 
 
 } 
+
 
 PrivateEndpointSpec -- PrivateLinkServiceConnection : privateLinkServiceConnections 
 
@@ -3066,6 +3153,7 @@ class PrivateLinkServiceConnection["PrivateLinkServiceConnection"]{
 
 
 
+
 ```
 
 | Property             | Description                                                                                                                  | Type     |
@@ -3102,6 +3190,7 @@ class RateLimitConfig["RateLimitConfig"]{
 
 
 
+
 ```
 
 | Property                          | Description | Type                                                                                  |
@@ -3132,6 +3221,7 @@ class RateLimitSpec["RateLimitSpec"]{
 
 
 } 
+
 
 RateLimitSpec -- RateLimitConfig : config 
 
@@ -3177,6 +3267,7 @@ class SecurityGroupClass["SecurityGroupClass"]{
 
 
 } 
+
 
 
 
@@ -3226,6 +3317,7 @@ class SecurityRule["SecurityRule"]{
 
 
 } 
+
 
 SecurityRule -- SecurityRuleAccess : action 
 SecurityRule -- SecurityRuleDirection : direction 
@@ -3292,6 +3384,7 @@ class ServiceEndpointSpec["ServiceEndpointSpec"]{
 
 
 
+
 ```
 
 | Property  | Description | Type     |
@@ -3346,6 +3439,7 @@ class SubnetClassSpec["SubnetClassSpec"]{
 
 } 
 
+
 SubnetClassSpec -- SubnetRole : role 
 
 class SubnetRole["SubnetRole"]
@@ -3383,6 +3477,7 @@ Used by: [AzureBastionTemplateSpec.subnet](#AzureBastionTemplateSpec).
 classDiagram
 
 class SubnetTemplateSpec["SubnetTemplateSpec"]
+
 SubnetTemplateSpec -- NatGatewayClassSpec : natGateway 
 SubnetTemplateSpec -- SecurityGroupClass : securityGroup 
 
@@ -3447,6 +3542,7 @@ class SysctlConfig["SysctlConfig"]{
 
 
 
+
 ```
 
 | Property                       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                | Type   |
@@ -3499,6 +3595,7 @@ class Taint["Taint"]{
 
 
 } 
+
 
 Taint -- TaintEffect : effect 
 
@@ -3567,6 +3664,7 @@ class VnetClassSpec["VnetClassSpec"]{
 
 
 
+
 ```
 
 | Property   | Description                                                                                                         | Type     |
@@ -3593,6 +3691,7 @@ class VnetPeeringClassSpec["VnetPeeringClassSpec"]{
 
 
 } 
+
 
 VnetPeeringClassSpec -- VnetPeeringProperties : forwardPeeringProperties 
 VnetPeeringClassSpec -- VnetPeeringProperties : reversePeeringProperties 
@@ -3635,6 +3734,7 @@ class VnetPeeringProperties["VnetPeeringProperties"]{
 
 
 
+
 ```
 
 | Property                  | Description                                                                                                                                                                                                                                                                                                                                                                            | Type |
@@ -3660,6 +3760,7 @@ classDiagram
 class VnetPeeringSpec["VnetPeeringSpec"]
 
 
+
 ```
 
 <a id="VnetTemplateSpec"></a>VnetTemplateSpec
@@ -3682,6 +3783,7 @@ class VnetTemplateSpec["VnetTemplateSpec"]{
 
 
 } 
+
 
 
 
@@ -3715,6 +3817,7 @@ class AzureClusterIdentitySpec["AzureClusterIdentitySpec"]{
 
 
 } 
+
 
 AzureClusterIdentitySpec -- AllowedNamespaces : allowedNamespaces 
 AzureClusterIdentitySpec -- IdentityType : type 
@@ -3756,6 +3859,7 @@ class AzureClusterIdentityStatus["AzureClusterIdentityStatus"]{
 
 
 
+
 ```
 
 | Property   | Description                                                           | Type                                                                                       |
@@ -3783,6 +3887,7 @@ class AzureClusterSpec["AzureClusterSpec"]{
 
 
 } 
+
 
 AzureClusterSpec -- BastionSpec : bastionSpec 
 AzureClusterSpec -- NetworkSpec : networkSpec 
@@ -3823,6 +3928,7 @@ class AzureClusterStatus["AzureClusterStatus"]{
 
 
 } 
+
 
 
 
@@ -3868,12 +3974,13 @@ class AzureMachineSpec["AzureMachineSpec"]{
 
 } 
 
-AzureMachineSpec -- AdditionalCapabilities : additionalCapabilities 
-AzureMachineSpec -- DataDisk : dataDisks 
-AzureMachineSpec -- Diagnostics : diagnostics 
-AzureMachineSpec -- VMIdentity : identity 
-AzureMachineSpec -- Image : image 
-AzureMachineSpec -- NetworkInterface : networkInterfaces 
+
+AdditionalCapabilities -- AzureMachineSpec : additionalCapabilities 
+DataDisk -- AzureMachineSpec : dataDisks 
+Diagnostics -- AzureMachineSpec : diagnostics 
+VMIdentity -- AzureMachineSpec : identity 
+Image -- AzureMachineSpec : image 
+NetworkInterface -- AzureMachineSpec : networkInterfaces 
 AzureMachineSpec -- OSDisk : osDisk 
 AzureMachineSpec -- SecurityProfile : securityProfile 
 AzureMachineSpec -- SpotVMOptions : spotVMOptions 
@@ -3950,6 +4057,7 @@ class AzureMachineStatus["AzureMachineStatus"]{
 
 } 
 
+
 AzureMachineStatus -- ProvisioningState : vmState 
 
 class ProvisioningState["ProvisioningState"]
@@ -3989,6 +4097,7 @@ class AzureManagedClusterSpec["AzureManagedClusterSpec"]{
 
 
 
+
 ```
 
 | Property             | Description                                                                                                                                                                                                                                                                                   | Type                                                                                         |
@@ -4015,6 +4124,7 @@ class AzureManagedClusterStatus["AzureManagedClusterStatus"]{
 
 
 } 
+
 
 
 
@@ -4047,6 +4157,7 @@ class AzureManagedControlPlaneSpec["AzureManagedControlPlaneSpec"]{
 
 
 } 
+
 
 AzureManagedControlPlaneSpec -- FleetsMember : fleetsMember 
 
@@ -4089,6 +4200,7 @@ class AzureManagedControlPlaneStatus["AzureManagedControlPlaneStatus"]{
 
 } 
 
+
 AzureManagedControlPlaneStatus -- OIDCIssuerProfileStatus : oidcIssuerProfile 
 
 class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"]
@@ -4128,6 +4240,7 @@ class AzureManagedMachinePoolSpec["AzureManagedMachinePoolSpec"]{
 
 
 
+
 ```
 
 | Property                                                              | Description                                                                 | Type     |
@@ -4160,6 +4273,7 @@ class AzureManagedMachinePoolStatus["AzureManagedMachinePoolStatus"]{
 
 
 } 
+
 
 
 
@@ -4197,6 +4311,7 @@ class AdditionalCapabilities["AdditionalCapabilities"]{
 
 
 
+
 ```
 
 | Property        | Description                                                                                                                                                                                       | Type |
@@ -4227,6 +4342,7 @@ class AllowedNamespaces["AllowedNamespaces"]{
 
 
 
+
 ```
 
 | Property | Description                                                                                                                                                                                                                                                                                                                                        | Type                                                                                          |
@@ -4250,6 +4366,7 @@ Used by: [AzureClusterSpec.bastionSpec](#AzureClusterSpec).
 classDiagram
 
 class BastionSpec["BastionSpec"]
+
 BastionSpec -- AzureBastion : azureBastion 
 
 class AzureBastion["AzureBastion"]
@@ -4284,6 +4401,7 @@ class DataDisk["DataDisk"]{
 
 } 
 
+
 DataDisk -- ManagedDiskParameters : managedDisk 
 
 class ManagedDiskParameters["ManagedDiskParameters"]
@@ -4314,6 +4432,7 @@ Used by: [AzureMachineSpec.diagnostics](#AzureMachineSpec).
 classDiagram
 
 class Diagnostics["Diagnostics"]
+
 Diagnostics -- BootDiagnostics : boot 
 
 class BootDiagnostics["BootDiagnostics"]
@@ -4344,6 +4463,7 @@ class FleetsMember["FleetsMember"]{
 
 
 } 
+
 
 
 
@@ -4381,6 +4501,7 @@ class Image["Image"]{
 
 
 } 
+
 
 Image -- AzureComputeGalleryImage : computeGallery 
 Image -- AzureMarketplaceImage : marketplace 
@@ -4424,6 +4545,7 @@ class NetworkInterface["NetworkInterface"]{
 
 
 
+
 ```
 
 | Property              | Description                                                                                                                                                                                                                                                                           | Type   |
@@ -4452,6 +4574,7 @@ class NetworkSpec["NetworkSpec"]{
 
 
 } 
+
 
 NetworkSpec -- LoadBalancerSpec : apiServerLB 
 NetworkSpec -- LoadBalancerSpec : controlPlaneOutboundLB 
@@ -4497,6 +4620,7 @@ class OIDCIssuerProfileStatus["OIDCIssuerProfileStatus"]{
 
 
 
+
 ```
 
 | Property  | Description                                              | Type   |
@@ -4525,6 +4649,7 @@ class OSDisk["OSDisk"]{
 
 
 } 
+
 
 OSDisk -- DiffDiskSettings : diffDiskSettings 
 OSDisk -- ManagedDiskParameters : managedDisk 
@@ -4570,6 +4695,7 @@ class SecurityProfile["SecurityProfile"]{
 
 } 
 
+
 SecurityProfile -- SecurityTypes : securityType 
 SecurityProfile -- UefiSettings : uefiSettings 
 
@@ -4604,6 +4730,7 @@ class SpotVMOptions["SpotVMOptions"]{
 
 
 } 
+
 
 SpotVMOptions -- SpotEvictionPolicy : evictionPolicy 
 
@@ -4641,6 +4768,7 @@ class SystemAssignedIdentityRole["SystemAssignedIdentityRole"]{
 
 
 
+
 ```
 
 | Property     | Description                                                                                                                                                                                                                                          | Type   |
@@ -4669,6 +4797,7 @@ class UserAssignedIdentity["UserAssignedIdentity"]{
 
 
 } 
+
 
 
 
@@ -4702,6 +4831,7 @@ class VMExtension["VMExtension"]{
 
 
 } 
+
 
 
 
@@ -4743,6 +4873,7 @@ class AzureBastion["AzureBastion"]{
 
 
 } 
+
 
 AzureBastion -- PublicIPSpec : publicIP 
 AzureBastion -- BastionHostSkuName : sku 
@@ -4787,6 +4918,7 @@ class AzureComputeGalleryImage["AzureComputeGalleryImage"]{
 
 } 
 
+
 AzureComputeGalleryImage -- ImagePlan : plan 
 
 class ImagePlan["ImagePlan"]
@@ -4823,6 +4955,7 @@ class AzureMarketplaceImage["AzureMarketplaceImage"]{
 
 
 } 
+
 
 
 
@@ -4864,6 +4997,7 @@ class AzureSharedGalleryImage["AzureSharedGalleryImage"]{
 
 
 
+
 ```
 
 | Property       | Description                                                                                                                                                                                                                                                                                                                                                                  | Type   |
@@ -4893,6 +5027,7 @@ Used by: [Diagnostics.boot](#Diagnostics).
 classDiagram
 
 class BootDiagnostics["BootDiagnostics"]
+
 BootDiagnostics -- BootDiagnosticsStorageAccountType : storageAccountType 
 BootDiagnostics -- UserManagedBootDiagnostics : userManaged 
 
@@ -4927,6 +5062,7 @@ class DiffDiskSettings["DiffDiskSettings"]{
 
 } 
 
+
 DiffDiskSettings -- DiffDiskPlacement : placement 
 
 class DiffDiskPlacement["DiffDiskPlacement"]
@@ -4960,6 +5096,7 @@ class LoadBalancerSpec["LoadBalancerSpec"]{
 
 
 } 
+
 
 LoadBalancerSpec -- BackendPool : backendPool 
 LoadBalancerSpec -- FrontendIP : frontendIPs 
@@ -4998,6 +5135,7 @@ class ManagedDiskParameters["ManagedDiskParameters"]{
 
 
 } 
+
 
 ManagedDiskParameters -- DiskEncryptionSetParameters : diskEncryptionSet 
 ManagedDiskParameters -- VMDiskSecurityProfile : securityProfile 
@@ -5051,6 +5189,7 @@ class UefiSettings["UefiSettings"]{
 
 
 
+
 ```
 
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Type |
@@ -5084,6 +5223,7 @@ class VnetSpec["VnetSpec"]{
 
 
 
+
 ```
 
 | Property                        | Description                                                                                                                                              | Type         |
@@ -5114,6 +5254,7 @@ class BackendPool["BackendPool"]{
 
 
 } 
+
 
 
 
@@ -5167,6 +5308,7 @@ class DiskEncryptionSetParameters["DiskEncryptionSetParameters"]{
 
 
 
+
 ```
 
 | Property | Description                                                                               | Type   |
@@ -5193,6 +5335,7 @@ class FrontendIP["FrontendIP"]{
 
 
 } 
+
 
 FrontendIP -- PublicIPSpec : publicIP 
 
@@ -5231,6 +5374,7 @@ class ImagePlan["ImagePlan"]{
 
 
 
+
 ```
 
 | Property  | Description                                                                                                               | Type   |
@@ -5260,6 +5404,7 @@ class PublicIPSpec["PublicIPSpec"]{
 
 
 } 
+
 
 PublicIPSpec -- IPTag : ipTags 
 
@@ -5293,6 +5438,7 @@ class SubnetSpec["SubnetSpec"]{
 
 
 } 
+
 
 SubnetSpec -- NatGateway : natGateway 
 SubnetSpec -- RouteTable : routeTable 
@@ -5335,6 +5481,7 @@ class UserManagedBootDiagnostics["UserManagedBootDiagnostics"]{
 
 
 
+
 ```
 
 | Property          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type                               |
@@ -5357,6 +5504,7 @@ Used by: [ManagedDiskParameters.securityProfile](#ManagedDiskParameters).
 classDiagram
 
 class VMDiskSecurityProfile["VMDiskSecurityProfile"]
+
 VMDiskSecurityProfile -- DiskEncryptionSetParameters : diskEncryptionSet 
 VMDiskSecurityProfile -- SecurityEncryptionType : securityEncryptionType 
 
@@ -5394,6 +5542,7 @@ class IPTag["IPTag"]{
 
 
 
+
 ```
 
 | Property | Description                                                                        | Type   |
@@ -5421,6 +5570,7 @@ class NatGateway["NatGateway"]{
 
 
 } 
+
 
 NatGateway -- PublicIPSpec : ip 
 
@@ -5455,6 +5605,7 @@ class RouteTable["RouteTable"]{
 
 
 } 
+
 
 
 
@@ -5493,6 +5644,7 @@ class SecurityGroup["SecurityGroup"]{
 
 
 } 
+
 
 
 

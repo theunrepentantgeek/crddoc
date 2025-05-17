@@ -31,6 +31,7 @@ class ClassDiagram["ClassDiagram"]{
 
 
 
+
 ```
 
 | Property | Description                                                                                                        | Type |
@@ -54,6 +55,7 @@ class Config["Config"]{
 
 
 } 
+
 
 Config -- ClassDiagram : classDiagrams 
 Config -- Editor : editors 
@@ -101,6 +103,7 @@ class Editor["Editor"]{
 
 
 
+
 ```
 
 | Property | Description                                                                                                                                                     | Type   |
@@ -131,6 +134,7 @@ class ExternalLink["ExternalLink"]{
 
 
 
+
 ```
 
 | Property    | Description                                                            | Type   |
@@ -158,6 +162,7 @@ class Filter["Filter"]{
 
 
 } 
+
 
 
 
