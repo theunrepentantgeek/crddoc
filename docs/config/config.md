@@ -24,6 +24,7 @@ Used by: [Config.classDiagrams](#Config).
 classDiagram
 
 class ClassDiagram["ClassDiagram"]{  
+      dependencySplitThreshold int  
       enabled bool
 
 
@@ -31,11 +32,13 @@ class ClassDiagram["ClassDiagram"]{
 
 
 
+
 ```
 
-| Property | Description                                                                                                        | Type |
-|----------|--------------------------------------------------------------------------------------------------------------------|------|
-| enabled  | Enabled turns class diagram generation on. Defaults to true if any class diagram options are set, false otherwise. | bool |
+| Property                 | Description                                                                                                                                                                                                                                                                              | Type |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
+| dependencySplitThreshold | DependencySplitThreshold is the threshold above which dependencies on the class diagram are split into two groups, either above/below the root object, or left/right. Defaults to 6. Splitting into two groups helps to reduce the aspect ration of the diagram, increasing readability. | int  |
+| enabled                  | Enabled turns class diagram generation on. Defaults to true if any class diagram options are set, false otherwise.                                                                                                                                                                       | bool |
 
 <a id="Config"></a>Config
 -------------------------
@@ -54,6 +57,7 @@ class Config["Config"]{
 
 
 } 
+
 
 Config -- ClassDiagram : classDiagrams 
 Config -- Editor : editors 
@@ -101,6 +105,7 @@ class Editor["Editor"]{
 
 
 
+
 ```
 
 | Property | Description                                                                                                                                                     | Type   |
@@ -131,6 +136,7 @@ class ExternalLink["ExternalLink"]{
 
 
 
+
 ```
 
 | Property    | Description                                                            | Type   |
@@ -158,6 +164,7 @@ class Filter["Filter"]{
 
 
 } 
+
 
 
 
