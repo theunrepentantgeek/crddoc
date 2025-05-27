@@ -42,7 +42,7 @@ class {{ $id }}["{{ $name }}"]
   {{- if .Type | isInternalType -}}
     {{- $propertyName := .Name -}}
     {{- with $relatedType := .Type.ID | lookupDeclaration -}}
-      {{- if and (gt (len $relatedTypes) 6) (lt $counter $halfCount) -}}
+      {{- if and (gt (len $relatedTypes) dependencySplitThreshold) (lt $counter $halfCount) -}}
         {{ $relatedType.ID }} -- {{ $id }} : {{ $propertyName }} {{ "\n" -}}
       {{- else -}}
         {{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }} {{ "\n" -}}
