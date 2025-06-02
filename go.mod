@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	github.com/dave/dst v0.27.3
-	github.com/go-logr/logr v1.4.2
+	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-task/slim-sprig/v3 v3.0.0
 	github.com/onsi/gomega v1.37.0
