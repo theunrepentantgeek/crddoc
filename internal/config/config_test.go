@@ -51,9 +51,6 @@ func TestConfig_Validate_WhenModeIsValidSingleFile_NormalizesMode(t *testing.T) 
 		"single-file",
 		"Single-File",
 		"SINGLE-FILE",
-		"singlefile",
-		"SingleFile",
-		"SINGLEFILE",
 	}
 
 	for _, mode := range testCases {
@@ -82,11 +79,6 @@ func TestConfig_Validate_WhenModeIsValidMultipleFile_NormalizesMode(t *testing.T
 		"multiple-file",
 		"Multiple-File",
 		"MULTIPLE-FILE",
-		"multiplefile",
-		"MultipleFile",
-		"MULTIPLEFILE",
-		"multiple-files",
-		"multiplefiles",
 	}
 
 	for _, mode := range testCases {
@@ -132,9 +124,8 @@ func TestConfig_Validate_WhenModeIsInvalid_ReturnsError(t *testing.T) {
 			err := cfg.Validate()
 
 			// Assert
-			g.Expect(err).To(HaveOccurred())
-			g.Expect(err.Error()).To(ContainSubstring("invalid mode"))
-			g.Expect(err.Error()).To(ContainSubstring("must be either 'single-file' or 'multiple-file'"))
+			g.Expect(err).To(MatchError(ContainSubstring("invalid mode")))
+			g.Expect(err).To(MatchError(ContainSubstring("must be either 'single-file' or 'multiple-file'")))
 		})
 	}
 }

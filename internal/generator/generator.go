@@ -194,37 +194,14 @@ func (g *Generator) generateObjectToWriter(
 
 	var raw bytes.Buffer
 
-	// Create a simple template context with just the declaration
-	templateContext := struct {
-		Object model.Declaration
-		Package *model.Package
-	}{
-		Object: decl,
-		Package: pkg,
-	}
-
-	// Execute template with the declaration as context
-	// For now, let's create a simple template inline
-	simpleTemplate := `# {{ .Object.Name }}
-
-{{ .Object.Description | inlineLinks | unwrap | applyEdits -}}
-
-{{ with .Object | asPropertyContainer }}
-{{ template "properties" . }}
-{{ end }}
-`
-
-	// Parse and execute the simple template
-	tmpl, err := g.template.New("simple-object").Parse(simpleTemplate)
+	// Use the single-object template to render just this declaration
+	err := g.template.ExecuteTemplate(
+		&raw,
+		"single-object",
+		decl)
 	if err != nil {
-		g.log.Error(err, "failed to parse simple object template")
-		return errors.Wrap(err, "failed to parse simple object template")
-	}
-
-	err = tmpl.Execute(&raw, templateContext)
-	if err != nil {
-		g.log.Error(err, "failed to execute simple object template")
-		return errors.Wrap(err, "failed to execute simple object template")
+		g.log.Error(err, "failed to execute single-object template")
+		return errors.Wrap(err, "failed to execute single-object template")
 	}
 
 	content := raw.Bytes()

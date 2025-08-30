@@ -119,28 +119,43 @@ func (c *Config) EnableClassDiagrams(value *bool) {
 
 // SetMode sets the Mode field to the provided value.
 // If the value is nil, the field is not changed.
+// The mode value is normalized to handle case variations.
 func (c *Config) SetMode(mode *string) {
 	if mode == nil || *mode == "" {
 		// No value passed, do nothing
 		return
 	}
 
-	c.Mode = *mode
+	// Apply Postel's Law: normalize case variations
+	normalizedMode := strings.ToLower(strings.TrimSpace(*mode))
+	
+	switch normalizedMode {
+	case "single-file":
+		c.Mode = "single-file"
+	case "multiple-file":
+		c.Mode = "multiple-file"
+	default:
+		// Set the original value and let validation catch invalid modes
+		c.Mode = *mode
+	}
 }
 
 // validateMode validates and normalizes the mode field.
 func (c *Config) validateMode() error {
-	// Apply Postel's Law: normalize case variations
+	// Handle empty mode by setting default
+	if c.Mode == "" {
+		c.Mode = "single-file"
+		return nil
+	}
+
+	// Apply Postel's Law: normalize case variations  
 	normalizedMode := strings.ToLower(strings.TrimSpace(c.Mode))
 	
 	switch normalizedMode {
-	case "single-file", "singlefile":
+	case "single-file":
 		c.Mode = "single-file"
-	case "multiple-file", "multiplefile", "multiple-files", "multiplefiles":
+	case "multiple-file":
 		c.Mode = "multiple-file"
-	case "":
-		// Empty mode, set to default
-		c.Mode = "single-file"
 	default:
 		return errors.Errorf("invalid mode %q: must be either 'single-file' or 'multiple-file'", c.Mode)
 	}
