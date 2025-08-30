@@ -34,7 +34,7 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		"output",
 		"o",
 		"",
-		"Write resource CRDs to a single file")
+		"Output path: file path for single-file mode, directory path for multiple-file mode")
 
 	if err := cmd.MarkFlagRequired("output"); err != nil {
 		return nil, errors.Wrap(err, "setting up --output")
