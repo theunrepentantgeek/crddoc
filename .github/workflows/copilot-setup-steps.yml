@@ -26,7 +26,7 @@ jobs:
           submodules: "true"
 
       - name: Install Dependencies
-        working-directory: ./.devcontainer
+        working-directory: ${{ github.workspace }}/.devcontainer
         run: install-dependencies.sh --skip-installed
 
       - name: Set custom PATH
