@@ -78,6 +78,8 @@ else
     BUILDX_DEST=$HOME/.docker/cli-plugins
 fi
 
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+
 # Ensure we have the right version of GO
 
 if ! command -v go > /dev/null 2>&1; then
@@ -184,8 +186,8 @@ fi
 # Install oh-my-posh
 if should-install "$TOOL_DEST/oh-my-posh"; then
     write-info "Installing oh-my-posh"
-    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$TOOL_DEST"   
-    cp oh-my-posh.json "$TOOL_DEST/"
+    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$TOOL_DEST"
+    cp "$SCRIPT_DIR/oh-my-posh.json" "$TOOL_DEST/"
 fi
 
 # Install sbom-tool
