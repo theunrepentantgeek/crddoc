@@ -21,7 +21,4 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Set custom PATH
-        run: echo "PATH=$PATH:$(realpath ./hack/tools)" >> $GITHUB_ENV
+        uses: actions/checkout@v4
