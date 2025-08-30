@@ -79,6 +79,7 @@ else
 fi
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
+echo "[INF] Script directory: $SCRIPT_DIR"
 
 # Ensure we have the right version of GO
 
