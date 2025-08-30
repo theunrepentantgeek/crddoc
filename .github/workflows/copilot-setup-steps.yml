@@ -26,8 +26,7 @@ jobs:
           submodules: "true"
 
       - name: Install Dependencies
-        working-directory: ${{ github.workspace }}/.devcontainer
-        run: install-dependencies.sh --skip-installed
+        run: .devcontainer/install-dependencies.sh --skip-installed
 
       - name: Set custom PATH
         run: echo "PATH=$PATH:$(realpath ./hack/tools)" >> $GITHUB_ENV
