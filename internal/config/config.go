@@ -3,6 +3,7 @@ package config
 import (
 	"io"
 	"os"
+	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
@@ -15,6 +16,10 @@ type Config struct {
 
 	// ExternalLinks allow you to add links to external documentation.
 	ExternalLinks []*ExternalLink `yaml:"externalLinks"`
+
+	// Mode controls how documentation files are generated.
+	// Defaults to "single-file".
+	Mode string `yaml:"mode"`
 
 	// PrettyPrint controls whether the Markdown output is pretty-printed or not.
 	// Defaults to true.
@@ -37,6 +42,7 @@ type Config struct {
 // or for export.
 func Standard() *Config {
 	return &Config{
+		Mode:        "single-file",
 		PrettyPrint: true,
 	}
 }
@@ -111,7 +117,43 @@ func (c *Config) EnableClassDiagrams(value *bool) {
 	c.ClassDiagrams.Enabled = value
 }
 
+// SetMode sets the Mode field to the provided value.
+// If the value is nil, the field is not changed.
+func (c *Config) SetMode(mode *string) {
+	if mode == nil || *mode == "" {
+		// No value passed, do nothing
+		return
+	}
+
+	c.Mode = *mode
+}
+
+// validateMode validates and normalizes the mode field.
+func (c *Config) validateMode() error {
+	// Apply Postel's Law: normalize case variations
+	normalizedMode := strings.ToLower(strings.TrimSpace(c.Mode))
+	
+	switch normalizedMode {
+	case "single-file", "singlefile":
+		c.Mode = "single-file"
+	case "multiple-file", "multiplefile", "multiple-files", "multiplefiles":
+		c.Mode = "multiple-file"
+	case "":
+		// Empty mode, set to default
+		c.Mode = "single-file"
+	default:
+		return errors.Errorf("invalid mode %q: must be either 'single-file' or 'multiple-file'", c.Mode)
+	}
+
+	return nil
+}
+
 func (c *Config) Validate() error {
+	// Validate and normalize the mode
+	if err := c.validateMode(); err != nil {
+		return err
+	}
+
 	for _, f := range c.TypeFilters {
 		if err := f.validate(); err != nil {
 			return err
