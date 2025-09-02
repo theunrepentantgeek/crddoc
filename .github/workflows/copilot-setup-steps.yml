@@ -29,4 +29,4 @@ jobs:
         run: sudo .devcontainer/install-dependencies.sh --skip-installed
 
       - name: Set custom PATH
-        run: echo "PATH=$PATH:$(realpath ./hack/tools)" >> $GITHUB_ENV
+        run: echo "PATH=$PATH:$(realpath ./tools)" >> $GITHUB_ENV
