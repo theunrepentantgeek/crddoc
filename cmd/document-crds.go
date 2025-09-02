@@ -19,8 +19,8 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		Use:   "crds",
 		Short: "Generate CRD documentation from a package",
 		Long:  "Generate CRD documentation from a package.",
-		RunE: func(_ *cobra.Command, args []string) error {
-			return documentCRDs(args, options, log)
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return documentCRDs(cmd, args, options, log)
 		},
 	}
 
@@ -52,17 +52,25 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		false,
 		"Generate class diagrams for the CRDs")
 
+	options.useGoFieldNames = cmd.Flags().BoolP(
+		"use-go-field-names",
+		"",
+		false,
+		"Use Go field names instead of serialized field names from JSON/YAML tags")
+
 	return cmd, nil
 }
 
 type documentCRDsOptions struct {
-	configPath    *string
-	outputPath    *string
-	templatePath  *string
-	classDiagrams *bool
+	configPath       *string
+	outputPath       *string
+	templatePath     *string
+	classDiagrams    *bool
+	useGoFieldNames  *bool
 }
 
 func documentCRDs(
+	cmd *cobra.Command,
 	args []string,
 	options *documentCRDsOptions,
 	log logr.Logger,
@@ -71,7 +79,7 @@ func documentCRDs(
 		return err
 	}
 
-	cfg, err := loadConfig(options)
+	cfg, err := loadConfig(cmd, options)
 	if err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}
@@ -100,6 +108,7 @@ func documentCRDs(
 }
 
 func loadConfig(
+	cmd *cobra.Command,
 	options *documentCRDsOptions,
 ) (*config.Config, error) {
 	cfg := config.Standard()
@@ -113,7 +122,7 @@ func loadConfig(
 	}
 
 	// Apply overrides from the command line (if any)
-	options.applyToConfig(cfg)
+	options.applyToConfig(cmd, cfg)
 
 	// Check that our configuration is still valid
 	err := cfg.Validate()
@@ -156,7 +165,16 @@ func (options *documentCRDsOptions) validate(
 }
 
 // applyToConfig applies options we've received on the command line to the config.
-func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
+func (options *documentCRDsOptions) applyToConfig(cmd *cobra.Command, cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
-	cfg.EnableClassDiagrams(options.classDiagrams)
+	
+	// Only apply classDiagrams if the flag was explicitly set
+	if cmd.Flags().Changed("class-diagrams") {
+		cfg.EnableClassDiagrams(options.classDiagrams)
+	}
+	
+	// Only apply useGoFieldNames if the flag was explicitly set
+	if cmd.Flags().Changed("use-go-field-names") {
+		cfg.SetUseGoFieldNames(options.useGoFieldNames)
+	}
 }
