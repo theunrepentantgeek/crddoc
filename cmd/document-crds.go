@@ -122,7 +122,7 @@ func loadConfig(
 	}
 
 	// Apply overrides from the command line (if any)
-	options.applyToConfig(cmd, cfg)
+	options.applyToConfig(cfg)
 
 	// Check that our configuration is still valid
 	err := cfg.Validate()
@@ -165,16 +165,8 @@ func (options *documentCRDsOptions) validate(
 }
 
 // applyToConfig applies options we've received on the command line to the config.
-func (options *documentCRDsOptions) applyToConfig(cmd *cobra.Command, cfg *config.Config) {
+func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
-	
-	// Only apply classDiagrams if the flag was explicitly set
-	if cmd.Flags().Changed("class-diagrams") {
-		cfg.EnableClassDiagrams(options.classDiagrams)
-	}
-	
-	// Only apply useGoFieldNames if the flag was explicitly set
-	if cmd.Flags().Changed("use-go-field-names") {
-		cfg.SetUseGoFieldNames(options.useGoFieldNames)
-	}
+	cfg.EnableClassDiagrams(options.classDiagrams)
+	cfg.SetUseGoFieldNames(options.useGoFieldNames)
 }
