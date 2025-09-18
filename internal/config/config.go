@@ -31,6 +31,11 @@ type Config struct {
 
 	// ClassDiagrams allow you to add class diagrams to the documentation.
 	ClassDiagrams *ClassDiagram `yaml:"classDiagrams"`
+
+	// UseGoFieldNames controls whether to use Go field names (true) or
+	// serialized field names from JSON/YAML tags (false) in documentation.
+	// Defaults to false (use serialized names).
+	UseGoFieldNames bool `yaml:"useGoFieldNames"`
 }
 
 // Standard returns the standard, as a basis for loading other configuration,
@@ -109,6 +114,17 @@ func (c *Config) EnableClassDiagrams(value *bool) {
 	}
 
 	c.ClassDiagrams.Enabled = value
+}
+
+// SetUseGoFieldNames sets the UseGoFieldNames field to the provided value.
+// If the value is nil, the field is not changed.
+func (c *Config) SetUseGoFieldNames(value *bool) {
+	if value == nil {
+		// No value passed, do nothing
+		return
+	}
+
+	c.UseGoFieldNames = *value
 }
 
 func (c *Config) Validate() error {

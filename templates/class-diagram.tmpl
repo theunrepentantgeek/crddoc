@@ -15,9 +15,9 @@ classDiagram
 {{- with . | asPropertyContainer -}}
 class {{ $id }}["{{ $name }}"]
 {{- if .Properties | excludeInternal -}} {
-  {{- range .Properties -}}
+  {{- range .Properties | sortProperties -}}
     {{- if not (.Type | isInternalType) }}  
-      {{ .Name }} {{ .Type.Display }}
+      {{ . | propertyDisplayName }} {{ .Type.Display }}
     {{- end -}}
   {{- end }}
 {{ "\n" -}} {{/* Have to have a blank line here to avoid parsing errors when there are no properties */}}
@@ -29,18 +29,18 @@ class {{ $id }}["{{ $name }}"]
 {{/* Add links to other types declared in this package */}}
 {{/* First collect related types so we can count them */}}
 {{- $relatedTypes := list -}}
-{{- range .Properties -}}
+{{- range .Properties | sortProperties -}}
   {{- if .Type | isInternalType -}}
-    {{- $relatedTypes = append $relatedTypes .Name -}}
+    {{- $relatedTypes = append $relatedTypes (. | propertyDisplayName) -}}
   {{- end -}}
 {{- end -}}
 
 {{/* Add links with adjusted direction based on count */}}
 {{- $counter := 0 -}}
 {{- $halfCount := div (len $relatedTypes) 2 -}}
-{{- range .Properties -}}
+{{- range .Properties | sortProperties -}}
   {{- if .Type | isInternalType -}}
-    {{- $propertyName := .Name -}}
+    {{- $propertyName := . | propertyDisplayName -}}
     {{- with $relatedType := .Type.ID | lookupDeclaration -}}
       {{- if and (gt (len $relatedTypes) dependencySplitThreshold) (lt $counter $halfCount) -}}
         {{ $relatedType.ID }} -- {{ $id }} : {{ $propertyName }} {{ "\n" -}}
@@ -54,7 +54,7 @@ class {{ $id }}["{{ $name }}"]
 {{ "\n" -}}
 
 {{/* Add class nodes for other types declared in this package */}}
-{{- range .Properties -}}
+{{- range .Properties | sortProperties -}}
   {{- if .Type | isInternalType -}}
     {{- with $relatedType := .Type.ID | lookupDeclaration -}}
 class {{ $relatedType.ID }}["{{ $relatedType.Display }}"]
