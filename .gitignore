@@ -8,6 +8,9 @@
 *.so
 *.dylib
 
+# Main application binary
+crddoc
+
 # Test binary, built with `go test -c`
 *.test
 
