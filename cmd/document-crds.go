@@ -9,6 +9,7 @@ import (
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/generator"
+	"github.com/theunrepentantgeek/crddoc/internal/model"
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
@@ -34,7 +35,7 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		"output",
 		"o",
 		"",
-		"Write resource CRDs to a single file")
+		"Output path: file path for single-file mode, directory path for multiple-file mode")
 
 	if err := cmd.MarkFlagRequired("output"); err != nil {
 		return nil, errors.Wrap(err, "setting up --output")
@@ -52,6 +53,12 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		false,
 		"Generate class diagrams for the CRDs")
 
+	options.fileMode = cmd.Flags().StringP(
+		"file-mode",
+		"f",
+		"",
+		"File mode: 'single-file' (default) or 'multiple-file'")
+
 	return cmd, nil
 }
 
@@ -60,6 +67,7 @@ type documentCRDsOptions struct {
 	outputPath    *string
 	templatePath  *string
 	classDiagrams *bool
+	fileMode      *string
 }
 
 func documentCRDs(
@@ -84,16 +92,34 @@ func documentCRDs(
 		return errors.Wrapf(err, "loading package from %q", packageFolder)
 	}
 
+	return generateCrds(cfg, options, pkg, log)
+}
+
+func generateCrds(
+	cfg *config.Config,
+	options *documentCRDsOptions,
+	pkg *model.Package,
+	log logr.Logger,
+) error {
 	gen := generator.New(cfg, log)
 
-	err = gen.LoadTemplates()
+	err := gen.LoadTemplates()
 	if err != nil {
 		return errors.Wrap(err, "loading templates")
 	}
 
-	err = gen.GenerateToFile(pkg, *options.outputPath, log)
-	if err != nil {
-		return errors.Wrapf(err, "generating output to %q", *options.outputPath)
+	// Choose generation method based on mode
+	switch {
+	case cfg.HasFileMode(config.FileModeSingleFile):
+		err = gen.GenerateToFile(pkg, *options.outputPath, log)
+		if err != nil {
+			return errors.Wrapf(err, "generating output to %q", *options.outputPath)
+		}
+	case cfg.HasFileMode(config.FileModeMultipleFile):
+		err = gen.GenerateToMultipleFiles(pkg, *options.outputPath, log)
+		if err != nil {
+			return errors.Wrapf(err, "generating multiple files to %q", *options.outputPath)
+		}
 	}
 
 	return nil
@@ -159,4 +185,5 @@ func (options *documentCRDsOptions) validate(
 func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
 	cfg.EnableClassDiagrams(options.classDiagrams)
+	cfg.SetFileMode(options.fileMode)
 }
