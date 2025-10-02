@@ -52,11 +52,11 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		false,
 		"Generate class diagrams for the CRDs")
 
-	options.mode = cmd.Flags().StringP(
-		"mode",
-		"m",
+	options.fileMode = cmd.Flags().StringP(
+		"file-mode",
+		"f",
 		"",
-		"Output mode: 'single-file' (default) or 'multiple-file'")
+		"File mode: 'single-file' (default) or 'multiple-file'")
 
 	return cmd, nil
 }
@@ -66,7 +66,7 @@ type documentCRDsOptions struct {
 	outputPath    *string
 	templatePath  *string
 	classDiagrams *bool
-	mode          *string
+	fileMode      *string
 }
 
 func documentCRDs(
@@ -99,19 +99,17 @@ func documentCRDs(
 	}
 
 	// Choose generation method based on mode
-	switch cfg.Mode {
-	case "single-file":
+	switch {
+	case cfg.HasFileMode(config.FileModeSingleFile):
 		err = gen.GenerateToFile(pkg, *options.outputPath, log)
 		if err != nil {
 			return errors.Wrapf(err, "generating output to %q", *options.outputPath)
 		}
-	case "multiple-file":
+	case cfg.HasFileMode(config.FileModeMultipleFile):
 		err = gen.GenerateToMultipleFiles(pkg, *options.outputPath, log)
 		if err != nil {
 			return errors.Wrapf(err, "generating multiple files to %q", *options.outputPath)
 		}
-	default:
-		return errors.Errorf("unsupported mode %q", cfg.Mode)
 	}
 
 	return nil
@@ -177,5 +175,5 @@ func (options *documentCRDsOptions) validate(
 func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
 	cfg.EnableClassDiagrams(options.classDiagrams)
-	cfg.SetMode(options.mode)
+	cfg.SetFileMode(options.fileMode)
 }

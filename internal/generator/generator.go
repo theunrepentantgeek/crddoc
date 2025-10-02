@@ -108,7 +108,7 @@ func (g *Generator) GenerateToMultipleFiles(
 	log logr.Logger,
 ) error {
 	// Create output directory if it doesn't exist
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
+	if err := os.MkdirAll(outputDir, 0o755); err != nil {
 		return errors.Wrapf(err, "creating output directory %q", outputDir)
 	}
 
@@ -116,19 +116,28 @@ func (g *Generator) GenerateToMultipleFiles(
 
 	// Get all declarations and filter for structs (objects and resources)
 	declarations := pkg.Declarations(model.OrderAlphabetical)
-	
+
 	structCount := 0
+
 	for _, decl := range declarations {
 		// Include both Objects and Resources as they are both structs
 		if decl.Kind() == model.ObjectDeclaration || decl.Kind() == model.ResourceDeclaration {
 			structCount++
 			filename := decl.Name() + ".md"
 			outputPath := filepath.Join(outputDir, filename)
-			
-			log.Info("Writing struct to file", "struct", decl.Name(), "kind", decl.Kind(), "outputPath", outputPath)
-			
+
+			log.Info(
+				"Writing struct to file",
+				"struct", decl.Name(),
+				"kind", decl.Kind(),
+				"outputPath", outputPath)
+
 			if err := g.generateObjectToFile(pkg, decl, outputPath); err != nil {
-				return errors.Wrapf(err, "generating output for struct %q to %q", decl.Name(), outputPath)
+				return errors.Wrapf(
+					err,
+					"generating output for struct %q to %q",
+					decl.Name(),
+					outputPath)
 			}
 		}
 	}
@@ -189,6 +198,7 @@ func (g *Generator) generateObjectToWriter(
 
 	if err := g.fns.SetConfig(g.cfg); err != nil {
 		g.log.Error(err, "failed to set function config")
+
 		return errors.Wrap(err, "failed to set function config")
 	}
 
@@ -201,6 +211,7 @@ func (g *Generator) generateObjectToWriter(
 		decl)
 	if err != nil {
 		g.log.Error(err, "failed to execute single-object template")
+
 		return errors.Wrap(err, "failed to execute single-object template")
 	}
 
@@ -210,6 +221,7 @@ func (g *Generator) generateObjectToWriter(
 		content, err = markdown.Process("", raw.Bytes(), nil)
 		if err != nil {
 			g.log.Error(err, "failed to tidy markdown")
+
 			return errors.Wrap(err, "failed to tidy markdown")
 		}
 	}
@@ -217,6 +229,7 @@ func (g *Generator) generateObjectToWriter(
 	_, err = writer.Write(content)
 	if err != nil {
 		g.log.Error(err, "failed to write markdown")
+
 		return errors.Wrap(err, "failed to write markdown")
 	}
 

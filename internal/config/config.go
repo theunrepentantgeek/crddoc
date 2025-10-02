@@ -17,9 +17,9 @@ type Config struct {
 	// ExternalLinks allow you to add links to external documentation.
 	ExternalLinks []*ExternalLink `yaml:"externalLinks"`
 
-	// Mode controls how documentation files are generated.
+	// FileMode controls how documentation files are generated.
 	// Defaults to "single-file".
-	Mode string `yaml:"mode"`
+	FileMode string `yaml:"fileMode"`
 
 	// PrettyPrint controls whether the Markdown output is pretty-printed or not.
 	// Defaults to true.
@@ -38,11 +38,16 @@ type Config struct {
 	ClassDiagrams *ClassDiagram `yaml:"classDiagrams"`
 }
 
+const (
+	FileModeSingleFile   = "Single-File"
+	FileModeMultipleFile = "Multiple-File"
+)
+
 // Standard returns the standard, as a basis for loading other configuration,
 // or for export.
 func Standard() *Config {
 	return &Config{
-		Mode:        "single-file",
+		FileMode:    FileModeSingleFile,
 		PrettyPrint: true,
 	}
 }
@@ -109,7 +114,7 @@ func (c *Config) EnableClassDiagrams(value *bool) {
 		return
 	}
 
-	// Ensure we nested config exists
+	// Ensure our nested config exists
 	if c.ClassDiagrams == nil {
 		c.ClassDiagrams = &ClassDiagram{}
 	}
@@ -117,56 +122,29 @@ func (c *Config) EnableClassDiagrams(value *bool) {
 	c.ClassDiagrams.Enabled = value
 }
 
-// SetMode sets the Mode field to the provided value.
+// SetFileMode sets the FileMode field to the provided value.
 // If the value is nil, the field is not changed.
 // The mode value is normalized to handle case variations.
-func (c *Config) SetMode(mode *string) {
-	if mode == nil || *mode == "" {
+func (c *Config) SetFileMode(fileMode *string) {
+	if fileMode == nil || *fileMode == "" {
 		// No value passed, do nothing
 		return
 	}
 
-	// Apply Postel's Law: normalize case variations
-	normalizedMode := strings.ToLower(strings.TrimSpace(*mode))
-	
-	switch normalizedMode {
-	case "single-file":
-		c.Mode = "single-file"
-	case "multiple-file":
-		c.Mode = "multiple-file"
-	default:
-		// Set the original value and let validation catch invalid modes
-		c.Mode = *mode
-	}
+	c.FileMode = *fileMode
 }
 
-// validateMode validates and normalizes the mode field.
-func (c *Config) validateMode() error {
-	// Handle empty mode by setting default
-	if c.Mode == "" {
-		c.Mode = "single-file"
-		return nil
-	}
-
-	// Apply Postel's Law: normalize case variations  
-	normalizedMode := strings.ToLower(strings.TrimSpace(c.Mode))
-	
-	switch normalizedMode {
-	case "single-file":
-		c.Mode = "single-file"
-	case "multiple-file":
-		c.Mode = "multiple-file"
-	default:
-		return errors.Errorf("invalid mode %q: must be either 'single-file' or 'multiple-file'", c.Mode)
-	}
-
-	return nil
+// HasFileMode checks if the config has the specified file mode.
+// fileMode is the file mode to check for.
+func (c *Config) HasFileMode(fileMode string) bool {
+	return strings.EqualFold(c.FileMode, fileMode)
 }
 
+// Validate checks if the config is valid.
 func (c *Config) Validate() error {
-	// Validate and normalize the mode
-	if err := c.validateMode(); err != nil {
-		return err
+	if !c.HasFileMode(FileModeSingleFile) &&
+		!c.HasFileMode(FileModeMultipleFile) {
+		return errors.Errorf("invalid file mode %q: must be either %q or %q", c.FileMode, FileModeSingleFile, FileModeMultipleFile)
 	}
 
 	for _, f := range c.TypeFilters {

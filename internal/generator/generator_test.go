@@ -18,8 +18,9 @@ func TestGenerator_GenerateToMultipleFiles_CreatesCorrectFiles(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	// Arrange
+	fileMode := config.FileModeMultipleFile
 	cfg := config.Standard()
-	cfg.Mode = "multiple-file"
+	cfg.SetFileMode(&fileMode)
 	log := logr.Discard()
 
 	loader := packageloader.New(cfg, log)
@@ -42,12 +43,13 @@ func TestGenerator_GenerateToMultipleFiles_CreatesCorrectFiles(t *testing.T) {
 	// Check that files were created
 	files, err := os.ReadDir(tempDir)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(files).To(HaveLen(4)) // PartyReference, PartyResource, PartyResourceSpec, PartyResourceStatus
+	// Expected: PartyReference, PartyResource, PartyResourceSpec, PartyResourceStatus
+	g.Expect(files).To(HaveLen(4))
 
 	// Check that specific expected files exist
 	expectedFiles := []string{
 		"PartyReference.md",
-		"PartyResource.md", 
+		"PartyResource.md",
 		"PartyResourceSpec.md",
 		"PartyResourceStatus.md",
 	}
@@ -60,7 +62,7 @@ func TestGenerator_GenerateToMultipleFiles_CreatesCorrectFiles(t *testing.T) {
 		// Check that the file has content
 		content, err := os.ReadFile(filePath)
 		g.Expect(err).ToNot(HaveOccurred())
-		g.Expect(len(content)).To(BeNumerically(">", 0), "Expected file %s to have content", expectedFile)
+		g.Expect(content).ToNot(BeEmpty(), "Expected file %s to have content", expectedFile)
 	}
 }
 
@@ -70,7 +72,8 @@ func TestGenerator_GenerateToFile_SingleFileMode_StillWorks(t *testing.T) {
 
 	// Arrange
 	cfg := config.Standard()
-	cfg.Mode = "single-file"
+	fileMode := config.FileModeSingleFile
+	cfg.SetFileMode(&fileMode)
 	log := logr.Discard()
 
 	loader := packageloader.New(cfg, log)
@@ -94,7 +97,7 @@ func TestGenerator_GenerateToFile_SingleFileMode_StillWorks(t *testing.T) {
 	// Check that the file was created and has content
 	content, err := os.ReadFile(outputFile)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(len(content)).To(BeNumerically(">", 0))
+	g.Expect(content).ToNot(BeEmpty())
 	g.Expect(string(content)).To(ContainSubstring("testdata"))
 	g.Expect(string(content)).To(ContainSubstring("PartyResource"))
 }
