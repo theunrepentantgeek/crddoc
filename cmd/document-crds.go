@@ -9,6 +9,7 @@ import (
 
 	"github.com/theunrepentantgeek/crddoc/internal/config"
 	"github.com/theunrepentantgeek/crddoc/internal/generator"
+	"github.com/theunrepentantgeek/crddoc/internal/model"
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
@@ -91,9 +92,18 @@ func documentCRDs(
 		return errors.Wrapf(err, "loading package from %q", packageFolder)
 	}
 
+	return generateCrds(cfg, options, pkg, log)
+}
+
+func generateCrds(
+	cfg *config.Config,
+	options *documentCRDsOptions,
+	pkg *model.Package,
+	log logr.Logger,
+) error {
 	gen := generator.New(cfg, log)
 
-	err = gen.LoadTemplates()
+	err := gen.LoadTemplates()
 	if err != nil {
 		return errors.Wrap(err, "loading templates")
 	}

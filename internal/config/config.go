@@ -144,7 +144,11 @@ func (c *Config) HasFileMode(fileMode string) bool {
 func (c *Config) Validate() error {
 	if !c.HasFileMode(FileModeSingleFile) &&
 		!c.HasFileMode(FileModeMultipleFile) {
-		return errors.Errorf("invalid file mode %q: must be either %q or %q", c.FileMode, FileModeSingleFile, FileModeMultipleFile)
+		return errors.Errorf(
+			"invalid file mode %q: must be either %q or %q",
+			c.FileMode,
+			FileModeSingleFile,
+			FileModeMultipleFile)
 	}
 
 	for _, f := range c.TypeFilters {

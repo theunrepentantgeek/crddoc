@@ -115,47 +115,49 @@ func (g *Generator) GenerateToMultipleFiles(
 	log.Info("Writing multiple files to directory", "outputDir", outputDir)
 
 	// Get all declarations and filter for structs (objects and resources)
-	declarations := pkg.Declarations(model.OrderAlphabetical)
+	decls := g.selectStructs(pkg)
+	for _, decl := range decls {
+		filename := decl.Name() + ".md"
+		outputPath := filepath.Join(outputDir, filename)
 
-	structCount := 0
-
-	for _, decl := range declarations {
-		// Include both Objects and Resources as they are both structs
-		if decl.Kind() == model.ObjectDeclaration || decl.Kind() == model.ResourceDeclaration {
-			structCount++
-			filename := decl.Name() + ".md"
-			outputPath := filepath.Join(outputDir, filename)
-
-			log.Info(
-				"Writing struct to file",
-				"struct", decl.Name(),
-				"kind", decl.Kind(),
-				"outputPath", outputPath)
-
-			if err := g.generateObjectToFile(pkg, decl, outputPath); err != nil {
-				return errors.Wrapf(
-					err,
-					"generating output for struct %q to %q",
-					decl.Name(),
-					outputPath)
-			}
+		if err := g.generateObjectToFile(pkg, decl, outputPath, log); err != nil {
+			return errors.Wrapf(
+				err,
+				"generating output for struct %q to %q",
+				decl.Name(),
+				outputPath)
 		}
 	}
 
-	if structCount == 0 {
-		log.Info("No structs found to generate files for")
-	} else {
-		log.Info("Generated multiple files", "count", structCount, "outputDir", outputDir)
-	}
+	log.Info("Generated multiple files", "count", len(decls), "outputDir", outputDir)
 
 	return nil
+}
+
+func (*Generator) selectStructs(pkg *model.Package) []model.Declaration {
+	var structs []model.Declaration
+
+	for _, decl := range pkg.Declarations(model.OrderAlphabetical) {
+		if decl.Kind() == model.ObjectDeclaration || decl.Kind() == model.ResourceDeclaration {
+			structs = append(structs, decl)
+		}
+	}
+
+	return structs
 }
 
 func (g *Generator) generateObjectToFile(
 	pkg *model.Package,
 	decl model.Declaration,
 	outputPath string,
+	log logr.Logger,
 ) error {
+	log.Info(
+		"Writing struct to file",
+		"struct", decl.Name(),
+		"kind", decl.Kind(),
+		"outputPath", outputPath)
+
 	// Create the output file
 	f, err := os.Create(outputPath)
 	if err != nil {

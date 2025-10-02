@@ -21,6 +21,7 @@ func TestGenerator_GenerateToMultipleFiles_CreatesCorrectFiles(t *testing.T) {
 	fileMode := config.FileModeMultipleFile
 	cfg := config.Standard()
 	cfg.SetFileMode(&fileMode)
+
 	log := logr.Discard()
 
 	loader := packageloader.New(cfg, log)
@@ -74,6 +75,7 @@ func TestGenerator_GenerateToFile_SingleFileMode_StillWorks(t *testing.T) {
 	cfg := config.Standard()
 	fileMode := config.FileModeSingleFile
 	cfg.SetFileMode(&fileMode)
+
 	log := logr.Discard()
 
 	loader := packageloader.New(cfg, log)

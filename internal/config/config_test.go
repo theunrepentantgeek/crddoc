@@ -53,7 +53,8 @@ func TestConfig_Validate_WhenModeIsInvalid_ReturnsError(t *testing.T) {
 
 			// Assert
 			g.Expect(err).To(MatchError(ContainSubstring("invalid mode")))
-			g.Expect(err).To(MatchError(ContainSubstring("must be either 'single-file' or 'multiple-file'")))
+			g.Expect(err).To(MatchError(
+				ContainSubstring("must be either 'single-file' or 'multiple-file'")))
 		})
 	}
 }
@@ -100,6 +101,8 @@ func TestConfig_HasFileMode_ReturnsExpectedResults(t *testing.T) {
 
 	for n, c := range cases {
 		t.Run(n, func(t *testing.T) {
+			t.Parallel()
+
 			g := NewGomegaWithT(t)
 
 			cfg := Standard()
