@@ -52,6 +52,7 @@ class ClassDiagram["ClassDiagram"]{
 classDiagram
 
 class Config["Config"]{  
+      fileMode string  
       prettyPrint bool  
       templatePath string
 
@@ -76,6 +77,7 @@ class Filter["Filter"]
 | classDiagrams | ClassDiagrams allow you to add class diagrams to the documentation.                                                                                          | [ClassDiagram](#ClassDiagram)   |
 | editors       | Editors allow you to make precision changes to the documentation output. Editors are applied in the order specified.                                         | [Editor[]](#Editor)             |
 | externalLinks | ExternalLinks allow you to add links to external documentation.                                                                                              | [ExternalLink[]](#ExternalLink) |
+| fileMode      | FileMode controls how documentation files are generated. Defaults to "single-file".                                                                          | string                          |
 | prettyPrint   | PrettyPrint controls whether the Markdown output is pretty-printed or not. Defaults to true.                                                                 | bool                            |
 | templatePath  | TemplatePath is the path to a folder containing templates to use for rendering the documentation.                                                            | string                          |
 | typeFilters   | TypeFilters allow you to filter out types from the output. Filters are applied in the order specified, with earlier filters taking priority over later ones. | [Filter[]](#Filter)             |
