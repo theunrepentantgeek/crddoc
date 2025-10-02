@@ -52,9 +52,10 @@ func TestConfig_Validate_WhenModeIsInvalid_ReturnsError(t *testing.T) {
 			err := cfg.Validate()
 
 			// Assert
-			g.Expect(err).To(MatchError(ContainSubstring("invalid mode")))
-			g.Expect(err).To(MatchError(
-				ContainSubstring("must be either 'single-file' or 'multiple-file'")))
+			g.Expect(err).To(MatchError(ContainSubstring("invalid file mode")))
+			g.Expect(err).To(MatchError(ContainSubstring(mode)))
+			g.Expect(err).To(MatchError(ContainSubstring(FileModeSingleFile)))
+			g.Expect(err).To(MatchError(ContainSubstring(FileModeMultipleFile)))
 		})
 	}
 }
