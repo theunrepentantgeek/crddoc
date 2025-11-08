@@ -22,6 +22,7 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		Long:  "Generate CRD documentation from a package.",
 		RunE: func(c *cobra.Command, args []string) error {
 			options.cmd = c
+
 			return documentCRDs(args, options, log)
 		},
 	}

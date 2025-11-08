@@ -29,22 +29,22 @@ func New(log logr.Logger) *Functions {
 
 func (f *Functions) CreateFuncMap() template.FuncMap {
 	return template.FuncMap{
-		"applyEdits":               f.applyEdits,
-		"asEnum":                   f.asEnum,
-		"asObject":                 f.asObject,
-		"asPropertyReferenceList":  asList[model.PropertyReference],
-		"asPropertyContainer":      f.asPropertyContainer,
-		"asResource":               f.asResource,
-		"createLink":               f.createLink,
-		"excludeInternal":          f.excludeInternal,
-		"includeClassDiagrams":     f.includeClassDiagrams,
-		"inlineLinks":              f.inlineLinks,
-		"incudeOnlyInternal":       f.includeOnlyInternal,
-		"internalOnly":             f.includeOnlyInternal,
-		"isExternalType":           f.isExternalType,
-		"isInternalType":           f.isInternalType,
-		"lookupDeclaration":        f.lookupDeclaration,
-		"unwrap":                   f.unwrap,
+		"applyEdits":              f.applyEdits,
+		"asEnum":                  f.asEnum,
+		"asObject":                f.asObject,
+		"asPropertyReferenceList": asList[model.PropertyReference],
+		"asPropertyContainer":     f.asPropertyContainer,
+		"asResource":              f.asResource,
+		"createLink":              f.createLink,
+		"excludeInternal":         f.excludeInternal,
+		"includeClassDiagrams":    f.includeClassDiagrams,
+		"inlineLinks":             f.inlineLinks,
+		"incudeOnlyInternal":      f.includeOnlyInternal,
+		"internalOnly":            f.includeOnlyInternal,
+		"isExternalType":          f.isExternalType,
+		"isInternalType":          f.isInternalType,
+		"lookupDeclaration":       f.lookupDeclaration,
+		"unwrap":                  f.unwrap,
 	}
 }
 
