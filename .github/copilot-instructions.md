@@ -2,6 +2,24 @@
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
+## Project Overview
+
+crddoc is a documentation generation tool for Kubernetes Custom Resource Definitions (CRDs). It parses Go source code containing CRD type definitions and generates comprehensive, well-formatted Markdown documentation.
+
+### Key Features
+- Fast documentation generation (completes in seconds)
+- Built-in templates with customization support using Go templates and Sprig functions
+- Markdown output that's properly formatted and easy to read
+- Support for controller-gen marker comments
+- Type filtering to focus documentation on important types
+- Automated editor support for precise formatting adjustments
+
+### Technology Stack
+- Go 1.24.0+ (command-line tool)
+- Cobra framework for CLI structure
+- Go templates with Sprig functions for customizable output
+- Integration with golangci-lint (75+ linters) for code quality
+
 ## Working Effectively
 
 ### Bootstrap and Build
