@@ -9,5 +9,6 @@ func (f *Functions) propertyDisplayName(property *model.Property) string {
 	if f.cfg != nil && f.cfg.UseGoFieldNames {
 		return property.Field
 	}
+
 	return property.Name
 }

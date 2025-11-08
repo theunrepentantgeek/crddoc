@@ -30,7 +30,7 @@ func (f *Functions) sortProperties(properties []*model.Property) []*model.Proper
 
 // alphabeticalPropertyComparisonByField does a case insensitive comparison of the Go field names
 // of the two properties, allowing them to be sorted.
-func (f *Functions) alphabeticalPropertyComparisonByField(left *model.Property, right *model.Property) int {
+func (*Functions) alphabeticalPropertyComparisonByField(left *model.Property, right *model.Property) int {
 	leftName := strings.ToLower(left.Field)
 	rightName := strings.ToLower(right.Field)
 
@@ -39,7 +39,7 @@ func (f *Functions) alphabeticalPropertyComparisonByField(left *model.Property, 
 
 // alphabeticalPropertyComparisonByName does a case insensitive comparison of the serialized names
 // of the two properties, allowing them to be sorted.
-func (f *Functions) alphabeticalPropertyComparisonByName(left *model.Property, right *model.Property) int {
+func (*Functions) alphabeticalPropertyComparisonByName(left *model.Property, right *model.Property) int {
 	leftName := strings.ToLower(left.Name)
 	rightName := strings.ToLower(right.Name)
 
