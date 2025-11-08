@@ -2,9 +2,11 @@ package packageloader
 
 import (
 	"bufio"
+	"maps"
 	"os"
 	"path"
 	"path/filepath"
+	"slices"
 	"strings"
 	"sync"
 
@@ -210,9 +212,10 @@ func (loader *PackageLoader) collectDeclarations(
 		}
 	}
 
-	// Convert objects map back to slice
-	for _, obj := range objectsMap {
-		objects = append(objects, obj)
+	// Convert objects map back to slice in deterministic order
+	objectIDs := slices.Sorted(maps.Keys(objectsMap))
+	for _, id := range objectIDs {
+		objects = append(objects, objectsMap[id])
 	}
 
 	// Attach all collected functions to their corresponding objects

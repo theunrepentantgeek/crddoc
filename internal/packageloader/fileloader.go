@@ -142,13 +142,8 @@ func (loader *FileLoader) parseFunc(decl *dst.FuncDecl) {
 	// Get the base type name (without pointer) from the receiver
 	receiverID := function.Receiver.ID()
 
-	// Store the function keyed by receiver type
+	// Store the function keyed by receiver type for later attachment
 	loader.functions[receiverID] = append(loader.functions[receiverID], function)
-
-	// If the object exists in this file, also attach it immediately
-	if obj, ok := loader.objects[receiverID]; ok {
-		obj.AddFunction(function)
-	}
 }
 
 func (loader *FileLoader) parseDecls(decls []dst.Decl) error {
