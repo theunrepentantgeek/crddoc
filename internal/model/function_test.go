@@ -12,36 +12,6 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
-// assertHasParameter asserts that a parameter list contains a parameter with the given name and type.
-func assertHasParameter(t *testing.T, g *GomegaWithT, params []model.Parameter, name, typeName string) {
-	t.Helper()
-	g.Expect(params).NotTo(BeEmpty(), "parameter list should not be empty")
-	
-	found := false
-	for _, p := range params {
-		if p.Name == name && p.Type.Name() == typeName {
-			found = true
-			break
-		}
-	}
-	g.Expect(found).To(BeTrue(), "expected to find parameter %s of type %s", name, typeName)
-}
-
-// assertHasResult asserts that a result list contains a result with the given type.
-func assertHasResult(t *testing.T, g *GomegaWithT, results []model.Parameter, typeName string) {
-	t.Helper()
-	g.Expect(results).NotTo(BeEmpty(), "result list should not be empty")
-	
-	found := false
-	for _, r := range results {
-		if r.Type.Name() == typeName {
-			found = true
-			break
-		}
-	}
-	g.Expect(found).To(BeTrue(), "expected to find result of type %s", typeName)
-}
-
 func TestObject_Functions_ReturnsExpectedContent(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -89,7 +59,7 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				g.Expect(fn.IsPointerReceiver).To(BeFalse())
 				g.Expect(fn.Parameters).To(BeEmpty())
 				g.Expect(fn.Results).To(HaveLen(1))
-				assertHasResult(t, g, fn.Results, "string")
+				assertHasResult(t, fn.Results, "", "string")
 			},
 		},
 		"SetName exists with pointer receiver": {
@@ -101,7 +71,7 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				g.Expect(fn.Receiver.Name()).To(Equal("PersonWithMethods"))
 				g.Expect(fn.IsPointerReceiver).To(BeTrue())
 				g.Expect(fn.Parameters).To(HaveLen(1))
-				assertHasParameter(t, g, fn.Parameters, "name", "string")
+				assertHasParameter(t, fn.Parameters, "name", "string")
 				g.Expect(fn.Results).To(BeEmpty())
 			},
 		},
@@ -112,7 +82,7 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				t.Helper()
 				g.Expect(fn.Name).To(Equal("IsAdult"))
 				g.Expect(fn.Results).To(HaveLen(1))
-				assertHasResult(t, g, fn.Results, "bool")
+				assertHasResult(t, fn.Results, "", "bool")
 			},
 		},
 		"UpdateAge exists with pointer receiver and multiple operations": {
@@ -124,9 +94,9 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				g.Expect(fn.Receiver.Name()).To(Equal("PersonWithMethods"))
 				g.Expect(fn.IsPointerReceiver).To(BeTrue())
 				g.Expect(fn.Parameters).To(HaveLen(1))
-				assertHasParameter(t, g, fn.Parameters, "newAge", "int")
+				assertHasParameter(t, fn.Parameters, "newAge", "int")
 				g.Expect(fn.Results).To(HaveLen(1))
-				assertHasResult(t, g, fn.Results, "int")
+				assertHasResult(t, fn.Results, "", "int")
 			},
 		},
 		"Compare exists with named return values": {
@@ -136,12 +106,10 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				t.Helper()
 				g.Expect(fn.Name).To(Equal("Compare"))
 				g.Expect(fn.Parameters).To(HaveLen(1))
-				assertHasParameter(t, g, fn.Parameters, "other", "PersonWithMethods")
+				assertHasParameter(t, fn.Parameters, "other", "PersonWithMethods")
 				g.Expect(fn.Results).To(HaveLen(2))
-				g.Expect(fn.Results[0].Name).To(Equal("equal"))
-				assertHasResult(t, g, fn.Results, "bool")
-				g.Expect(fn.Results[1].Name).To(Equal("ageDiff"))
-				assertHasResult(t, g, fn.Results, "int")
+				assertHasResult(t, fn.Results, "equal", "bool")
+				assertHasResult(t, fn.Results, "ageDiff", "int")
 			},
 		},
 		"NonExistentMethod does not exist": {
@@ -241,3 +209,41 @@ func TestObject_Functions_FromMultipleFiles(t *testing.T) {
 	g.Expect(functionNames).To(ContainElement("GetFullInfo"))
 	g.Expect(functionNames).To(ContainElement("IncrementAge"))
 }
+
+// assertHasParameter asserts that a parameter list contains a parameter with the given name and type.
+func assertHasParameter(t *testing.T, params []model.Parameter, name, typeName string) {
+	t.Helper()
+	g := NewGomegaWithT(t)
+	g.Expect(params).NotTo(BeEmpty(), "parameter list should not be empty")
+
+	found := false
+	for _, p := range params {
+		if p.Name == name && p.Type.Name() == typeName {
+			found = true
+			break
+		}
+	}
+	g.Expect(found).To(BeTrue(), "expected to find parameter %s of type %s", name, typeName)
+}
+
+// assertHasResult asserts that a result list contains a result with the given name and type.
+func assertHasResult(t *testing.T, results []model.Parameter, resultName, typeName string) {
+	t.Helper()
+	g := NewGomegaWithT(t)
+	g.Expect(results).NotTo(BeEmpty(), "result list should not be empty")
+
+	found := false
+	for _, r := range results {
+		nameMatches := resultName == "" || r.Name == resultName
+		if nameMatches && r.Type.Name() == typeName {
+			found = true
+			break
+		}
+	}
+	if resultName == "" {
+		g.Expect(found).To(BeTrue(), "expected to find result of type %s", typeName)
+	} else {
+		g.Expect(found).To(BeTrue(), "expected to find result %s of type %s", resultName, typeName)
+	}
+}
+
