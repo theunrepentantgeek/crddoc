@@ -3,6 +3,7 @@ package config
 import (
 	"io"
 	"os"
+	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
@@ -15,6 +16,10 @@ type Config struct {
 
 	// ExternalLinks allow you to add links to external documentation.
 	ExternalLinks []*ExternalLink `yaml:"externalLinks"`
+
+	// FileMode controls how documentation files are generated.
+	// Defaults to "single-file".
+	FileMode string `yaml:"fileMode"`
 
 	// PrettyPrint controls whether the Markdown output is pretty-printed or not.
 	// Defaults to true.
@@ -38,10 +43,16 @@ type Config struct {
 	UseGoFieldNames bool `yaml:"useGoFieldNames"`
 }
 
+const (
+	FileModeSingleFile   = "Single-File"
+	FileModeMultipleFile = "Multiple-File"
+)
+
 // Standard returns the standard, as a basis for loading other configuration,
 // or for export.
 func Standard() *Config {
 	return &Config{
+		FileMode:    FileModeSingleFile,
 		PrettyPrint: true,
 	}
 }
@@ -108,7 +119,7 @@ func (c *Config) EnableClassDiagrams(value *bool) {
 		return
 	}
 
-	// Ensure we nested config exists
+	// Ensure our nested config exists
 	if c.ClassDiagrams == nil {
 		c.ClassDiagrams = &ClassDiagram{}
 	}
@@ -127,7 +138,35 @@ func (c *Config) SetUseGoFieldNames(value *bool) {
 	c.UseGoFieldNames = *value
 }
 
+// SetFileMode sets the FileMode field to the provided value.
+// If the value is nil, the field is not changed.
+// The mode value is normalized to handle case variations.
+func (c *Config) SetFileMode(fileMode *string) {
+	if fileMode == nil || *fileMode == "" {
+		// No value passed, do nothing
+		return
+	}
+
+	c.FileMode = *fileMode
+}
+
+// HasFileMode checks if the config has the specified file mode.
+// fileMode is the file mode to check for.
+func (c *Config) HasFileMode(fileMode string) bool {
+	return strings.EqualFold(c.FileMode, fileMode)
+}
+
+// Validate checks if the config is valid.
 func (c *Config) Validate() error {
+	if !c.HasFileMode(FileModeSingleFile) &&
+		!c.HasFileMode(FileModeMultipleFile) {
+		return errors.Errorf(
+			"invalid file mode %q: must be either %q or %q",
+			c.FileMode,
+			FileModeSingleFile,
+			FileModeMultipleFile)
+	}
+
 	for _, f := range c.TypeFilters {
 		if err := f.validate(); err != nil {
 			return err

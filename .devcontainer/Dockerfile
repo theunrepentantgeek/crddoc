@@ -9,7 +9,7 @@ ARG TARGETARCH
 # APT dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release
+    && apt-get -y install --no-install-recommends bash-completion lsb-release
 
 COPY install-dependencies.sh .
 COPY oh-my-posh.json .
