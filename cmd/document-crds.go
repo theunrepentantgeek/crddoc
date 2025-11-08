@@ -20,7 +20,7 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		Short: "Generate CRD documentation from a package",
 		Long:  "Generate CRD documentation from a package.",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return documentCRDs(cmd, args, options, log)
+			return documentCRDs(args, options, log)
 		},
 	}
 
@@ -70,7 +70,6 @@ type documentCRDsOptions struct {
 }
 
 func documentCRDs(
-	cmd *cobra.Command,
 	args []string,
 	options *documentCRDsOptions,
 	log logr.Logger,
@@ -79,7 +78,7 @@ func documentCRDs(
 		return err
 	}
 
-	cfg, err := loadConfig(cmd, options)
+	cfg, err := loadConfig(options)
 	if err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}
@@ -108,7 +107,6 @@ func documentCRDs(
 }
 
 func loadConfig(
-	cmd *cobra.Command,
 	options *documentCRDsOptions,
 ) (*config.Config, error) {
 	cfg := config.Standard()
