@@ -20,9 +20,7 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		Use:   "crds",
 		Short: "Generate CRD documentation from a package",
 		Long:  "Generate CRD documentation from a package.",
-		RunE: func(c *cobra.Command, args []string) error {
-			options.cmd = c
-
+		RunE: func(_ *cobra.Command, args []string) error {
 			return documentCRDs(args, options, log)
 		},
 	}
@@ -65,7 +63,6 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 }
 
 type documentCRDsOptions struct {
-	cmd           *cobra.Command
 	configPath    *string
 	outputPath    *string
 	templatePath  *string
@@ -187,11 +184,6 @@ func (options *documentCRDsOptions) validate(
 // applyToConfig applies options we've received on the command line to the config.
 func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
-
-	// Only apply class diagrams flag if it was explicitly set by the user
-	if options.cmd.Flags().Changed("class-diagrams") {
-		cfg.EnableClassDiagrams(options.classDiagrams)
-	}
-
+	cfg.EnableClassDiagrams(options.classDiagrams)
 	cfg.SetFileMode(options.fileMode)
 }
