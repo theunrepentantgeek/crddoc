@@ -15,12 +15,6 @@ type Function struct {
 	declaredOn        *Object // The object this function is declared on
 }
 
-// Parameter represents a function parameter or return value.
-type Parameter struct {
-	Name string        // Name of the parameter (may be empty)
-	Type TypeReference // Type of the parameter
-}
-
 type FunctionList []*Function
 
 // TryNewFunction attempts to create a Function from a dst.FuncDecl.

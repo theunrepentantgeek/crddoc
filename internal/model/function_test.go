@@ -12,6 +12,36 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
+// assertHasParameter asserts that a parameter list contains a parameter with the given name and type.
+func assertHasParameter(t *testing.T, g *GomegaWithT, params []model.Parameter, name, typeName string) {
+	t.Helper()
+	g.Expect(params).NotTo(BeEmpty(), "parameter list should not be empty")
+	
+	found := false
+	for _, p := range params {
+		if p.Name == name && p.Type.Name() == typeName {
+			found = true
+			break
+		}
+	}
+	g.Expect(found).To(BeTrue(), "expected to find parameter %s of type %s", name, typeName)
+}
+
+// assertHasResult asserts that a result list contains a result with the given type.
+func assertHasResult(t *testing.T, g *GomegaWithT, results []model.Parameter, typeName string) {
+	t.Helper()
+	g.Expect(results).NotTo(BeEmpty(), "result list should not be empty")
+	
+	found := false
+	for _, r := range results {
+		if r.Type.Name() == typeName {
+			found = true
+			break
+		}
+	}
+	g.Expect(found).To(BeTrue(), "expected to find result of type %s", typeName)
+}
+
 func TestObject_Functions_ReturnsExpectedContent(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -43,84 +73,75 @@ func TestObject_Functions_ReturnsExpectedContent(t *testing.T) {
 
 func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
 
 	cases := map[string]struct {
 		functionName   string
 		expectedExists bool
-		checkDetails   func(*testing.T, *model.Function)
+		checkDetails   func(*testing.T, *GomegaWithT, *model.Function)
 	}{
 		"GetName exists with value receiver": {
 			functionName:   "GetName",
 			expectedExists: true,
-			checkDetails: func(t *testing.T, fn *model.Function) {
+			checkDetails: func(t *testing.T, g *GomegaWithT, fn *model.Function) {
 				t.Helper()
-				g := NewGomegaWithT(t)
 				g.Expect(fn.Name).To(Equal("GetName"))
 				g.Expect(fn.Receiver.Name()).To(Equal("PersonWithMethods"))
 				g.Expect(fn.IsPointerReceiver).To(BeFalse())
 				g.Expect(fn.Parameters).To(BeEmpty())
 				g.Expect(fn.Results).To(HaveLen(1))
-				g.Expect(fn.Results[0].Type.Name()).To(Equal("string"))
+				assertHasResult(t, g, fn.Results, "string")
 			},
 		},
 		"SetName exists with pointer receiver": {
 			functionName:   "SetName",
 			expectedExists: true,
-			checkDetails: func(t *testing.T, fn *model.Function) {
+			checkDetails: func(t *testing.T, g *GomegaWithT, fn *model.Function) {
 				t.Helper()
-				g := NewGomegaWithT(t)
 				g.Expect(fn.Name).To(Equal("SetName"))
 				g.Expect(fn.Receiver.Name()).To(Equal("PersonWithMethods"))
 				g.Expect(fn.IsPointerReceiver).To(BeTrue())
 				g.Expect(fn.Parameters).To(HaveLen(1))
-				g.Expect(fn.Parameters[0].Name).To(Equal("name"))
-				g.Expect(fn.Parameters[0].Type.Name()).To(Equal("string"))
+				assertHasParameter(t, g, fn.Parameters, "name", "string")
 				g.Expect(fn.Results).To(BeEmpty())
 			},
 		},
 		"IsAdult exists": {
 			functionName:   "IsAdult",
 			expectedExists: true,
-			checkDetails: func(t *testing.T, fn *model.Function) {
+			checkDetails: func(t *testing.T, g *GomegaWithT, fn *model.Function) {
 				t.Helper()
-				g := NewGomegaWithT(t)
 				g.Expect(fn.Name).To(Equal("IsAdult"))
 				g.Expect(fn.Results).To(HaveLen(1))
-				g.Expect(fn.Results[0].Type.Name()).To(Equal("bool"))
+				assertHasResult(t, g, fn.Results, "bool")
 			},
 		},
 		"UpdateAge exists with pointer receiver and multiple operations": {
 			functionName:   "UpdateAge",
 			expectedExists: true,
-			checkDetails: func(t *testing.T, fn *model.Function) {
+			checkDetails: func(t *testing.T, g *GomegaWithT, fn *model.Function) {
 				t.Helper()
-				g := NewGomegaWithT(t)
 				g.Expect(fn.Name).To(Equal("UpdateAge"))
 				g.Expect(fn.Receiver.Name()).To(Equal("PersonWithMethods"))
 				g.Expect(fn.IsPointerReceiver).To(BeTrue())
 				g.Expect(fn.Parameters).To(HaveLen(1))
-				g.Expect(fn.Parameters[0].Name).To(Equal("newAge"))
-				g.Expect(fn.Parameters[0].Type.Name()).To(Equal("int"))
+				assertHasParameter(t, g, fn.Parameters, "newAge", "int")
 				g.Expect(fn.Results).To(HaveLen(1))
-				g.Expect(fn.Results[0].Type.Name()).To(Equal("int"))
+				assertHasResult(t, g, fn.Results, "int")
 			},
 		},
 		"Compare exists with named return values": {
 			functionName:   "Compare",
 			expectedExists: true,
-			checkDetails: func(t *testing.T, fn *model.Function) {
+			checkDetails: func(t *testing.T, g *GomegaWithT, fn *model.Function) {
 				t.Helper()
-				g := NewGomegaWithT(t)
 				g.Expect(fn.Name).To(Equal("Compare"))
 				g.Expect(fn.Parameters).To(HaveLen(1))
-				g.Expect(fn.Parameters[0].Name).To(Equal("other"))
-				g.Expect(fn.Parameters[0].Type.Name()).To(Equal("PersonWithMethods"))
+				assertHasParameter(t, g, fn.Parameters, "other", "PersonWithMethods")
 				g.Expect(fn.Results).To(HaveLen(2))
 				g.Expect(fn.Results[0].Name).To(Equal("equal"))
-				g.Expect(fn.Results[0].Type.Name()).To(Equal("bool"))
+				assertHasResult(t, g, fn.Results, "bool")
 				g.Expect(fn.Results[1].Name).To(Equal("ageDiff"))
-				g.Expect(fn.Results[1].Type.Name()).To(Equal("int"))
+				assertHasResult(t, g, fn.Results, "int")
 			},
 		},
 		"NonExistentMethod does not exist": {
@@ -133,6 +154,7 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 	loader := packageloader.New(cfg, logr.Discard())
 
 	pkg, err := loader.LoadFile(testdataPath(t, "person_with_methods.go"))
+	g := NewGomegaWithT(t)
 	g.Expect(err).To(Succeed())
 	g.Expect(pkg).NotTo(BeNil())
 
@@ -157,7 +179,7 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				g.Expect(fn.DeclaredOn()).To(Equal(obj))
 
 				if c.checkDetails != nil {
-					c.checkDetails(t, fn)
+					c.checkDetails(t, g, fn)
 				}
 			}
 		})
