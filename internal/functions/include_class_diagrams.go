@@ -14,5 +14,5 @@ func (f *Functions) includeClassDiagrams() bool {
 	}
 
 	// Otherwise default based on whether other class diagram options are set
-	return f.cfg.ClassDiagrams.Empty()
+	return !f.cfg.ClassDiagrams.Empty()
 }

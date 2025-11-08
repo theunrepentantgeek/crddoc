@@ -26,34 +26,35 @@ class {{ $id }}["{{ $name }}"]
 {{- end -}}
 {{ "\n" -}}
 
-{{/* Add links to other types declared in this package */}}
-{{/* First collect related types so we can count them */}}
-{{- $relatedTypes := list -}}
-{{- range .Properties -}}
-  {{- if .Type | isInternalType -}}
-    {{- $relatedTypes = append $relatedTypes .Name -}}
-  {{- end -}}
-{{- end -}}
-
-{{/* Add links with adjusted direction based on count */}}
-{{- $counter := 0 -}}
-{{- $halfCount := div (len $relatedTypes) 2 -}}
-{{- range .Properties -}}
-  {{- if .Type | isInternalType -}}
-    {{- $propertyName := .Name -}}
-    {{- with $relatedType := .Type.ID | lookupDeclaration -}}
-      {{- if and (gt (len $relatedTypes) dependencySplitThreshold) (lt $counter $halfCount) -}}
-        {{ $relatedType.ID }} -- {{ $id }} : {{ $propertyName }} {{ "\n" -}}
-      {{- else -}}
-        {{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }} {{ "\n" -}}
-      {{- end -}}
-    {{- end -}}
-    {{- $counter = add $counter 1 -}}
+{{/* Inbound references - types that reference this type */}}
+{{- range .Usage -}}
+  {{- $propRef := . -}}
+  {{- with $referencingType := .HostID | lookupDeclaration -}}
+{{ $referencingType.ID }} -- {{ $id }} : {{ $propRef.Property }} {{ "\n" -}}
   {{- end -}}
 {{- end -}}
 {{ "\n" -}}
 
-{{/* Add class nodes for other types declared in this package */}}
+{{/* Outbound references - types this type references */}}
+{{- range .Properties -}}
+  {{- if .Type | isInternalType -}}
+    {{- $propertyName := .Name -}}
+    {{- with $relatedType := .Type.ID | lookupDeclaration -}}
+{{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }} {{ "\n" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{ "\n" -}}
+
+{{/* Add class nodes for inbound references */}}
+{{- range .Usage -}}
+  {{- with $referencingType := .HostID | lookupDeclaration -}}
+class {{ $referencingType.ID }}["{{ $referencingType.Display }}"]
+    {{- "\n" -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Add class nodes for outbound references */}}
 {{- range .Properties -}}
   {{- if .Type | isInternalType -}}
     {{- with $relatedType := .Type.ID | lookupDeclaration -}}

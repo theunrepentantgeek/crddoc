@@ -36,7 +36,6 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"asPropertyContainer":      f.asPropertyContainer,
 		"asResource":               f.asResource,
 		"createLink":               f.createLink,
-		"dependencySplitThreshold": f.dependencySplitThreshold,
 		"excludeInternal":          f.excludeInternal,
 		"includeClassDiagrams":     f.includeClassDiagrams,
 		"inlineLinks":              f.inlineLinks,
