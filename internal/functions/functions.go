@@ -38,6 +38,7 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"createLink":              f.createLink,
 		"excludeInternal":         f.excludeInternal,
 		"includeClassDiagrams":    f.includeClassDiagrams,
+		"includeFunctions":        f.includeFunctions,
 		"inlineLinks":             f.inlineLinks,
 		"incudeOnlyInternal":      f.includeOnlyInternal,
 		"internalOnly":            f.includeOnlyInternal,

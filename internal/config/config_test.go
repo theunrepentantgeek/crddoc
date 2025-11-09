@@ -1,6 +1,7 @@
 package config
 
 import (
+	"os"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -112,4 +113,75 @@ func TestConfig_HasFileMode_ReturnsExpectedResults(t *testing.T) {
 			g.Expect(cfg.HasFileMode(c.testFileMode)).To(Equal(c.expected))
 		})
 	}
+}
+
+func TestConfig_SetIncludeFunctions_WithNil_DoesNotChangeValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	cfg := Standard()
+	cfg.IncludeFunctions = true
+
+	// Act
+	cfg.SetIncludeFunctions(nil)
+
+	// Assert
+	g.Expect(cfg.IncludeFunctions).To(BeTrue())
+}
+
+func TestConfig_SetIncludeFunctions_WithTrue_SetsTrue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	cfg := Standard()
+	value := true
+
+	// Act
+	cfg.SetIncludeFunctions(&value)
+
+	// Assert
+	g.Expect(cfg.IncludeFunctions).To(BeTrue())
+}
+
+func TestConfig_SetIncludeFunctions_WithFalse_SetsFalse(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	cfg := Standard()
+	cfg.IncludeFunctions = true
+	value := false
+
+	// Act
+	cfg.SetIncludeFunctions(&value)
+
+	// Assert
+	g.Expect(cfg.IncludeFunctions).To(BeFalse())
+}
+
+func TestConfig_Load_WithIncludeFunctions_LoadsCorrectly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Create a temporary config file
+	tmpDir := t.TempDir()
+	configPath := tmpDir + "/test-config.yaml"
+
+	configContent := `includeFunctions: true
+prettyPrint: true
+`
+	err := os.WriteFile(configPath, []byte(configContent), 0o600)
+	g.Expect(err).To(Succeed())
+
+	// Arrange
+	cfg := Standard()
+
+	// Act
+	err = cfg.Load(configPath)
+
+	// Assert
+	g.Expect(err).To(Succeed())
+	g.Expect(cfg.IncludeFunctions).To(BeTrue())
 }

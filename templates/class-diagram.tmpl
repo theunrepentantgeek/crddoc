@@ -14,10 +14,28 @@ classDiagram
 {{/* Create class declaration */}}
 {{- with . | asPropertyContainer -}}
 class {{ $id }}["{{ $name }}"]
-{{- if .Properties | excludeInternal -}} {
+{{- if or (.Properties | excludeInternal) (and includeFunctions .Functions) -}} {
   {{- range .Properties | sortProperties -}}
     {{- if not (.Type | isInternalType) }}  
       {{ . | propertyDisplayName }} {{ .Type.Display }}
+    {{- end -}}
+  {{- end -}}
+  {{- if includeFunctions -}}
+    {{- range .Functions }}  
+      {{ .Name }}(
+      {{- range $i, $p := .Parameters -}}
+        {{- if $i }}, {{ end -}}
+        {{- if $p.Name }}{{ $p.Name }}: {{ end -}}
+        {{- $p.Type.Display -}}
+      {{- end -}}
+      )
+      {{- if .Results }} : 
+        {{- range $i, $r := .Results -}}
+          {{- if $i }}, {{ end -}}
+          {{- if $r.Name }}{{ $r.Name }}: {{ end -}}
+          {{- $r.Type.Display -}}
+        {{- end -}}
+      {{- end }}
     {{- end -}}
   {{- end }}
 {{ "\n" -}} {{/* Have to have a blank line here to avoid parsing errors when there are no properties */}}

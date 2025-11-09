@@ -1,0 +1,14 @@
+{{ define "function" -}}
+| {{ .Name -}}
+{{- if .IsPointerReceiver }}*{{ end }} | {{ .Description | inlineLinks | unwrap | applyEdits -}} 
+| {{ range $i, $p := .Parameters -}}
+{{- if $i }}, {{ end -}}
+{{- if $p.Name }}{{ $p.Name }} {{ end -}}
+{{- $p.Type.Display -}}
+{{- end -}} 
+| {{ range $i, $r := .Results -}}
+{{- if $i }}, {{ end -}}
+{{- if $r.Name }}{{ $r.Name }} {{ end -}}
+{{- $r.Type.Display -}}
+{{- end -}} |
+{{- end }}
