@@ -22,6 +22,8 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		Long:  "Generate CRD documentation from a package.",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Capture whether flags were explicitly set by the user
+			options.classDiagramsSet = cmd.Flags().Changed("class-diagrams")
+			options.useGoFieldNamesSet = cmd.Flags().Changed("use-go-field-names")
 			options.includeFunctionsSet = cmd.Flags().Changed("include-functions")
 			return documentCRDs(args, options, log)
 		},
@@ -81,7 +83,9 @@ type documentCRDsOptions struct {
 	outputPath          *string
 	templatePath        *string
 	classDiagrams       *bool
+	classDiagramsSet    bool // tracks if classDiagrams was explicitly set by user
 	useGoFieldNames     *bool
+	useGoFieldNamesSet  bool // tracks if useGoFieldNames was explicitly set by user
 	fileMode            *string
 	includeFunctions    *bool
 	includeFunctionsSet bool // tracks if includeFunctions was explicitly set by user
@@ -201,11 +205,18 @@ func (options *documentCRDsOptions) validate(
 // applyToConfig applies options we've received on the command line to the config.
 func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
-	cfg.EnableClassDiagrams(options.classDiagrams)
-	cfg.SetUseGoFieldNames(options.useGoFieldNames)
 	cfg.SetFileMode(options.fileMode)
 
-	// Only apply the includeFunctions flag if it was explicitly set by the user
+	// Only apply boolean flags if they were explicitly set by the user
+	// This allows config file values to be preserved when flags aren't specified
+	if options.classDiagramsSet {
+		cfg.EnableClassDiagrams(options.classDiagrams)
+	}
+
+	if options.useGoFieldNamesSet {
+		cfg.SetUseGoFieldNames(options.useGoFieldNames)
+	}
+
 	if options.includeFunctionsSet {
 		cfg.SetIncludeFunctions(options.includeFunctions)
 	}
