@@ -113,3 +113,49 @@ func TestConfig_HasFileMode_ReturnsExpectedResults(t *testing.T) {
 		})
 	}
 }
+
+func TestConfig_SetIncludeFunctions_WithNil_DoesNotChangeValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	cfg := Standard()
+	cfg.IncludeFunctions = true
+
+	// Act
+	cfg.SetIncludeFunctions(nil)
+
+	// Assert
+	g.Expect(cfg.IncludeFunctions).To(BeTrue())
+}
+
+func TestConfig_SetIncludeFunctions_WithTrue_SetsTrue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	cfg := Standard()
+	value := true
+
+	// Act
+	cfg.SetIncludeFunctions(&value)
+
+	// Assert
+	g.Expect(cfg.IncludeFunctions).To(BeTrue())
+}
+
+func TestConfig_SetIncludeFunctions_WithFalse_SetsFalse(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	cfg := Standard()
+	cfg.IncludeFunctions = true
+	value := false
+
+	// Act
+	cfg.SetIncludeFunctions(&value)
+
+	// Assert
+	g.Expect(cfg.IncludeFunctions).To(BeFalse())
+}
