@@ -38,9 +38,11 @@ func TestObject_Functions_ReturnsExpectedContent(t *testing.T) {
 	for i, fn := range functions {
 		functionNames[i] = fn.Name
 	}
+
 	g.Expect(functionNames).To(ConsistOf("GetName", "SetName", "IsAdult", "UpdateAge", "Compare"))
 }
 
+//nolint:revive,funlen,maintidx // comprehensive test coverage requires detailed test cases
 func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 	t.Parallel()
 
@@ -174,8 +176,12 @@ func TestFunction_Description_ParsesComments(t *testing.T) {
 	// Check that GetName has a description
 	fn, ok := obj.Function("GetName")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(fn.Description()).NotTo(BeEmpty())
-	g.Expect(fn.Description()[0]).To(ContainSubstring("returns the name"))
+	g.Expect(fn).NotTo(BeNil())
+
+	if fn != nil {
+		g.Expect(fn.Description()).NotTo(BeEmpty())
+		g.Expect(fn.Description()[0]).To(ContainSubstring("returns the name"))
+	}
 }
 
 func TestObject_Functions_FromMultipleFiles(t *testing.T) {
@@ -206,23 +212,28 @@ func TestObject_Functions_FromMultipleFiles(t *testing.T) {
 	for i, fn := range functions {
 		functionNames[i] = fn.Name
 	}
+
 	g.Expect(functionNames).To(ContainElement("GetFullInfo"))
 	g.Expect(functionNames).To(ContainElement("IncrementAge"))
 }
 
-// assertHasParameter asserts that a parameter list contains a parameter with the given name and type.
+// assertHasParameter asserts that a parameter list contains a parameter
+// with the given name and type.
 func assertHasParameter(t *testing.T, params []model.Parameter, name, typeName string) {
 	t.Helper()
 	g := NewGomegaWithT(t)
 	g.Expect(params).NotTo(BeEmpty(), "parameter list should not be empty")
 
 	found := false
+
 	for _, p := range params {
 		if p.Name == name && p.Type.Name() == typeName {
 			found = true
+
 			break
 		}
 	}
+
 	g.Expect(found).To(BeTrue(), "expected to find parameter %s of type %s", name, typeName)
 }
 
@@ -233,17 +244,19 @@ func assertHasResult(t *testing.T, results []model.Parameter, resultName, typeNa
 	g.Expect(results).NotTo(BeEmpty(), "result list should not be empty")
 
 	found := false
+
 	for _, r := range results {
 		nameMatches := resultName == "" || r.Name == resultName
 		if nameMatches && r.Type.Name() == typeName {
 			found = true
+
 			break
 		}
 	}
+
 	if resultName == "" {
 		g.Expect(found).To(BeTrue(), "expected to find result of type %s", typeName)
 	} else {
 		g.Expect(found).To(BeTrue(), "expected to find result %s of type %s", resultName, typeName)
 	}
 }
-

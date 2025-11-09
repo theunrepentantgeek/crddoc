@@ -2,11 +2,9 @@ package packageloader
 
 import (
 	"bufio"
-	"maps"
 	"os"
 	"path"
 	"path/filepath"
-	"slices"
 	"strings"
 	"sync"
 
@@ -182,11 +180,11 @@ func (loader *PackageLoader) collectDeclarations(
 
 	// Initialize slices for each type of declaration
 	var resources []*model.Resource
-	var objects []*model.Object
 	var enums []*model.Enum
 
 	// Collect all objects and merge them by ID to handle objects split across files
-	objectsMap := make(map[string]*model.Object)
+	objects := make(map[string]*model.Object)
+
 	// Collect all functions keyed by receiver type
 	allFunctions := make(map[string][]*model.Function)
 
@@ -199,7 +197,7 @@ func (loader *PackageLoader) collectDeclarations(
 
 		// Merge objects by ID
 		for _, obj := range fl.Objects() {
-			objectsMap[obj.ID()] = obj
+			objects[obj.ID()] = obj
 		}
 
 		// Collect all functions
@@ -212,14 +210,8 @@ func (loader *PackageLoader) collectDeclarations(
 		}
 	}
 
-	// Convert objects map back to slice in deterministic order
-	objectIDs := slices.Sorted(maps.Keys(objectsMap))
-	for _, id := range objectIDs {
-		objects = append(objects, objectsMap[id])
-	}
-
 	// Attach all collected functions to their corresponding objects
-	loader.attachFunctionsToObjects(objectsMap, allFunctions)
+	loader.attachFunctionsToObjects(objects, allFunctions)
 
 	builder := &model.PackageBuilder{
 		Resources: resources,
@@ -234,7 +226,7 @@ func (loader *PackageLoader) collectDeclarations(
 }
 
 // attachFunctionsToObjects attaches all collected functions to their corresponding objects.
-func (loader *PackageLoader) attachFunctionsToObjects(
+func (*PackageLoader) attachFunctionsToObjects(
 	objects map[string]*model.Object,
 	functions map[string][]*model.Function,
 ) {

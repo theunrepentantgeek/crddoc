@@ -9,7 +9,7 @@ import (
 // PackageBuilder is a builder for Package instances.
 type PackageBuilder struct {
 	Resources []*Resource
-	Objects   []*Object
+	Objects   map[string]*Object
 	Enums     []*Enum
 	Metadata  *PackageMarkers
 	Config    *config.Config
@@ -25,8 +25,13 @@ func (b *PackageBuilder) Build() *Package {
 		log:      b.Log,
 	}
 
+	for _, o := range b.Objects {
+		o.SetPackage(result)
+	}
+
+	result.objects = b.Objects
+
 	result.resources = indexByName(b.Resources, result)
-	result.objects = indexByName(b.Objects, result)
 	result.enums = indexByName(b.Enums, result)
 
 	result.catalogCrossReferences()
