@@ -92,6 +92,52 @@ class EnumValue["EnumValue"]{
 | name        |             | string       |
 | value       |             | dst.BasicLit |
 
+<a id="Function"></a>Function
+-----------------------------
+
+Function represents a method declared on a struct type.
+
+Used by: [Object.functions](#Object).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+
+class Function["Function"]{  
+      description string[]  
+      IsPointerReceiver bool  
+      Name string
+
+
+} 
+
+
+Function -- Object : declaredOn 
+Function -- Parameter : Parameters 
+Function -- TypeReference : Receiver 
+Function -- Parameter : Results 
+
+class Object["Object"]
+class Parameter["Parameter"]
+class TypeReference["TypeReference"]
+class Parameter["Parameter"]
+
+```
+
+| Property          | Description | Type                            |
+|-------------------|-------------|---------------------------------|
+| declaredOn        |             | [Object](#Object)               |
+| description       |             | string[]                        |
+| IsPointerReceiver |             | bool                            |
+| Name              |             | string                          |
+| Parameters        |             | [Parameter[]](#Parameter)       |
+| Receiver          |             | [TypeReference](#TypeReference) |
+| Results           |             | [Parameter[]](#Parameter)       |
+
 <a id="ImportReference"></a>ImportReference
 -------------------------------------------
 
@@ -188,7 +234,7 @@ class MarkerValue["MarkerValue"]{
 <a id="Object"></a>Object
 -------------------------
 
-Used by: [Package.objects](#Package), and [PackageBuilder.Objects](#PackageBuilder).
+Used by: [Function.declaredOn](#Function), [Package.objects](#Package), and [PackageBuilder.Objects](#PackageBuilder).
 
 ```mermaid
 ---
@@ -206,10 +252,12 @@ class Object["Object"]{
 } 
 
 
+Object -- Function : functions 
 Object -- Package : pkg 
 Object -- Property : properties 
 Object -- PropertyReference : usage 
 
+class Function["Function"]
 class Package["Package"]
 class Property["Property"]
 class PropertyReference["PropertyReference"]
@@ -221,6 +269,7 @@ class PropertyReference["PropertyReference"]
 | [TypeReference](#TypeReference) |             |                                           |
 | description                     |             | string[]                                  |
 | embeds                          |             | PropertyList                              |
+| functions                       |             | [map[string]Function](#Function)          |
 | pkg                             |             | [Package](#Package)                       |
 | properties                      |             | [map[string]Property](#Property)          |
 | usage                           |             | [PropertyReference[]](#PropertyReference) |
@@ -313,7 +362,7 @@ class Resource["Resource"]
 | Enums     |             | [Enum[]](#Enum)                   |
 | Log       |             | logr.Logger                       |
 | Metadata  |             | [PackageMarkers](#PackageMarkers) |
-| Objects   |             | [Object[]](#Object)               |
+| Objects   |             | [map[string]Object](#Object)      |
 | Resources |             | [Resource[]](#Resource)           |
 
 <a id="PackageMarkers"></a>PackageMarkers
@@ -363,6 +412,39 @@ class MarkerValue["MarkerValue"]
 | optional       |             | [MarkerSwitch](#MarkerSwitch) |
 | required       |             | [MarkerSwitch](#MarkerSwitch) |
 | version        |             | [MarkerValue](#MarkerValue)   |
+
+<a id="Parameter"></a>Parameter
+-------------------------------
+
+Parameter represents a function parameter or return value.
+
+Used by: [Function.Parameters](#Function), and [Function.Results](#Function).
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+
+class Parameter["Parameter"]{  
+      Name string
+
+
+} 
+
+
+Parameter -- TypeReference : Type 
+
+class TypeReference["TypeReference"]
+
+```
+
+| Property | Description | Type                            |
+|----------|-------------|---------------------------------|
+| Name     |             | string                          |
+| Type     |             | [TypeReference](#TypeReference) |
 
 <a id="PropertyReference"></a>PropertyReference
 -----------------------------------------------
@@ -518,7 +600,7 @@ class MarkerSwitch["MarkerSwitch"]
 <a id="TypeReference"></a>TypeReference
 ---------------------------------------
 
-Used by: [Enum.base](#Enum), and [Property.Type](#Property).
+Used by: [Enum.base](#Enum), [Function.Receiver](#Function), [Parameter.Type](#Parameter), and [Property.Type](#Property).
 
 ```mermaid
 ---

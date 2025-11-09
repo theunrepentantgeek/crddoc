@@ -178,34 +178,53 @@ func (loader *PackageLoader) collectDeclarations(
 ) {
 	metadata := loader.readMetadata(folder)
 
-	// Initialize slices for each type of declaration
-	var resources []*model.Resource
-	var objects []*model.Object
-	var enums []*model.Enum
+	// Collect all functions keyed by receiver type
+	allFunctions := make(map[string][]*model.Function)
+
+	builder := &model.PackageBuilder{
+		Objects:  make(map[string]*model.Object),
+		Metadata: metadata,
+		Config:   loader.cfg,
+		Log:      loader.log,
+	}
 
 	for fl := range loadedFiles {
 		loader.log.V(3).Info("Collecting declarations", "file", fl.name)
 
 		// Get declarations by type directly
-		resources = append(resources, fl.Resources()...)
-		objects = append(objects, fl.Objects()...)
-		enums = append(enums, fl.Enums()...)
+		builder.AddResources(fl.Resources()...)
+		builder.AddEnums(fl.Enums()...)
+		builder.AddObjects(fl.Objects()...)
+
+		// Collect all functions
+		for receiverID, funcs := range fl.Functions() {
+			allFunctions[receiverID] = append(allFunctions[receiverID], funcs...)
+		}
 
 		if err := metadata.Merge(fl.PackageMarkers()); err != nil {
 			loader.log.Error(err, "Failed to merge package markers")
 		}
 	}
 
-	builder := &model.PackageBuilder{
-		Resources: resources,
-		Objects:   objects,
-		Enums:     enums,
-		Metadata:  metadata,
-		Config:    loader.cfg,
-		Log:       loader.log,
-	}
+	// Attach all collected functions to their corresponding objects
+	loader.attachFunctionsToObjects(builder.Objects, allFunctions)
+
 	pkg := builder.Build()
 	packages <- pkg
+}
+
+// attachFunctionsToObjects attaches all collected functions to their corresponding objects.
+func (*PackageLoader) attachFunctionsToObjects(
+	objects map[string]*model.Object,
+	functions map[string][]*model.Function,
+) {
+	for receiverID, funcs := range functions {
+		if obj, ok := objects[receiverID]; ok {
+			for _, fn := range funcs {
+				obj.AddFunction(fn)
+			}
+		}
+	}
 }
 
 func (*PackageLoader) collectErrors(

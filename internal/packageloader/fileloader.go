@@ -24,6 +24,7 @@ type FileLoader struct {
 	objects          map[string]*model.Object
 	enums            map[string]*model.Enum
 	values           map[string][]*model.EnumValue
+	functions        map[string][]*model.Function // Functions keyed by receiver type ID
 	packageMarkers   *model.PackageMarkers
 	log              logr.Logger
 }
@@ -42,6 +43,7 @@ func NewFileLoader(
 		objects:          make(map[string]*model.Object),
 		enums:            make(map[string]*model.Enum),
 		values:           make(map[string][]*model.EnumValue),
+		functions:        make(map[string][]*model.Function),
 		packageMarkers:   model.NewPackageMarkers(),
 		log:              log,
 	}
@@ -129,12 +131,29 @@ func (loader *FileLoader) parseConstants(
 	}
 }
 
+// parseFunc parses a function declaration and stores it for later attachment to objects.
+func (loader *FileLoader) parseFunc(decl *dst.FuncDecl) {
+	// Try to create a function from this declaration
+	function, ok := model.TryNewFunction(decl)
+	if !ok {
+		return
+	}
+
+	// Get the base type name (without pointer) from the receiver
+	receiverID := function.Receiver.ID()
+
+	// Store the function keyed by receiver type for later attachment
+	loader.functions[receiverID] = append(loader.functions[receiverID], function)
+}
+
 func (loader *FileLoader) parseDecls(decls []dst.Decl) error {
 	for _, decl := range decls {
 		if gd, ok := decl.(*dst.GenDecl); ok {
 			if err := loader.parseDecl(gd); err != nil {
 				return err
 			}
+		} else if fd, ok := decl.(*dst.FuncDecl); ok {
+			loader.parseFunc(fd)
 		}
 	}
 
@@ -204,6 +223,10 @@ func (loader *FileLoader) Objects() []*model.Object {
 
 func (loader *FileLoader) Enums() []*model.Enum {
 	return filterDeclarations(loader.enums, loader.typeFilters)
+}
+
+func (loader *FileLoader) Functions() map[string][]*model.Function {
+	return loader.functions
 }
 
 func filterDeclarations[D model.Declaration](

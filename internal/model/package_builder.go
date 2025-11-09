@@ -9,11 +9,34 @@ import (
 // PackageBuilder is a builder for Package instances.
 type PackageBuilder struct {
 	Resources []*Resource
-	Objects   []*Object
+	Objects   map[string]*Object
 	Enums     []*Enum
 	Metadata  *PackageMarkers
 	Config    *config.Config
 	Log       logr.Logger
+}
+
+// AddResources adds resources to the builder.
+func (b *PackageBuilder) AddResources(resources ...*Resource) {
+	b.Resources = append(b.Resources, resources...)
+}
+
+// AddObjects adds objects to the builder.
+func (b *PackageBuilder) AddObjects(objects ...*Object) {
+	for _, obj := range objects {
+		if _, exists := b.Objects[obj.ID()]; exists {
+			b.Log.V(1).Info(
+				"Duplicate object ID encountered; overwriting previous object",
+				"objectID", obj.ID())
+		}
+
+		b.Objects[obj.ID()] = obj
+	}
+}
+
+// AddEnums adds enums to the builder.
+func (b *PackageBuilder) AddEnums(enums ...*Enum) {
+	b.Enums = append(b.Enums, enums...)
 }
 
 // Build creates a new Package from the builder.
@@ -25,8 +48,13 @@ func (b *PackageBuilder) Build() *Package {
 		log:      b.Log,
 	}
 
+	for _, o := range b.Objects {
+		o.SetPackage(result)
+	}
+
+	result.objects = b.Objects
+
 	result.resources = indexByName(b.Resources, result)
-	result.objects = indexByName(b.Objects, result)
 	result.enums = indexByName(b.Enums, result)
 
 	result.catalogCrossReferences()

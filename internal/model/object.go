@@ -12,6 +12,7 @@ type Object struct {
 	TypeReference
 	properties  map[string]*Property
 	embeds      PropertyList
+	functions   map[string]*Function
 	description []string
 	pkg         *Package
 	usage       []PropertyReference // List of other properties that reference this object
@@ -69,6 +70,7 @@ func NewObjectType(
 			id:      id,
 		},
 		properties:  make(map[string]*Property),
+		functions:   make(map[string]*Function),
 		description: description,
 	}
 }
@@ -134,6 +136,33 @@ func (o *Object) Description() []string {
 	return o.description
 }
 
+// Functions returns all the functions/methods of the object, in alphabetical order.
+func (o *Object) Functions() FunctionList {
+	result := slices.SortedFunc(
+		maps.Values(o.functions),
+		alphabeticalFunctionComparison)
+
+	return result
+}
+
+// Function returns the function with the given name and true,
+// or nil and false if not found.
+func (o *Object) Function(name string) (*Function, bool) {
+	fn, ok := o.functions[name]
+
+	return fn, ok
+}
+
+// AddFunction adds a function to the object.
+func (o *Object) AddFunction(fn *Function) {
+	if fn == nil {
+		return
+	}
+
+	fn.setDeclaredOn(o)
+	o.functions[fn.Name] = fn
+}
+
 func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
@@ -171,21 +200,48 @@ func (*Object) findEmbeddedStructs(structType *dst.StructType) PropertyList {
 
 func (o *Object) linkImports(importReferences ImportReferenceSet) {
 	for _, property := range o.properties {
-		if path, ok := importReferences.LookupImportPath(property.Type); ok {
-			property.Type.impPath = path
-		}
+		o.linkImportsToType(&property.Type, importReferences)
 	}
 
 	for _, embed := range o.embeds {
-		if path, ok := importReferences.LookupImportPath(embed.Type); ok {
-			embed.Type.impPath = path
+		o.linkImportsToType(&embed.Type, importReferences)
+	}
+
+	for _, function := range o.functions {
+		// Link receiver type
+		o.linkImportsToType(&function.Receiver, importReferences)
+
+		// Link parameter types
+		for i := range function.Parameters {
+			o.linkImportsToType(&function.Parameters[i].Type, importReferences)
 		}
+
+		// Link result types
+		for i := range function.Results {
+			o.linkImportsToType(&function.Results[i].Type, importReferences)
+		}
+	}
+}
+
+// linkImportsToType links a single TypeReference to its import path if available.
+func (*Object) linkImportsToType(typeRef *TypeReference, importReferences ImportReferenceSet) {
+	if path, ok := importReferences.LookupImportPath(*typeRef); ok {
+		typeRef.impPath = path
 	}
 }
 
 // alphabeticalPropertyComparison does a case insensitive comparison of the names of the
 // two properties, allowing them to be sorted.
 func alphabeticalPropertyComparison(left *Property, right *Property) int {
+	leftName := strings.ToLower(left.Name)
+	rightName := strings.ToLower(right.Name)
+
+	return strings.Compare(leftName, rightName)
+}
+
+// alphabeticalFunctionComparison does a case insensitive comparison of the names of the
+// two functions, allowing them to be sorted.
+func alphabeticalFunctionComparison(left *Function, right *Function) int {
 	leftName := strings.ToLower(left.Name)
 	rightName := strings.ToLower(right.Name)
 
