@@ -197,6 +197,9 @@ func (loader *PackageLoader) collectDeclarations(
 
 		// Merge objects by ID
 		for _, obj := range fl.Objects() {
+			if _, exists := objects[obj.ID()]; exists {
+				loader.log.V(1).Info("Duplicate object ID encountered; overwriting previous object", "objectID", obj.ID(), "file", fl.name)
+			}
 			objects[obj.ID()] = obj
 		}
 
