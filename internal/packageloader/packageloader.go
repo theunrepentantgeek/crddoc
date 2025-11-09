@@ -178,30 +178,23 @@ func (loader *PackageLoader) collectDeclarations(
 ) {
 	metadata := loader.readMetadata(folder)
 
-	// Initialize slices for each type of declaration
-	var resources []*model.Resource
-	var enums []*model.Enum
-
-	// Collect all objects and merge them by ID to handle objects split across files
-	objects := make(map[string]*model.Object)
-
 	// Collect all functions keyed by receiver type
 	allFunctions := make(map[string][]*model.Function)
+
+	builder := &model.PackageBuilder{
+		Objects:  make(map[string]*model.Object),
+		Metadata: metadata,
+		Config:   loader.cfg,
+		Log:      loader.log,
+	}
 
 	for fl := range loadedFiles {
 		loader.log.V(3).Info("Collecting declarations", "file", fl.name)
 
 		// Get declarations by type directly
-		resources = append(resources, fl.Resources()...)
-		enums = append(enums, fl.Enums()...)
-
-		// Merge objects by ID
-		for _, obj := range fl.Objects() {
-			if _, exists := objects[obj.ID()]; exists {
-				loader.log.V(1).Info("Duplicate object ID encountered; overwriting previous object", "objectID", obj.ID(), "file", fl.name)
-			}
-			objects[obj.ID()] = obj
-		}
+		builder.AddResources(fl.Resources()...)
+		builder.AddEnums(fl.Enums()...)
+		builder.AddObjects(fl.Objects()...)
 
 		// Collect all functions
 		for receiverID, funcs := range fl.Functions() {
@@ -214,16 +207,8 @@ func (loader *PackageLoader) collectDeclarations(
 	}
 
 	// Attach all collected functions to their corresponding objects
-	loader.attachFunctionsToObjects(objects, allFunctions)
+	loader.attachFunctionsToObjects(builder.Objects, allFunctions)
 
-	builder := &model.PackageBuilder{
-		Resources: resources,
-		Objects:   objects,
-		Enums:     enums,
-		Metadata:  metadata,
-		Config:    loader.cfg,
-		Log:       loader.log,
-	}
 	pkg := builder.Build()
 	packages <- pkg
 }

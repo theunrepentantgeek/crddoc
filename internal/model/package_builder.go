@@ -16,6 +16,29 @@ type PackageBuilder struct {
 	Log       logr.Logger
 }
 
+// AddResources adds resources to the builder.
+func (b *PackageBuilder) AddResources(resources ...*Resource) {
+	b.Resources = append(b.Resources, resources...)
+}
+
+// AddObjects adds objects to the builder.
+func (b *PackageBuilder) AddObjects(objects ...*Object) {
+	for _, obj := range objects {
+		if _, exists := b.Objects[obj.ID()]; exists {
+			b.Log.V(1).Info(
+				"Duplicate object ID encountered; overwriting previous object",
+				"objectID", obj.ID())
+		}
+
+		b.Objects[obj.ID()] = obj
+	}
+}
+
+// AddEnums adds enums to the builder.
+func (b *PackageBuilder) AddEnums(enums ...*Enum) {
+	b.Enums = append(b.Enums, enums...)
+}
+
 // Build creates a new Package from the builder.
 func (b *PackageBuilder) Build() *Package {
 	result := &Package{
