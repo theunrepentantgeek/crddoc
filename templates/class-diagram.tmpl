@@ -15,9 +15,9 @@ classDiagram
 {{- with . | asPropertyContainer -}}
 class {{ $id }}["{{ $name }}"]
 {{- if .Properties | excludeInternal -}} {
-  {{- range .Properties -}}
+  {{- range .Properties | sortProperties -}}
     {{- if not (.Type | isInternalType) }}  
-      {{ .Name }} {{ .Type.Display }}
+      {{ . | propertyDisplayName }} {{ .Type.Display }}
     {{- end -}}
   {{- end }}
 {{ "\n" -}} {{/* Have to have a blank line here to avoid parsing errors when there are no properties */}}
@@ -38,7 +38,7 @@ class {{ $id }}["{{ $name }}"]
 {{/* Outbound references - types this type references */}}
 {{- range .Properties -}}
   {{- if .Type | isInternalType -}}
-    {{- $propertyName := .Name -}}
+    {{- $propertyName := . | propertyDisplayName -}}
     {{- with $relatedType := .Type.ID | lookupDeclaration -}}
 {{ $id }} -- {{ $relatedType.ID }} : {{ $propertyName }} {{ "\n" -}}
     {{- end -}}

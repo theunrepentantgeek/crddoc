@@ -44,6 +44,8 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"isExternalType":          f.isExternalType,
 		"isInternalType":          f.isInternalType,
 		"lookupDeclaration":       f.lookupDeclaration,
+		"propertyDisplayName":     f.propertyDisplayName,
+		"sortProperties":          f.sortProperties,
 		"unwrap":                  f.unwrap,
 	}
 }

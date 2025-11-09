@@ -53,6 +53,12 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		false,
 		"Generate class diagrams for the CRDs")
 
+	options.useGoFieldNames = cmd.Flags().BoolP(
+		"use-go-field-names",
+		"",
+		false,
+		"Use Go field names instead of serialized field names from JSON/YAML tags")
+
 	options.fileMode = cmd.Flags().StringP(
 		"file-mode",
 		"f",
@@ -63,11 +69,12 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 }
 
 type documentCRDsOptions struct {
-	configPath    *string
-	outputPath    *string
-	templatePath  *string
-	classDiagrams *bool
-	fileMode      *string
+	configPath      *string
+	outputPath      *string
+	templatePath    *string
+	classDiagrams   *bool
+	useGoFieldNames *bool
+	fileMode        *string
 }
 
 func documentCRDs(
@@ -185,5 +192,6 @@ func (options *documentCRDsOptions) validate(
 func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
 	cfg.EnableClassDiagrams(options.classDiagrams)
+	cfg.SetUseGoFieldNames(options.useGoFieldNames)
 	cfg.SetFileMode(options.fileMode)
 }
