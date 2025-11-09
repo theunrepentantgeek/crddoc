@@ -21,7 +21,9 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		Short: "Generate CRD documentation from a package",
 		Long:  "Generate CRD documentation from a package.",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return documentCRDs(cmd, args, options, log)
+			// Capture whether flags were explicitly set by the user
+			options.includeFunctionsSet = cmd.Flags().Changed("include-functions")
+			return documentCRDs(args, options, log)
 		},
 	}
 
@@ -75,17 +77,17 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 }
 
 type documentCRDsOptions struct {
-	configPath       *string
-	outputPath       *string
-	templatePath     *string
-	classDiagrams    *bool
-	useGoFieldNames  *bool
-	fileMode         *string
-	includeFunctions *bool
+	configPath          *string
+	outputPath          *string
+	templatePath        *string
+	classDiagrams       *bool
+	useGoFieldNames     *bool
+	fileMode            *string
+	includeFunctions    *bool
+	includeFunctionsSet bool // tracks if includeFunctions was explicitly set by user
 }
 
 func documentCRDs(
-	cmd *cobra.Command,
 	args []string,
 	options *documentCRDsOptions,
 	log logr.Logger,
@@ -94,7 +96,7 @@ func documentCRDs(
 		return err
 	}
 
-	cfg, err := loadConfig(cmd, options)
+	cfg, err := loadConfig(options)
 	if err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}
@@ -141,7 +143,6 @@ func generateCrds(
 }
 
 func loadConfig(
-	cmd *cobra.Command,
 	options *documentCRDsOptions,
 ) (*config.Config, error) {
 	cfg := config.Standard()
@@ -155,7 +156,7 @@ func loadConfig(
 	}
 
 	// Apply overrides from the command line (if any)
-	options.applyToConfig(cmd, cfg)
+	options.applyToConfig(cfg)
 
 	// Check that our configuration is still valid
 	err := cfg.Validate()
@@ -198,14 +199,14 @@ func (options *documentCRDsOptions) validate(
 }
 
 // applyToConfig applies options we've received on the command line to the config.
-func (options *documentCRDsOptions) applyToConfig(cmd *cobra.Command, cfg *config.Config) {
+func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.SetTemplatePath(options.templatePath)
 	cfg.EnableClassDiagrams(options.classDiagrams)
 	cfg.SetUseGoFieldNames(options.useGoFieldNames)
 	cfg.SetFileMode(options.fileMode)
 
 	// Only apply the includeFunctions flag if it was explicitly set by the user
-	if cmd.Flags().Changed("include-functions") {
+	if options.includeFunctionsSet {
 		cfg.SetIncludeFunctions(options.includeFunctions)
 	}
 }
