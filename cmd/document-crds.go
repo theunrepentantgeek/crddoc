@@ -13,29 +13,58 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
+//nolint:funlen // command setup requires multiple steps
 func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
-	options := &documentCRDsOptions{}
+	// Use local variables to capture command line flags
+	var (
+		configPath       string
+		outputPath       string
+		templatePath     string
+		classDiagrams    bool
+		useGoFieldNames  bool
+		fileMode         string
+		includeFunctions bool
+	)
 
 	cmd := &cobra.Command{
 		Use:   "crds",
 		Short: "Generate CRD documentation from a package",
 		Long:  "Generate CRD documentation from a package.",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			// Capture whether flags were explicitly set by the user
-			options.classDiagramsSet = cmd.Flags().Changed("class-diagrams")
-			options.useGoFieldNamesSet = cmd.Flags().Changed("use-go-field-names")
-			options.includeFunctionsSet = cmd.Flags().Changed("include-functions")
+			// Initialize options within the RunE lambda
+			options := &documentCRDsOptions{
+				configPath:   &configPath,
+				outputPath:   &outputPath,
+				templatePath: &templatePath,
+				fileMode:     &fileMode,
+			}
+
+			// Use Changed() method to decide whether to populate options
+			if cmd.Flags().Changed("class-diagrams") {
+				options.classDiagrams = &classDiagrams
+			}
+
+			if cmd.Flags().Changed("use-go-field-names") {
+				options.useGoFieldNames = &useGoFieldNames
+			}
+
+			if cmd.Flags().Changed("include-functions") {
+				options.includeFunctions = &includeFunctions
+			}
+
 			return documentCRDs(args, options, log)
 		},
 	}
 
-	options.configPath = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&configPath,
 		"config",
 		"c",
 		"",
 		"Path to a config file")
 
-	options.outputPath = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&outputPath,
 		"output",
 		"o",
 		"",
@@ -45,31 +74,36 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		return nil, errors.Wrap(err, "setting up --output")
 	}
 
-	options.templatePath = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&templatePath,
 		"template",
 		"t",
 		"",
 		"Path to a folder containing templates to use for rendering the documentation")
 
-	options.classDiagrams = cmd.Flags().BoolP(
+	cmd.Flags().BoolVarP(
+		&classDiagrams,
 		"class-diagrams",
 		"",
 		false,
 		"Generate class diagrams for the CRDs")
 
-	options.useGoFieldNames = cmd.Flags().BoolP(
+	cmd.Flags().BoolVarP(
+		&useGoFieldNames,
 		"use-go-field-names",
 		"",
 		false,
 		"Use Go field names instead of serialized field names from JSON/YAML tags")
 
-	options.fileMode = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&fileMode,
 		"file-mode",
 		"f",
 		"",
 		"File mode: 'single-file' (default) or 'multiple-file'")
 
-	options.includeFunctions = cmd.Flags().BoolP(
+	cmd.Flags().BoolVarP(
+		&includeFunctions,
 		"include-functions",
 		"",
 		false,
@@ -79,16 +113,13 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 }
 
 type documentCRDsOptions struct {
-	configPath          *string
-	outputPath          *string
-	templatePath        *string
-	classDiagrams       *bool
-	classDiagramsSet    bool // tracks if classDiagrams was explicitly set by user
-	useGoFieldNames     *bool
-	useGoFieldNamesSet  bool // tracks if useGoFieldNames was explicitly set by user
-	fileMode            *string
-	includeFunctions    *bool
-	includeFunctionsSet bool // tracks if includeFunctions was explicitly set by user
+	configPath       *string
+	outputPath       *string
+	templatePath     *string
+	classDiagrams    *bool
+	useGoFieldNames  *bool
+	fileMode         *string
+	includeFunctions *bool
 }
 
 func documentCRDs(
@@ -209,15 +240,7 @@ func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 
 	// Only apply boolean flags if they were explicitly set by the user
 	// This allows config file values to be preserved when flags aren't specified
-	if options.classDiagramsSet {
-		cfg.EnableClassDiagrams(options.classDiagrams)
-	}
-
-	if options.useGoFieldNamesSet {
-		cfg.SetUseGoFieldNames(options.useGoFieldNames)
-	}
-
-	if options.includeFunctionsSet {
-		cfg.SetIncludeFunctions(options.includeFunctions)
-	}
+	cfg.EnableClassDiagrams(options.classDiagrams)
+	cfg.SetUseGoFieldNames(options.useGoFieldNames)
+	cfg.SetIncludeFunctions(options.includeFunctions)
 }
