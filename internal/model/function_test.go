@@ -123,8 +123,8 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 	cfg := &config.Config{}
 	loader := packageloader.New(cfg, logr.Discard())
 
-	pkg, err := loader.LoadFile(testdataPath(t, "person_with_methods.go"))
 	g := NewGomegaWithT(t)
+	pkg, err := loader.LoadFile(testdataPath(t, "person_with_methods.go"))
 	g.Expect(err).To(Succeed())
 	g.Expect(pkg).NotTo(BeNil())
 
