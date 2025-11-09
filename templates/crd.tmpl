@@ -23,6 +23,9 @@
 {{ end }}
 {{ with . | asPropertyContainer }}
 {{ template "properties" . }}
+{{ if includeFunctions }}
+{{ template "functions" . }}
+{{ end }}
 {{ end }}
 
 

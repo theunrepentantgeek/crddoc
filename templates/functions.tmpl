@@ -1,0 +1,15 @@
+{{ define "functions" }}
+{{ if . }}
+{{ if .Functions -}}
+
+### Functions
+
+| Function | Description | Parameters | Returns |
+| -------- | ----------- | ---------- | ------- |
+{{ range .Functions -}}
+{{ template "function" . }}
+{{ end -}}
+
+{{ end -}}
+{{ end }}
+{{ end }}

@@ -41,6 +41,11 @@ type Config struct {
 	// serialized field names from JSON/YAML tags (false) in documentation.
 	// Defaults to false (use serialized names).
 	UseGoFieldNames bool `yaml:"useGoFieldNames"`
+
+	// IncludeFunctions controls whether to include functions/methods in
+	// object documentation and class diagrams.
+	// Defaults to false.
+	IncludeFunctions bool `yaml:"includeFunctions"`
 }
 
 const (
@@ -148,6 +153,17 @@ func (c *Config) SetFileMode(fileMode *string) {
 	}
 
 	c.FileMode = *fileMode
+}
+
+// SetIncludeFunctions sets the IncludeFunctions field to the provided value.
+// If the value is nil, the field is not changed.
+func (c *Config) SetIncludeFunctions(value *bool) {
+	if value == nil {
+		// No value passed, do nothing
+		return
+	}
+
+	c.IncludeFunctions = *value
 }
 
 // HasFileMode checks if the config has the specified file mode.

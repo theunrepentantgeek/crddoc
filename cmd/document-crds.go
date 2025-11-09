@@ -65,16 +65,23 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		"",
 		"File mode: 'single-file' (default) or 'multiple-file'")
 
+	options.includeFunctions = cmd.Flags().BoolP(
+		"include-functions",
+		"",
+		false,
+		"Include functions/methods in object documentation and class diagrams")
+
 	return cmd, nil
 }
 
 type documentCRDsOptions struct {
-	configPath      *string
-	outputPath      *string
-	templatePath    *string
-	classDiagrams   *bool
-	useGoFieldNames *bool
-	fileMode        *string
+	configPath       *string
+	outputPath       *string
+	templatePath     *string
+	classDiagrams    *bool
+	useGoFieldNames  *bool
+	fileMode         *string
+	includeFunctions *bool
 }
 
 func documentCRDs(
@@ -194,4 +201,5 @@ func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.EnableClassDiagrams(options.classDiagrams)
 	cfg.SetUseGoFieldNames(options.useGoFieldNames)
 	cfg.SetFileMode(options.fileMode)
+	cfg.SetIncludeFunctions(options.includeFunctions)
 }
