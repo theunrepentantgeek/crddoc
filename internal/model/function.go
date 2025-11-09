@@ -15,6 +15,7 @@ type Function struct {
 	declaredOn        *Object // The object this function is declared on
 }
 
+// FunctionList is a slice of Function pointers.
 type FunctionList []*Function
 
 // TryNewFunction attempts to create a Function from a dst.FuncDecl.

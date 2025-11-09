@@ -200,36 +200,33 @@ func (*Object) findEmbeddedStructs(structType *dst.StructType) PropertyList {
 
 func (o *Object) linkImports(importReferences ImportReferenceSet) {
 	for _, property := range o.properties {
-		if path, ok := importReferences.LookupImportPath(property.Type); ok {
-			property.Type.impPath = path
-		}
+		o.linkImportsToType(&property.Type, importReferences)
 	}
 
 	for _, embed := range o.embeds {
-		if path, ok := importReferences.LookupImportPath(embed.Type); ok {
-			embed.Type.impPath = path
-		}
+		o.linkImportsToType(&embed.Type, importReferences)
 	}
 
 	for _, function := range o.functions {
 		// Link receiver type
-		if path, ok := importReferences.LookupImportPath(function.Receiver); ok {
-			function.Receiver.impPath = path
-		}
+		o.linkImportsToType(&function.Receiver, importReferences)
 
 		// Link parameter types
 		for i := range function.Parameters {
-			if path, ok := importReferences.LookupImportPath(function.Parameters[i].Type); ok {
-				function.Parameters[i].Type.impPath = path
-			}
+			o.linkImportsToType(&function.Parameters[i].Type, importReferences)
 		}
 
 		// Link result types
 		for i := range function.Results {
-			if path, ok := importReferences.LookupImportPath(function.Results[i].Type); ok {
-				function.Results[i].Type.impPath = path
-			}
+			o.linkImportsToType(&function.Results[i].Type, importReferences)
 		}
+	}
+}
+
+// linkImportsToType links a single TypeReference to its import path if available.
+func (*Object) linkImportsToType(typeRef *TypeReference, importReferences ImportReferenceSet) {
+	if path, ok := importReferences.LookupImportPath(*typeRef); ok {
+		typeRef.impPath = path
 	}
 }
 
