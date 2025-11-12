@@ -29,7 +29,7 @@ class {{ $id }}["{{ $name }}"]
         {{- $p.Type.Display -}}
       {{- end -}}
       )
-      {{- if .Results }} : 
+      {{- if .Results }}
         {{- range $i, $r := .Results -}}
           {{- if $i }}, {{ end -}}
           {{- if $r.Name }}{{ $r.Name }}: {{ end -}}
