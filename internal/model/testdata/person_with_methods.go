@@ -34,3 +34,14 @@ func (p PersonWithMethods) Compare(other PersonWithMethods) (equal bool, ageDiff
 	ageDiff = p.Age - other.Age
 	return
 }
+
+// Lookup finds a person attribute by path using variadic parameters.
+func (p PersonWithMethods) Lookup(path ...string) (string, bool) {
+	if len(path) == 0 {
+		return "", false
+	}
+	if path[0] == "name" {
+		return p.Name, true
+	}
+	return "", false
+}

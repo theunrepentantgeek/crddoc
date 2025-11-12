@@ -31,7 +31,7 @@ func TestObject_Functions_ReturnsExpectedContent(t *testing.T) {
 
 	// Verify we have the expected functions
 	functions := obj.Functions()
-	g.Expect(functions).To(HaveLen(5))
+	g.Expect(functions).To(HaveLen(6))
 
 	// Check function names
 	functionNames := make([]string, len(functions))
@@ -39,7 +39,7 @@ func TestObject_Functions_ReturnsExpectedContent(t *testing.T) {
 		functionNames[i] = fn.Name
 	}
 
-	g.Expect(functionNames).To(ConsistOf("GetName", "SetName", "IsAdult", "UpdateAge", "Compare"))
+	g.Expect(functionNames).To(ConsistOf("GetName", "SetName", "IsAdult", "UpdateAge", "Compare", "Lookup"))
 }
 
 //nolint:revive,funlen,maintidx // comprehensive test coverage requires detailed test cases
@@ -112,6 +112,21 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				g.Expect(fn.Results).To(HaveLen(2))
 				assertHasResult(t, fn.Results, "equal", "bool")
 				assertHasResult(t, fn.Results, "ageDiff", "int")
+			},
+		},
+		"Lookup exists with variadic parameters": {
+			functionName:   "Lookup",
+			expectedExists: true,
+			checkDetails: func(t *testing.T, g *GomegaWithT, fn *model.Function) {
+				t.Helper()
+				g.Expect(fn.Name).To(Equal("Lookup"))
+				g.Expect(fn.Parameters).To(HaveLen(1))
+				assertHasParameter(t, fn.Parameters, "path", "string")
+				// Verify the parameter is marked as variadic
+				g.Expect(fn.Parameters[0].IsVariadic).To(BeTrue())
+				g.Expect(fn.Results).To(HaveLen(2))
+				assertHasResult(t, fn.Results, "", "string")
+				assertHasResult(t, fn.Results, "", "bool")
 			},
 		},
 		"NonExistentMethod does not exist": {
@@ -204,8 +219,8 @@ func TestObject_Functions_FromMultipleFiles(t *testing.T) {
 
 	// Verify we have functions from both files
 	functions := obj.Functions()
-	// 5 from person_with_methods.go + 2 from person_with_methods_extra.go
-	g.Expect(functions).To(HaveLen(7))
+	// 6 from person_with_methods.go + 2 from person_with_methods_extra.go
+	g.Expect(functions).To(HaveLen(8))
 
 	// Check that we have the extra methods
 	functionNames := make([]string, len(functions))
