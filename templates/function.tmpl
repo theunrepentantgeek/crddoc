@@ -1,6 +1,6 @@
 {{ define "function" -}}
 | {{ .Name -}}
-{{- if .IsPointerReceiver }}*{{ end }} | {{ .Description | inlineLinks | unwrap | applyEdits -}} 
+| {{ .Description | inlineLinks | unwrap | applyEdits -}} 
 | {{ range $i, $p := .Parameters -}}
 {{- if $i }}, {{ end -}}
 {{- if $p.Name }}{{ $p.Name }} {{ end -}}
