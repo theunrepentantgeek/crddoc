@@ -2,7 +2,7 @@
 | {{ .Name -}}
 | {{ .Description | inlineLinks | unwrap | applyEdits -}} 
 | {{ range $i, $p := .Parameters -}}
-{{- if $i }}, {{ end -}}
+{{- if $i }},<br/>{{ end -}}
 {{- if $p.Name }}{{ $p.Name }} {{ end -}}
 {{- $p.Type.Display -}}
 {{- end -}} 
