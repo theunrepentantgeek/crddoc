@@ -32,13 +32,13 @@ classDiagram
 
 class Enum["Enum"]{  
       description string[]  
-      AddValue(value: EnumValue)  
+      AddValue(value EnumValue)  
       Description()string[]  
       Kind()DeclarationType  
       Name()string  
       Package()Package  
-      SetPackage(pkg: Package)  
-      SetUsage(usage: PropertyReference[])  
+      SetPackage(pkg Package)  
+      SetUsage(usage PropertyReference[])  
       Usage()PropertyReference[]  
       Values()EnumValue[]
 
@@ -155,7 +155,7 @@ class Function["Function"]{
       Name string  
       DeclaredOn()Object  
       Description()string[]  
-      setDeclaredOn(obj: Object)
+      setDeclaredOn(obj Object)
 
 
 } 
@@ -244,11 +244,11 @@ classDiagram
 class Markers["Markers"]{  
       name string  
       value string  
-      Add(marker: string)  
+      Add(marker string)  
       Any()bool  
-      Exists(path: ...string)bool  
-      Lookup(path: ...string)Markers, bool  
-      requireChild(name: string)Markers  
+      Exists(path ...string)bool  
+      Lookup(path ...string)Markers, bool  
+      requireChild(name string)Markers  
       Value()string
 
 
@@ -298,9 +298,9 @@ classDiagram
 class MarkerValue["MarkerValue"]{  
       path string[]  
       value string  
-      Merge(other: MarkerValue)error  
-      SetValue(value: string)error  
-      Update(markers: Markers)error  
+      Merge(other MarkerValue)error  
+      SetValue(value string)error  
+      Update(markers Markers)error  
       Value()string, bool
 
 
@@ -345,22 +345,22 @@ classDiagram
 class Object["Object"]{  
       description string[]  
       embeds PropertyList  
-      AddFunction(fn: Function)  
+      AddFunction(fn Function)  
       Description()string[]  
-      Embed(name: string)Property, bool  
+      Embed(name string)Property, bool  
       Embeds()PropertyList  
-      findEmbeddedStructs(structType: dst.StructType)PropertyList  
-      findProperties(structType: dst.StructType)map[string]Property  
-      Function(name: string)Function, bool  
+      findEmbeddedStructs(structType dst.StructType)PropertyList  
+      findProperties(structType dst.StructType)map[string]Property  
+      Function(name string)Function, bool  
       Functions()FunctionList  
       Kind()DeclarationType  
-      linkImports(importReferences: ImportReferenceSet)  
-      linkImportsToType(typeRef: TypeReference, importReferences: ImportReferenceSet)  
+      linkImports(importReferences ImportReferenceSet)  
+      linkImportsToType(typeRef TypeReference, importReferences ImportReferenceSet)  
       Package()Package  
       Properties()PropertyList  
-      Property(name: string)Property, bool  
-      SetPackage(p: Package)  
-      SetUsage(uses: PropertyReference[])  
+      Property(name string)Property, bool  
+      SetPackage(p Package)  
+      SetUsage(uses PropertyReference[])  
       Usage()PropertyReference[]
 
 
@@ -397,25 +397,25 @@ class PropertyReference["PropertyReference"]
 
 ### Functions
 
-| Function            | Description                                                                                | Parameters                                                 | Returns             |
-|---------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------|---------------------|
-| AddFunction         | AddFunction adds a function to the object.                                                 | fn Function                                                |                     |
-| Description         |                                                                                            |                                                            | string[]            |
-| Embed               | Embed returns the embed with the given name and true, or nil and false if not found.       | name string                                                | Property, bool      |
-| Embeds              | Embeds returns all of the embeds of the object, in alphabetical order.                     |                                                            | PropertyList        |
-| findEmbeddedStructs |                                                                                            | structType dst.StructType                                  | PropertyList        |
-| findProperties      |                                                                                            | structType dst.StructType                                  | map[string]Property |
-| Function            | Function returns the function with the given name and true, or nil and false if not found. | name string                                                | Function, bool      |
-| Functions           | Functions returns all the functions/methods of the object, in alphabetical order.          |                                                            | FunctionList        |
-| Kind                |                                                                                            |                                                            | DeclarationType     |
-| linkImports         |                                                                                            | importReferences ImportReferenceSet                        |                     |
-| linkImportsToType   | linkImportsToType links a single TypeReference to its import path if available.            | typeRef TypeReference, importReferences ImportReferenceSet |                     |
-| Package             |                                                                                            |                                                            | Package             |
-| Properties          | Properties returns all the properties of the object, in alphabetical order.                |                                                            | PropertyList        |
-| Property            | Property returns the property with the given name and true, or nil and false if not found. | name string                                                | Property, bool      |
-| SetPackage          |                                                                                            | p Package                                                  |                     |
-| SetUsage            |                                                                                            | uses PropertyReference[]                                   |                     |
-| Usage               |                                                                                            |                                                            | PropertyReference[] |
+| Function            | Description                                                                                | Parameters                                                     | Returns             |
+|---------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------|---------------------|
+| AddFunction         | AddFunction adds a function to the object.                                                 | fn Function                                                    |                     |
+| Description         |                                                                                            |                                                                | string[]            |
+| Embed               | Embed returns the embed with the given name and true, or nil and false if not found.       | name string                                                    | Property, bool      |
+| Embeds              | Embeds returns all of the embeds of the object, in alphabetical order.                     |                                                                | PropertyList        |
+| findEmbeddedStructs |                                                                                            | structType dst.StructType                                      | PropertyList        |
+| findProperties      |                                                                                            | structType dst.StructType                                      | map[string]Property |
+| Function            | Function returns the function with the given name and true, or nil and false if not found. | name string                                                    | Function, bool      |
+| Functions           | Functions returns all the functions/methods of the object, in alphabetical order.          |                                                                | FunctionList        |
+| Kind                |                                                                                            |                                                                | DeclarationType     |
+| linkImports         |                                                                                            | importReferences ImportReferenceSet                            |                     |
+| linkImportsToType   | linkImportsToType links a single TypeReference to its import path if available.            | typeRef TypeReference,<br/>importReferences ImportReferenceSet |                     |
+| Package             |                                                                                            |                                                                | Package             |
+| Properties          | Properties returns all the properties of the object, in alphabetical order.                |                                                                | PropertyList        |
+| Property            | Property returns the property with the given name and true, or nil and false if not found. | name string                                                    | Property, bool      |
+| SetPackage          |                                                                                            | p Package                                                      |                     |
+| SetUsage            |                                                                                            | uses PropertyReference[]                                       |                     |
+| Usage               |                                                                                            |                                                                | PropertyReference[] |
 
 <a id="Order"></a>Order
 -----------------------
@@ -439,21 +439,21 @@ class Package["Package"]{
       cfg config.Config  
       log logr.Logger  
       ranks map[string]int  
-      addPropertyReferences(hostID: string, name: string, container: PropertyContainer, refs: map[string]PropertyReference[])  
-      alphabeticalObjectComparison(left: Declaration, right: Declaration)int  
+      addPropertyReferences(hostID string, name string, container PropertyContainer, refs map[string]PropertyReference[])  
+      alphabeticalObjectComparison(left Declaration, right Declaration)int  
       calculateRanks()  
-      calculateRanksFromRoot(name: string, rank: int)  
+      calculateRanksFromRoot(name string, rank int)  
       catalogCrossReferences()  
-      Declaration(name: string)Declaration, bool  
-      Declarations(order: Order)Declaration[]  
+      Declaration(name string)Declaration, bool  
+      Declarations(order Order)Declaration[]  
       Group()string  
       indexUsage()map[string]PropertyReference[]  
       Module()string  
       Name()string  
-      Object(name: string)Object, bool  
+      Object(name string)Object, bool  
       PropertiesRequiredByDefault()string  
-      Rank(name: string)int  
-      rankedObjectComparison(left: Declaration, right: Declaration)int  
+      Rank(name string)int  
+      rankedObjectComparison(left Declaration, right Declaration)int  
       Version()string
 
 
@@ -488,24 +488,24 @@ class Resource["Resource"]
 
 ### Functions
 
-| Function                     | Description                                                                                                                                              | Parameters                                                                                   | Returns                        |
-|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|--------------------------------|
-| addPropertyReferences        |                                                                                                                                                          | hostID string, name string, container PropertyContainer, refs map[string]PropertyReference[] |                                |
-| alphabeticalObjectComparison |                                                                                                                                                          | left Declaration, right Declaration                                                          | int                            |
-| calculateRanks               | calculateRanks calculates the ranks of all declarations in the package. The rank is the depth from the root resource, with resources having a rank of 0. |                                                                                              |                                |
-| calculateRanksFromRoot       |                                                                                                                                                          | name string, rank int                                                                        |                                |
-| catalogCrossReferences       |                                                                                                                                                          |                                                                                              |                                |
-| Declaration                  | Declaration returns the declaration with the given name, if found.                                                                                       | name string                                                                                  | Declaration, bool              |
-| Declarations                 |                                                                                                                                                          | order Order                                                                                  | Declaration[]                  |
-| Group                        | Group returns the group of the package, if known.                                                                                                        |                                                                                              | string                         |
-| indexUsage                   |                                                                                                                                                          |                                                                                              | map[string]PropertyReference[] |
-| Module                       | Module returns the module of the package.                                                                                                                |                                                                                              | string                         |
-| Name                         |                                                                                                                                                          |                                                                                              | string                         |
-| Object                       | Object returns the object with the given name, if there is one.                                                                                          | name string                                                                                  | Object, bool                   |
-| PropertiesRequiredByDefault  |                                                                                                                                                          |                                                                                              | string                         |
-| Rank                         | Rank returns the usage rank (depth from the root resource) of the given declaration.                                                                     | name string                                                                                  | int                            |
-| rankedObjectComparison       |                                                                                                                                                          | left Declaration, right Declaration                                                          | int                            |
-| Version                      | Version returns the version of the package, if known.                                                                                                    |                                                                                              | string                         |
+| Function                     | Description                                                                                                                                              | Parameters                                                                                               | Returns                        |
+|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------|
+| addPropertyReferences        |                                                                                                                                                          | hostID string,<br/>name string,<br/>container PropertyContainer,<br/>refs map[string]PropertyReference[] |                                |
+| alphabeticalObjectComparison |                                                                                                                                                          | left Declaration,<br/>right Declaration                                                                  | int                            |
+| calculateRanks               | calculateRanks calculates the ranks of all declarations in the package. The rank is the depth from the root resource, with resources having a rank of 0. |                                                                                                          |                                |
+| calculateRanksFromRoot       |                                                                                                                                                          | name string,<br/>rank int                                                                                |                                |
+| catalogCrossReferences       |                                                                                                                                                          |                                                                                                          |                                |
+| Declaration                  | Declaration returns the declaration with the given name, if found.                                                                                       | name string                                                                                              | Declaration, bool              |
+| Declarations                 |                                                                                                                                                          | order Order                                                                                              | Declaration[]                  |
+| Group                        | Group returns the group of the package, if known.                                                                                                        |                                                                                                          | string                         |
+| indexUsage                   |                                                                                                                                                          |                                                                                                          | map[string]PropertyReference[] |
+| Module                       | Module returns the module of the package.                                                                                                                |                                                                                                          | string                         |
+| Name                         |                                                                                                                                                          |                                                                                                          | string                         |
+| Object                       | Object returns the object with the given name, if there is one.                                                                                          | name string                                                                                              | Object, bool                   |
+| PropertiesRequiredByDefault  |                                                                                                                                                          |                                                                                                          | string                         |
+| Rank                         | Rank returns the usage rank (depth from the root resource) of the given declaration.                                                                     | name string                                                                                              | int                            |
+| rankedObjectComparison       |                                                                                                                                                          | left Declaration,<br/>right Declaration                                                                  | int                            |
+| Version                      | Version returns the version of the package, if known.                                                                                                    |                                                                                                          | string                         |
 
 <a id="PackageBuilder"></a>PackageBuilder
 -----------------------------------------
@@ -523,9 +523,9 @@ classDiagram
 class PackageBuilder["PackageBuilder"]{  
       Config config.Config  
       Log logr.Logger  
-      AddEnums(enums: ...Enum)  
-      AddObjects(objects: ...Object)  
-      AddResources(resources: ...Resource)  
+      AddEnums(enums ...Enum)  
+      AddObjects(objects ...Object)  
+      AddResources(resources ...Resource)  
       Build()Package
 
 
@@ -583,9 +583,9 @@ class PackageMarkers["PackageMarkers"]{
       Module string  
       Name string  
       Group()string  
-      Merge(other: PackageMarkers)error  
+      Merge(other PackageMarkers)error  
       PropertiesRequiredByDefault()string  
-      Update(markers: Markers)error  
+      Update(markers Markers)error  
       Version()string
 
 
@@ -779,9 +779,9 @@ class Property["Property"]{
       Name string  
       Description()string[]  
       Required()string  
-      setContainer(container: PropertyContainer)  
-      tryParseName(field: dst.Field)string, bool  
-      tryParseNameFromTag(tag: string, tagStruct: reflect.StructTag)string, bool
+      setContainer(container PropertyContainer)  
+      tryParseName(field dst.Field)string, bool  
+      tryParseNameFromTag(tag string, tagStruct reflect.StructTag)string, bool
 
 
 } 
@@ -812,13 +812,13 @@ class TypeReference["TypeReference"]
 
 ### Functions
 
-| Function            | Description | Parameters                              | Returns      |
-|---------------------|-------------|-----------------------------------------|--------------|
-| Description         |             |                                         | string[]     |
-| Required            |             |                                         | string       |
-| setContainer        |             | container PropertyContainer             |              |
-| tryParseName        |             | field dst.Field                         | string, bool |
-| tryParseNameFromTag |             | tag string, tagStruct reflect.StructTag | string, bool |
+| Function            | Description | Parameters                                  | Returns      |
+|---------------------|-------------|---------------------------------------------|--------------|
+| Description         |             |                                             | string[]     |
+| Required            |             |                                             | string       |
+| setContainer        |             | container PropertyContainer                 |              |
+| tryParseName        |             | field dst.Field                             | string, bool |
+| tryParseNameFromTag |             | tag string,<br/>tagStruct reflect.StructTag | string, bool |
 
 <a id="PropertyMarkers"></a>PropertyMarkers
 -------------------------------------------
@@ -834,10 +834,10 @@ Used by: [Property.markers](#Property).
 classDiagram
 
 class PropertyMarkers["PropertyMarkers"]{  
-      Merge(other: PropertyMarkers)error  
+      Merge(other PropertyMarkers)error  
       Optional()bool  
-      Parse(markers: Markers)error  
-      ParseDecorations(decs: dst.NodeDecs)error  
+      Parse(markers Markers)error  
+      ParseDecorations(decs dst.NodeDecs)error  
       Required()bool
 
 
@@ -946,9 +946,9 @@ classDiagram
 class MarkerSwitch["MarkerSwitch"]{  
       path string[]  
       seen bool  
-      Merge(other: MarkerSwitch)  
+      Merge(other MarkerSwitch)  
       Seen()bool  
-      Update(markers: Markers)
+      Update(markers Markers)
 
 
 } 
