@@ -25,7 +25,7 @@ class {{ $id }}["{{ $name }}"]
       {{ .Name }}(
       {{- range $i, $p := .Parameters -}}
         {{- if $i }}, {{ end -}}
-        {{- if $p.Name }}{{ $p.Name }}: {{ end -}}
+        {{- if $p.Name }}{{ $p.Name }} {{ end -}}
         {{- $p.Type.Display -}}
       {{- end -}}
       )
