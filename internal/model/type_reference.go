@@ -62,6 +62,8 @@ func idOf(expr dst.Expr) string {
 		// TODO: What should we do if the key type is useful?
 		// createIdFor(t.Key, pkg)
 		return idOf(t.Value)
+	case *dst.Ellipsis:
+		return idOf(t.Elt)
 	default:
 		return ""
 	}
@@ -80,6 +82,8 @@ func nameOf(expr dst.Expr) string {
 		return nameOf(t.Elt)
 	case *dst.MapType:
 		return nameOf(t.Value)
+	case *dst.Ellipsis:
+		return nameOf(t.Elt)
 	default:
 		return ""
 	}
@@ -98,6 +102,8 @@ func displayOf(expr dst.Expr) string {
 		return displayOf(t.Elt) + "[]"
 	case *dst.MapType:
 		return "map[" + displayOf(t.Key) + "]" + displayOf(t.Value)
+	case *dst.Ellipsis:
+		return "..." + displayOf(t.Elt)
 	default:
 		return ""
 	}
@@ -117,6 +123,8 @@ func pkgOf(expr dst.Expr) string {
 		// Again we're assuming the Value is the important part
 		// TODO: verify this
 		return pkgOf(t.Value)
+	case *dst.Ellipsis:
+		return pkgOf(t.Elt)
 	default:
 		return ""
 	}
