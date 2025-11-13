@@ -39,7 +39,8 @@ func TestObject_Functions_ReturnsExpectedContent(t *testing.T) {
 		functionNames[i] = fn.Name
 	}
 
-	g.Expect(functionNames).To(ConsistOf("GetName", "SetName", "IsAdult", "UpdateAge", "Compare", "Lookup"))
+	g.Expect(functionNames).
+		To(ConsistOf("GetName", "SetName", "IsAdult", "UpdateAge", "Compare", "Lookup"))
 }
 
 //nolint:revive,funlen,maintidx // comprehensive test coverage requires detailed test cases
