@@ -9,7 +9,6 @@ type Parameter struct {
 // NewNamedParameter creates a new named Parameter.
 // name is the parameter name.
 // typeRef is the type of the parameter.
-// isVariadic indicates if the parameter is variadic.
 func NewNamedParameter(
 	name string,
 	typeRef TypeReference,
@@ -22,7 +21,6 @@ func NewNamedParameter(
 
 // NewAnonymousParameter creates a new anonymous Parameter.
 // typeRef is the type of the parameter.
-// isVariadic indicates if the parameter is variadic.
 func NewAnonymousParameter(
 	typeRef TypeReference,
 ) Parameter {
