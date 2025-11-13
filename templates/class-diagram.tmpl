@@ -25,11 +25,11 @@ class {{ $id }}["{{ $name }}"]
       {{ .Name }}(
       {{- range $i, $p := .Parameters -}}
         {{- if $i }}, {{ end -}}
-        {{- if $p.Name }}{{ $p.Name }}: {{ end -}}
+        {{- if $p.Name }}{{ $p.Name }} {{ end -}}
         {{- $p.Type.Display -}}
       {{- end -}}
       )
-      {{- if .Results }} : 
+      {{- if .Results }}
         {{- range $i, $r := .Results -}}
           {{- if $i }}, {{ end -}}
           {{- if $r.Name }}{{ $r.Name }}: {{ end -}}

@@ -137,7 +137,7 @@ tasks:
       # Skip if the package isn't available
       - test ! -d {{.PACKAGE}}
     cmds:
-      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}} --class-diagrams"
+      - "{{.BUILD_DIR}}/crddoc document crds {{.PACKAGE}} --output {{.OUTPUT}} --config {{.CONFIG}} --class-diagrams --include-functions"
     vars:
       DST_DIR: '{{joinPath .ROOT_DIR "docs" "model" | shellQuote}}'
       PACKAGE: '{{joinPath .ROOT_DIR "internal" "model" | shellQuote}}'
