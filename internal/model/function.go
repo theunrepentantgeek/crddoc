@@ -80,25 +80,16 @@ func parseFieldList(fields *dst.FieldList) []Parameter {
 func parseField(field *dst.Field) []Parameter {
 	var params []Parameter
 
-	// Check if this is a variadic parameter
-	isVariadic := false
-	fieldType := field.Type
-
-	if ellipsis, ok := field.Type.(*dst.Ellipsis); ok {
-		isVariadic = true
-		fieldType = ellipsis.Elt
-	}
-
-	typeRef := NewTypeReferenceFromExpr(fieldType)
+	typeRef := NewTypeReferenceFromExpr(field.Type)
 
 	// A field can have multiple names (e.g., "x, y int")
 	if len(field.Names) == 0 {
 		// Unnamed parameter
-		params = append(params, NewAnonymousParameter(typeRef, isVariadic))
+		params = append(params, NewAnonymousParameter(typeRef))
 	} else {
 		// Named parameters
 		for _, name := range field.Names {
-			params = append(params, NewNamedParameter(name.Name, typeRef, isVariadic))
+			params = append(params, NewNamedParameter(name.Name, typeRef))
 		}
 	}
 

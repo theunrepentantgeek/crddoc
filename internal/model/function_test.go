@@ -124,7 +124,6 @@ func TestObject_Function_ReturnsExpectedFunction(t *testing.T) {
 				g.Expect(fn.Parameters).To(HaveLen(1))
 				assertHasParameter(t, fn.Parameters, "path", "string")
 				// Verify the parameter is marked as variadic
-				g.Expect(fn.Parameters[0].IsVariadic).To(BeTrue())
 				g.Expect(fn.Results).To(HaveLen(2))
 				assertHasResult(t, fn.Results, "", "string")
 				assertHasResult(t, fn.Results, "", "bool")

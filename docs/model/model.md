@@ -645,7 +645,6 @@ Used by: [Function.Parameters](#Function), and [Function.Results](#Function).
 classDiagram
 
 class Parameter["Parameter"]{  
-      IsVariadic bool  
       Name string
 
 
@@ -662,11 +661,10 @@ class TypeReference["TypeReference"]
 
 ```
 
-| Property   | Description | Type                            |
-|------------|-------------|---------------------------------|
-| IsVariadic |             | bool                            |
-| Name       |             | string                          |
-| Type       |             | [TypeReference](#TypeReference) |
+| Property | Description | Type                            |
+|----------|-------------|---------------------------------|
+| Name     |             | string                          |
+| Type     |             | [TypeReference](#TypeReference) |
 
 <a id="PropertyReference"></a>PropertyReference
 -----------------------------------------------
