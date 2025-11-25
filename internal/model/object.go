@@ -16,6 +16,7 @@ type Object struct {
 	description []string
 	pkg         *Package
 	usage       []PropertyReference // List of other properties that reference this object
+	interfaces  []*Interface        // List of interfaces this object implements
 }
 
 var _ Declaration = &Object{}
@@ -163,6 +164,30 @@ func (o *Object) AddFunction(fn *Function) {
 	o.functions[fn.Name] = fn
 }
 
+// ImplementsInterfaces returns all the interfaces this object implements, in alphabetical order.
+func (o *Object) ImplementsInterfaces() []*Interface {
+	result := slices.Clone(o.interfaces)
+	slices.SortFunc(result, alphabeticalInterfaceComparison)
+
+	return result
+}
+
+// AddInterface adds an interface that this object implements.
+func (o *Object) AddInterface(iface *Interface) {
+	if iface == nil {
+		return
+	}
+
+	// Check if already added
+	for _, existing := range o.interfaces {
+		if existing.ID() == iface.ID() {
+			return
+		}
+	}
+
+	o.interfaces = append(o.interfaces, iface)
+}
+
 func (o *Object) findProperties(structType *dst.StructType) map[string]*Property {
 	result := make(map[string]*Property)
 
@@ -244,6 +269,15 @@ func alphabeticalPropertyComparison(left *Property, right *Property) int {
 func alphabeticalFunctionComparison(left *Function, right *Function) int {
 	leftName := strings.ToLower(left.Name)
 	rightName := strings.ToLower(right.Name)
+
+	return strings.Compare(leftName, rightName)
+}
+
+// alphabeticalInterfaceComparison does a case insensitive comparison of the names of the
+// two interfaces, allowing them to be sorted.
+func alphabeticalInterfaceComparison(left *Interface, right *Interface) int {
+	leftName := strings.ToLower(left.Name())
+	rightName := strings.ToLower(right.Name())
 
 	return strings.Compare(leftName, rightName)
 }
