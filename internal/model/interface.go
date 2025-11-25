@@ -71,7 +71,9 @@ func (i *Interface) parseMethods(
 	}
 
 	for _, field := range interfaceType.Methods.List {
-		// Skip embedded interfaces for now (they have no names)
+		// Embedded interfaces appear as fields without names (e.g., `Greeter` in `type MultiTalent interface { Greeter }`).
+		// These are skipped because we currently don't support interface composition in the documentation model.
+		// TODO: Consider adding support for embedded interfaces in a future version.
 		if len(field.Names) == 0 {
 			continue
 		}
@@ -114,8 +116,11 @@ func (i *Interface) parseMethodFromField(
 	}
 
 	fn := &Function{
-		Name:              name,
-		Receiver:          TypeReference{}, // Interface methods don't have receivers
+		Name: name,
+		// Interface methods have no receiver - unlike struct methods which have either
+		// a value (T) or pointer (*T) receiver, interface methods are just signatures.
+		// The zero value TypeReference{} is used to indicate the absence of a receiver.
+		Receiver:          TypeReference{},
 		IsPointerReceiver: false,
 		Parameters:        params,
 		Results:           results,
