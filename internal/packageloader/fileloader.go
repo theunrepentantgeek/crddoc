@@ -25,7 +25,7 @@ type FileLoader struct {
 	enums            map[string]*model.Enum
 	interfaces       map[string]*model.Interface
 	values           map[string][]*model.EnumValue
-	functions        map[string][]*model.Function          // Functions keyed by receiver type ID
+	functions        map[string][]*model.Function         // Functions keyed by receiver type ID
 	typeAssertions   map[string][]model.TypeAssertionInfo // Type assertions keyed by interface name
 	packageMarkers   *model.PackageMarkers
 	log              logr.Logger
