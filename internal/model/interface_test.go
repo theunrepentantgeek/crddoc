@@ -61,6 +61,58 @@ func TestInterface_Methods_ReturnsExpectedMethods(t *testing.T) {
 	g.Expect(methodNames).To(ConsistOf("Speak", "Volume"))
 }
 
+func TestInterface_Embeds_ReturnsEmbeddedInterfaces(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := &config.Config{}
+	loader := packageloader.New(cfg, logr.Discard())
+
+	pkg, err := loader.LoadFile(testdataPath(t, "interfaces_types.go"))
+	g.Expect(err).To(Succeed())
+	g.Expect(pkg).NotTo(BeNil())
+
+	// Check MultiTalent embeds Greeter and Speaker
+	iface, ok := pkg.Interface("MultiTalent")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(iface).NotTo(BeNil())
+
+	embeds := iface.Embeds()
+	g.Expect(embeds).To(HaveLen(2))
+
+	// Check embedded interface names
+	embedNames := make([]string, len(embeds))
+	for i, e := range embeds {
+		embedNames[i] = e.Name()
+	}
+	g.Expect(embedNames).To(ConsistOf("Greeter", "Speaker"))
+
+	// Check that the directly declared method Perform is also captured
+	methods := iface.Methods()
+	g.Expect(methods).To(HaveLen(1))
+	g.Expect(methods[0].Name).To(Equal("Perform"))
+}
+
+func TestInterface_Embeds_ReturnsEmptyForNoEmbeds(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := &config.Config{}
+	loader := packageloader.New(cfg, logr.Discard())
+
+	pkg, err := loader.LoadFile(testdataPath(t, "interfaces_types.go"))
+	g.Expect(err).To(Succeed())
+	g.Expect(pkg).NotTo(BeNil())
+
+	// Check Greeter has no embedded interfaces
+	iface, ok := pkg.Interface("Greeter")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(iface).NotTo(BeNil())
+
+	embeds := iface.Embeds()
+	g.Expect(embeds).To(BeEmpty())
+}
+
 func TestInterface_Method_ReturnsExpectedMethod(t *testing.T) {
 	t.Parallel()
 

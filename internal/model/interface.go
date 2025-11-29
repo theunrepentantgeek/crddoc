@@ -12,6 +12,7 @@ import (
 type Interface struct {
 	TypeReference
 	methods         map[string]*Function
+	embeds          []TypeReference // Embedded interfaces (e.g., `Greeter` in `type MultiTalent interface { Greeter }`)
 	description     []string
 	pkg             *Package
 	usage           []PropertyReference
@@ -61,7 +62,7 @@ func TryNewInterface(
 	return result, true
 }
 
-// parseMethods parses the methods from an interface type.
+// parseMethods parses the methods and embedded interfaces from an interface type.
 func (i *Interface) parseMethods(
 	interfaceType *dst.InterfaceType,
 	importReferences ImportReferenceSet,
@@ -72,9 +73,15 @@ func (i *Interface) parseMethods(
 
 	for _, field := range interfaceType.Methods.List {
 		// Embedded interfaces appear as fields without names (e.g., `Greeter` in `type MultiTalent interface { Greeter }`).
-		// These are skipped because we currently don't support interface composition in the documentation model.
-		// TODO: Consider adding support for embedded interfaces in a future version.
 		if len(field.Names) == 0 {
+			// This is an embedded interface
+			embedRef := NewTypeReferenceFromExpr(field.Type)
+			if path, ok := importReferences.LookupImportPath(embedRef); ok {
+				embedRef.impPath = path
+			}
+
+			i.embeds = append(i.embeds, embedRef)
+
 			continue
 		}
 
@@ -193,6 +200,11 @@ func (i *Interface) Method(name string) (*Function, bool) {
 	fn, ok := i.methods[name]
 
 	return fn, ok
+}
+
+// Embeds returns all the embedded interfaces, in the order they were declared.
+func (i *Interface) Embeds() []TypeReference {
+	return slices.Clone(i.embeds)
 }
 
 // Implementations returns all the objects that implement this interface.
