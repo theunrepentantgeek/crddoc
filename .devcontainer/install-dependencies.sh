@@ -173,7 +173,14 @@ if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.1.2 2>&1
+    go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@101ccaca0df22b2e36dd917ed5d0be423baa6298
+fi
+
+if should-install "$TOOL_DEST/golangci-lint-custom"; then
+    write-info "Building golangci-lint custom"
+    TOOL_DEST=$TOOL_DEST envsubst < .custom-gcl.template.yml > .custom-gcl.yml
+    $TOOL_DEST/golangci-lint custom -v
+    rm .custom-gcl.yml
 fi
 
 # Install Task
