@@ -68,8 +68,6 @@ tasks:
 
   lint:
     desc: Run golangci-lint to check for linting issues
-    deps:
-      - golangci-lint-custom
     cmds:
       - "{{.GOLANGCI_CUSTOM}} run --verbose"
 
@@ -170,18 +168,3 @@ tasks:
     desc: "Use gremlins to check the quality of our tests"
     cmds:
       - gremlins unleash ./internal
-
-  # We use a custom golangci-lint with the nilaway module included,
-  # this target builds this if needed
-  golangci-lint-custom:
-    cmds:
-      - cmd: echo "Building custom golangci-lint"
-        silent: true
-      - golangci-lint custom
-    # Skip if we've already built the custom golangci-lint
-    status:
-      # Don't need to rebuild the custom tool if it exists
-      - test -f {{.TOOLS_DIR}}/golangci-lint-custom
-    sources:
-      - .custom-gcl.yml
-      - .golangci.yml
