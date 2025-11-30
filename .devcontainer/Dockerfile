@@ -11,9 +11,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get -y install --no-install-recommends bash-completion lsb-release
 
-COPY install-dependencies.sh .
-COPY oh-my-posh.json .
-RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh && rm oh-my-posh.json
+COPY install-dependencies.sh oh-my-posh.json .custom-gcl.template.yml .
+RUN ./install-dependencies.sh devcontainer 
+RUN rm install-dependencies.sh oh-my-posh.json .custom-gcl.template.yml
 
 # Setup go-task completions
 RUN curl -sL "https://raw.githubusercontent.com/go-task/task/refs/tags/v3.39.2/completion/bash/task.bash" > "/etc/.task.completion.sh" \
