@@ -70,7 +70,7 @@ linters:
     - wastedassign
     - whitespace
     - wrapcheck
-    - wsl
+    - wsl_v5
     - zerologlint
   disable:
     - musttag # Extremely slow, at least on CI machines
@@ -122,7 +122,7 @@ linters:
     varnamelen:
       ignore-decls:
         - "g *github.com/onsi/gomega/internal.Gomega"
-    wsl:
+    wsl-v5:
       allow-cuddle-declarations: true
     custom:
       nilaway:

@@ -45,6 +45,7 @@ func (p *Package) Declarations(order Order) []Declaration {
 		asDeclarations(maps.Values(p.enums)))
 
 	// Sort the declarations as specified
+	//nolint:revive // If not specified, leave unsorted
 	switch order {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically

@@ -143,6 +143,7 @@ func (loader *PackageLoader) findFiles(
 		if match {
 			fqfn := filepath.Join(folder, f.Name())
 			loader.log.V(3).Info("Found file", "file", fqfn)
+
 			filesToLoad <- fqfn
 		}
 	}
