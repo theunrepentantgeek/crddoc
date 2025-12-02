@@ -46,6 +46,7 @@ func New(cfg *config.Config, log logr.Logger) *Generator {
 
 func (g *Generator) LoadTemplates() error {
 	var sourceFS fs.FS
+
 	var sourceDescription string
 
 	if g.cfg.TemplatePath != "" {
