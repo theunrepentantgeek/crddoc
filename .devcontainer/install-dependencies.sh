@@ -178,7 +178,7 @@ fi
 
 if should-install "$TOOL_DEST/golangci-lint-custom"; then
     write-info "Building golangci-lint custom"
-    TOOL_DEST=$TOOL_DEST envsubst < .custom-gcl.template.yml > .custom-gcl.yml
+    TOOL_DEST=$TOOL_DEST envsubst < "$SCRIPT_DIR/.custom-gcl.template.yml" > .custom-gcl.yml
     $TOOL_DEST/golangci-lint custom -v
     rm .custom-gcl.yml
 fi
