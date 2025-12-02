@@ -172,6 +172,8 @@ func generateCrds(
 		if err != nil {
 			return errors.Wrapf(err, "generating multiple files to %q", *options.outputPath)
 		}
+	default:
+		return errors.New("unknown file mode, cannot generate output")
 	}
 
 	return nil
