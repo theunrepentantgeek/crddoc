@@ -155,8 +155,6 @@ func (loader *FileLoader) parseVarDeclarations(specs []dst.Spec) {
 
 // tryParseTypeAssertion tries to parse a type assertion from a var declaration.
 // Returns the assertion and true if successful, empty assertion and false otherwise.
-//
-//nolint:revive,cyclop // Inherent complexity for parsing type assertions
 func (loader *FileLoader) tryParseTypeAssertion(spec dst.Spec) (model.TypeAssertionInfo, bool) {
 	valueSpec, ok := spec.(*dst.ValueSpec)
 	if !ok {
@@ -204,7 +202,8 @@ func extractTypeName(expr dst.Expr) string {
 	}
 }
 
-// extractImplementingType extracts the implementing type name from a composite literal or address expression.
+// extractImplementingType extracts the implementing type name from a composite literal
+// or address expression.
 // Returns the type name and whether it's a pointer (address-of expression).
 func extractImplementingType(expr dst.Expr) (string, bool) {
 	switch t := expr.(type) {

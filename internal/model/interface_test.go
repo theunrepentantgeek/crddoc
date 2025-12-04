@@ -58,6 +58,7 @@ func TestInterface_Methods_ReturnsExpectedMethods(t *testing.T) {
 	for i, m := range methods {
 		methodNames[i] = m.Name
 	}
+
 	g.Expect(methodNames).To(ConsistOf("Speak", "Volume"))
 }
 
@@ -85,6 +86,7 @@ func TestInterface_Embeds_ReturnsEmbeddedInterfaces(t *testing.T) {
 	for i, e := range embeds {
 		embedNames[i] = e.Name()
 	}
+
 	g.Expect(embedNames).To(ConsistOf("Greeter", "Speaker"))
 
 	// Check that the directly declared method Perform is also captured
@@ -215,6 +217,7 @@ func TestInterface_Implementations_ReturnsImplementingObjects(t *testing.T) {
 	for i, impl := range impls {
 		implNames[i] = impl.Name()
 	}
+
 	g.Expect(implNames).To(ConsistOf("Human", "Robot"))
 }
 
@@ -242,6 +245,7 @@ func TestObject_ImplementsInterfaces_ReturnsImplementedInterfaces(t *testing.T) 
 	for i, iface := range interfaces {
 		ifaceNames[i] = iface.Name()
 	}
+
 	g.Expect(ifaceNames).To(ConsistOf("Greeter", "Speaker"))
 
 	// Check Robot implements only Greeter
@@ -289,10 +293,12 @@ func TestPackage_Declarations_IncludesInterfaces(t *testing.T) {
 
 	// Find interfaces in declarations
 	interfaceCount := 0
+
 	for _, decl := range declarations {
 		if decl.Kind() == model.InterfaceDeclaration {
 			interfaceCount++
 		}
 	}
+
 	g.Expect(interfaceCount).To(Equal(3)) // Greeter, Speaker, MultiTalent
 }

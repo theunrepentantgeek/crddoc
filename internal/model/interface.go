@@ -11,11 +11,11 @@ import (
 type Interface struct {
 	TypeReference
 	methods         map[string]*Function
-	embeds          []TypeReference // Embedded interfaces (e.g., `Greeter` in `type MultiTalent interface { Greeter }`)
+	embeds          []TypeReference
 	description     []string
 	pkg             *Package
 	usage           []PropertyReference
-	implementations []*Object // Objects that implement this interface
+	implementations []*Object
 }
 
 var _ Declaration = &Interface{}
@@ -71,7 +71,8 @@ func (i *Interface) parseMethods(
 	}
 
 	for _, field := range interfaceType.Methods.List {
-		// Embedded interfaces appear as fields without names (e.g., `Greeter` in `type MultiTalent interface { Greeter }`).
+		// Embedded interfaces appear as fields without names
+		// (e.g., `Greeter` in `type MultiTalent interface { Greeter }`).
 		if len(field.Names) == 0 {
 			// This is an embedded interface
 			embedRef := NewTypeReferenceFromExpr(field.Type)

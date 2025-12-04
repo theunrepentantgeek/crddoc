@@ -55,9 +55,10 @@ func (b *PackageBuilder) AddInterfaces(interfaces ...*Interface) {
 
 // Build creates a new Package from the builder.
 func (b *PackageBuilder) Build() *Package {
+	l := len(b.Resources) + len(b.Objects) + len(b.Enums) + len(b.Interfaces)
 	result := &Package{
 		cfg:      b.Config,
-		ranks:    make(map[string]int, len(b.Resources)+len(b.Objects)+len(b.Enums)+len(b.Interfaces)),
+		ranks:    make(map[string]int, l),
 		metadata: b.Metadata,
 		log:      b.Log,
 	}
