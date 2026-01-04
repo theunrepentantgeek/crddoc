@@ -3,7 +3,6 @@ package model
 import (
 	"maps"
 	"slices"
-	"strings"
 
 	"github.com/dave/dst"
 )
@@ -253,31 +252,4 @@ func (*Object) linkImportsToType(typeRef *TypeReference, importReferences Import
 	if path, ok := importReferences.LookupImportPath(*typeRef); ok {
 		typeRef.impPath = path
 	}
-}
-
-// alphabeticalPropertyComparison does a case insensitive comparison of the names of the
-// two properties, allowing them to be sorted.
-func alphabeticalPropertyComparison(left *Property, right *Property) int {
-	leftName := strings.ToLower(left.Name)
-	rightName := strings.ToLower(right.Name)
-
-	return strings.Compare(leftName, rightName)
-}
-
-// alphabeticalFunctionComparison does a case insensitive comparison of the names of the
-// two functions, allowing them to be sorted.
-func alphabeticalFunctionComparison(left *Function, right *Function) int {
-	leftName := strings.ToLower(left.Name)
-	rightName := strings.ToLower(right.Name)
-
-	return strings.Compare(leftName, rightName)
-}
-
-// alphabeticalInterfaceComparison does a case insensitive comparison of the names of the
-// two interfaces, allowing them to be sorted.
-func alphabeticalInterfaceComparison(left *Interface, right *Interface) int {
-	leftName := strings.ToLower(left.Name())
-	rightName := strings.ToLower(right.Name())
-
-	return strings.Compare(leftName, rightName)
 }

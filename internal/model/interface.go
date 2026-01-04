@@ -3,7 +3,6 @@ package model
 import (
 	"maps"
 	"slices"
-	"strings"
 
 	"github.com/dave/dst"
 )
@@ -229,13 +228,4 @@ func (i *Interface) AddImplementation(obj *Object) {
 	}
 
 	i.implementations = append(i.implementations, obj)
-}
-
-// alphabeticalObjectComparison does a case insensitive comparison of the names of the
-// two objects, allowing them to be sorted.
-func alphabeticalObjectComparison(left *Object, right *Object) int {
-	leftName := strings.ToLower(left.Name())
-	rightName := strings.ToLower(right.Name())
-
-	return strings.Compare(leftName, rightName)
 }

@@ -51,7 +51,7 @@ func (p *Package) Declarations(order Order) []Declaration {
 	switch order {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically
-		slices.SortFunc(allDeclarations, p.alphabeticalObjectComparison)
+		slices.SortFunc(allDeclarations, alphabeticalDeclarationComparison)
 	case OrderRanked:
 		// Sort the objects by rank, then alphabetical
 		slices.SortFunc(allDeclarations, p.rankedObjectComparison)
@@ -227,13 +227,6 @@ func (p *Package) calculateRanksFromRoot(
 	for _, prop := range ctr.Properties() {
 		p.calculateRanksFromRoot(prop.Type.ID(), rank+1)
 	}
-}
-
-func (*Package) alphabeticalObjectComparison(left Declaration, right Declaration) int {
-	leftName := strings.ToLower(left.Name())
-	rightName := strings.ToLower(right.Name())
-
-	return strings.Compare(leftName, rightName)
 }
 
 func (p *Package) rankedObjectComparison(left Declaration, right Declaration) int {
