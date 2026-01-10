@@ -35,7 +35,7 @@ func (p *Package) Name() string {
 }
 
 func (p *Package) Declarations(order Order) []Declaration {
-	if p == nil || (len(p.resources) == 0 && len(p.objects) == 0 && len(p.enums) == 0 && len(p.interfaces) == 0) {
+	if p == nil {
 		return nil
 	}
 
@@ -45,6 +45,10 @@ func (p *Package) Declarations(order Order) []Declaration {
 		asDeclarations(maps.Values(p.objects)),
 		asDeclarations(maps.Values(p.enums)),
 		asDeclarations(maps.Values(p.interfaces)))
+
+	if len(allDeclarations) == 0 {
+		return nil
+	}
 
 	// Sort the declarations as specified
 	//nolint:revive // If not specified, leave unsorted

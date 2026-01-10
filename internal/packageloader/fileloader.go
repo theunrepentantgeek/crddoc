@@ -112,22 +112,29 @@ func (loader *FileLoader) parseTypes(
 	// Parse type declarations for objects, enums, and interfaces
 	for _, spec := range specs {
 		// Try to create an object from this declaration
-		if obj, ok := model.TryNewObject(spec, description, loader.importReferences); ok {
-			loader.objects[obj.ID()] = obj
-		}
-
-		// Try to create an enum from this declaration
-		if enum, ok := model.TryNewEnum(spec, description); ok {
-			loader.enums[enum.ID()] = enum
-		}
-
-		// Try to create an interface from this declaration
-		if iface, ok := model.TryNewInterface(spec, description, loader.importReferences); ok {
-			loader.interfaces[iface.ID()] = iface
-		}
+		loader.parseTypeFromSpec(spec, description)
 	}
 
 	return nil
+}
+
+func (loader *FileLoader) parseTypeFromSpec(
+	spec dst.Spec,
+	description []string,
+) {
+	if obj, ok := model.TryNewObject(spec, description, loader.importReferences); ok {
+		loader.objects[obj.ID()] = obj
+	}
+
+	// Try to create an enum from this declaration
+	if enum, ok := model.TryNewEnum(spec, description); ok {
+		loader.enums[enum.ID()] = enum
+	}
+
+	// Try to create an interface from this declaration
+	if iface, ok := model.TryNewInterface(spec, description, loader.importReferences); ok {
+		loader.interfaces[iface.ID()] = iface
+	}
 }
 
 func (loader *FileLoader) parseConstants(
@@ -155,7 +162,7 @@ func (loader *FileLoader) parseVarDeclarations(specs []dst.Spec) {
 
 // tryParseTypeAssertion tries to parse a type assertion from a var declaration.
 // Returns the assertion and true if successful, empty assertion and false otherwise.
-func (loader *FileLoader) tryParseTypeAssertion(spec dst.Spec) (model.TypeAssertionInfo, bool) {
+func (*FileLoader) tryParseTypeAssertion(spec dst.Spec) (model.TypeAssertionInfo, bool) {
 	valueSpec, ok := spec.(*dst.ValueSpec)
 	if !ok {
 		return model.TypeAssertionInfo{}, false

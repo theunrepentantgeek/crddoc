@@ -27,7 +27,10 @@ func TestInterface_TryNewInterface_ParsesInterface(t *testing.T) {
 	dec, ok := pkg.Declaration("Greeter")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(dec).NotTo(BeNil())
-	g.Expect(dec.Kind()).To(Equal(model.InterfaceDeclaration))
+
+	if dec != nil {
+		g.Expect(dec.Kind()).To(Equal(model.InterfaceDeclaration))
+	}
 
 	iface, ok := dec.(*model.Interface)
 	g.Expect(ok).To(BeTrue())
@@ -50,16 +53,18 @@ func TestInterface_Methods_ReturnsExpectedMethods(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect(iface).NotTo(BeNil())
 
-	methods := iface.Methods()
-	g.Expect(methods).To(HaveLen(2))
+	if iface != nil {
+		methods := iface.Methods()
+		g.Expect(methods).To(HaveLen(2))
 
-	// Check method names (sorted alphabetically)
-	methodNames := make([]string, len(methods))
-	for i, m := range methods {
-		methodNames[i] = m.Name
+		// Check method names (sorted alphabetically)
+		methodNames := make([]string, len(methods))
+		for i, m := range methods {
+			methodNames[i] = m.Name
+		}
+
+		g.Expect(methodNames).To(ConsistOf("Speak", "Volume"))
 	}
-
-	g.Expect(methodNames).To(ConsistOf("Speak", "Volume"))
 }
 
 func TestInterface_Embeds_ReturnsEmbeddedInterfaces(t *testing.T) {
@@ -78,21 +83,23 @@ func TestInterface_Embeds_ReturnsEmbeddedInterfaces(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect(iface).NotTo(BeNil())
 
-	embeds := iface.Embeds()
-	g.Expect(embeds).To(HaveLen(2))
+	if iface != nil {
+		embeds := iface.Embeds()
+		g.Expect(embeds).To(HaveLen(2))
 
-	// Check embedded interface names
-	embedNames := make([]string, len(embeds))
-	for i, e := range embeds {
-		embedNames[i] = e.Name()
+		// Check embedded interface names
+		embedNames := make([]string, len(embeds))
+		for i, e := range embeds {
+			embedNames[i] = e.Name()
+		}
+
+		g.Expect(embedNames).To(ConsistOf("Greeter", "Speaker"))
+
+		// Check that the directly declared method Perform is also captured
+		methods := iface.Methods()
+		g.Expect(methods).To(HaveLen(1))
+		g.Expect(methods[0].Name).To(Equal("Perform"))
 	}
-
-	g.Expect(embedNames).To(ConsistOf("Greeter", "Speaker"))
-
-	// Check that the directly declared method Perform is also captured
-	methods := iface.Methods()
-	g.Expect(methods).To(HaveLen(1))
-	g.Expect(methods[0].Name).To(Equal("Perform"))
 }
 
 func TestInterface_Embeds_ReturnsEmptyForNoEmbeds(t *testing.T) {
@@ -111,10 +118,13 @@ func TestInterface_Embeds_ReturnsEmptyForNoEmbeds(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect(iface).NotTo(BeNil())
 
-	embeds := iface.Embeds()
-	g.Expect(embeds).To(BeEmpty())
+	if iface != nil {
+		embeds := iface.Embeds()
+		g.Expect(embeds).To(BeEmpty())
+	}
 }
 
+//nolint:funlen // Test has multiple cases
 func TestInterface_Method_ReturnsExpectedMethod(t *testing.T) {
 	t.Parallel()
 
@@ -209,16 +219,18 @@ func TestInterface_Implementations_ReturnsImplementingObjects(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect(greeter).NotTo(BeNil())
 
-	impls := greeter.Implementations()
-	g.Expect(impls).To(HaveLen(2))
+	if greeter != nil {
+		impls := greeter.Implementations()
+		g.Expect(impls).To(HaveLen(2))
 
-	// Check implementation names (sorted alphabetically)
-	implNames := make([]string, len(impls))
-	for i, impl := range impls {
-		implNames[i] = impl.Name()
+		// Check implementation names (sorted alphabetically)
+		implNames := make([]string, len(impls))
+		for i, impl := range impls {
+			implNames[i] = impl.Name()
+		}
+
+		g.Expect(implNames).To(ConsistOf("Human", "Robot"))
 	}
-
-	g.Expect(implNames).To(ConsistOf("Human", "Robot"))
 }
 
 func TestObject_ImplementsInterfaces_ReturnsImplementedInterfaces(t *testing.T) {
@@ -237,25 +249,29 @@ func TestObject_ImplementsInterfaces_ReturnsImplementedInterfaces(t *testing.T) 
 	g.Expect(ok).To(BeTrue())
 	g.Expect(human).NotTo(BeNil())
 
-	interfaces := human.ImplementsInterfaces()
-	g.Expect(interfaces).To(HaveLen(2))
+	if human != nil {
+		interfaces := human.ImplementsInterfaces()
+		g.Expect(interfaces).To(HaveLen(2))
 
-	// Check interface names (sorted alphabetically)
-	ifaceNames := make([]string, len(interfaces))
-	for i, iface := range interfaces {
-		ifaceNames[i] = iface.Name()
+		// Check interface names (sorted alphabetically)
+		ifaceNames := make([]string, len(interfaces))
+		for i, iface := range interfaces {
+			ifaceNames[i] = iface.Name()
+		}
+
+		g.Expect(ifaceNames).To(ConsistOf("Greeter", "Speaker"))
 	}
-
-	g.Expect(ifaceNames).To(ConsistOf("Greeter", "Speaker"))
 
 	// Check Robot implements only Greeter
 	robot, ok := pkg.Object("Robot")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(robot).NotTo(BeNil())
 
-	robotInterfaces := robot.ImplementsInterfaces()
-	g.Expect(robotInterfaces).To(HaveLen(1))
-	g.Expect(robotInterfaces[0].Name()).To(Equal("Greeter"))
+	if robot != nil {
+		robotInterfaces := robot.ImplementsInterfaces()
+		g.Expect(robotInterfaces).To(HaveLen(1))
+		g.Expect(robotInterfaces[0].Name()).To(Equal("Greeter"))
+	}
 }
 
 func TestInterface_Description_ParsesComments(t *testing.T) {
@@ -273,8 +289,11 @@ func TestInterface_Description_ParsesComments(t *testing.T) {
 	iface, ok := pkg.Interface("Greeter")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(iface).NotTo(BeNil())
-	g.Expect(iface.Description()).NotTo(BeEmpty())
-	g.Expect(iface.Description()[0]).To(ContainSubstring("interface for things that can greet"))
+
+	if iface != nil {
+		g.Expect(iface.Description()).NotTo(BeEmpty())
+		g.Expect(iface.Description()[0]).To(ContainSubstring("interface for things that can greet"))
+	}
 }
 
 func TestPackage_Declarations_IncludesInterfaces(t *testing.T) {

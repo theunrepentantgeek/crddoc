@@ -56,13 +56,13 @@ func TryNewInterface(
 		description: description,
 	}
 
-	result.parseMethods(interfaceType, importReferences)
+	result.parseAllMethods(interfaceType, importReferences)
 
 	return result, true
 }
 
-// parseMethods parses the methods and embedded interfaces from an interface type.
-func (i *Interface) parseMethods(
+// parseAllMethods parses the methods and embedded interfaces from an interface type.
+func (i *Interface) parseAllMethods(
 	interfaceType *dst.InterfaceType,
 	importReferences ImportReferenceSet,
 ) {
@@ -71,31 +71,37 @@ func (i *Interface) parseMethods(
 	}
 
 	for _, field := range interfaceType.Methods.List {
-		// Embedded interfaces appear as fields without names
-		// (e.g., `Greeter` in `type MultiTalent interface { Greeter }`).
-		if len(field.Names) == 0 {
-			// This is an embedded interface
-			embedRef := NewTypeReferenceFromExpr(field.Type)
-			if path, ok := importReferences.LookupImportPath(embedRef); ok {
-				embedRef.impPath = path
-			}
-
-			i.embeds = append(i.embeds, embedRef)
-
-			continue
-		}
-
-		// Each name is a method
-		for _, nameIdent := range field.Names {
-			if fn := i.parseMethodFromField(nameIdent.Name, field, importReferences); fn != nil {
-				i.methods[fn.Name] = fn
-			}
-		}
+		i.parseMethod(field, importReferences)
 	}
 }
 
+func (i *Interface) parseMethod(field *dst.Field, importReferences ImportReferenceSet) int {
+	// Embedded interfaces appear as fields without names
+	// (e.g., `Greeter` in `type MultiTalent interface { Greeter }`).
+	if len(field.Names) == 0 {
+		// This is an embedded interface
+		embedRef := NewTypeReferenceFromExpr(field.Type)
+		if path, ok := importReferences.LookupImportPath(embedRef); ok {
+			embedRef.impPath = path
+		}
+
+		i.embeds = append(i.embeds, embedRef)
+
+		return 1
+	}
+
+	// Each name is a method
+	for _, nameIdent := range field.Names {
+		if fn := i.parseMethodFromField(nameIdent.Name, field, importReferences); fn != nil {
+			i.methods[fn.Name] = fn
+		}
+	}
+
+	return 0
+}
+
 // parseMethodFromField creates a Function from a field in an interface.
-func (i *Interface) parseMethodFromField(
+func (*Interface) parseMethodFromField(
 	name string,
 	field *dst.Field,
 	importReferences ImportReferenceSet,
@@ -135,17 +141,8 @@ func (i *Interface) parseMethodFromField(
 	}
 
 	// Link import references for parameter and result types
-	for idx := range fn.Parameters {
-		if path, ok := importReferences.LookupImportPath(fn.Parameters[idx].Type); ok {
-			fn.Parameters[idx].Type.impPath = path
-		}
-	}
-
-	for idx := range fn.Results {
-		if path, ok := importReferences.LookupImportPath(fn.Results[idx].Type); ok {
-			fn.Results[idx].Type.impPath = path
-		}
-	}
+	fn.linkParameters(importReferences)
+	fn.linkResults(importReferences)
 
 	return fn
 }
