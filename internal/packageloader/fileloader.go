@@ -23,8 +23,10 @@ type FileLoader struct {
 	resources        map[string]*model.Resource
 	objects          map[string]*model.Object
 	enums            map[string]*model.Enum
+	interfaces       map[string]*model.Interface
 	values           map[string][]*model.EnumValue
-	functions        map[string][]*model.Function // Functions keyed by receiver type ID
+	functions        map[string][]*model.Function         // Functions keyed by receiver type ID
+	typeAssertions   map[string][]model.TypeAssertionInfo // Type assertions keyed by interface name
 	packageMarkers   *model.PackageMarkers
 	log              logr.Logger
 }
@@ -42,8 +44,10 @@ func NewFileLoader(
 		resources:        make(map[string]*model.Resource),
 		objects:          make(map[string]*model.Object),
 		enums:            make(map[string]*model.Enum),
+		interfaces:       make(map[string]*model.Interface),
 		values:           make(map[string][]*model.EnumValue),
 		functions:        make(map[string][]*model.Function),
+		typeAssertions:   make(map[string][]model.TypeAssertionInfo),
 		packageMarkers:   model.NewPackageMarkers(),
 		log:              log,
 	}
@@ -86,6 +90,8 @@ func (loader *FileLoader) parseDecl(
 		}
 	case token.CONST:
 		loader.parseConstants(gd.Specs)
+	case token.VAR:
+		loader.parseVarDeclarations(gd.Specs)
 	default:
 	}
 
@@ -93,7 +99,7 @@ func (loader *FileLoader) parseDecl(
 }
 
 // parseTypes iterates through a sequence of dst.Spec declarations trying to parse
-// objects and enums.
+// objects, enums, and interfaces.
 func (loader *FileLoader) parseTypes(
 	specs []dst.Spec,
 	comments []string,
@@ -103,20 +109,32 @@ func (loader *FileLoader) parseTypes(
 		return errors.Wrap(err, "parsing comments for markers")
 	}
 
-	// Parse type declarations for objects and enums
+	// Parse type declarations for objects, enums, and interfaces
 	for _, spec := range specs {
 		// Try to create an object from this declaration
-		if obj, ok := model.TryNewObject(spec, description, loader.importReferences); ok {
-			loader.objects[obj.ID()] = obj
-		}
-
-		// Try to create an enum from this declaration
-		if enum, ok := model.TryNewEnum(spec, description); ok {
-			loader.enums[enum.ID()] = enum
-		}
+		loader.parseTypeFromSpec(spec, description)
 	}
 
 	return nil
+}
+
+func (loader *FileLoader) parseTypeFromSpec(
+	spec dst.Spec,
+	description []string,
+) {
+	if obj, ok := model.TryNewObject(spec, description, loader.importReferences); ok {
+		loader.objects[obj.ID()] = obj
+	}
+
+	// Try to create an enum from this declaration
+	if enum, ok := model.TryNewEnum(spec, description); ok {
+		loader.enums[enum.ID()] = enum
+	}
+
+	// Try to create an interface from this declaration
+	if iface, ok := model.TryNewInterface(spec, description, loader.importReferences); ok {
+		loader.interfaces[iface.ID()] = iface
+	}
 }
 
 func (loader *FileLoader) parseConstants(
@@ -129,6 +147,84 @@ func (loader *FileLoader) parseConstants(
 			loader.values[kind] = append(loader.values[kind], enumValue)
 		}
 	}
+}
+
+// parseVarDeclarations parses variable declarations looking for type assertions
+// of the form `var _ Interface = &Type{}` or `var _ Interface = Type{}`.
+func (loader *FileLoader) parseVarDeclarations(specs []dst.Spec) {
+	for _, spec := range specs {
+		if assertion, ok := loader.tryParseTypeAssertion(spec); ok {
+			loader.typeAssertions[assertion.InterfaceName] = append(
+				loader.typeAssertions[assertion.InterfaceName], assertion)
+		}
+	}
+}
+
+// tryParseTypeAssertion tries to parse a type assertion from a var declaration.
+// Returns the assertion and true if successful, empty assertion and false otherwise.
+func (*FileLoader) tryParseTypeAssertion(spec dst.Spec) (model.TypeAssertionInfo, bool) {
+	valueSpec, ok := spec.(*dst.ValueSpec)
+	if !ok {
+		return model.TypeAssertionInfo{}, false
+	}
+
+	// Check for blank identifier (`_`)
+	if len(valueSpec.Names) != 1 || valueSpec.Names[0].Name != "_" {
+		return model.TypeAssertionInfo{}, false
+	}
+
+	// Get the interface type from the type annotation
+	if valueSpec.Type == nil {
+		return model.TypeAssertionInfo{}, false
+	}
+
+	interfaceName := extractTypeName(valueSpec.Type)
+	if interfaceName == "" {
+		return model.TypeAssertionInfo{}, false
+	}
+
+	// Get the implementing type from the value
+	if len(valueSpec.Values) != 1 {
+		return model.TypeAssertionInfo{}, false
+	}
+
+	typeName, isPointer := extractImplementingType(valueSpec.Values[0])
+	if typeName == "" {
+		return model.TypeAssertionInfo{}, false
+	}
+
+	return model.NewTypeAssertionInfo(interfaceName, typeName, isPointer), true
+}
+
+// extractTypeName extracts the type name from an expression.
+func extractTypeName(expr dst.Expr) string {
+	switch t := expr.(type) {
+	case *dst.Ident:
+		return t.Name
+	case *dst.SelectorExpr:
+		// For qualified types like pkg.Type, return just the type name
+		return t.Sel.Name
+	default:
+		return ""
+	}
+}
+
+// extractImplementingType extracts the implementing type name from a composite literal
+// or address expression.
+// Returns the type name and whether it's a pointer (address-of expression).
+func extractImplementingType(expr dst.Expr) (string, bool) {
+	switch t := expr.(type) {
+	case *dst.UnaryExpr:
+		// Handle &Type{} - address-of expression
+		if compLit, ok := t.X.(*dst.CompositeLit); ok {
+			return extractTypeName(compLit.Type), true
+		}
+	case *dst.CompositeLit:
+		// Handle Type{} - value expression
+		return extractTypeName(t.Type), false
+	}
+
+	return "", false
 }
 
 // parseFunc parses a function declaration and stores it for later attachment to objects.
@@ -225,8 +321,16 @@ func (loader *FileLoader) Enums() []*model.Enum {
 	return filterDeclarations(loader.enums, loader.typeFilters)
 }
 
+func (loader *FileLoader) Interfaces() []*model.Interface {
+	return filterDeclarations(loader.interfaces, loader.typeFilters)
+}
+
 func (loader *FileLoader) Functions() map[string][]*model.Function {
 	return loader.functions
+}
+
+func (loader *FileLoader) TypeAssertions() map[string][]model.TypeAssertionInfo {
+	return loader.typeAssertions
 }
 
 func filterDeclarations[D model.Declaration](

@@ -13,13 +13,14 @@ import (
 
 // Package is a struct containing all of the declarations found in a package directory.
 type Package struct {
-	cfg       *config.Config
-	resources map[string]*Resource // Dictionary of resources in package, keyed by name
-	objects   map[string]*Object   // Dictionary of objects in package, keyed by name
-	enums     map[string]*Enum     // Dictionary of enums in package, keyed by name
-	ranks     map[string]int       // Dictionary of ranks (depth from root), keyed by name
-	metadata  *PackageMarkers
-	log       logr.Logger
+	cfg        *config.Config
+	resources  map[string]*Resource  // Dictionary of resources in package, keyed by name
+	objects    map[string]*Object    // Dictionary of objects in package, keyed by name
+	enums      map[string]*Enum      // Dictionary of enums in package, keyed by name
+	interfaces map[string]*Interface // Dictionary of interfaces in package, keyed by name
+	ranks      map[string]int        // Dictionary of ranks (depth from root), keyed by name
+	metadata   *PackageMarkers
+	log        logr.Logger
 }
 
 type Order string
@@ -34,7 +35,7 @@ func (p *Package) Name() string {
 }
 
 func (p *Package) Declarations(order Order) []Declaration {
-	if p == nil || (len(p.resources) == 0 && len(p.objects) == 0 && len(p.enums) == 0) {
+	if p == nil {
 		return nil
 	}
 
@@ -42,14 +43,19 @@ func (p *Package) Declarations(order Order) []Declaration {
 	allDeclarations := slices.Concat(
 		asDeclarations(maps.Values(p.resources)),
 		asDeclarations(maps.Values(p.objects)),
-		asDeclarations(maps.Values(p.enums)))
+		asDeclarations(maps.Values(p.enums)),
+		asDeclarations(maps.Values(p.interfaces)))
+
+	if len(allDeclarations) == 0 {
+		return nil
+	}
 
 	// Sort the declarations as specified
 	//nolint:revive // If not specified, leave unsorted
 	switch order {
 	case OrderAlphabetical:
 		// Sort the objects alphabetically
-		slices.SortFunc(allDeclarations, p.alphabeticalObjectComparison)
+		slices.SortFunc(allDeclarations, alphabeticalDeclarationComparison)
 	case OrderRanked:
 		// Sort the objects by rank, then alphabetical
 		slices.SortFunc(allDeclarations, p.rankedObjectComparison)
@@ -76,6 +82,10 @@ func (p *Package) Declaration(name string) (Declaration, bool) {
 		return enum, true
 	}
 
+	if iface, ok := p.interfaces[name]; ok {
+		return iface, true
+	}
+
 	return nil, false
 }
 
@@ -89,6 +99,18 @@ func (p *Package) Object(name string) (*Object, bool) {
 	obj, ok := dec.(*Object)
 
 	return obj, ok
+}
+
+// Interface returns the interface with the given name, if there is one.
+func (p *Package) Interface(name string) (*Interface, bool) {
+	dec, ok := p.Declaration(name)
+	if !ok {
+		return nil, false
+	}
+
+	iface, ok := dec.(*Interface)
+
+	return iface, ok
 }
 
 // Group returns the group of the package, if known.
@@ -209,13 +231,6 @@ func (p *Package) calculateRanksFromRoot(
 	for _, prop := range ctr.Properties() {
 		p.calculateRanksFromRoot(prop.Type.ID(), rank+1)
 	}
-}
-
-func (*Package) alphabeticalObjectComparison(left Declaration, right Declaration) int {
-	leftName := strings.ToLower(left.Name())
-	rightName := strings.ToLower(right.Name())
-
-	return strings.Compare(leftName, rightName)
 }
 
 func (p *Package) rankedObjectComparison(left Declaration, right Declaration) int {

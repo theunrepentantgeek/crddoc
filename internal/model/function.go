@@ -110,3 +110,23 @@ func (f *Function) DeclaredOn() *Object {
 func (f *Function) setDeclaredOn(obj *Object) {
 	f.declaredOn = obj
 }
+
+// linkParameters resolves import paths for parameter types.
+// importReferences has import paths for known types.
+func (f *Function) linkParameters(importReferences ImportReferenceSet) {
+	for idx := range f.Parameters {
+		if path, ok := importReferences.LookupImportPath(f.Parameters[idx].Type); ok {
+			f.Parameters[idx].Type.impPath = path
+		}
+	}
+}
+
+// linkResults resolves import paths for result types.
+// importReferences has import paths for known types.
+func (f *Function) linkResults(importReferences ImportReferenceSet) {
+	for idx := range f.Results {
+		if path, ok := importReferences.LookupImportPath(f.Results[idx].Type); ok {
+			f.Results[idx].Type.impPath = path
+		}
+	}
+}

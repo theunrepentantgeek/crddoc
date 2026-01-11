@@ -181,12 +181,15 @@ func (loader *PackageLoader) collectDeclarations(
 
 	// Collect all functions keyed by receiver type
 	allFunctions := make(map[string][]*model.Function)
+	// Collect all type assertions keyed by interface name
+	allTypeAssertions := make(map[string][]model.TypeAssertionInfo)
 
 	builder := &model.PackageBuilder{
-		Objects:  make(map[string]*model.Object),
-		Metadata: metadata,
-		Config:   loader.cfg,
-		Log:      loader.log,
+		Objects:    make(map[string]*model.Object),
+		Interfaces: make(map[string]*model.Interface),
+		Metadata:   metadata,
+		Config:     loader.cfg,
+		Log:        loader.log,
 	}
 
 	for fl := range loadedFiles {
@@ -196,10 +199,20 @@ func (loader *PackageLoader) collectDeclarations(
 		builder.AddResources(fl.Resources()...)
 		builder.AddEnums(fl.Enums()...)
 		builder.AddObjects(fl.Objects()...)
+		builder.AddInterfaces(fl.Interfaces()...)
 
 		// Collect all functions
 		for receiverID, funcs := range fl.Functions() {
-			allFunctions[receiverID] = append(allFunctions[receiverID], funcs...)
+			allFunctions[receiverID] = append(
+				allFunctions[receiverID],
+				funcs...)
+		}
+
+		// Collect all type assertions
+		for interfaceName, assertions := range fl.TypeAssertions() {
+			allTypeAssertions[interfaceName] = append(
+				allTypeAssertions[interfaceName],
+				assertions...)
 		}
 
 		if err := metadata.Merge(fl.PackageMarkers()); err != nil {
@@ -209,6 +222,9 @@ func (loader *PackageLoader) collectDeclarations(
 
 	// Attach all collected functions to their corresponding objects
 	loader.attachFunctionsToObjects(builder.Objects, allFunctions)
+
+	// Link interfaces to their implementations using type assertions
+	loader.linkInterfaceAssertions(builder.Interfaces, builder.Objects, allTypeAssertions)
 
 	pkg := builder.Build()
 	packages <- pkg
@@ -225,6 +241,43 @@ func (*PackageLoader) attachFunctionsToObjects(
 				obj.AddFunction(fn)
 			}
 		}
+	}
+}
+
+// linkInterfaceAssertions links interfaces to their implementations using type assertions.
+func (loader *PackageLoader) linkInterfaceAssertions(
+	interfaces map[string]*model.Interface,
+	objects map[string]*model.Object,
+	typeAssertions map[string][]model.TypeAssertionInfo,
+) {
+	for interfaceName, assertions := range typeAssertions {
+		// Find the interface (may be in the current package or external)
+		if iface, ok := interfaces[interfaceName]; ok {
+			loader.linkAssertionsOfInterface(assertions, objects, iface)
+		}
+	}
+}
+
+func (*PackageLoader) linkAssertionsOfInterface(
+	assertions []model.TypeAssertionInfo,
+	objects map[string]*model.Object,
+	iface *model.Interface,
+) {
+	for _, assertion := range assertions {
+		// Find the implementing object
+		obj, objOk := objects[assertion.TypeName]
+		if !objOk {
+			continue
+		}
+
+		// link both ways
+		iface.AddImplementation(obj)
+		obj.AddInterface(iface)
+
+		// Note: If interface is external, we still have the assertion info
+		// but we can't add the Object to the Interface's implementations
+		// because we don't have the Interface object.
+		// The assertion info is preserved for potential future use.
 	}
 }
 

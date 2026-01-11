@@ -8,12 +8,13 @@ import (
 
 // PackageBuilder is a builder for Package instances.
 type PackageBuilder struct {
-	Resources []*Resource
-	Objects   map[string]*Object
-	Enums     []*Enum
-	Metadata  *PackageMarkers
-	Config    *config.Config
-	Log       logr.Logger
+	Resources  []*Resource
+	Objects    map[string]*Object
+	Enums      []*Enum
+	Interfaces map[string]*Interface
+	Metadata   *PackageMarkers
+	Config     *config.Config
+	Log        logr.Logger
 }
 
 // AddResources adds resources to the builder.
@@ -39,11 +40,25 @@ func (b *PackageBuilder) AddEnums(enums ...*Enum) {
 	b.Enums = append(b.Enums, enums...)
 }
 
+// AddInterfaces adds interfaces to the builder.
+func (b *PackageBuilder) AddInterfaces(interfaces ...*Interface) {
+	for _, iface := range interfaces {
+		if _, exists := b.Interfaces[iface.ID()]; exists {
+			b.Log.V(1).Info(
+				"Duplicate interface ID encountered; overwriting previous interface",
+				"interfaceID", iface.ID())
+		}
+
+		b.Interfaces[iface.ID()] = iface
+	}
+}
+
 // Build creates a new Package from the builder.
 func (b *PackageBuilder) Build() *Package {
+	l := len(b.Resources) + len(b.Objects) + len(b.Enums) + len(b.Interfaces)
 	result := &Package{
 		cfg:      b.Config,
-		ranks:    make(map[string]int, len(b.Resources)+len(b.Objects)+len(b.Enums)),
+		ranks:    make(map[string]int, l),
 		metadata: b.Metadata,
 		log:      b.Log,
 	}
@@ -53,6 +68,12 @@ func (b *PackageBuilder) Build() *Package {
 	}
 
 	result.objects = b.Objects
+
+	for _, i := range b.Interfaces {
+		i.SetPackage(result)
+	}
+
+	result.interfaces = b.Interfaces
 
 	result.resources = indexByName(b.Resources, result)
 	result.enums = indexByName(b.Enums, result)
