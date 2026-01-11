@@ -75,7 +75,7 @@ func (i *Interface) parseAllMethods(
 	}
 }
 
-func (i *Interface) parseMethod(field *dst.Field, importReferences ImportReferenceSet) int {
+func (i *Interface) parseMethod(field *dst.Field, importReferences ImportReferenceSet) {
 	// Embedded interfaces appear as fields without names
 	// (e.g., `Greeter` in `type MultiTalent interface { Greeter }`).
 	if len(field.Names) == 0 {
@@ -87,7 +87,7 @@ func (i *Interface) parseMethod(field *dst.Field, importReferences ImportReferen
 
 		i.embeds = append(i.embeds, embedRef)
 
-		return 1
+		return
 	}
 
 	// Each name is a method
@@ -96,8 +96,6 @@ func (i *Interface) parseMethod(field *dst.Field, importReferences ImportReferen
 			i.methods[fn.Name] = fn
 		}
 	}
-
-	return 0
 }
 
 // parseMethodFromField creates a Function from a field in an interface.
