@@ -9,7 +9,7 @@ require (
 	github.com/go-task/slim-sprig/v3 v3.0.0
 	github.com/onsi/gomega v1.39.1
 	github.com/pkg/errors v0.9.1
-	github.com/rs/zerolog v1.34.0
+	github.com/rs/zerolog v1.35.0
 	github.com/shurcooL/markdownfmt v0.0.0-20231025213440-c8f16ef0855c
 	github.com/spf13/cobra v1.10.2
 	gopkg.in/yaml.v3 v3.0.1
