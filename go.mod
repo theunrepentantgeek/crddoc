@@ -3,7 +3,7 @@ module github.com/theunrepentantgeek/crddoc
 go 1.25.0
 
 require (
-	github.com/dave/dst v0.27.3
+	github.com/dave/dst v0.27.4
 	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-task/slim-sprig/v3 v3.0.0
