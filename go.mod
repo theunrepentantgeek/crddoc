@@ -1,6 +1,6 @@
 module github.com/theunrepentantgeek/crddoc
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/dave/dst v0.27.4
@@ -13,7 +13,7 @@ require (
 	github.com/shurcooL/markdownfmt v0.0.0-20231025213440-c8f16ef0855c
 	github.com/spf13/cobra v1.10.2
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/apimachinery v0.35.4
+	k8s.io/apimachinery v0.36.0
 )
 
 require (
