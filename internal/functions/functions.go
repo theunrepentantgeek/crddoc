@@ -32,6 +32,7 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"applyEdits":              f.applyEdits,
 		"asEnum":                  f.asEnum,
 		"asObject":                f.asObject,
+		"asObjectReferenceList":   asObjectReferenceList,
 		"asPropertyReferenceList": asList[model.PropertyReference],
 		"asPropertyContainer":     f.asPropertyContainer,
 		"asResource":              f.asResource,
