@@ -4,7 +4,9 @@ import "github.com/theunrepentantgeek/crddoc/internal/model"
 
 // asObjectReferenceList wraps property references with template list metadata,
 // retaining one reference per referencing object.
-func asObjectReferenceList(references []model.PropertyReference) []ListItem[model.PropertyReference] {
+func asObjectReferenceList(
+	references []model.PropertyReference,
+) []ListItem[model.PropertyReference] {
 	seen := make(map[string]struct{}, len(references))
 	result := make([]model.PropertyReference, 0, len(references))
 

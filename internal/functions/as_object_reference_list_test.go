@@ -8,7 +8,9 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/model"
 )
 
-func TestAsObjectReferenceList_GivenMultiplePropertiesOnTheSameObject_ReturnsEachObjectOnce(t *testing.T) {
+func TestAsObjectReferenceList_GivenMultiplePropertiesOnTheSameObject_ReturnsEachObjectOnce(
+	t *testing.T,
+) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
