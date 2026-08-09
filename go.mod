@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/dave/dst v0.27.4
-	github.com/go-logr/logr v1.4.3
+	github.com/go-logr/logr v1.4.4
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-task/slim-sprig/v3 v3.0.0
 	github.com/onsi/gomega v1.42.1
