@@ -221,7 +221,7 @@ func (g *Generator) generateObjectToWriter(
 	content := raw.Bytes()
 
 	if g.cfg.PrettyPrint {
-		content, err = formatMarkdown(raw.Bytes())
+		content, err = formatMarkdown(content)
 		if err != nil {
 			g.log.Error(err, "failed to tidy markdown")
 

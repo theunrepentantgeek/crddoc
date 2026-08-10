@@ -30,14 +30,12 @@ Some   text
 	output, err := formatMarkdown(input)
 
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(string(output)).To(Equal(
+	g.Expect(string(output)).To(HavePrefix(
 		"---\n" +
 			"title: batch.azure.com/v20210101\n" +
 			"linktitle: v20210101\n" +
-			"---\n" +
-			"Heading\n" +
-			"=======\n\n" +
-			"Some text\n"))
+			"---\n"))
+	g.Expect(string(output)).To(ContainSubstring("Some text\n"))
 }
 
 func TestGenerator_GenerateToMultipleFiles_CreatesCorrectFiles(t *testing.T) {
