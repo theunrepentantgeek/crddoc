@@ -13,6 +13,33 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
+func TestFormatMarkdown_PreservesFrontMatter(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	input := []byte(`
+---
+title: batch.azure.com/v20210101
+linktitle: v20210101
+---
+# Heading
+
+Some   text
+`)
+
+	output, err := formatMarkdown(input)
+
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(string(output)).To(Equal(
+		"---\n" +
+			"title: batch.azure.com/v20210101\n" +
+			"linktitle: v20210101\n" +
+			"---\n" +
+			"Heading\n" +
+			"=======\n\n" +
+			"Some text\n"))
+}
+
 func TestGenerator_GenerateToMultipleFiles_CreatesCorrectFiles(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

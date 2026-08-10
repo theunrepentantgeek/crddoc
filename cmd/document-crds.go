@@ -24,6 +24,7 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		useGoFieldNames  bool
 		fileMode         string
 		includeFunctions bool
+		skipFormatter    bool
 	)
 
 	cmd := &cobra.Command{
@@ -50,6 +51,10 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 
 			if cmd.Flags().Changed("include-functions") {
 				options.includeFunctions = &includeFunctions
+			}
+
+			if cmd.Flags().Changed("skip-formatter") {
+				options.skipFormatter = &skipFormatter
 			}
 
 			return documentCRDs(args, options, log)
@@ -109,6 +114,12 @@ func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 		false,
 		"Include functions/methods in object documentation and class diagrams")
 
+	cmd.Flags().BoolVar(
+		&skipFormatter,
+		"skip-formatter",
+		false,
+		"Skip Markdown formatting")
+
 	return cmd, nil
 }
 
@@ -120,6 +131,7 @@ type documentCRDsOptions struct {
 	useGoFieldNames  *bool
 	fileMode         *string
 	includeFunctions *bool
+	skipFormatter    *bool
 }
 
 func documentCRDs(
@@ -245,4 +257,7 @@ func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.EnableClassDiagrams(options.classDiagrams)
 	cfg.SetUseGoFieldNames(options.useGoFieldNames)
 	cfg.SetIncludeFunctions(options.includeFunctions)
+	if options.skipFormatter != nil && *options.skipFormatter {
+		cfg.PrettyPrint = false
+	}
 }

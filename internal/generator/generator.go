@@ -221,7 +221,7 @@ func (g *Generator) generateObjectToWriter(
 	content := raw.Bytes()
 
 	if g.cfg.PrettyPrint {
-		content, err = markdown.Process("", raw.Bytes(), nil)
+		content, err = formatMarkdown(raw.Bytes())
 		if err != nil {
 			g.log.Error(err, "failed to tidy markdown")
 
@@ -275,7 +275,7 @@ func (g *Generator) GenerateToWriter(
 	content := raw.Bytes()
 
 	if g.cfg.PrettyPrint {
-		content, err = markdown.Process("", raw.Bytes(), nil)
+		content, err = formatMarkdown(raw.Bytes())
 		if err != nil {
 			g.log.Error(err, "failed to tidy markdown")
 
@@ -293,4 +293,63 @@ func (g *Generator) GenerateToWriter(
 	g.log.Info("Template rendered successfully")
 
 	return nil
+}
+
+func formatMarkdown(content []byte) ([]byte, error) {
+	frontMatterStart, frontMatterEnd, hasFrontMatter := findFrontMatter(content)
+	if !hasFrontMatter {
+		return markdown.Process("", content, nil)
+	}
+
+	formatted, err := markdown.Process("", content[frontMatterEnd:], nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return append(content[frontMatterStart:frontMatterEnd:frontMatterEnd], formatted...), nil
+}
+
+func findFrontMatter(content []byte) (int, int, bool) {
+	start := 0
+	for start < len(content) {
+		lineEnd, nextLineStart := nextLine(content, start)
+		line := bytes.TrimSuffix(content[start:lineEnd], []byte("\r"))
+		if len(bytes.TrimSpace(line)) != 0 {
+			if !bytes.Equal(line, []byte("---")) {
+				return 0, 0, false
+			}
+
+			break
+		}
+
+		start = nextLineStart
+	}
+
+	if start == len(content) {
+		return 0, 0, false
+	}
+
+	_, lineStart := nextLine(content, start)
+	for lineStart < len(content) {
+		lineEnd, nextLineStart := nextLine(content, lineStart)
+		line := bytes.TrimSuffix(content[lineStart:lineEnd], []byte("\r"))
+		if bytes.Equal(line, []byte("---")) {
+			return start, nextLineStart, true
+		}
+
+		lineStart = nextLineStart
+	}
+
+	return 0, 0, false
+}
+
+func nextLine(content []byte, start int) (int, int) {
+	lineEnd := bytes.IndexByte(content[start:], '\n')
+	if lineEnd == -1 {
+		return len(content), len(content)
+	}
+
+	lineEnd += start
+
+	return lineEnd, lineEnd + 1
 }
