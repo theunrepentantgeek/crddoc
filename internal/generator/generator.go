@@ -298,21 +298,30 @@ func (g *Generator) GenerateToWriter(
 func formatMarkdown(content []byte) ([]byte, error) {
 	frontMatterStart, frontMatterEnd, hasFrontMatter := findFrontMatter(content)
 	if !hasFrontMatter {
-		return markdown.Process("", content, nil)
+		formatted, err := markdown.Process("", content, nil)
+		if err != nil {
+			return nil, errors.Wrap(err, "formatting markdown")
+		}
+
+		return formatted, nil
 	}
 
 	formatted, err := markdown.Process("", content[frontMatterEnd:], nil)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "formatting markdown content after front matter")
 	}
 
 	return append(content[frontMatterStart:frontMatterEnd:frontMatterEnd], formatted...), nil
 }
 
-func findFrontMatter(content []byte) (int, int, bool) {
+//nolint:revive // logic is intentionally explicit to scan front matter boundaries safely
+func findFrontMatter(
+	content []byte,
+) (frontMatterStart int, frontMatterEnd int, hasFrontMatter bool) {
 	start := 0
 	for start < len(content) {
 		lineEnd, nextLineStart := nextLine(content, start)
+
 		line := bytes.TrimSuffix(content[start:lineEnd], []byte("\r"))
 		if len(bytes.TrimSpace(line)) != 0 {
 			if !bytes.Equal(line, []byte("---")) {
@@ -332,6 +341,7 @@ func findFrontMatter(content []byte) (int, int, bool) {
 	_, lineStart := nextLine(content, start)
 	for lineStart < len(content) {
 		lineEnd, nextLineStart := nextLine(content, lineStart)
+
 		line := bytes.TrimSuffix(content[lineStart:lineEnd], []byte("\r"))
 		if bytes.Equal(line, []byte("---")) {
 			return start, nextLineStart, true
@@ -343,8 +353,8 @@ func findFrontMatter(content []byte) (int, int, bool) {
 	return 0, 0, false
 }
 
-func nextLine(content []byte, start int) (int, int) {
-	lineEnd := bytes.IndexByte(content[start:], '\n')
+func nextLine(content []byte, start int) (lineEnd int, nextLineStart int) {
+	lineEnd = bytes.IndexByte(content[start:], '\n')
 	if lineEnd == -1 {
 		return len(content), len(content)
 	}

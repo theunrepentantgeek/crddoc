@@ -13,7 +13,7 @@ import (
 	"github.com/theunrepentantgeek/crddoc/internal/packageloader"
 )
 
-//nolint:funlen // command setup requires multiple steps
+//nolint:funlen,revive // command setup requires multiple steps
 func newDocumentCRDsCommand(log logr.Logger) (*cobra.Command, error) {
 	// Use local variables to capture command line flags
 	var (
@@ -257,6 +257,7 @@ func (options *documentCRDsOptions) applyToConfig(cfg *config.Config) {
 	cfg.EnableClassDiagrams(options.classDiagrams)
 	cfg.SetUseGoFieldNames(options.useGoFieldNames)
 	cfg.SetIncludeFunctions(options.includeFunctions)
+
 	if options.skipFormatter != nil && *options.skipFormatter {
 		cfg.PrettyPrint = false
 	}
