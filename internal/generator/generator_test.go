@@ -127,6 +127,16 @@ func TestGenerator_GenerateToFile_SingleFileMode_StillWorks(t *testing.T) {
 	g.Expect(content).ToNot(BeEmpty())
 	g.Expect(string(content)).To(ContainSubstring("testdata"))
 	g.Expect(string(content)).To(ContainSubstring("PartyResource"))
+	g.Expect(string(content)).To(ContainSubstring(
+		"Generator information:\n\n" +
+			"-\tGenerated from: /path/to/source\n" +
+			"-\tARM URI: /subscriptions/{subscriptionId}\n\n" +
+			"Additional details follow."))
+	g.Expect(string(content)).To(ContainSubstring(
+		"Name identifies the party:<ul>" +
+			"<li>A personal name split across lines</li>" +
+			"<li>An organization name</li>" +
+			"</ul>"))
 }
 
 func TestGenerator_GenerateToFile_WithIncludeFunctions_IncludesFunctions(t *testing.T) {

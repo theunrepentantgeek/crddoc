@@ -49,6 +49,7 @@ func (f *Functions) CreateFuncMap() template.FuncMap {
 		"propertyDisplayName":     f.propertyDisplayName,
 		"sortProperties":          f.sortProperties,
 		"unwrap":                  f.unwrap,
+		"unwrapTable":             f.unwrapTable,
 	}
 }
 
