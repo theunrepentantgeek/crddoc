@@ -27,6 +27,7 @@ func (*Functions) unwrapTable(content []string) string {
 	}
 
 	blocks := splitCommentBlocks(content)
+
 	var result strings.Builder
 
 	for _, block := range blocks {
@@ -84,37 +85,11 @@ func containsList(content []string) bool {
 }
 
 func splitCommentBlocks(content []string) []commentBlock {
-	var result []commentBlock
+	result := make([]commentBlock, 0, len(content))
 
 	for len(content) > 0 {
 		list := isListItem(content[0])
-		end := 1
-
-		for end < len(content) {
-			if isListItem(content[end]) {
-				if list {
-					end++
-
-					continue
-				}
-
-				break
-			}
-
-			if list && isListContinuation(content[end]) {
-				end++
-
-				continue
-			}
-
-			if !list {
-				end++
-
-				continue
-			}
-
-			break
-		}
+		end := commentBlockLength(content)
 
 		result = append(result, commentBlock{
 			lines: content[:end],
@@ -124,6 +99,22 @@ func splitCommentBlocks(content []string) []commentBlock {
 	}
 
 	return result
+}
+
+func commentBlockLength(content []string) int {
+	list := isListItem(content[0])
+
+	for index, line := range content[1:] {
+		if list && !isListItem(line) && !isListContinuation(line) {
+			return index + 1
+		}
+
+		if !list && isListItem(line) {
+			return index + 1
+		}
+	}
+
+	return len(content)
 }
 
 func isListItem(line string) bool {
@@ -149,8 +140,10 @@ func trimBlankLines(lines []string) []string {
 }
 
 func renderHTMLList(lines []string) string {
-	var result strings.Builder
-	var item []string
+	var (
+		result strings.Builder
+		item   []string
+	)
 
 	result.WriteString("<ul>")
 

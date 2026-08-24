@@ -13,9 +13,11 @@ func TestUnwrap_GivenList_FormatsMarkdown(t *testing.T) {
 
 	actual := f.unwrap([]string{
 		"Generator information:",
+		"",
 		"- Generated from: /path/to/source",
 		"  continued on another line",
 		"* ARM URI: /subscriptions/{subscriptionId}",
+		"",
 		"Following content.",
 	})
 
