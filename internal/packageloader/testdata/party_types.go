@@ -14,7 +14,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// PartyResource represents a person, company or organization
+// PartyResource represents a person, company or organization.
+// Generator information:
+// - Generated from: /path/to/source
+// - ARM URI: /subscriptions/{subscriptionId}
+// Additional details follow.
 type PartyResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -23,6 +27,10 @@ type PartyResource struct {
 }
 
 type PartyResourceSpec struct {
+	// Name identifies the party:
+	// - A personal name
+	//   split across lines
+	// * An organization name
 	Name string    `json:"name"`
 	Kind PartyKind `json:"kind"`
 }
