@@ -29,6 +29,31 @@ func TestUnwrap_GivenList_FormatsMarkdown(t *testing.T) {
 			"Following content."))
 }
 
+func TestUnwrap_GivenUnindentedListContinuations_JoinsItems(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	f := &Functions{}
+
+	actual := f.unwrap([]string{
+		"Each condition can be of one of the following types:",
+		"* __Leaf Condition -__ must contain 'field' and either 'equals' or 'containsAny'.",
+		"_Please note, 'anyOf' should __not__ be set in a Leaf Condition._",
+		"* __AnyOf Condition -__ must contain __only__",
+		"'anyOf' (which is an array of Leaf Conditions).",
+		"_Please note, 'field', 'equals' and 'containsAny' should __not__ be",
+		"set in an AnyOf Condition._",
+	})
+
+	g.Expect(actual).To(Equal(
+		"Each condition can be of one of the following types:\n\n" +
+			"* __Leaf Condition -__ must contain 'field' and either 'equals' or 'containsAny'. " +
+			"_Please note, 'anyOf' should __not__ be set in a Leaf Condition._\n" +
+			"* __AnyOf Condition -__ must contain __only__ " +
+			"'anyOf' (which is an array of Leaf Conditions). " +
+			"_Please note, 'field', 'equals' and 'containsAny' should __not__ be " +
+			"set in an AnyOf Condition._"))
+}
+
 func TestUnwrap_GivenNoList_PreservesExistingFormatting(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

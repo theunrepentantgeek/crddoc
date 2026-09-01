@@ -1,6 +1,10 @@
 package functions
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+	"unicode/utf8"
+)
 
 func (*Functions) unwrap(content []string) string {
 	if !containsList(content) {
@@ -12,7 +16,7 @@ func (*Functions) unwrap(content []string) string {
 
 	for _, block := range blocks {
 		if block.list {
-			result = append(result, strings.Join(block.lines, "\n"))
+			result = append(result, renderMarkdownList(block.lines))
 		} else if text := unwrapText(trimBlankLines(block.lines)); text != "" {
 			result = append(result, text)
 		}
@@ -124,7 +128,13 @@ func isListItem(line string) bool {
 }
 
 func isListContinuation(line string) bool {
-	return len(line) > 0 && (line[0] == ' ' || line[0] == '\t')
+	if line == "" {
+		return false
+	}
+
+	first, _ := utf8.DecodeRuneInString(line)
+
+	return !unicode.IsUpper(first)
 }
 
 func trimBlankLines(lines []string) []string {
@@ -137,6 +147,24 @@ func trimBlankLines(lines []string) []string {
 	}
 
 	return lines
+}
+
+func renderMarkdownList(lines []string) string {
+	var result strings.Builder
+
+	for index, line := range lines {
+		if index > 0 {
+			if isListItem(line) || line[0] == ' ' || line[0] == '\t' {
+				result.WriteString("\n")
+			} else {
+				result.WriteString(" ")
+			}
+		}
+
+		result.WriteString(line)
+	}
+
+	return result.String()
 }
 
 func renderHTMLList(lines []string) string {
