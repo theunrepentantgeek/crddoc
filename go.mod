@@ -7,7 +7,7 @@ require (
 	github.com/go-logr/logr v1.4.4
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-task/slim-sprig/v3 v3.0.0
-	github.com/onsi/gomega v1.43.0
+	github.com/onsi/gomega v1.43.1
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.35.1
 	github.com/shurcooL/markdownfmt v0.0.0-20231025213440-c8f16ef0855c
@@ -27,7 +27,7 @@ require (
 	github.com/russross/blackfriday v1.6.0 // indirect
 	github.com/shurcooL/go v0.0.0-20230706063926-5fe729b41b3a // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
-	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/mod v0.41.0 // indirect
 	golang.org/x/net v0.59.0 // indirect
 	golang.org/x/sync v0.23.0 // indirect
