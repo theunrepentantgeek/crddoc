@@ -132,7 +132,11 @@ func isListContinuation(line string) bool {
 		return false
 	}
 
-	first, _ := utf8.DecodeRuneInString(line)
+	if line[0] == ' ' || line[0] == '\t' {
+		return true
+	}
+
+	first, _ := utf8.DecodeRuneInString(strings.TrimLeft(line, "*_"))
 
 	return !unicode.IsUpper(first)
 }
