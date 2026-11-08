@@ -109,6 +109,23 @@ func TestUnwrapTable_GivenList_FormatsHTML(t *testing.T) {
 			"Following content."))
 }
 
+func TestUnwrapTable_GivenListAfterBlankLine_FormatsHTML(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	f := &Functions{}
+
+	actual := f.unwrapTable([]string{
+		"The number of worker nodes. Validation:",
+		"",
+		"- Minimum: 0",
+		"* Maximum: 200",
+	})
+
+	g.Expect(actual).To(Equal(
+		"The number of worker nodes. Validation:" +
+			"<ul><li>Minimum: 0</li><li>Maximum: 200</li></ul>"))
+}
+
 func TestUnwrapTable_GivenUnindentedListContinuations_JoinsItems(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
